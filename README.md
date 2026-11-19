@@ -8,6 +8,7 @@ O primeiro cronograma pronto é o do **IBGE 2027 – Recenseador (REC)** do 12º
 
 ## Funcionalidades
 
+- **Tela de entrada:** "Bora estudar?", com ilustração própria, contagem de dias para a prova e os perfis do aparelho.
 - **Primeiro acesso:** o app pergunta o nome e, se quiser, um PIN de 4 dígitos. Cada pessoa cria o próprio perfil, com foto opcional.
 - **Cronograma em fila:** os assuntos formam uma fila, com as matérias intercaladas e Conhecimentos Técnicos com mais peso. Se a pessoa adianta ou deixa algo para depois, os próximos dias se reorganizam sozinhos, sem acumular tarefas atrasadas.
 - **Ritmo por dia da semana:** escolhe quantos assuntos estudar em cada dia (por exemplo, 1 de segunda a sexta e 3 no sábado). O app mostra a data em que o conteúdo termina e avisa se não couber até a reta final.
@@ -60,6 +61,7 @@ icon-192.png            # ícone do Android
 icon-512.png            # ícone grande / splash
 favicon-32.png          # ícone da aba do navegador
 og-image.png            # imagem do card de compartilhamento (1200×630)
+qyudev.png              # marca QYUDEV. nos créditos
 ```
 
 ## Créditos e referências
@@ -69,9 +71,11 @@ og-image.png            # imagem do card de compartilhamento (1200×630)
 - **Apostila:** *Conhecimentos básicos para o Censo Agropecuário, Florestal e Aquícola*, do [IBGE](https://www.ibge.gov.br) (ENCE / CTA), distribuída sem alterações, como publicada pela [Fundação Cesgranrio](https://www.cesgranrio.org.br) para o processo seletivo.
 - **Conteúdo do cronograma:** baseado no Edital IBGE nº 03/2026 e na retificação de 16/11/2026.
 - **Nomes das aulas:** citados apenas como referência do curso que a pessoa usa para estudar ([Gran](https://www.grancursosonline.com.br)). Este projeto não tem relação com o Gran, a Cesgranrio ou o IBGE.
-- Ícones do app e da interface desenhados no próprio projeto.
+- Ícones, ilustração da tela de entrada e imagens do app desenhados no próprio projeto.
 
 ## Versões
+
+- **v3.4.0** (19/11/2026): nova tela de entrada "Bora estudar?" com ilustração, perfis em cartões, tela de PIN com foto, "Desenvolvido por QYUDEV." com a marca nos créditos e correção do preenchimento automático do nome.
 
 - **v3.3.0** (19/11/2026): foguinho e perfil em janela flutuante, avisos em gaveta lateral, calendário da sequência menor e escolha da cor do app.
 
@@ -86,4 +90,4 @@ og-image.png            # imagem do card de compartilhamento (1200×630)
 
 ## Autor
 
-Feito por **Jacó** ([@JacobbV](https://github.com/JacobbV)) · QyuDev.
+Desenvolvido por [![QYUDEV.](qyudev.png)](https://jacobbv.github.io/) · **Jacó** ([@JacobbV](https://github.com/JacobbV))

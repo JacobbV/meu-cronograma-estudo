@@ -280,6 +280,26 @@ body.travado{overflow:hidden}
 .dh h2{margin:0;color:#fff}.dh .x{color:#fff;opacity:1}
 @keyframes dr{from{transform:translateX(100%)}to{transform:none}}
 @media (prefers-reduced-motion:reduce){.pop.drawer{animation:none}}
+
+.hero{background:var(--card);border-bottom:1px solid var(--line);padding:calc(env(safe-area-inset-top) + 18px) 0 18px;overflow:hidden}
+.heroin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,300px);gap:16px;align-items:center}
+.hero h1{font-size:clamp(40px,9vw,58px);color:var(--ink);margin:8px 0 8px}
+.hero p{margin:0 0 12px;color:var(--mut);max-width:34ch}
+.falta{display:inline-block;background:var(--g2);color:var(--g);border-radius:20px;padding:4px 12px;font-weight:600;font-size:14px}
+.falta b{font-size:16px}
+.ilu{width:100%;height:auto;max-height:230px}
+@media(max-width:560px){.heroin{grid-template-columns:1fr}.ilu{max-width:300px;justify-self:center;order:-1;margin-bottom:-6px}}
+.qv{font-size:24px;margin:20px 0 12px}
+.pk{display:flex;align-items:center;gap:0}
+.pk .pkn{display:flex;flex-direction:column;flex:1;line-height:1.2}
+.pk .pkn .muted{display:inline-flex;align-items:center;gap:4px;margin-top:4px}
+.pk .pkn .muted svg{width:14px;height:14px}
+.pk .seta{font-size:30px;color:var(--mut);line-height:1}
+.rod{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:24px;font-size:12px;color:var(--mut)}
+.assina{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--mut);font-size:13px}
+.assina img{height:30px;width:auto;border-radius:6px;background:#fff;padding:3px 6px}
+.big2{display:inline-grid;place-items:center;width:72px;height:72px;border-radius:50%;background:var(--g);color:#fff;font:700 34px "Barlow Condensed";overflow:hidden;margin:0 auto 10px}
+.big2 img{width:100%;height:100%;object-fit:cover}
 </style>
 </head>
 <body>
@@ -287,7 +307,7 @@ body.travado{overflow:hidden}
 <div class="toast" id="toast" role="status"></div>
 <script>
 {
-const VERSAO = '3.3.0';
+const VERSAO = '3.4.0';
 /* ---------- Dados do concurso (Edital IBGE nº 03/2026 + apostila do 12º Censo Agro) ---------- */
 const IBGE = {
   id:'ibge2027', nome:'IBGE 2027', cargo:'Recenseador (REC)', banca:'Fundação Cesgranrio',
@@ -799,7 +819,7 @@ function vProva(c,p){
   <li>Apostila "Conhecimentos básicos para o Censo Agropecuário, Florestal e Aquícola" (IBGE / ENCE / CTA), distribuída sem alterações, como publicada pela Fundação Cesgranrio.</li>
   <li>Conteúdo baseado no Edital IBGE nº 03/2026 e sua retificação.</li>
   <li>Nomes das aulas citados como referência do curso Gran. Sem relação oficial com Gran, Cesgranrio ou IBGE.</li></ul>
-  <p class="foot">Meu Cronograma de Estudo · v${VERSAO} · QyuDev</p></section>`;
+  <footer class="rod" style="margin-top:12px">${ASSINA}<span>Meu Cronograma de Estudo · v${VERSAO}</span></footer></section>`;
   return html;
 }
 
@@ -812,20 +832,42 @@ const TABS = [['hoje','Hoje','<path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.
 const CORES = [['laranja','#f26a1b'],['verde','#1f8a55'],['azul','#2f6fd0'],['roxo','#7a52d1'],['rosa','#d6457f'],['vinho','#a3324a']];
 function tema(){const r = document.documentElement; const cor = (CORES.find(c => c[0] === S.cor) || CORES[0])[1]; r.style.setProperty('--g', cor); document.querySelector('meta[name=theme-color]')?.setAttribute('content', cor); if(S.tema === 'claro' || S.tema === 'escuro'){r.dataset.theme = S.tema === 'claro' ? 'light' : 'dark'; r.dataset.ours = '1'} else if(r.dataset.ours){r.removeAttribute('data-theme'); delete r.dataset.ours}}
 
+const ILU = `<svg class="ilu" viewBox="0 0 340 230" aria-hidden="true">
+  <ellipse cx="170" cy="208" rx="140" ry="12" fill="var(--rest)"/>
+  <g transform="translate(212 40) rotate(6)"><rect width="104" height="118" rx="12" fill="var(--card)" stroke="var(--line)" stroke-width="2"/>
+    <rect width="104" height="28" rx="12" fill="var(--g)"/><rect y="16" width="104" height="12" fill="var(--g)"/>
+    <circle cx="26" cy="6" r="5" fill="var(--card)"/><circle cx="78" cy="6" r="5" fill="var(--card)"/>
+    ${[0,1,2,3].map(r => [0,1,2].map(c => {const x = 14+c*30, y = 40+r*18, ok = r*3+c < 7; return ok ? `<path d="M${x} ${y+6} l5 5 l10 -11" stroke="var(--ct)" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>` : `<rect x="${x}" y="${y}" width="18" height="12" rx="3" fill="var(--rest)"/>`}).join('')).join('')}</g>
+  <rect x="34" y="166" width="164" height="34" rx="7" fill="var(--ct)"/><rect x="34" y="174" width="164" height="5" fill="#fff" opacity=".35"/>
+  <rect x="48" y="132" width="146" height="34" rx="7" fill="var(--pt)"/><rect x="48" y="140" width="146" height="5" fill="#fff" opacity=".35"/>
+  <rect x="40" y="98" width="150" height="34" rx="7" fill="var(--mt)"/><rect x="40" y="106" width="150" height="5" fill="#fff" opacity=".35"/>
+  <g transform="translate(70 62) rotate(-8)"><path d="M0 30 Q 40 18 74 30 Q 108 18 148 30 L148 40 Q108 28 74 40 Q 40 28 0 40Z" fill="var(--qs)"/><path d="M4 30 Q 40 4 72 26 L72 36 Q 40 16 4 38Z" fill="var(--card)" stroke="var(--line)"/><path d="M76 26 Q 108 4 144 30 L144 38 Q 108 16 76 36Z" fill="var(--card)" stroke="var(--line)"/>
+    <path d="M14 30 Q 40 14 62 26M14 34 Q 40 20 62 31M86 26 Q 108 14 134 30" stroke="var(--rest)" stroke-width="2" fill="none"/></g>
+  <g transform="translate(236 186) rotate(-38)"><rect x="0" y="-7" width="96" height="14" rx="3" fill="#f4c430"/><rect x="-14" y="-7" width="16" height="14" rx="4" fill="#e0457b"/><rect x="0" y="-7" width="5" height="14" fill="#c9c9cf"/><path d="M96 -7 L114 0 L96 7Z" fill="#e8c9a0"/><path d="M108 -2.5 L114 0 L108 2.5Z" fill="var(--ink)"/></g>
+  <g fill="var(--g)"><path d="M28 50 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z"/><path d="M196 18 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z" opacity=".7"/><circle cx="326" cy="178" r="4" opacity=".6"/></g>
+</svg>`;
+const ASSINA = `<a class="assina" href="https://jacobbv.github.io/" target="_blank" rel="noopener">Desenvolvido por <img src="qyudev.png" alt="QYUDEV." width="133" height="30"></a>`;
+const LOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>';
 function telaPerfis(app){
-  const novo = !S.perfis.length;
-  app.innerHTML = `<header class="top">${TOPO}<div class="wrap"><small>Meu Cronograma de Estudo</small><h1>${novo ? 'Bem-vindo!' : 'Quem vai estudar?'}</h1></div></header>
-  <main class="wrap">${S.perfis.map(x => `<button class="pick" data-perfil="${x.id}"><span class="av">${x.foto?`<img src="${x.foto}" alt="">`:esc(x.nome[0])}</span><strong>${esc(x.nome)}</strong>${x.pin?' <span class="muted">· com PIN</span>':''}</button>`).join('')}
-  <form id="addPerfil" class="card"><h2>${novo ? 'Qual é o seu nome?' : 'Novo perfil'}</h2>${novo ? '<p class="muted" style="margin:-4px 0 12px">O cronograma do IBGE 2027 já vem pronto. Tudo fica salvo só neste aparelho.</p>' : ''}
-  <label class="f">Nome<input name="n" required maxlength="30" autocomplete="given-name"></label>
-  <label class="f">PIN de 4 dígitos (opcional)<input name="pin" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4"></label>
-  <button class="btn">${novo ? 'Começar' : 'Criar perfil'}</button></form><p class="foot">v${VERSAO}</p></main>`;
+  const novo = !S.perfis.length, n = diasAte(IBGE.data), abrir = novo || V.novo;
+  app.innerHTML = `<header class="hero"><div class="wrap heroin"><div><span class="selo">Meu Cronograma de Estudo</span><h1>Bora estudar?</h1>
+    <p>Seu cronograma do concurso, um dia de cada vez: o que estudar hoje, a apostila na mão e o foguinho aceso.</p>
+    ${n > 0 ? `<span class="falta"><b>${n}</b> dias para a prova do IBGE</span>` : ''}</div>${ILU}</div></header>
+  <main class="wrap" style="padding-bottom:40px">
+  ${S.perfis.length ? `<h2 class="qv">Quem vai estudar?</h2>${S.perfis.map(x => `<button class="pick pk" data-perfil="${x.id}"><span class="av">${x.foto?`<img src="${x.foto}" alt="">`:esc(x.nome[0])}</span><span class="pkn"><strong>${esc(x.nome)}</strong><span class="muted">${x.pin ? LOCK+' com PIN' : 'Toque para entrar'}</span></span><span class="seta">›</span></button>`).join('')}` : ''}
+  ${abrir ? `<form id="addPerfil" class="card"><h2>${novo ? 'Vamos começar! Qual é o seu nome?' : 'Novo perfil'}</h2>${novo ? '<p class="muted" style="margin:-4px 0 12px">O cronograma do IBGE 2027 já vem pronto. Tudo fica salvo só neste aparelho.</p>' : ''}
+  <label class="f">Nome<input name="n" required maxlength="30" autocomplete="off" autocapitalize="words" spellcheck="false"></label>
+  <label class="f">PIN de 4 dígitos (opcional)<input name="pin" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off"></label>
+  <div class="row"><button class="btn">${novo ? 'Começar a estudar' : 'Criar perfil'}</button>${novo ? '' : '<button type="button" class="btn alt" id="novoCancel">Cancelar</button>'}</div></form>`
+    : `<button class="btn alt" id="novoPerfil" style="width:100%;margin-top:4px">+ Novo perfil</button>`}
+  <footer class="rod">${ASSINA}<span>v${VERSAO}</span></footer></main>`;
 }
 function telaPin(app){
   const pf = S.perfis.find(x => x.id === V.pinFor);
-  app.innerHTML = `<header class="top">${TOPO}<div class="wrap"><button class="back" data-go="perfis">‹ Voltar</button><small>Perfil</small><h1>${esc(pf.nome)}</h1></div></header>
-  <main class="wrap"><form id="pinCheck" class="card pinbox"><h2>Digite seu PIN</h2><input type="password" name="pin" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required autofocus aria-label="PIN"><div class="err" id="pinErr"></div><button class="btn" style="width:100%">Entrar</button>
-  <p class="muted" style="margin:12px 0 0">Esqueceu? Sem o PIN, só restaurando um código de backup ou limpando os dados do navegador.</p></form></main>`;
+  app.innerHTML = `<header class="hero"><div class="wrap"><button class="back" data-go="perfis">‹ Voltar</button></div></header>
+  <main class="wrap"><form id="pinCheck" class="card pinbox"><span class="av big2">${pf.foto?`<img src="${pf.foto}" alt="">`:esc(pf.nome[0])}</span><h2>Oi, ${esc(pf.nome)}!</h2><p class="muted" style="margin:-4px 0 12px">Digite seu PIN para entrar.</p><input type="password" name="pin" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required autofocus autocomplete="off" aria-label="PIN"><div class="err" id="pinErr"></div><button class="btn" style="width:100%">Entrar</button>
+  <p class="muted" style="margin:12px 0 0">Esqueceu? Sem o PIN, só restaurando um código de backup ou limpando os dados do navegador.</p></form>
+  <footer class="rod">${ASSINA}</footer></main>`;
 }
 
 function render(){
@@ -892,6 +934,8 @@ document.addEventListener('click', e => {
   else if(b.id === 'lerTodos'){const pf = S.perfis.find(x => x.id===V.perfil); pf.lidos = [...new Set([...(pf.lidos||[]), ...HDR.av.map(a => a.id)])].slice(-80); save(); keep()}
   else if(b.id === 'apTela'){telaCheia(true)}
   else if(b.id === 'apSair'){telaCheia(false)}
+  else if(b.id === 'novoPerfil'){V.novo = true; render()}
+  else if(b.id === 'novoCancel'){V.novo = false; render()}
   else if(b.id === 'adiantar'){const p = PP(), h = hoje(); p.extra[h] = (p.extra[h]||0) + 1; save(); toast('Próximo assunto puxado para hoje'); keep()}
   else if(b.id === 'apPrev'){abrirPagina(apPerfil().pag - 1)}
   else if(b.id === 'apNext'){abrirPagina(apPerfil().pag + 1)}
@@ -921,7 +965,7 @@ document.addEventListener('submit', e => {
   e.preventDefault(); const f = e.target, fd = new FormData(f);
   if(f.id === 'addPerfil'){const n = String(fd.get('n')).trim(), pin = String(fd.get('pin')||''); if(!n) return; if(pin && !/^\d{4}$/.test(pin)){toast('O PIN precisa ter 4 números'); return}
     const id = S.perfis.length ? 'p'+Date.now().toString(36) : n.toLowerCase().normalize('NFD').replace(/[^a-z0-9]/g,'') || 'p1';
-    const pf = {id, nome:n, concursos:['ibge2027']}; if(pin) pf.pin = hashPin(pin,id); S.perfis.push(pf); save(); V = {...V, view:'concursos', perfil:id, pinOk:id}; render(); scrollTo(0,0)}
+    const pf = {id, nome:n, concursos:['ibge2027']}; if(pin) pf.pin = hashPin(pin,id); S.perfis.push(pf); save(); V = {...V, view:'concursos', perfil:id, pinOk:id, novo:false}; render(); scrollTo(0,0)}
   if(f.id === 'pinCheck'){const pf = S.perfis.find(x => x.id === V.pinFor); if(pf && hashPin(String(fd.get('pin')),pf.id) === pf.pin){V = {...V, view:'concursos', perfil:pf.id, pinOk:pf.id}; render()} else {document.getElementById('pinErr').textContent = 'PIN incorreto'; f.reset()}}
   if(f.id === 'pinForm'){const pin = String(fd.get('pin')); if(!/^\d{4}$/.test(pin)){toast('O PIN precisa ter 4 números'); return} const pf = S.perfis.find(x => x.id===V.perfil); pf.pin = hashPin(pin,pf.id); V.pinEdit = false; V.pinOk = pf.id; save(); toast('PIN salvo'); keep()}
   if(f.id === 'plForm'){const a = Number(fd.get('a')), t = Number(fd.get('t')); if(!(t > 0) || a < 0 || a > t){toast('Confira os números: acertos não podem passar do total'); return}
