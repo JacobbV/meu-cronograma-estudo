@@ -14,7 +14,7 @@ O primeiro cronograma pronto é o do **IBGE 2027 – Recenseador (REC)** do 12º
 - **Etapas por lugar:** cada assunto tem etapas separadas. Leitura e questões aparecem em "dá no trabalho"; videoaulas, em "em casa". O assunto só conta como concluído quando todas as etapas estão marcadas.
 - **Adiantar:** um botão puxa o próximo assunto da fila para hoje.
 - **Apostila no app:** a apostila oficial do IBGE (68 páginas) abre dentro do app, com sumário, zoom, tela cheia (ideal no tablet), troca de página deslizando o dedo e lembrança da página onde parou. As tarefas de leitura têm o botão "Abrir na p. X".
-- **Barra do topo:** o foguinho com a sequência, o sininho de avisos e a foto do perfil ficam no cabeçalho verde.
+- **Barra do topo:** o foguinho com a sequência, o sininho de avisos e a foto do perfil ficam no cabeçalho. O foguinho e o perfil abrem uma janela flutuante logo abaixo do botão; os avisos abrem numa gaveta lateral. Toque fora ou no X para fechar.
 - **Sequência de dias (foguinho):** conta os dias seguidos de estudo. Tocando no foguinho, abre um calendário das últimas 4 semanas com os dias estudados, a sequência atual, o recorde e uma mensagem do dia. Folgas, feriados e pausas não apagam o fogo. Se a sequência apagar há até 3 dias, dá para reacender estudando um assunto a mais no dia.
 - **Placar de questões:** depois das questões, anota quantas acertou. O app mostra o percentual de acerto por matéria, aponta o ponto fraco e começa a reta final por ele.
 - **Calendário:** visão por semana ou por mês, com bolinhas coloridas por matéria.
@@ -23,6 +23,7 @@ O primeiro cronograma pronto é o do **IBGE 2027 – Recenseador (REC)** do 12º
 - **Pausas:** marca um período sem estudo (viagem, feriado da cidade) e a fila espera.
 - **Avisos:** os prazos do edital aparecem no Hoje com um X para fechar (voltam ao reabrir o app) e ficam guardados no sininho, com contador de não lidos.
 - **Tema:** automático, claro ou noite. O "Modo noturno" também fica no menu do perfil (toque na foto no topo).
+- **Cor do app:** laranja, verde, azul, roxo, rosa ou vinho, escolhida no menu do perfil.
 - **Visual:** cinza neutro com laranja de destaque e cada matéria com sua cor (Português azul, Matemática laranja, Conhecimentos Técnicos verde, Questões roxo).
 - **Cópia de segurança:** gera um código com todo o progresso para guardar e restaurar depois.
 - **Card de compartilhamento:** ao mandar o link, aparece um card com título, descrição e imagem (Open Graph).
@@ -71,6 +72,8 @@ og-image.png            # imagem do card de compartilhamento (1200×630)
 - Ícones do app e da interface desenhados no próprio projeto.
 
 ## Versões
+
+- **v3.3.0** (19/11/2026): foguinho e perfil em janela flutuante, avisos em gaveta lateral, calendário da sequência menor e escolha da cor do app.
 
 - **v3.2.0** (19/11/2026): novo visual com fundo neutro e laranja de destaque, etiquetas coloridas por matéria, menu do perfil com Modo noturno, novos ícones e imagem de compartilhamento.
 

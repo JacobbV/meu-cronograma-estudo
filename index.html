@@ -34,7 +34,7 @@
 :root{color-scheme:light dark;
 --bg:light-dark(#f3f3f4,#0d0d0e);--card:light-dark(#ffffff,#18181a);--ink:light-dark(#18181b,#ececee);
 --mut:light-dark(#62626a,#9d9da6);--line:light-dark(#e4e4e7,#2a2a2e);
---g:#f26a1b;--g2:light-dark(#fff0e5,#3a2214);--sun:#f26a1b;--rest:light-dark(#ececef,#26262a);
+--g:#f26a1b;--g2:light-dark(color-mix(in srgb,var(--g) 11%,#fff),color-mix(in srgb,var(--g) 22%,#18181a));--sun:var(--g);--rest:light-dark(#ececef,#26262a);
 --pt:#2f6fd0;--mt:#d9622b;--ct:#1d8a52;--qs:#6b4fbf;--rv:#8a7a3a;--fx:#c0392b}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
@@ -258,6 +258,28 @@ body.travado{overflow:hidden}
 .perfhd{display:flex;align-items:center;gap:14px;padding:4px 0 12px;background:var(--g2);margin:-16px -16px 8px;padding:16px;border-radius:12px 12px 0 0}
 .perfhd .avp{width:56px;height:56px;font-size:26px}
 .selo{display:inline-block;font-size:12px;font-weight:700;color:#fff;background:var(--g);border-radius:20px;padding:1px 10px;margin-bottom:3px}
+
+.pop-bg{position:fixed;inset:0;z-index:29;background:rgba(0,0,0,.18)}
+.pop{position:fixed;z-index:30;top:calc(env(safe-area-inset-top) + 62px);right:max(10px,calc((100vw - 720px)/2 + 10px));width:min(370px,calc(100vw - 20px));max-height:calc(100dvh - 150px);overflow:auto;border-radius:16px;box-shadow:0 18px 50px rgba(0,0,0,.28),0 2px 8px rgba(0,0,0,.12);animation:popin .16s ease-out}
+.pop .painel{margin:0;border:1px solid var(--line)}
+@keyframes popin{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.pop .fgrid{gap:4px}
+.pop .fd{font-size:12px;border-radius:8px;max-height:40px;aspect-ratio:auto;height:38px}
+.pop .big{font-size:22px}
+.pop h2{font-size:21px}
+.pop .menu button,.pop .menu .it{min-height:44px;font-size:15px}
+.cores{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end}
+.cor{width:26px;height:26px;border-radius:50%;background:var(--c);border:2px solid var(--card);box-shadow:0 0 0 1px var(--line);padding:0;min-height:0!important;flex:none}
+.cor.on{box-shadow:0 0 0 2px var(--c)}
+@media (prefers-reduced-motion:reduce){.pop{animation:none}}
+.menu .cores .cor,.pop .menu .cores .cor{display:block;width:28px;height:28px;min-height:0;padding:0;border:2px solid var(--card);border-radius:50%;background:var(--c)}
+
+.pop.drawer{top:0;right:0;bottom:0;width:min(400px,100vw);max-height:none;height:100dvh;border-radius:0;animation:dr .2s ease-out;box-shadow:-10px 0 40px rgba(0,0,0,.25)}
+.pop.drawer .painel{min-height:100%;border:0;border-radius:0;padding-top:0}
+.dh{display:flex;justify-content:space-between;align-items:center;background:var(--g);color:#fff;margin:0 -16px 8px;padding:calc(env(safe-area-inset-top) + 14px) 16px 14px}
+.dh h2{margin:0;color:#fff}.dh .x{color:#fff;opacity:1}
+@keyframes dr{from{transform:translateX(100%)}to{transform:none}}
+@media (prefers-reduced-motion:reduce){.pop.drawer{animation:none}}
 </style>
 </head>
 <body>
@@ -265,7 +287,7 @@ body.travado{overflow:hidden}
 <div class="toast" id="toast" role="status"></div>
 <script>
 {
-const VERSAO = '3.2.0';
+const VERSAO = '3.3.0';
 /* ---------- Dados do concurso (Edital IBGE nº 03/2026 + apostila do 12º Censo Agro) ---------- */
 const IBGE = {
   id:'ibge2027', nome:'IBGE 2027', cargo:'Recenseador (REC)', banca:'Fundação Cesgranrio',
@@ -573,12 +595,13 @@ function painelPerfil(pf){
   <div class="lbl">SUAS PREFERÊNCIAS</div>
   <button id="modoNoite" role="switch" aria-checked="${noite}"><span class="ico" style="--c:var(--qs)">${MI.lua}</span>Modo noturno<span class="sw${noite?' on':''}"></span></button>
   <button data-tema="auto" aria-pressed="${S.tema==='auto'}"><span class="ico" style="--c:var(--mut)">${MI.cel}</span>Seguir o aparelho${S.tema==='auto'?'<span class="muted" style="margin-left:auto">ativo</span>':''}</button>
+  <div class="it" style="flex-wrap:wrap"><span class="ico" style="--c:var(--g)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1.3"/><circle cx="12" cy="7.5" r="1.3"/><circle cx="15.5" cy="10" r="1.3"/></svg></span>Cor do app<span class="cores">${CORES.map(([k,c]) => `<button class="cor${(S.cor||'laranja')===k?' on':''}" data-cor="${k}" style="--c:${c}" aria-label="Cor ${k}" aria-pressed="${(S.cor||'laranja')===k}"></button>`).join('')}</span></div>
   <button data-tab="prova" data-alvo="pin"><span class="ico" style="--c:var(--mt)">${MI.cad}</span>${pf.pin?'PIN ativo · trocar ou remover':'Criar PIN'}</button>
   <div class="lbl">CONTA</div>
   <button data-go="perfis"><span class="ico" style="--c:var(--fx)">${MI.troca}</span>Trocar perfil</button></div></section>`;
 }
 function painelAvisos(av,pf){
-  return `<section class="card painel"><div class="ph"><h2>Avisos</h2><button class="x" data-painel="" aria-label="Fechar">×</button></div>
+  return `<section class="card painel"><div class="dh"><h2>Avisos</h2><button class="x" data-painel="" aria-label="Fechar">×</button></div>
     ${av.length ? av.map(a => `<div class="av-it${(pf.lidos||[]).includes(a.id)?'':' novo'}">${a.txt}</div>`).join('') + '<button class="mini-btn" id="lerTodos" style="margin-top:10px">Marcar todos como lidos</button>' : '<p class="muted" style="margin:0">Nenhum aviso por enquanto. Os prazos do edital aparecem aqui quando estiverem perto.</p>'}</section>`;
 }
 function header(c,p){
@@ -786,7 +809,8 @@ const TABS = [['hoje','Hoje','<path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.
   ['edital','Edital','<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/>'],
   ['prova','Prova','<path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>']];
 
-function tema(){const r = document.documentElement; if(S.tema === 'claro' || S.tema === 'escuro'){r.dataset.theme = S.tema === 'claro' ? 'light' : 'dark'; r.dataset.ours = '1'} else if(r.dataset.ours){r.removeAttribute('data-theme'); delete r.dataset.ours}}
+const CORES = [['laranja','#f26a1b'],['verde','#1f8a55'],['azul','#2f6fd0'],['roxo','#7a52d1'],['rosa','#d6457f'],['vinho','#a3324a']];
+function tema(){const r = document.documentElement; const cor = (CORES.find(c => c[0] === S.cor) || CORES[0])[1]; r.style.setProperty('--g', cor); document.querySelector('meta[name=theme-color]')?.setAttribute('content', cor); if(S.tema === 'claro' || S.tema === 'escuro'){r.dataset.theme = S.tema === 'claro' ? 'light' : 'dark'; r.dataset.ours = '1'} else if(r.dataset.ours){r.removeAttribute('data-theme'); delete r.dataset.ours}}
 
 function telaPerfis(app){
   const novo = !S.perfis.length;
@@ -833,7 +857,7 @@ function render(){
   const hd = header(conc,p);
   const pn = HDR && V.painel === 'fogo' ? painelFogo(p,HDR.sq) : HDR && V.painel === 'avisos' ? painelAvisos(HDR.av, perfil) : HDR && V.painel === 'perfil' ? painelPerfil(perfil) : '';
   const body = {hoje:vHoje, semana:vSemana, apostila:vApostila, edital:vEdital, prova:vProva}[V.tab](conc,p);
-  app.innerHTML = hd + `<main class="wrap${V.tab==='apostila'?' wide':''}">${pn}${body}</main><nav class="tabs" aria-label="Seções"><div class="wrap" style="grid-template-columns:repeat(${tabs.length},minmax(0,1fr))">${tabs.map(([k,l,ic]) => `<button data-tab="${k}" aria-current="${V.tab===k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${l}</button>`).join('')}</div></nav>`;
+  app.innerHTML = hd + (pn ? `<div class="pop-bg" id="popBg"></div><div class="pop${V.painel==='avisos'?' drawer':''}" role="dialog" aria-label="${V.painel==='avisos'?'Avisos':'Painel'}">${pn}</div>` : '') + `<main class="wrap${V.tab==='apostila'?' wide':''}">${body}</main><nav class="tabs" aria-label="Seções"><div class="wrap" style="grid-template-columns:repeat(${tabs.length},minmax(0,1fr))">${tabs.map(([k,l,ic]) => `<button data-tab="${k}" aria-current="${V.tab===k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${l}</button>`).join('')}</div></nav>`;
 }
 
 function toast(m){const t = document.getElementById('toast'); if(!t) return; t.textContent = m; t.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), 2200)}
@@ -841,6 +865,7 @@ const keep = () => {const y = scrollY; render(); scrollTo(0,y)};
 const PP = () => P(V.perfil,V.conc);
 
 document.addEventListener('click', e => {
+  if(e.target.id === 'popBg'){V.painel = ''; keep(); return}
   const b = e.target.closest('button'); if(!b) return;
   const d = b.dataset;
   if(d.perfil){V = {...V, view:'concursos', perfil:d.perfil}; render(); scrollTo(0,0)}
@@ -859,9 +884,10 @@ document.addEventListener('click', e => {
   else if(d.rit !== undefined){const p = PP(), w = Number(d.rit); p.ritmo[w] = Math.max(0, Math.min(5, (p.ritmo[w]||0) + Number(d.d))); save(); keep()}
   else if(d.rmp !== undefined){const p = PP(); p.pausas.splice(Number(d.rmp),1); save(); toast('Pausa removida'); keep()}
   else if(d.tema){S.tema = d.tema; save(); keep()}
+  else if(d.cor){S.cor = d.cor; save(); keep()}
   else if(b.id === 'modoNoite'){S.tema = escuroAgora() ? 'claro' : 'escuro'; save(); keep()}
   else if(d.del){if(b.dataset.sure){const pf = S.perfis.find(x => x.id===V.perfil); pf.concursos = pf.concursos.filter(x => x!==d.del); save(); V.view = 'concursos'; render()} else {b.dataset.sure = 1; b.textContent = 'Toque de novo para confirmar'}}
-  else if(d.painel !== undefined){V.painel = V.painel === d.painel ? '' : d.painel; render(); scrollTo(0,0)}
+  else if(d.painel !== undefined){V.painel = V.painel === d.painel ? '' : d.painel; keep()}
   else if(d.fecha){FECHADOS.add(d.fecha); keep()}
   else if(b.id === 'lerTodos'){const pf = S.perfis.find(x => x.id===V.perfil); pf.lidos = [...new Set([...(pf.lidos||[]), ...HDR.av.map(a => a.id)])].slice(-80); save(); keep()}
   else if(b.id === 'apTela'){telaCheia(true)}
@@ -911,7 +937,8 @@ let tx = null, ty = null;
 document.addEventListener('touchstart', e => {if(e.target.closest('#apWrap') && e.touches.length === 1){tx = e.touches[0].clientX; ty = e.touches[0].clientY} else tx = null}, {passive:true});
 document.addEventListener('touchend', e => {if(tx === null) return; const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; tx = null;
   if(apZoom <= 1 && Math.abs(dx) > 60 && Math.abs(dx) > 2*Math.abs(dy)) abrirPagina(apPerfil().pag + (dx < 0 ? 1 : -1))}, {passive:true});
-let rz; addEventListener('resize', () => {clearTimeout(rz); rz = setTimeout(() => {if(document.getElementById('apWrap')) abrirPagina(apPerfil().pag)}, 250)});
+let rz; addEventListener('keydown', e => {if(e.key === 'Escape' && V.painel){V.painel = ''; keep()}});
+addEventListener('resize', () => {clearTimeout(rz); rz = setTimeout(() => {if(document.getElementById('apWrap')) abrirPagina(apPerfil().pag)}, 250)});
 render();
 try{if('serviceWorker' in navigator && location.protocol === 'https:' && !/claude\.ai$|claudeusercontent\.com$/.test(location.hostname)) navigator.serviceWorker.register('sw.js').catch(() => {})}catch(e){}
 }
