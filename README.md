@@ -13,13 +13,15 @@ O primeiro cronograma pronto é o do **IBGE 2027 – Recenseador (REC)** do 12º
 - **Ritmo por dia da semana:** escolhe quantos assuntos estudar em cada dia (por exemplo, 1 de segunda a sexta e 3 no sábado). O app mostra a data em que o conteúdo termina e avisa se não couber até a reta final.
 - **Etapas por lugar:** cada assunto tem etapas separadas. Leitura e questões aparecem em "dá no trabalho"; videoaulas, em "em casa". O assunto só conta como concluído quando todas as etapas estão marcadas.
 - **Adiantar:** um botão puxa o próximo assunto da fila para hoje.
-- **Apostila no app:** a apostila oficial do IBGE (68 páginas) abre dentro do app, com sumário, zoom, troca de página deslizando o dedo e lembrança da página onde parou. As tarefas de leitura têm o botão "Abrir na p. X".
-- **Sequência de dias (foguinho):** conta os dias seguidos de estudo. Folgas, feriados e pausas não apagam o fogo. Se a sequência apagar há até 3 dias, dá para reacender estudando um assunto a mais no dia.
+- **Apostila no app:** a apostila oficial do IBGE (68 páginas) abre dentro do app, com sumário, zoom, tela cheia (ideal no tablet), troca de página deslizando o dedo e lembrança da página onde parou. As tarefas de leitura têm o botão "Abrir na p. X".
+- **Barra do topo:** o foguinho com a sequência, o sininho de avisos e a foto do perfil ficam no cabeçalho verde.
+- **Sequência de dias (foguinho):** conta os dias seguidos de estudo. Tocando no foguinho, abre um calendário das últimas 4 semanas com os dias estudados, a sequência atual, o recorde e uma mensagem do dia. Folgas, feriados e pausas não apagam o fogo. Se a sequência apagar há até 3 dias, dá para reacender estudando um assunto a mais no dia.
 - **Placar de questões:** depois das questões, anota quantas acertou. O app mostra o percentual de acerto por matéria, aponta o ponto fraco e começa a reta final por ele.
 - **Calendário:** visão por semana ou por mês, com bolinhas coloridas por matéria.
 - **Edital:** gráfico de rosca com o andamento por matéria e a lista de todos os assuntos com a aula do Gran ou as páginas da apostila.
 - **Prova:** data, horário, local, banca, questões por matéria, nota mínima, datas importantes do edital e o que levar no dia.
 - **Pausas:** marca um período sem estudo (viagem, feriado da cidade) e a fila espera.
+- **Avisos:** os prazos do edital aparecem no Hoje com um X para fechar (voltam ao reabrir o app) e ficam guardados no sininho, com contador de não lidos.
 - **Tema:** automático, claro ou noite.
 - **Cópia de segurança:** gera um código com todo o progresso para guardar e restaurar depois.
 - **Card de compartilhamento:** ao mandar o link, aparece um card com título, descrição e imagem (Open Graph).
@@ -68,6 +70,8 @@ og-image.png            # imagem do card de compartilhamento (1200×630)
 - Ícones do app e da interface desenhados no próprio projeto.
 
 ## Versões
+
+- **v3.1.0** (19/11/2026): foguinho, sininho de avisos e foto do perfil no cabeçalho; painel da sequência com calendário de 4 semanas e mensagem do dia; avisos com X e central de avisos; apostila em tela cheia.
 
 - **v3.0.0** (19/11/2026): cronograma em fila com ritmo por dia da semana e previsão de término, etapas por lugar (trabalho e casa), botão Adiantar, apostila dentro do app, sequência de dias com recuperação, placar de questões com ponto fraco, tema claro e noite, primeiro acesso com nome e PIN opcional.
 - **v2.1.0** (19/11/2026): card de compartilhamento (Open Graph), ícone na aba do navegador e foto de perfil salva só no aparelho.

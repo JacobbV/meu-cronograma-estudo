@@ -196,6 +196,43 @@ details summary{cursor:pointer;font-weight:700;min-height:32px}
 .pinbox{max-width:320px;margin:0 auto;text-align:center}
 .pinbox input{font-size:28px;letter-spacing:.5em;text-align:center;width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
 .err{color:var(--fx);font-size:14px;min-height:20px;margin-top:6px}
+
+.toprow{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.acts{display:flex;align-items:center;gap:8px}
+.chipf{display:inline-flex;align-items:center;gap:4px;min-height:40px;padding:0 12px 0 8px;border-radius:20px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.1);color:#fff;font-weight:700;font-size:15px}
+.chipf svg{width:24px;height:24px}
+.chipf.on{background:rgba(244,196,48,.18);border-color:var(--sun)}
+.sino{position:relative;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.1);color:#fff;display:grid;place-items:center;padding:0}
+.sino svg{width:22px;height:22px}
+.sino i{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;border-radius:10px;background:var(--fx);color:#fff;font:700 12px/20px Barlow;font-style:normal;padding:0 5px}
+.avp{width:42px;height:42px;border-radius:50%;border:2px solid var(--sun);background:rgba(255,255,255,.12);color:var(--sun);font:700 20px "Barlow Condensed";padding:0;overflow:hidden;display:grid;place-items:center}
+.avp img{width:100%;height:100%;object-fit:cover}
+@media(max-width:400px){.toprow .back{font-size:14px}.chipf span{font-size:14px}}
+.painel{border:2px solid var(--g)}
+.ph{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.ph h2{margin:0 0 8px}
+.x{flex:none;width:36px;height:36px;border-radius:50%;border:0;background:transparent;color:inherit;font-size:24px;line-height:1;padding:0;opacity:.7}
+.fgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;text-align:center}
+.fgrid .h{font-size:12px;font-weight:700;color:var(--mut)}
+.fd{aspect-ratio:1;border-radius:10px;display:grid;place-items:center;font-size:13px;font-weight:600;border:1px solid var(--line)}
+.fd svg{width:70%;height:70%}
+.fd.est{background:light-dark(#fff1e0,#3a2612);border-color:#f08a24}
+.fd.folga{background:var(--rest);color:var(--mut);border-style:dashed}
+.fd.perdeu{color:var(--fx);border-color:light-dark(#f2c2bc,#5a2a24)}
+.fd.fut{color:var(--mut);opacity:.6}
+.fd.hj{box-shadow:0 0 0 2px var(--g)}
+.big{font:700 26px "Barlow Condensed"}
+.av-it{padding:10px 0 10px 12px;border-top:1px solid var(--line);font-size:15px;border-left:3px solid transparent}
+.av-it.novo{border-left-color:var(--fx)}
+.alert.av{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;padding-right:6px}
+.alert.av .x{width:32px;height:32px;margin-top:-4px}
+#apSair{display:none}
+.leitor.cheia{position:fixed;inset:0;z-index:20;margin:0;border-radius:0;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top) + 8px) 10px calc(env(safe-area-inset-bottom) + 8px)}
+.leitor.cheia .pdfwrap{flex:1;min-height:0;align-items:center}
+.leitor.cheia > p{display:none}
+.leitor.cheia #apSair{display:inline-flex}
+.leitor.cheia #apTela{display:none}
+body.travado{overflow:hidden}
 </style>
 </head>
 <body>
@@ -203,7 +240,7 @@ details summary{cursor:pointer;font-weight:700;min-height:32px}
 <div class="toast" id="toast" role="status"></div>
 <script>
 {
-const VERSAO = '3.0.0';
+const VERSAO = '3.1.0';
 /* ---------- Dados do concurso (Edital IBGE nº 03/2026 + apostila do 12º Censo Agro) ---------- */
 const IBGE = {
   id:'ibge2027', nome:'IBGE 2027', cargo:'Recenseador (REC)', banca:'Fundação Cesgranrio',
@@ -339,8 +376,8 @@ const base = () => ({v:3, perfis:[], extras:{}, prog:{}, tema:'auto'});
 let S; try{S = JSON.parse(localStorage.getItem(KEY)) || base()}catch(e){S = base()}
 if(!S.tema) S.tema = 'auto';
 const save = () => {try{localStorage.setItem(KEY, JSON.stringify(S))}catch(e){toast('Não deu para salvar neste aparelho')}};
-let V = {view:'perfis', perfil:null, conc:null, tab:'hoje', semana:0, modo:'semana', mes:0, dia:null, pl:null, pinOk:null, apPag:null, pinEdit:false};
-try{const l = JSON.parse(sessionStorage.getItem(KEY+'-v')); if(l) V = {...V, ...l, pl:null, pinEdit:false}}catch(e){}
+let V = {view:'perfis', perfil:null, conc:null, tab:'hoje', semana:0, modo:'semana', mes:0, dia:null, pl:null, pinOk:null, apPag:null, pinEdit:false, painel:''};
+try{const l = JSON.parse(sessionStorage.getItem(KEY+'-v')); if(l) V = {...V, ...l, pl:null, pinEdit:false, painel:''}}catch(e){}
 
 const pad = n => String(n).padStart(2,'0');
 const iso = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
@@ -457,27 +494,65 @@ const concById = id => id === IBGE.id ? IBGE : S.extras[id];
 const pct = (c,p) => {if(c === IBGE) return Math.round(100*EDITAL.filter(a => aDone(p,a)).length/EDITAL.length); const ids = (c.topicos||[]).map(t => t.id); return ids.length ? Math.round(100*ids.filter(i => p.done[i]).length/ids.length) : 0};
 const porMat = p => SUBJ.map(m => {const L = EDITAL.filter(a => a.m === m); return {m, n:L.length, f:L.filter(a => aDone(p,a)).length}});
 
+const MOTIV = ['Domingo é dia de descansar, mas uma revisão leve conta.','Segunda é dia de começar com tudo!','Terça firme: um assunto de cada vez.','Quarta: metade da semana já foi.','Quinta é quase sexta! Não desanima!','Sexta: fecha a semana com chave de ouro.','Sábado é dia de render mais: bora!'];
+const FECHADOS = new Set();
+function seqAtual(p){
+  const pl = plano(p);
+  let sq = sequencia(p,pl);
+  if(sq.recuperavel && sq.feitosHoje >= sq.precisa){p.perdao.push(sq.miss); save(); toast('Sequência reacesa!'); sq = sequencia(p,pl)}
+  if(sq.s > p.recorde){p.recorde = sq.s; save()}
+  return {sq, pl};
+}
+function avisos(c,p,sq,pl){
+  const h = hoje(), ini = p.inicio || IBGE.inicio, out = [];
+  if(c !== IBGE) return out;
+  for(const [d,t,big] of IBGE.datas){const n = diasAte(d); if(d >= h && (n <= 7 || (big && n <= 14))) out.push({id:'ed-'+d, tipo:'prazo', txt:`<b>${n===0?'Hoje':fmt(d)}:</b> ${esc(t)}.`})}
+  if(h < ini) out.push({id:'ini-'+ini, tipo:'info', txt:`O cronograma começa ${DIASL[parse(ini).getDay()]}, <b>${dm(ini)}</b>. Quer começar antes? Use "Adiantar".`});
+  if(sq.recuperavel) out.push({id:'rec-'+sq.miss, tipo:'fogo', txt:`Sua sequência de <b>${sq.prev} ${sq.prev>1?'dias':'dia'}</b> apagou em ${dm(sq.miss)}. Para reacender, conclua <b>${sq.precisa} ${sq.precisa>1?'assuntos':'assunto'}</b> hoje (${sq.feitosHoje} até agora).`});
+  if(pl.sobra && h <= IBGE.fimConteudo) out.push({id:'sobra-'+h, tipo:'ritmo', txt:`Nesse ritmo, <b>${pl.sobra} ${pl.sobra>1?'assuntos ficam':'assunto fica'}</b> de fora até 24/01. Aumente o ritmo na aba Prova ou use "Adiantar".`});
+  return out;
+}
+const SINO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 003.4 0"/></svg>';
+function painelFogo(p,sq){
+  const h = hoje(), act = new Set(Object.values(p.done));
+  const seg0 = parse(h); seg0.setDate(seg0.getDate() - seg0.getDay() - 21);
+  let grid = '';
+  for(let i = 0; i < 28; i++){
+    const d = addD(iso(seg0),i), fut = d > h, est = act.has(d), folga = capDia(p,d) === 0 || p.perdao.includes(d);
+    const cls = est ? 'est' : fut ? 'fut' : folga ? 'folga' : 'perdeu';
+    grid += `<span class="fd ${cls}${d===h?' hj':''}" title="${fmt(d)}">${est ? FOGO(true) : parse(d).getDate()}</span>`;
+  }
+  return `<section class="card painel"><div class="ph"><h2>Vamos estudar hoje?</h2><button class="x" data-painel="" aria-label="Fechar">×</button></div>
+    <p style="margin:-4px 0 12px">${MOTIV[parse(h).getDay()]}</p>
+    <div class="fgrid">${DIAS.map(x => `<span class="h">${x}</span>`).join('')}${grid}</div>
+    <div class="leg" style="margin-top:10px"><span style="--c:#f08a24">Estudou</span><span style="--c:var(--rest)">Folga ou pausa</span><span style="--c:var(--fx)">Faltou</span></div>
+    <div class="two" style="margin-top:14px"><div><span class="muted">Sequência atual</span><div class="big">${sq.s} ${sq.s===1?'dia':'dias'}</div></div><div style="text-align:right"><span class="muted">Seu recorde</span><div class="big" style="color:var(--mt)">${p.recorde} ${p.recorde===1?'dia':'dias'}</div></div></div>
+    ${sq.recuperavel ? `<p class="alert" style="margin:12px 0 0">Para reacender a sequência de ${sq.prev} ${sq.prev>1?'dias':'dia'}, conclua ${sq.precisa} ${sq.precisa>1?'assuntos':'assunto'} hoje (${sq.feitosHoje} até agora). Use o botão "Adiantar".</p>` : ''}
+    <p class="muted" style="margin:10px 0 0">Folgas, feriados e pausas não apagam o fogo.</p></section>`;
+}
+function painelAvisos(av,pf){
+  return `<section class="card painel"><div class="ph"><h2>Avisos</h2><button class="x" data-painel="" aria-label="Fechar">×</button></div>
+    ${av.length ? av.map(a => `<div class="av-it${(pf.lidos||[]).includes(a.id)?'':' novo'}">${a.txt}</div>`).join('') + '<button class="mini-btn" id="lerTodos" style="margin-top:10px">Marcar todos como lidos</button>' : '<p class="muted" style="margin:0">Nenhum aviso por enquanto. Os prazos do edital aparecem aqui quando estiverem perto.</p>'}</section>`;
+}
 function header(c,p){
   const n = diasAte(c.data);
   const cont = n > 0 ? `<b>${n}</b><span>dias até a prova<br>${fmt(c.data)} · ${esc(c.hora||'')}</span>` : n === 0 ? `<b>Hoje!</b><span>Boa prova! ${esc(c.hora||'')}</span>` : `<b>✓</b><span>Prova realizada em ${fmt(c.data)}</span>`;
   const pc = pct(c,p);
   const bar = c === IBGE ? porMat(p).map(x => `<i style="width:${100*x.f/EDITAL.length}%;background:${MAT[x.m].cor}"></i>`).join('') : `<i style="width:${pc}%;background:var(--sun)"></i>`;
-  return `<header class="top">${TOPO}<div class="wrap"><button class="back" data-go="concursos">‹ Meus concursos</button><small>${esc(c.cargo||'')}</small><h1>${esc(c.nome)}</h1><div class="count">${cont}</div><div class="bar" role="progressbar" aria-valuenow="${pc}" aria-label="Edital concluído">${bar}</div><small style="margin-top:6px">${pc}% do edital concluído</small></div></header>`;
+  let acts = '';
+  if(c === IBGE){
+    const pf = S.perfis.find(x => x.id === V.perfil), {sq, pl} = seqAtual(p), av = avisos(c,p,sq,pl), nl = av.filter(a => !(pf.lidos||[]).includes(a.id)).length;
+    HDR = {sq, pl, av};
+    acts = `<div class="acts"><button class="chipf${sq.hojeOk?' on':''}" data-painel="fogo" aria-label="Sequência de ${sq.s} dias">${FOGO(sq.hojeOk)}<span>${sq.s} ${sq.s===1?'dia':'dias'}</span></button><button class="sino" data-painel="avisos" aria-label="Avisos${nl?': '+nl+' novos':''}">${SINO}${nl?`<i>${nl}</i>`:''}</button><button class="avp" data-go="concursos" aria-label="Perfil">${pf.foto?`<img src="${pf.foto}" alt="">`:esc(pf.nome[0])}</button></div>`;
+  }
+  return `<header class="top">${TOPO}<div class="wrap"><div class="toprow"><button class="back" data-go="concursos">‹ Meus concursos</button>${acts}</div><small>${esc(c.cargo||'')}</small><h1>${esc(c.nome)}</h1><div class="count">${cont}</div><div class="bar" role="progressbar" aria-valuenow="${pc}" aria-label="Edital concluído">${bar}</div><small style="margin-top:6px">${pc}% do edital concluído</small></div></header>`;
 }
 
 function vHoje(c,p){
   const h = hoje(), pl = plano(p), ini = p.inicio || IBGE.inicio;
-  let sq = sequencia(p,pl);
-  if(sq.recuperavel && sq.feitosHoje >= sq.precisa){p.perdao.push(sq.miss); save(); toast('Sequência reacesa!'); sq = sequencia(p,pl)}
-  if(sq.s > p.recorde){p.recorde = sq.s; save()}
   let html = '';
-  const prazo = IBGE.datas.find(([d,,big]) => d >= h && diasAte(d) <= 7 && !big);
-  if(prazo) html += `<div class="alert"><b>${fmt(prazo[0])}:</b> ${esc(prazo[1])}.</div>`;
-  html += `<section class="card"><div class="fire">${FOGO(sq.hojeOk)}<div><b>${sq.s}</b> ${sq.s===1?'dia seguido':'dias seguidos'}<span class="muted">${sq.hojeOk ? 'Hoje já conta. Recorde: '+p.recorde : sq.s ? 'Estude algo hoje para manter o fogo aceso. Recorde: '+p.recorde : 'Marque uma etapa hoje para acender o fogo. Recorde: '+p.recorde}</span></div></div>
-    ${sq.recuperavel ? `<p style="margin:12px 0 0;font-size:15px">Sua sequência de <b>${sq.prev} ${sq.prev>1?'dias':'dia'}</b> apagou em ${dm(sq.miss)}. Para reacender, conclua <b>${sq.precisa} ${sq.precisa>1?'assuntos':'assunto'}</b> hoje (${sq.feitosHoje} até agora). Use o botão "Adiantar".</p>` : ''}
-    <p class="muted" style="margin:10px 0 0">Folgas, feriados e pausas não apagam o fogo.</p></section>`;
+  for(const a of (HDR ? HDR.av : []).filter(a => a.tipo !== 'ritmo' && !FECHADOS.has(a.id))) html += `<div class="alert av"><span>${a.txt}</span><button class="x" data-fecha="${a.id}" aria-label="Fechar aviso">×</button></div>`;
   const doDia = pl.out[h] || [];
-  if(h < ini && !doDia.length) html += `<div class="alert">O cronograma começa ${DIASL[parse(ini).getDay()]}, <b>${dm(ini)}</b>. Quer começar antes? Use "Adiantar".</div>`;
   if(doDia.length){
     const passos = doDia.flatMap(a => STEPS[a.k].map(s => [a,s]));
     const grupo = (ic,tit,arr) => arr.length ? `<div class="grp">${ic}${tit}</div>${arr.map(([a,s]) => stepRow(p,a,s)).join('')}` : '';
@@ -557,6 +632,7 @@ function vEdital(c,p){
 }
 
 /* ---------- Apostila (PDF.js) ---------- */
+let HDR = null;
 let PDF = null, pdfLoading = null, apZoom = 1, apRender = null;
 const apPerfil = () => {const pf = S.perfis.find(x => x.id === V.perfil); pf.ap = pf.ap || {pag:1, max:0}; return pf.ap};
 function loadPdf(){
@@ -570,6 +646,13 @@ function loadPdf(){
   pdfLoading.catch(() => {pdfLoading = null});
   return pdfLoading;
 }
+function telaCheia(on){
+  const el = document.getElementById('apLeitor'); if(!el) return;
+  el.classList.toggle('cheia', on); document.body.classList.toggle('travado', on);
+  try{if(on && el.requestFullscreen) el.requestFullscreen().catch(() => {}); else if(!on && document.fullscreenElement) document.exitFullscreen().catch(() => {})}catch(e){}
+  setTimeout(() => abrirPagina(apPerfil().pag), 60);
+}
+document.addEventListener('fullscreenchange', () => {const el = document.getElementById('apLeitor'); if(el && !document.fullscreenElement && el.classList.contains('cheia')){el.classList.remove('cheia'); document.body.classList.remove('travado'); setTimeout(() => abrirPagina(apPerfil().pag), 60)}});
 async function abrirPagina(n){
   const ap = apPerfil(); n = Math.max(1, Math.min(AP_PAGS, n)); ap.pag = n; if(n > ap.max) ap.max = n; save();
   const lab = document.getElementById('apPg'), wrap = document.getElementById('apWrap'), cv = document.getElementById('apCv');
@@ -580,7 +663,9 @@ async function abrirPagina(n){
   document.querySelectorAll('.toc button').forEach(b => b.classList.toggle('here', +b.dataset.ap <= n && (+b.nextElementSibling?.dataset.ap || 999) > n));
   try{
     const doc = await loadPdf(), page = await doc.getPage(n);
-    const w = Math.max(280, wrap.clientWidth) * apZoom, vp0 = page.getViewport({scale:1}), sc = w / vp0.width, dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+    const vp0 = page.getViewport({scale:1}), cheia = document.getElementById('apLeitor')?.classList.contains('cheia');
+    const base = cheia ? Math.min(wrap.clientWidth / vp0.width, (wrap.clientHeight - 4) / vp0.height) : Math.max(280, wrap.clientWidth) / vp0.width;
+    const sc = base * apZoom, dpr = Math.min(window.devicePixelRatio || 1, 2.5);
     const vp = page.getViewport({scale:sc*dpr});
     if(apRender) try{apRender.cancel()}catch(e){}
     cv.width = vp.width; cv.height = vp.height; cv.style.width = (vp.width/dpr)+'px'; cv.style.height = (vp.height/dpr)+'px';
@@ -594,8 +679,8 @@ function vApostila(c,p){
   return `<section class="card"><h2>Apostila do Censo Agro</h2><p class="muted" style="margin:-4px 0 8px">Conhecimentos básicos para o Censo Agropecuário, Florestal e Aquícola (IBGE). É a matéria de Conhecimentos Técnicos: 30 das 60 questões.</p>
     <p style="margin:0 0 6px">Você leu até a <b>p. <span id="apMax">${ap.max}</span></b> de ${AP_PAGS}.</p><div class="mini" style="--c:var(--ct)"><i id="apBar" style="width:${100*ap.max/AP_PAGS}%"></i></div>
     <details style="margin-top:12px"><summary>Sumário</summary><div class="toc">${SUM.map(([t,pg]) => `<button data-ap="${pg}"><span>${esc(t)}</span><span class="muted">p. ${pg}</span></button>`).join('')}</div></details></section>
-    <section class="card" style="padding:12px"><div class="pdfbar"><button class="btn alt sm" id="apPrev" aria-label="Página anterior">‹ Anterior</button><span class="pg" id="apPg">p. ${n} de ${AP_PAGS}</span><button class="btn alt sm" id="apNext" aria-label="Próxima página">Próxima ›</button></div>
-    <div class="row" style="justify-content:center;margin-bottom:10px"><button class="btn alt sm" id="apMenos" aria-label="Diminuir">A−</button><button class="btn alt sm" id="apMais" aria-label="Aumentar">A+</button></div>
+    <section class="card leitor" id="apLeitor" style="padding:12px"><div class="pdfbar"><button class="btn alt sm" id="apPrev" aria-label="Página anterior">‹ Anterior</button><span class="pg" id="apPg">p. ${n} de ${AP_PAGS}</span><button class="btn alt sm" id="apNext" aria-label="Próxima página">Próxima ›</button></div>
+    <div class="row" style="justify-content:center;margin-bottom:10px"><button class="btn alt sm" id="apMenos" aria-label="Diminuir">A−</button><button class="btn alt sm" id="apMais" aria-label="Aumentar">A+</button><button class="btn sm" id="apTela">Tela cheia</button><button class="btn sm" id="apSair">Sair da tela cheia</button></div>
     <div class="pdfwrap" id="apWrap"><canvas id="apCv" aria-label="Página da apostila"></canvas></div><p class="muted" id="apStatus" style="text-align:center">Carregando a apostila…</p>
     <p class="muted" style="text-align:center;margin:4px 0 0">Deslize para o lado para virar a página. O app lembra onde você parou.</p></section>`;
 }
@@ -697,8 +782,11 @@ function render(){
   const p = P(perfil.id, conc.id);
   const tabs = conc === IBGE ? TABS : TABS.filter(t => t[0]==='edital'||t[0]==='prova');
   if(!tabs.some(t => t[0]===V.tab)) V.tab = tabs[0][0];
+  HDR = null;
+  const hd = header(conc,p);
+  const pn = HDR && V.painel === 'fogo' ? painelFogo(p,HDR.sq) : HDR && V.painel === 'avisos' ? painelAvisos(HDR.av, perfil) : '';
   const body = {hoje:vHoje, semana:vSemana, apostila:vApostila, edital:vEdital, prova:vProva}[V.tab](conc,p);
-  app.innerHTML = header(conc,p) + `<main class="wrap${V.tab==='apostila'?' wide':''}">${body}</main><nav class="tabs" aria-label="Seções"><div class="wrap" style="grid-template-columns:repeat(${tabs.length},minmax(0,1fr))">${tabs.map(([k,l,ic]) => `<button data-tab="${k}" aria-current="${V.tab===k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${l}</button>`).join('')}</div></nav>`;
+  app.innerHTML = hd + `<main class="wrap${V.tab==='apostila'?' wide':''}">${pn}${body}</main><nav class="tabs" aria-label="Seções"><div class="wrap" style="grid-template-columns:repeat(${tabs.length},minmax(0,1fr))">${tabs.map(([k,l,ic]) => `<button data-tab="${k}" aria-current="${V.tab===k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${l}</button>`).join('')}</div></nav>`;
 }
 
 function toast(m){const t = document.getElementById('toast'); if(!t) return; t.textContent = m; t.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), 2200)}
@@ -725,6 +813,11 @@ document.addEventListener('click', e => {
   else if(d.rmp !== undefined){const p = PP(); p.pausas.splice(Number(d.rmp),1); save(); toast('Pausa removida'); keep()}
   else if(d.tema){S.tema = d.tema; save(); keep()}
   else if(d.del){if(b.dataset.sure){const pf = S.perfis.find(x => x.id===V.perfil); pf.concursos = pf.concursos.filter(x => x!==d.del); save(); V.view = 'concursos'; render()} else {b.dataset.sure = 1; b.textContent = 'Toque de novo para confirmar'}}
+  else if(d.painel !== undefined){V.painel = V.painel === d.painel ? '' : d.painel; render(); scrollTo(0,0)}
+  else if(d.fecha){FECHADOS.add(d.fecha); keep()}
+  else if(b.id === 'lerTodos'){const pf = S.perfis.find(x => x.id===V.perfil); pf.lidos = [...new Set([...(pf.lidos||[]), ...HDR.av.map(a => a.id)])].slice(-80); save(); keep()}
+  else if(b.id === 'apTela'){telaCheia(true)}
+  else if(b.id === 'apSair'){telaCheia(false)}
   else if(b.id === 'adiantar'){const p = PP(), h = hoje(); p.extra[h] = (p.extra[h]||0) + 1; save(); toast('Próximo assunto puxado para hoje'); keep()}
   else if(b.id === 'apPrev'){abrirPagina(apPerfil().pag - 1)}
   else if(b.id === 'apNext'){abrirPagina(apPerfil().pag + 1)}
