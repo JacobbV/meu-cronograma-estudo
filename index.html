@@ -300,6 +300,13 @@ body.travado{overflow:hidden}
 .assina img{height:30px;width:auto;border-radius:6px;background:#fff;padding:3px 6px}
 .big2{display:inline-grid;place-items:center;width:72px;height:72px;border-radius:50%;background:var(--g);color:#fff;font:700 34px "Barlow Condensed";overflow:hidden;margin:0 auto 10px}
 .big2 img{width:100%;height:100%;object-fit:cover}
+
+details.subj > summary{list-style:none;cursor:pointer;min-height:44px}
+details.subj > summary::-webkit-details-marker{display:none}
+details.subj > summary h3{align-items:center}
+details.subj .chev{display:inline-block;margin-left:10px;font-size:24px;line-height:1;color:var(--mut);transition:transform .2s}
+details.subj[open] .chev{transform:rotate(90deg)}
+details.subj[open] > summary{margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -307,7 +314,7 @@ body.travado{overflow:hidden}
 <div class="toast" id="toast" role="status"></div>
 <script>
 {
-const VERSAO = '3.4.0';
+const VERSAO = '3.4.1';
 /* ---------- Dados do concurso (Edital IBGE nº 03/2026 + apostila do 12º Censo Agro) ---------- */
 const IBGE = {
   id:'ibge2027', nome:'IBGE 2027', cargo:'Recenseador (REC)', banca:'Fundação Cesgranrio',
@@ -717,7 +724,7 @@ function vEdital(c,p){
   }
   return donut(p) + desempenho(p) + SUBJ.map(m => {
     const L = EDITAL.filter(a => a.m === m), f = L.filter(a => aDone(p,a)).length;
-    return `<section class="card subj" style="--c:${MAT[m].cor}"><h3><span>${MAT[m].nome}</span><span class="muted">${f}/${L.length}</span></h3><div class="mini"><i style="width:${100*f/L.length}%"></i></div>${L.map(a => aRow(p,a)).join('')}</section>`;
+    return `<details class="card subj" data-mat="${m}" style="--c:${MAT[m].cor}"${(V.abertos||[]).includes(m)?' open':''}><summary><h3><span>${MAT[m].nome}</span><span class="muted">${f}/${L.length}<span class="chev" aria-hidden="true">›</span></span></h3><div class="mini"><i style="width:${100*f/L.length}%"></i></div></summary>${L.map(a => aRow(p,a)).join('')}</details>`;
   }).join('') + `<p class="muted">Português e Matemática seguem o Anexo III do edital; os itens "Base" ajudam em concordância, regência e pontuação. Conhecimentos Técnicos segue as seções da apostila e as 8 aulas do Gran.</p>`;
 }
 
@@ -976,6 +983,7 @@ document.addEventListener('submit', e => {
   if(f.id === 'addTop'){const c = S.extras[V.conc], t = fd.get('t').trim(); if(t){c.topicos.push({id:c.id+'-'+Date.now().toString(36), t}); save(); render()}}
   if(f.id === 'addPausa'){const p = PP(); let de = fd.get('de'), ate = fd.get('ate') || de; if(ate < de) [de,ate] = [ate,de]; p.pausas.push({de, ate, nome:String(fd.get('nome')||'').trim()}); p.pausas.sort((a,b) => a.de < b.de ? -1 : 1); save(); toast('Pausa adicionada'); keep()}
 });
+document.addEventListener('toggle', e => {const d = e.target; if(!d.dataset || !d.dataset.mat) return; const ab = new Set(V.abertos||[]); d.open ? ab.add(d.dataset.mat) : ab.delete(d.dataset.mat); V.abertos = [...ab]; try{sessionStorage.setItem(KEY+'-v', JSON.stringify({...V, pl:null}))}catch(err){}}, true);
 /* virar a página da apostila deslizando o dedo */
 let tx = null, ty = null;
 document.addEventListener('touchstart', e => {if(e.target.closest('#apWrap') && e.touches.length === 1){tx = e.touches[0].clientX; ty = e.touches[0].clientY} else tx = null}, {passive:true});
