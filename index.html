@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1d5a3c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Estudos">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>Cronograma de Estudos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: calmo, encorajador, direto — caderneta de campo de recenseador
+   IDEA: a prancheta do recenseador: folha de coleta com itens a marcar
+   PICTURE: cabeçalho verde com curvas de nível + contagem regressiva grande
+   COLOUR and TYPE: verde-campo dominante, branco, amarelo-sol de destaque; Barlow / Barlow Condensed
+   LAYOUT: app de celular, uma coluna, barra de abas embaixo */
+:root{color-scheme:light dark;
+--bg:light-dark(#f6f7f4,#0e1612);--card:light-dark(#ffffff,#16211b);--ink:light-dark(#14201a,#e6eee8);
+--line:light-dark(#e2e6e1,#26352d);
+--g:#1d5a3c;--g2:light-dark(#e3efe7,#1b3326);--sun:#f4c430;
+--pt:#2f6fd0;--mt:#d9622b;--ct:#1d8a52;--qs:#6b4fbf;--rv:#8a7a3a;--fx:#c0392b}
+:root{--mut:light-dark(#5d6b63,#9aaba1)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 Barlow,system-ui,sans-serif;overflow-x:clip;-webkit-tap-highlight-color:transparent}
+h1,h2,h3{font-family:"Barlow Condensed",Barlow,sans-serif;line-height:1.05;margin:0;text-wrap:balance}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+.top{background:var(--g);color:#fff;position:relative;overflow:hidden;padding:calc(env(safe-area-inset-top) + 18px) 0 22px}
+.top svg.topo{position:absolute;inset:0;width:100%;height:100%;opacity:.18;pointer-events:none}
+.top .wrap{position:relative}
+.top small{display:block;opacity:.85;font-size:14px}
+.top h1{font-size:clamp(32px,8vw,46px);margin-top:4px}
+.back{background:none;border:0;color:#fff;opacity:.9;padding:8px 0;min-height:44px;font-weight:600}
+.count{display:flex;align-items:flex-end;gap:14px;margin-top:14px;flex-wrap:wrap}
+.count b{font:700 clamp(54px,16vw,84px)/.9 "Barlow Condensed",sans-serif;color:var(--sun)}
+.count span{font-size:15px;opacity:.95;padding-bottom:6px}
+.bar{height:10px;background:rgba(255,255,255,.22);border-radius:6px;overflow:hidden;margin-top:14px}
+.bar i{display:block;height:100%;background:var(--sun);border-radius:6px;transition:width .4s}
+main{padding:18px 0 calc(96px + env(safe-area-inset-bottom))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.card h2{font-size:24px;margin-bottom:10px}
+.muted{color:var(--mut);font-size:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:10px;border:0;background:var(--g);color:#fff;font-weight:600}
+.btn.alt{background:var(--g2);color:var(--ink)}
+.btn.sm{min-height:38px;padding:0 12px;font-size:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.pick{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:12px;min-height:44px}
+.pick .av{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--g);color:var(--sun);font:700 26px "Barlow Condensed";margin-right:14px;vertical-align:middle}
+.pick strong{font-size:22px;font-family:"Barlow Condensed";vertical-align:middle}
+.conc h3{font-size:26px}
+.conc .meta{margin:4px 0 12px}
+.mini{height:8px;background:var(--g2);border-radius:5px;overflow:hidden}
+.mini i{display:block;height:100%;background:var(--g)}
+.task{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line)}
+.task:first-of-type{border-top:0}
+.chk{flex:none;width:30px;height:30px;border-radius:8px;border:2px solid var(--mut);background:transparent;display:grid;place-items:center;margin-top:1px;padding:0}
+.chk svg{width:18px;height:18px;opacity:0}
+.task.ok .chk{background:var(--g);border-color:var(--g)}
+.task.ok .chk svg{opacity:1}
+.task.ok .tt{text-decoration:line-through;color:var(--mut)}
+.tag{display:inline-block;font-size:12px;font-weight:700;color:#fff;border-radius:6px;padding:1px 7px;margin-bottom:3px}
+.tt{display:block;font-weight:500}
+.day{margin-bottom:12px}
+.day h3{font-size:20px;display:flex;justify-content:space-between;gap:8px}
+.day.hoje{border-color:var(--g);box-shadow:0 0 0 2px var(--g) inset}
+.day.off{opacity:.6}
+.wk{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.wk h2{font-size:22px;margin:0;text-align:center}
+.subj h3{font-size:22px;display:flex;justify-content:space-between;gap:8px;margin-bottom:6px}
+.subj .mini i{background:var(--c)}
+dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;margin:0}
+dt{color:var(--mut);font-size:14px;padding-top:2px}dd{margin:0;font-weight:600}
+.dist{display:grid;gap:8px;margin-top:6px}
+.dist div{display:grid;grid-template-columns:9.5em minmax(0,1fr) 2.5em;gap:10px;align-items:center;font-size:14px}
+.dist i{display:block;height:14px;border-radius:4px;background:var(--c)}
+.dist b{text-align:right}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{min-width:52px;min-height:44px;border-radius:10px;border:2px solid var(--line);background:var(--card);font-weight:700}
+.chip[aria-pressed=true]{background:var(--g);border-color:var(--g);color:#fff}
+label.f{display:block;margin-bottom:12px;font-size:14px;color:var(--mut)}
+label.f input,label.f textarea{display:block;width:100%;margin-top:4px;font-size:16px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+textarea{min-height:90px}
+.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);z-index:5}
+.tabs .wrap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.tabs button{background:none;border:0;min-height:58px;font-size:13px;font-weight:600;color:var(--mut);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.tabs button svg{width:22px;height:22px}
+.tabs button[aria-current=true]{color:var(--g)}
+:root[data-theme=dark] .tabs button[aria-current=true]{color:var(--sun)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .tabs button[aria-current=true]{color:var(--sun)}}
+.alert{background:light-dark(#fff6d6,#3a3012);border:1px solid light-dark(#f0d77a,#6b5a1f);border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:15px}
+.toast{position:fixed;left:50%;bottom:calc(80px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
+.toast.on{opacity:1}
+a{color:inherit}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+{
+/* ---------- Dados do concurso ---------- */
+const IBGE = {
+  id:'ibge2027', nome:'IBGE 2027', cargo:'Recenseador (REC)', banca:'Fundação Cesgranrio',
+  data:'2027-01-31', hora:'13h às 17h (horário de Brasília)', nivel:'Fundamental',
+  area:'Catolé do Rocha (Catolé do Rocha)/PB', local:'Catolé do Rocha/PB',
+  extra:'12º Censo Agropecuário, Florestal e Aquícola',
+  prova:[['Conhecimentos Técnicos',30,'ct'],['Língua Portuguesa',15,'pt'],['Matemática',15,'mt']],
+  inicio:'2026-11-23', fimConteudo:'2027-01-24',
+  feriados:['2026-12-24','2026-12-25','2026-12-31','2027-01-01']
+};
+const MAT = {
+  pt:{nome:'Português', cor:'var(--pt)', itens:[
+    'Compreensão e interpretação de texto','Classes de palavras I: substantivo, adjetivo, artigo e numeral',
+    'Classes de palavras II: verbo, advérbio, preposição, conjunção e interjeição','Ortografia oficial',
+    'Acentuação gráfica','Significação das palavras: sinônimos, antônimos e homônimos',
+    'Pontuação: uso da vírgula','Pontuação: demais sinais + estrutura e sequência lógica de frases e parágrafos',
+    'Concordância verbal','Concordância nominal','Regência verbal','Regência nominal',
+    'Emprego dos verbos regulares e irregulares','Vozes dos verbos (ativa, passiva e reflexiva)',
+    'Emprego dos pronomes: pessoais, de tratamento, possessivos e demonstrativos',
+    'Emprego dos pronomes: relativos e colocação pronominal','Interpretação de texto no estilo Cesgranrio (questões)'],
+    rev:['interpretação e significação das palavras','ortografia e acentuação','classes de palavras','pontuação','concordância','regência','verbos e vozes verbais','pronomes']},
+  mt:{nome:'Matemática', cor:'var(--mt)', itens:[
+    'Números naturais: operações e propriedades','Múltiplos e divisores (MMC e MDC)','Problemas com números naturais',
+    'Números inteiros: operações e regras de sinais','Números racionais: frações e decimais','Problemas com inteiros e racionais',
+    'Razão e proporção','Divisão proporcional','Regra de três simples','Porcentagem I: conceito e cálculo',
+    'Porcentagem II: aumentos, descontos e problemas','Equações do 1º grau','Problemas com equações do 1º grau',
+    'Medidas de comprimento e superfície; conversões','Medidas de volume, capacidade e massa; conversões',
+    'Medidas de tempo e sistema métrico decimal','Áreas e perímetros','Volumes',
+    'Leitura e interpretação de tabelas, gráficos e quadros','Leitura de mapas, croquis, esquemas e escalas'],
+    rev:['porcentagem e regra de três','razão, proporção e divisão proporcional','medidas e conversões','áreas, perímetros e volumes','equações do 1º grau','tabelas e gráficos','operações com naturais, inteiros e racionais']},
+  ct:{nome:'Conhecimentos Técnicos', cor:'var(--ct)', itens:[
+    'Cartografia e interpretação de mapas — parte 1 (Gran, aula 1)','Cartografia e interpretação de mapas — parte 2 (Gran, aula 2)',
+    'Cartografia e interpretação de mapas — parte 3 (Gran, aula 3)','Mapas na prática: escala, legenda, orientação e croquis (questões)',
+    'Apostila do Censo — Gran, aula 4','Apostila do Censo — resumo do que viu na aula 4',
+    'Apostila do Censo — Gran, aula 5','Apostila do Censo — resumo do que viu na aula 5',
+    'Apostila do Censo — Gran, aula 6','Apostila do Censo — resumo do que viu na aula 6',
+    'Apostila do Censo — Gran, aula 7','Apostila do Censo — resumo do que viu na aula 7',
+    'Apostila do Censo — Gran, aula 8','Apostila do Censo — resumo do que viu na aula 8',
+    'Leitura da apostila completa — 1º terço (marque conceitos e definições)','Leitura da apostila completa — 2º terço',
+    'Leitura da apostila completa — 3º terço','Caderno de questões Gran: Conhecimentos Técnicos'],
+    rev:['releitura dos resumos + questões','conceitos e definições da apostila','cartografia e mapas + questões','trechos marcados da apostila']},
+  qs:{nome:'Questões', cor:'var(--qs)', itens:[
+    'Gran: Resolução de prova Cesgranrio — CEF 2026 (partes I e II)','Gran: Resolução de prova Cesgranrio — BNDES 2024 (partes I e II)',
+    'Gran: Resolução de prova Cesgranrio — Banese 2025 (partes I e II)','Gran: Cesgranrio na prática — pronome relativo e conjunções (aulas 12 a 14)',
+    'Gran: Cesgranrio na prática — conjunções e colocação pronominal (aulas 15 e 16)','Gran: Cesgranrio na prática — vozes verbais e concordância (aulas 17 a 19)',
+    'Gran: Cesgranrio na prática — interpretação de texto (aulas 20 a 22)','Caderno de questões: 30 questões de Português e Matemática',
+    'Caderno de questões: 30 questões de Conhecimentos Técnicos'],
+    rev:['30 questões misturadas das três matérias']}
+};
+const PAT = {1:['ct','pt'],2:['mt','ct'],3:['pt','ct'],4:['mt','ct'],5:['pt','mt'],6:['qs','rv'],0:['ct','qs']};
+const FINAL = [
+  ['2027-01-25','pt','Revisão final: concordância, regência, pontuação e pronomes + 20 questões'],
+  ['2027-01-26','mt','Revisão final: porcentagem, regra de três, medidas, áreas e volumes + 20 questões'],
+  ['2027-01-27','ct','Revisão final: resumos da apostila e mapas'],
+  ['2027-01-28','fx','Simulado completo: 60 questões em 4 horas (30 CT, 15 Português, 15 Matemática)'],
+  ['2027-01-29','fx','Corrigir o simulado e revisar os erros; conferir o local no cartão de confirmação'],
+  ['2027-01-30','rv','Dia leve: revisão rápida de CT; separar documento com foto e caneta preta (confira no edital o que levar)']
+];
+const TAGS = {pt:'Português',mt:'Matemática',ct:'Conh. Técnicos',qs:'Questões',rv:'Revisão',fx:'Reta final'};
+const DIAS = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const DIASL = ['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
+
+/* ---------- Estado ---------- */
+const KEY = 'cronograma-estudos-v1';
+const base = () => ({v:1, perfis:[{id:'beatriz',nome:'Beatriz',concursos:['ibge2027']}], extras:{}, prog:{}});
+let S; try{S = JSON.parse(localStorage.getItem(KEY)) || base()}catch(e){S = base()}
+const save = () => {try{localStorage.setItem(KEY, JSON.stringify(S))}catch(e){}};
+let V = {view:'perfis', perfil:null, conc:null, tab:'hoje', semana:0};
+try{const l = JSON.parse(sessionStorage.getItem(KEY+'-v')); if(l) V = {...V, ...l}}catch(e){}
+
+const P = (pid,cid) => {const k = pid+'|'+cid; if(!S.prog[k]) S.prog[k] = {done:{}, dias:[1,2,3,4,5,6], feriados:true, inicio:IBGE.inicio}; return S.prog[k]};
+const pad = n => String(n).padStart(2,'0');
+const iso = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const parse = s => {const [y,m,d] = s.split('-').map(Number); return new Date(y,m-1,d)};
+const hoje = () => iso(new Date());
+const addD = (s,n) => {const d = parse(s); d.setDate(d.getDate()+n); return iso(d)};
+const fmt = s => {const d = parse(s); return DIAS[d.getDay()]+', '+pad(d.getDate())+'/'+pad(d.getMonth()+1)};
+const diasAte = s => Math.round((parse(s) - parse(hoje()))/864e5);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---------- Gera o cronograma ---------- */
+function plano(p){
+  const ptr = {pt:0,mt:0,ct:0,qs:0}, rk = {pt:0,mt:0,ct:0,qs:0}, out = {};
+  const next = m => {
+    const M = MAT[m];
+    if(ptr[m] < M.itens.length){const i = ptr[m]++; return {id:m+'-'+i, m, t:M.itens[i]}}
+    const k = rk[m]++; return {id:m+'-r'+k, m, t:'Revisão + questões: '+M.rev[k % M.rev.length]};
+  };
+  const fer = new Set(p.feriados ? IBGE.feriados : []);
+  for(let d = p.inicio || IBGE.inicio; d <= IBGE.fimConteudo; d = addD(d,1)){
+    const w = parse(d).getDay();
+    if(!p.dias.includes(w) || fer.has(d)) continue;
+    out[d] = PAT[w].map(m => m === 'rv' ? {id:'rv-'+d, m:'rv', t:'Revisão da semana: refazer os erros e reler os resumos'} : next(m));
+  }
+  FINAL.forEach(([d,m,t],i) => out[d] = [{id:'fx-'+i, m, t}]);
+  out[IBGE.data] = [{id:'prova', m:'fx', t:'DIA DA PROVA — 13h, Catolé do Rocha. Chegue cedo!'}];
+  return out;
+}
+
+/* ---------- Componentes ---------- */
+const ICK = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+const TOPO = '<svg class="topo" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" fill="none" stroke="#fff" stroke-width="1.4">'+
+  [0,1,2,3,4,5,6,7].map(i => `<path d="M-20 ${30+i*22} C 60 ${10+i*22}, 120 ${70+i*20}, 200 ${40+i*22} S 340 ${i*24}, 420 ${50+i*20}"/>`).join('')+
+  '<circle cx="330" cy="60" r="18"/><circle cx="330" cy="60" r="34"/><circle cx="330" cy="60" r="52"/></svg>';
+const task = (t,done) => `<div class="task${done?' ok':''}"><button class="chk" data-t="${t.id}" aria-pressed="${!!done}" aria-label="Marcar como estudado">${ICK}</button><div><span class="tag" style="background:${MAT[t.m]?.cor || (t.m==='fx'?'var(--fx)':'var(--rv)')}">${TAGS[t.m]}</span><span class="tt">${esc(t.t)}</span></div></div>`;
+const concById = id => id === IBGE.id ? IBGE : S.extras[id];
+const topicosEdital = c => c === IBGE ? ['pt','mt','ct'].flatMap(m => MAT[m].itens.map((_,i) => m+'-'+i)) : (c.topicos||[]).map(t => t.id);
+const pct = (c,p) => {const ids = topicosEdital(c); return ids.length ? Math.round(100*ids.filter(i => p.done[i]).length/ids.length) : 0};
+
+function header(c, p){
+  const n = diasAte(c.data);
+  const cont = n > 0 ? `<b>${n}</b><span>dias até a prova<br>${fmt(c.data)} · ${esc(c.hora||'')}</span>` : n === 0 ? `<b>Hoje!</b><span>Boa prova! ${esc(c.hora||'')}</span>` : `<b>✓</b><span>Prova realizada em ${fmt(c.data)}</span>`;
+  const pc = pct(c,p);
+  return `<header class="top">${TOPO}<div class="wrap"><button class="back" data-go="concursos">‹ Meus concursos</button><small>${esc(c.cargo||'')}</small><h1>${esc(c.nome)}</h1><div class="count">${cont}</div><div class="bar" role="progressbar" aria-valuenow="${pc}" aria-label="Conteúdo estudado"><i style="width:${pc}%"></i></div><small style="margin-top:6px">${pc}% do conteúdo do edital estudado</small></div></header>`;
+}
+
+function vHoje(c,p){
+  const pl = plano(p), h = hoje(), dias = Object.keys(pl).sort();
+  let html = '';
+  const atras = dias.filter(d => d < h).flatMap(d => pl[d].map(t => ({...t, d}))).filter(t => !p.done[t.id]);
+  if(h < (p.inicio||IBGE.inicio)){
+    const d0 = dias[0];
+    html += `<div class="alert">O cronograma começa ${DIASL[parse(d0).getDay()]}, <b>${fmt(d0).slice(5)}</b>. Até lá, dá para adiantar o primeiro dia abaixo.</div>`;
+    html += `<section class="card"><h2>Primeiro dia · ${fmt(d0)}</h2>${pl[d0].map(t => task(t,p.done[t.id])).join('')}</section>`;
+  } else if(pl[h]){
+    const feitos = pl[h].filter(t => p.done[t.id]).length;
+    html += `<section class="card"><h2>Hoje · ${fmt(h)}</h2><p class="muted" style="margin:-4px 0 6px">${feitos === pl[h].length ? 'Tudo feito hoje. Mandou bem!' : 'Assista à aula do Gran do assunto e depois faça questões.'}</p>${pl[h].map(t => task(t,p.done[t.id])).join('')}</section>`;
+  } else {
+    const nx = dias.find(d => d > h);
+    html += `<section class="card"><h2>Hoje é dia de folga</h2><p class="muted">Descanse ou adiante algo atrasado.</p>${nx ? `<p><b>Próximo dia de estudo:</b> ${fmt(nx)}</p>${pl[nx].map(t => task(t,p.done[t.id])).join('')}` : ''}</section>`;
+  }
+  if(atras.length) html += `<section class="card"><h2>Ficou para trás (${atras.length})</h2><p class="muted" style="margin:-4px 0 6px">Sem culpa: encaixe quando der.</p>${atras.slice(0,10).map(t => task({...t, t:t.t+' · '+fmt(t.d)},false)).join('')}${atras.length>10?`<p class="muted">e mais ${atras.length-10} na aba Semana.</p>`:''}</section>`;
+  return html;
+}
+
+function vSemana(c,p){
+  const pl = plano(p), h = hoje();
+  const ref = parse(h < (p.inicio||IBGE.inicio) ? (p.inicio||IBGE.inicio) : h);
+  ref.setDate(ref.getDate() - ((ref.getDay()+6)%7) + V.semana*7);
+  const seg = iso(ref), dias = [...Array(7)].map((_,i) => addD(seg,i));
+  let html = `<div class="wk"><button class="btn alt sm" data-sem="-1" aria-label="Semana anterior">‹ Anterior</button><h2>${fmt(dias[0]).slice(5)} a ${fmt(dias[6]).slice(5)}</h2><button class="btn alt sm" data-sem="1" aria-label="Próxima semana">Próxima ›</button></div>`;
+  if(V.semana) html += `<p style="text-align:center;margin:-4px 0 12px"><button class="btn alt sm" data-sem="0">Voltar para esta semana</button></p>`;
+  html += dias.map(d => {
+    const ts = pl[d], w = parse(d).getDay();
+    const cls = 'card day'+(d===h?' hoje':'')+(ts?'':' off');
+    const fer = IBGE.feriados.includes(d) && p.feriados ? ' · feriado' : '';
+    return `<section class="${cls}"><h3><span>${DIASL[w][0].toUpperCase()+DIASL[w].slice(1)} · ${fmt(d).slice(5)}</span>${d===h?'<span class="muted">hoje</span>':''}</h3>${ts ? ts.map(t => task(t,p.done[t.id])).join('') : `<p class="muted" style="margin:6px 0 0">Folga${fer}</p>`}</section>`;
+  }).join('');
+  return html;
+}
+
+function vEdital(c,p){
+  if(c !== IBGE){
+    const ts = c.topicos||[];
+    return `<section class="card"><h2>Conteúdo</h2>${ts.length ? ts.map(t => task({id:t.id,m:'rv',t:t.t},p.done[t.id])).join('').replace(/Revisão<\/span>/g,'Tópico</span>') : '<p class="muted">Nenhum assunto ainda.</p>'}
+    <form id="addTop" class="row" style="margin-top:12px"><label class="f" style="flex:1;margin:0">Novo assunto<input name="t" required></label><button class="btn">Adicionar</button></form></section>`;
+  }
+  return ['ct','pt','mt'].map(m => {
+    const M = MAT[m], ids = M.itens.map((_,i) => m+'-'+i), f = ids.filter(i => p.done[i]).length;
+    return `<section class="card subj" style="--c:${M.cor}"><h3><span>${M.nome}</span><span class="muted">${f}/${ids.length}</span></h3><div class="mini"><i style="width:${100*f/ids.length}%"></i></div>${M.itens.map((t,i) => task({id:m+'-'+i,m,t},p.done[m+'-'+i])).join('')}</section>`;
+  }).join('') + `<p class="muted">Tópicos do edital (Português e Matemática) e conteúdo da apostila de Conhecimentos Técnicos da Cesgranrio, organizados em aulas.</p>`;
+}
+
+function vProva(c,p){
+  let html = `<section class="card"><h2>Informações da prova</h2><dl>
+  <dt>Data</dt><dd>${fmt(c.data)}/${c.data.slice(0,4)}</dd>${c.hora?`<dt>Horário</dt><dd>${esc(c.hora)}</dd>`:''}
+  ${c.cargo?`<dt>Cargo</dt><dd>${esc(c.cargo)}</dd>`:''}${c.nivel?`<dt>Nível</dt><dd>${esc(c.nivel)}</dd>`:''}
+  ${c.area?`<dt>Área de trabalho</dt><dd>${esc(c.area)}</dd>`:''}${c.local?`<dt>Local de prova</dt><dd>${esc(c.local)}</dd>`:''}
+  ${c.banca?`<dt>Banca</dt><dd>${esc(c.banca)}</dd>`:''}${c.extra?`<dt>Para</dt><dd>${esc(c.extra)}</dd>`:''}</dl>`;
+  if(c === IBGE){
+    html += `<p class="muted" style="margin-top:12px">O endereço exato sai no cartão de confirmação, no site da Cesgranrio.</p></section>
+    <section class="card"><h2>Como é a prova</h2><p style="margin:0 0 8px">60 questões de múltipla escolha, todas com o mesmo peso, em 4 horas.</p><div class="dist">${c.prova.map(([n,q,m]) => `<div><span>${n}</span><i style="--c:${MAT[m].cor};width:${q/30*100}%"></i><b>${q}</b></div>`).join('')}</div>
+    <p class="muted" style="margin-top:10px">Conhecimentos Técnicos vale metade da prova, por isso aparece em quase todo dia do cronograma.</p></section>
+    <div class="alert">Inscrições até <b>25/11/2026, 23h59</b>. Taxa de R$ 70,00: não esqueça de pagar o boleto.</div>
+    <section class="card"><h2>Links</h2><p style="margin:0 0 8px"><a href="https://www.cesgranrio.org.br" target="_blank" rel="noopener">Site da Fundação Cesgranrio</a> (edital, apostila, cartão de confirmação)</p><p style="margin:0"><a href="https://www.grancursosonline.com.br/aluno/curso/s/ibge-instituto-brasileiro-de-geografia-e-estatistica-temporario-recenseador-rec-pos-edital" target="_blank" rel="noopener">Curso no Gran (videoaulas e caderno de questões)</a></p></section>
+    <section class="card"><h2>Meus dias de estudo</h2><p class="muted" style="margin:-4px 0 10px">Toque para ligar ou desligar. O cronograma se reorganiza sozinho.</p>
+    <div class="chips">${[1,2,3,4,5,6,0].map(w => `<button class="chip" data-dia="${w}" aria-pressed="${p.dias.includes(w)}">${DIAS[w]}</button>`).join('')}</div>
+    <label class="row" style="margin-top:14px;gap:10px;min-height:44px"><input type="checkbox" id="fer" ${p.feriados?'checked':''} style="width:22px;height:22px"> Folga em 24, 25 e 31/12 e 1º/01</label>
+    <label class="f" style="margin-top:6px">Começar em<input type="date" id="ini" value="${p.inicio||IBGE.inicio}" max="${IBGE.fimConteudo}"></label></section>`;
+  } else {
+    html += `<div class="row" style="margin-top:14px"><button class="btn alt sm" data-del="${c.id}">Remover concurso</button></div></section>`;
+  }
+  html += `<section class="card"><h2>Cópia de segurança</h2><p class="muted" style="margin:-4px 0 10px">O progresso fica salvo neste aparelho. De vez em quando, copie o código e guarde no WhatsApp ou nas Notas.</p>
+  <div class="row"><button class="btn sm" id="bkp">Copiar código</button><button class="btn alt sm" id="rst">Restaurar</button></div>
+  <div id="rstBox" hidden style="margin-top:12px"><label class="f">Cole o código aqui<textarea id="rstTxt"></textarea></label><button class="btn sm" id="rstOk">Restaurar progresso</button></div></section>`;
+  return html;
+}
+
+const TABS = [['hoje','Hoje','<path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/><circle cx="12" cy="12" r="4"/>'],
+  ['semana','Semana','<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>'],
+  ['edital','Conteúdo','<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/>'],
+  ['prova','Prova','<path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>']];
+
+function render(){
+  try{sessionStorage.setItem(KEY+'-v', JSON.stringify(V))}catch(e){}
+  const app = document.getElementById('app');
+  const perfil = S.perfis.find(x => x.id === V.perfil);
+  if(V.view === 'perfis' || !perfil){
+    app.innerHTML = `<header class="top">${TOPO}<div class="wrap"><small>Cronograma de estudos</small><h1>Quem vai estudar?</h1></div></header>
+    <main class="wrap">${S.perfis.map(x => `<button class="pick" data-perfil="${x.id}"><span class="av">${esc(x.nome[0])}</span><strong>${esc(x.nome)}</strong></button>`).join('')}
+    <form id="addPerfil" class="card"><h2>Novo perfil</h2><label class="f">Nome<input name="n" required maxlength="30"></label><button class="btn">Criar perfil</button></form></main>`;
+    return;
+  }
+  const conc = concById(V.conc);
+  if(V.view === 'concursos' || !conc){
+    app.innerHTML = `<header class="top">${TOPO}<div class="wrap"><button class="back" data-go="perfis">‹ Trocar perfil</button><small>Olá,</small><h1>${esc(perfil.nome)}</h1></div></header>
+    <main class="wrap"><h2 style="font-size:26px;margin:4px 0 12px">Meus concursos</h2>
+    ${perfil.concursos.map(concById).filter(Boolean).map(c => {const p = P(perfil.id,c.id), n = diasAte(c.data), pc = pct(c,p);
+      return `<button class="pick conc" data-conc="${c.id}"><h3>${esc(c.nome)}</h3><div class="meta muted">${esc(c.cargo||'')} · ${fmt(c.data)}/${c.data.slice(0,4)} · ${n>0?`faltam ${n} dias`:n===0?'é hoje!':'prova realizada'}</div><div class="mini"><i style="width:${pc}%"></i></div><div class="muted" style="margin-top:6px">${pc}% estudado</div></button>`}).join('')}
+    <form id="addConc" class="card"><h2>Adicionar concurso</h2>
+    <label class="f">Nome<input name="nome" required placeholder="Ex.: Prefeitura 2027"></label>
+    <label class="f">Cargo<input name="cargo"></label><label class="f">Banca<input name="banca"></label>
+    <label class="f">Data da prova<input name="data" type="date" required></label><label class="f">Horário<input name="hora" placeholder="Ex.: 8h às 12h"></label>
+    <label class="f">Local de prova<input name="local"></label>
+    <label class="f">Assuntos (um por linha)<textarea name="top"></textarea></label><button class="btn">Adicionar</button></form></main>`;
+    return;
+  }
+  const p = P(perfil.id, conc.id);
+  const tabs = conc === IBGE ? TABS : TABS.filter(t => t[0]==='edital'||t[0]==='prova');
+  if(!tabs.some(t => t[0]===V.tab)) V.tab = tabs[0][0];
+  const body = {hoje:vHoje, semana:vSemana, edital:vEdital, prova:vProva}[V.tab](conc,p);
+  app.innerHTML = header(conc,p) + `<main class="wrap">${body}</main><nav class="tabs" aria-label="Seções"><div class="wrap" style="grid-template-columns:repeat(${tabs.length},minmax(0,1fr))">${tabs.map(([k,l,ic]) => `<button data-tab="${k}" aria-current="${V.tab===k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${l}</button>`).join('')}</div></nav>`;
+}
+
+function toast(m){const t = document.getElementById('toast'); t.textContent = m; t.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), 2200)}
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  const d = b.dataset;
+  if(d.perfil){V = {...V, view:'concursos', perfil:d.perfil}; render(); scrollTo(0,0)}
+  else if(d.go){V.view = d.go; render(); scrollTo(0,0)}
+  else if(d.conc){V = {...V, view:'conc', conc:d.conc, tab:d.conc===IBGE.id?'hoje':'edital', semana:0}; render(); scrollTo(0,0)}
+  else if(d.tab){V.tab = d.tab; V.semana = 0; render(); scrollTo(0,0)}
+  else if(d.sem !== undefined){V.semana = d.sem === '0' ? 0 : V.semana + Number(d.sem); render()}
+  else if(d.t){const p = P(V.perfil,V.conc); if(p.done[d.t]) delete p.done[d.t]; else {p.done[d.t] = hoje(); toast('Marcado como estudado')} save(); const y = scrollY; render(); scrollTo(0,y)}
+  else if(d.dia !== undefined){const p = P(V.perfil,V.conc), w = Number(d.dia); p.dias = p.dias.includes(w) ? p.dias.filter(x => x!==w) : [...p.dias,w]; if(!p.dias.length) p.dias = [w]; save(); const y = scrollY; render(); scrollTo(0,y)}
+  else if(d.del){if(b.dataset.sure){const pf = S.perfis.find(x => x.id===V.perfil); pf.concursos = pf.concursos.filter(x => x!==d.del); save(); V.view = 'concursos'; render()} else {b.dataset.sure = 1; b.textContent = 'Toque de novo para confirmar'}}
+  else if(b.id === 'bkp'){const code = btoa(unescape(encodeURIComponent(JSON.stringify(S)))); navigator.clipboard.writeText(code).then(() => toast('Código copiado'), () => {document.getElementById('rstBox').hidden = false; const t = document.getElementById('rstTxt'); t.value = code; t.select(); toast('Copie o código selecionado')})}
+  else if(b.id === 'rst'){document.getElementById('rstBox').hidden = false; document.getElementById('rstTxt').value = ''}
+  else if(b.id === 'rstOk'){try{const n = JSON.parse(decodeURIComponent(escape(atob(document.getElementById('rstTxt').value.trim())))); if(!n.perfis) throw 0; S = n; save(); toast('Progresso restaurado'); render()}catch(err){toast('Código inválido')}}
+});
+document.addEventListener('change', e => {
+  const p = V.perfil && V.conc ? P(V.perfil,V.conc) : null; if(!p) return;
+  if(e.target.id === 'fer'){p.feriados = e.target.checked; save(); render()}
+  if(e.target.id === 'ini' && e.target.value){p.inicio = e.target.value; save(); render()}
+});
+document.addEventListener('submit', e => {
+  e.preventDefault(); const f = e.target, fd = new FormData(f);
+  if(f.id === 'addPerfil'){const n = fd.get('n').trim(); if(!n) return; const id = 'p'+Date.now().toString(36); S.perfis.push({id, nome:n, concursos:['ibge2027']}); save(); render()}
+  if(f.id === 'addConc'){const id = 'c'+Date.now().toString(36); S.extras[id] = {id, nome:fd.get('nome').trim(), cargo:fd.get('cargo').trim(), banca:fd.get('banca').trim(), data:fd.get('data'), hora:fd.get('hora').trim(), local:fd.get('local').trim(), topicos:String(fd.get('top')).split('\n').map(s => s.trim()).filter(Boolean).map((t,i) => ({id:id+'-'+i, t}))}; S.perfis.find(x => x.id===V.perfil).concursos.push(id); save(); toast('Concurso adicionado'); render()}
+  if(f.id === 'addTop'){const c = S.extras[V.conc], t = fd.get('t').trim(); if(t){c.topicos.push({id:c.id+'-'+Date.now().toString(36), t}); save(); render()}}
+});
+render();
+try{if('serviceWorker' in navigator && location.protocol === 'https:' && !location.hostname.endsWith('claude.ai') && !location.hostname.endsWith('claudeusercontent.com')) navigator.serviceWorker.register('sw.js').catch(() => {})}catch(e){}
+}
+</script>
+</body>
+</html>
