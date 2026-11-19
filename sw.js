@@ -1,5 +1,5 @@
 // Cache para o app (e a apostila) abrirem mesmo sem internet
-const C = 'estudos-v3-5';
+const C = 'estudos-v3-6';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-180.png', './favicon-32.png', './qyudev.png',
   './vendor/pdf.min.js', './vendor/pdf.worker.min.js', './apostila.pdf'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(C).then(c => c.addAll(FILES))); self.skipWaiting(); });

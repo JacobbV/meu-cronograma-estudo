@@ -307,6 +307,15 @@ details.subj > summary h3{align-items:center}
 details.subj .chev{display:inline-block;margin-left:10px;font-size:24px;line-height:1;color:var(--mut);transition:transform .2s}
 details.subj[open] .chev{transform:rotate(90deg)}
 details.subj[open] > summary{margin-bottom:6px}
+
+.bv-bg{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.45);animation:fd .2s}
+.bv{position:fixed;z-index:41;left:50%;top:50%;transform:translate(-50%,-50%);width:min(420px,calc(100vw - 28px));max-height:calc(100dvh - 40px);overflow:auto;margin:0;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.35);text-align:left}
+.bv .ilu{max-height:150px;display:block;margin:-6px auto 6px}
+.bv h2{font-size:30px;margin:0 0 8px}
+.bv p{font-size:17px;line-height:1.55;margin:0 0 14px}
+.bv .ass{display:flex;align-items:center;gap:8px;font-weight:700;font-size:18px}
+.bv .ass svg{width:24px;height:24px}
+@keyframes fd{from{opacity:0}to{opacity:1}}
 </style>
 </head>
 <body>
@@ -314,7 +323,7 @@ details.subj[open] > summary{margin-bottom:6px}
 <div class="toast" id="toast" role="status"></div>
 <script>
 {
-const VERSAO = '3.5.0';
+const VERSAO = '3.6.0';
 /* ---------- Dados do concurso (Edital IBGE nº 03/2026 + apostila do 12º Censo Agro) ---------- */
 const IBGE = {
   id:'ibge2027', nome:'IBGE 2027', cargo:'Recenseador (REC)', banca:'Fundação Cesgranrio',
@@ -332,7 +341,7 @@ const IBGE = {
 /* tipos de assunto: aq = videoaula + questões · a = videoaula · q = questões · lq = leitura + questões · l = leitura */
 const MAT = {
   pt:{nome:'Português', cor:'var(--pt)', itens:[
-    ['Ortografia oficial e acentuação gráfica','Gran: aulas 1 a 3 — Ortografia e Acentuação','aq'],
+    ['Ortografia oficial e acentuação gráfica','Gran: aulas 1 a 3 — Ortografia e Acentuação','aq',null,null,'SanZETigdZA%3D'],
     ['Ortografia e acentuação: exercícios e complementos','Gran: aulas 4 a 6 — Ortografia e Acentuação (exercícios, IV e V)','aq'],
     ['Classes de palavras I','Gran: aulas 7 a 9 — Morfologia','aq'],
     ['Classes de palavras II','Gran: aulas 10 a 12 — Morfologia IV, V e exercícios','aq'],
@@ -911,8 +920,18 @@ function render(){
   const pn = HDR && V.painel === 'fogo' ? painelFogo(p,HDR.sq) : HDR && V.painel === 'avisos' ? painelAvisos(HDR.av, perfil) : HDR && V.painel === 'perfil' ? painelPerfil(perfil) : '';
   const body = {hoje:vHoje, semana:vSemana, apostila:vApostila, edital:vEdital, prova:vProva}[V.tab](conc,p);
   app.innerHTML = hd + (pn ? `<div class="pop-bg" id="popBg"></div><div class="pop${V.painel==='avisos'?' drawer':''}" role="dialog" aria-label="${V.painel==='avisos'?'Avisos':'Painel'}">${pn}</div>` : '') + `<main class="wrap${V.tab==='apostila'?' wide':''}">${body}</main><nav class="tabs" aria-label="Seções"><div class="wrap" style="grid-template-columns:repeat(${tabs.length},minmax(0,1fr))">${tabs.map(([k,l,ic]) => `<button data-tab="${k}" aria-current="${V.tab===k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${l}</button>`).join('')}</div></nav>`;
+  if(conc === IBGE && !perfil.vindo) app.insertAdjacentHTML('beforeend', boasVindas(perfil));
 }
 
+const CORACAO = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-10-9.4C.4 8.3 2.3 4 6.3 4c2.2 0 3.7 1.3 4.7 2.8C12 5.3 13.5 4 15.7 4c4 0 5.9 4.3 4.3 7.6C19.5 16.4 12 21 12 21z" fill="var(--g)"/></svg>';
+function boasVindas(pf){
+  const n = pf.nome.toLowerCase().normalize('NFD').replace(/[^a-z ]/g,'').trim();
+  const bia = /^(beatriz|bia|ana beatriz)\b/.test(n);
+  const corpo = bia
+    ? `<h2>Bia,</h2><p>Fiz esse app pra te acompanhar até o dia 31. Um assunto por dia, no teu ritmo, sem culpa se atrasar: a fila se ajeita sozinha. Eu acredito em você!</p><p class="ass">${CORACAO}<span>Seu amor, Jacó</span></p>`
+    : `<h2>Bem-vindo(a), ${esc(pf.nome)}!</h2><p>Seu cronograma do IBGE 2027 já está pronto. Um assunto por dia, no seu ritmo, sem culpa se atrasar: a fila se ajeita sozinha.</p>`;
+  return `<div class="bv-bg"></div><section class="card bv" role="dialog" aria-label="Boas-vindas">${ILU}${corpo}<button class="btn" id="bvOk" style="width:100%">Bora estudar!</button></section>`;
+}
 function toast(m){const t = document.getElementById('toast'); if(!t) return; t.textContent = m; t.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), 2200)}
 const keep = () => {const y = scrollY; render(); scrollTo(0,y)};
 const PP = () => P(V.perfil,V.conc);
@@ -945,6 +964,7 @@ document.addEventListener('click', e => {
   else if(b.id === 'lerTodos'){const pf = S.perfis.find(x => x.id===V.perfil); pf.lidos = [...new Set([...(pf.lidos||[]), ...HDR.av.map(a => a.id)])].slice(-80); save(); keep()}
   else if(b.id === 'apTela'){telaCheia(true)}
   else if(b.id === 'apSair'){telaCheia(false)}
+  else if(b.id === 'bvOk'){S.perfis.find(x => x.id===V.perfil).vindo = true; save(); render(); scrollTo(0,0)}
   else if(b.id === 'novoPerfil'){V.novo = true; render()}
   else if(b.id === 'novoCancel'){V.novo = false; render()}
   else if(b.id === 'adiantar'){const p = PP(), h = hoje(); p.extra[h] = (p.extra[h]||0) + 1; save(); toast('Próximo assunto puxado para hoje'); keep()}
