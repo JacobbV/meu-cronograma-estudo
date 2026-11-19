@@ -22,7 +22,8 @@ O primeiro cronograma pronto é o do **IBGE 2027 – Recenseador (REC)** do 12º
 - **Prova:** data, horário, local, banca, questões por matéria, nota mínima, datas importantes do edital e o que levar no dia.
 - **Pausas:** marca um período sem estudo (viagem, feriado da cidade) e a fila espera.
 - **Avisos:** os prazos do edital aparecem no Hoje com um X para fechar (voltam ao reabrir o app) e ficam guardados no sininho, com contador de não lidos.
-- **Tema:** automático, claro ou noite.
+- **Tema:** automático, claro ou noite. O "Modo noturno" também fica no menu do perfil (toque na foto no topo).
+- **Visual:** cinza neutro com laranja de destaque e cada matéria com sua cor (Português azul, Matemática laranja, Conhecimentos Técnicos verde, Questões roxo).
 - **Cópia de segurança:** gera um código com todo o progresso para guardar e restaurar depois.
 - **Card de compartilhamento:** ao mandar o link, aparece um card com título, descrição e imagem (Open Graph).
 
@@ -70,6 +71,8 @@ og-image.png            # imagem do card de compartilhamento (1200×630)
 - Ícones do app e da interface desenhados no próprio projeto.
 
 ## Versões
+
+- **v3.2.0** (19/11/2026): novo visual com fundo neutro e laranja de destaque, etiquetas coloridas por matéria, menu do perfil com Modo noturno, novos ícones e imagem de compartilhamento.
 
 - **v3.1.0** (19/11/2026): foguinho, sininho de avisos e foto do perfil no cabeçalho; painel da sequência com calendário de 4 semanas e mensagem do dia; avisos com X e central de avisos; apostila em tela cheia.
 

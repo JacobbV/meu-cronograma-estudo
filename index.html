@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1d5a3c">
+<meta name="theme-color" content="#f26a1b">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Estudos">
@@ -32,9 +32,9 @@
    COLOUR and TYPE: verde-campo dominante, branco, amarelo-sol de destaque; Barlow / Barlow Condensed
    LAYOUT: app de celular, uma coluna, barra de abas embaixo */
 :root{color-scheme:light dark;
---bg:light-dark(#f6f7f4,#0e1612);--card:light-dark(#ffffff,#16211b);--ink:light-dark(#14201a,#e6eee8);
---mut:light-dark(#5d6b63,#9aaba1);--line:light-dark(#e2e6e1,#26352d);
---g:#1d5a3c;--g2:light-dark(#e3efe7,#1b3326);--sun:#f4c430;--rest:light-dark(#e4e8e3,#25332b);
+--bg:light-dark(#f3f3f4,#0d0d0e);--card:light-dark(#ffffff,#18181a);--ink:light-dark(#18181b,#ececee);
+--mut:light-dark(#62626a,#9d9da6);--line:light-dark(#e4e4e7,#2a2a2e);
+--g:#f26a1b;--g2:light-dark(#fff0e5,#3a2214);--sun:#f26a1b;--rest:light-dark(#ececef,#26262a);
 --pt:#2f6fd0;--mt:#d9622b;--ct:#1d8a52;--qs:#6b4fbf;--rv:#8a7a3a;--fx:#c0392b}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
@@ -65,7 +65,7 @@ main{padding:18px 0 calc(96px + env(safe-area-inset-bottom))}
 .btn.sm{min-height:38px;padding:0 12px;font-size:14px}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .pick{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:12px;min-height:44px}
-.pick .av{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--g);color:var(--sun);font:700 26px "Barlow Condensed";margin-right:14px;vertical-align:middle}
+.pick .av{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--g);color:#fff;font:700 26px "Barlow Condensed";margin-right:14px;vertical-align:middle}
 .pick .av img,.top .foto img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
 .pick .av{overflow:hidden}
 .foto{display:inline-grid;place-items:center;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid var(--sun);color:var(--sun);font:700 30px "Barlow Condensed";overflow:hidden;padding:0;cursor:pointer;flex:none}
@@ -83,7 +83,7 @@ main{padding:18px 0 calc(96px + env(safe-area-inset-bottom))}
 .task.ok .chk{background:var(--g);border-color:var(--g)}
 .task.ok .chk svg{opacity:1}
 .task.ok .tt{text-decoration:line-through;color:var(--mut)}
-.tag{display:inline-block;font-size:12px;font-weight:700;color:#fff;border-radius:6px;padding:1px 7px;margin:0 4px 3px 0}
+.tag{display:inline-block;font-size:12px;font-weight:700;color:var(--c);background:color-mix(in srgb,var(--c) 15%,transparent);border-radius:6px;padding:2px 8px;margin:0 4px 3px 0}
 .tag.late{background:transparent;color:var(--fx);border:1px solid var(--fx)}
 .tt{display:block;font-weight:500}
 .hint{display:block;font-size:13px;color:var(--mut);margin-top:2px}
@@ -104,7 +104,7 @@ main{padding:18px 0 calc(96px + env(safe-area-inset-bottom))}
 .cal button.sel{background:var(--g);color:#fff;border-color:var(--g)}
 .cal button.prova{background:var(--fx);color:#fff;border-color:var(--fx)}
 .cal button.feito .n::after{content:"✓";font-size:11px;margin-left:2px;color:var(--ct)}
-.cal button.sel.feito .n::after{color:var(--sun)}
+.cal button.sel.feito .n::after{color:#fff}
 .dots{display:flex;gap:3px;flex-wrap:wrap;justify-content:center;min-height:8px}
 .dots i{width:7px;height:7px;border-radius:50%;background:var(--c)}
 .dots i.ok{opacity:.35}
@@ -148,8 +148,7 @@ textarea{min-height:90px}
 .tabs button{background:none;border:0;min-height:58px;font-size:13px;font-weight:600;color:var(--mut);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
 .tabs button svg{width:22px;height:22px}
 .tabs button[aria-current=true]{color:var(--g)}
-:root[data-theme=dark] .tabs button[aria-current=true]{color:var(--sun)}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]) .tabs button[aria-current=true]{color:var(--sun)}}
+
 .alert{background:light-dark(#fff6d6,#3a3012);border:1px solid light-dark(#f0d77a,#6b5a1f);border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:15px}
 .toast{position:fixed;left:50%;bottom:calc(80px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:9}
 .toast.on{opacity:1}
@@ -233,6 +232,32 @@ details summary{cursor:pointer;font-weight:700;min-height:32px}
 .leitor.cheia #apSair{display:inline-flex}
 .leitor.cheia #apTela{display:none}
 body.travado{overflow:hidden}
+
+.top{background:var(--card);color:var(--ink);border-bottom:1px solid var(--line)}
+.top svg.topo{display:none}
+.top small{opacity:1;color:var(--mut)}
+.top h1{color:var(--ink)}
+.back{color:var(--ink);opacity:1}
+.count b{color:var(--g)}
+.bar{background:var(--rest)}
+.chipf{border-color:var(--line);background:var(--bg);color:var(--ink)}
+.chipf.on{background:var(--g2);border-color:var(--g);color:var(--g)}
+.sino{border-color:var(--line);background:var(--bg);color:var(--ink)}
+.avp{border-color:var(--g);background:var(--g2);color:var(--g)}
+.foto{background:var(--g2);border-color:var(--g);color:var(--g)}
+.fotobtn{color:var(--ink)}
+.tabs button[aria-current=true]{color:var(--g)}
+.ico{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--c) 15%,transparent);color:var(--c);flex:none}
+.ico svg{width:19px;height:19px}
+.menu{display:grid;gap:2px}
+.menu button,.menu .it{display:flex;align-items:center;gap:12px;width:100%;min-height:48px;padding:6px 4px;background:none;border:0;border-top:1px solid var(--line);text-align:left;font-size:16px;font-weight:500;color:var(--ink)}
+.menu .lbl{font-size:12px;font-weight:700;color:var(--mut);margin:12px 0 2px;letter-spacing:.02em}
+.sw{margin-left:auto;width:46px;height:28px;border-radius:14px;background:var(--rest);position:relative;flex:none;transition:background .2s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s}
+.sw.on{background:var(--g)}.sw.on::after{left:21px}
+.perfhd{display:flex;align-items:center;gap:14px;padding:4px 0 12px;background:var(--g2);margin:-16px -16px 8px;padding:16px;border-radius:12px 12px 0 0}
+.perfhd .avp{width:56px;height:56px;font-size:26px}
+.selo{display:inline-block;font-size:12px;font-weight:700;color:#fff;background:var(--g);border-radius:20px;padding:1px 10px;margin-bottom:3px}
 </style>
 </head>
 <body>
@@ -240,7 +265,7 @@ body.travado{overflow:hidden}
 <div class="toast" id="toast" role="status"></div>
 <script>
 {
-const VERSAO = '3.1.0';
+const VERSAO = '3.2.0';
 /* ---------- Dados do concurso (Edital IBGE nº 03/2026 + apostila do 12º Censo Agro) ---------- */
 const IBGE = {
   id:'ibge2027', nome:'IBGE 2027', cargo:'Recenseador (REC)', banca:'Fundação Cesgranrio',
@@ -470,7 +495,7 @@ const FOGO = on => `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4c2
 const TOPO = '<svg class="topo" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" fill="none" stroke="#fff" stroke-width="1.4">'+
   [0,1,2,3,4,5,6,7].map(i => `<path d="M-20 ${30+i*22} C 60 ${10+i*22}, 120 ${70+i*20}, 200 ${40+i*22} S 340 ${i*24}, 420 ${50+i*20}"/>`).join('')+
   '<circle cx="330" cy="60" r="18"/><circle cx="330" cy="60" r="34"/><circle cx="330" cy="60" r="52"/></svg>';
-const tag = m => `<span class="tag" style="background:${COR(m)}">${TAGS[m]}</span>`;
+const tag = m => `<span class="tag" style="--c:${COR(m)}">${TAGS[m]}</span>`;
 const stepTxt = (a,s) => s === 'a' ? 'Assistir à videoaula' : s === 'q' ? (a.k === 'q' ? 'Fazer as questões' : 'Fazer questões do assunto') : s === 'l' ? (a.pg ? `Ler a apostila, p. ${a.pg[0]} a ${a.pg[1]}` : 'Ler e revisar') : 'Feito';
 
 function placarUI(p,a){
@@ -530,6 +555,28 @@ function painelFogo(p,sq){
     ${sq.recuperavel ? `<p class="alert" style="margin:12px 0 0">Para reacender a sequência de ${sq.prev} ${sq.prev>1?'dias':'dia'}, conclua ${sq.precisa} ${sq.precisa>1?'assuntos':'assunto'} hoje (${sq.feitosHoje} até agora). Use o botão "Adiantar".</p>` : ''}
     <p class="muted" style="margin:10px 0 0">Folgas, feriados e pausas não apagam o fogo.</p></section>`;
 }
+const escuroAgora = () => S.tema === 'escuro' || (S.tema === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches);
+const MI = {
+  conc:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg>',
+  troca:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><path d="M17 4l3 3-3 3M20 7h-5"/></svg>',
+  lua:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>',
+  cel:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18h2"/></svg>',
+  cad:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>',
+  ajus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>'
+};
+function painelPerfil(pf){
+  const noite = escuroAgora();
+  return `<section class="card painel"><div class="perfhd"><span class="avp">${pf.foto?`<img src="${pf.foto}" alt="">`:esc(pf.nome[0])}</span><div style="flex:1"><span class="selo">IBGE 2027</span><div style="font:700 22px 'Barlow Condensed'">${esc(pf.nome)}</div></div><button class="x" data-painel="" aria-label="Fechar">×</button></div>
+  <div class="menu"><div class="lbl">SEUS CONTEÚDOS</div>
+  <button data-go="concursos"><span class="ico" style="--c:var(--pt)">${MI.conc}</span>Meus concursos</button>
+  <button data-tab="prova"><span class="ico" style="--c:var(--ct)">${MI.ajus}</span>Ritmo, pausas e backup</button>
+  <div class="lbl">SUAS PREFERÊNCIAS</div>
+  <button id="modoNoite" role="switch" aria-checked="${noite}"><span class="ico" style="--c:var(--qs)">${MI.lua}</span>Modo noturno<span class="sw${noite?' on':''}"></span></button>
+  <button data-tema="auto" aria-pressed="${S.tema==='auto'}"><span class="ico" style="--c:var(--mut)">${MI.cel}</span>Seguir o aparelho${S.tema==='auto'?'<span class="muted" style="margin-left:auto">ativo</span>':''}</button>
+  <button data-tab="prova" data-alvo="pin"><span class="ico" style="--c:var(--mt)">${MI.cad}</span>${pf.pin?'PIN ativo · trocar ou remover':'Criar PIN'}</button>
+  <div class="lbl">CONTA</div>
+  <button data-go="perfis"><span class="ico" style="--c:var(--fx)">${MI.troca}</span>Trocar perfil</button></div></section>`;
+}
 function painelAvisos(av,pf){
   return `<section class="card painel"><div class="ph"><h2>Avisos</h2><button class="x" data-painel="" aria-label="Fechar">×</button></div>
     ${av.length ? av.map(a => `<div class="av-it${(pf.lidos||[]).includes(a.id)?'':' novo'}">${a.txt}</div>`).join('') + '<button class="mini-btn" id="lerTodos" style="margin-top:10px">Marcar todos como lidos</button>' : '<p class="muted" style="margin:0">Nenhum aviso por enquanto. Os prazos do edital aparecem aqui quando estiverem perto.</p>'}</section>`;
@@ -538,12 +585,12 @@ function header(c,p){
   const n = diasAte(c.data);
   const cont = n > 0 ? `<b>${n}</b><span>dias até a prova<br>${fmt(c.data)} · ${esc(c.hora||'')}</span>` : n === 0 ? `<b>Hoje!</b><span>Boa prova! ${esc(c.hora||'')}</span>` : `<b>✓</b><span>Prova realizada em ${fmt(c.data)}</span>`;
   const pc = pct(c,p);
-  const bar = c === IBGE ? porMat(p).map(x => `<i style="width:${100*x.f/EDITAL.length}%;background:${MAT[x.m].cor}"></i>`).join('') : `<i style="width:${pc}%;background:var(--sun)"></i>`;
+  const bar = c === IBGE ? porMat(p).map(x => `<i style="width:${100*x.f/EDITAL.length}%;background:${MAT[x.m].cor}"></i>`).join('') : `<i style="width:${pc}%;background:var(--g)"></i>`;
   let acts = '';
   if(c === IBGE){
     const pf = S.perfis.find(x => x.id === V.perfil), {sq, pl} = seqAtual(p), av = avisos(c,p,sq,pl), nl = av.filter(a => !(pf.lidos||[]).includes(a.id)).length;
     HDR = {sq, pl, av};
-    acts = `<div class="acts"><button class="chipf${sq.hojeOk?' on':''}" data-painel="fogo" aria-label="Sequência de ${sq.s} dias">${FOGO(sq.hojeOk)}<span>${sq.s} ${sq.s===1?'dia':'dias'}</span></button><button class="sino" data-painel="avisos" aria-label="Avisos${nl?': '+nl+' novos':''}">${SINO}${nl?`<i>${nl}</i>`:''}</button><button class="avp" data-go="concursos" aria-label="Perfil">${pf.foto?`<img src="${pf.foto}" alt="">`:esc(pf.nome[0])}</button></div>`;
+    acts = `<div class="acts"><button class="chipf${sq.hojeOk?' on':''}" data-painel="fogo" aria-label="Sequência de ${sq.s} dias">${FOGO(sq.hojeOk)}<span>${sq.s} ${sq.s===1?'dia':'dias'}</span></button><button class="sino" data-painel="avisos" aria-label="Avisos${nl?': '+nl+' novos':''}">${SINO}${nl?`<i>${nl}</i>`:''}</button><button class="avp" data-painel="perfil" aria-label="Menu do perfil">${pf.foto?`<img src="${pf.foto}" alt="">`:esc(pf.nome[0])}</button></div>`;
   }
   return `<header class="top">${TOPO}<div class="wrap"><div class="toprow"><button class="back" data-go="concursos">‹ Meus concursos</button>${acts}</div><small>${esc(c.cargo||'')}</small><h1>${esc(c.nome)}</h1><div class="count">${cont}</div><div class="bar" role="progressbar" aria-valuenow="${pc}" aria-label="Edital concluído">${bar}</div><small style="margin-top:6px">${pc}% do edital concluído</small></div></header>`;
 }
@@ -784,7 +831,7 @@ function render(){
   if(!tabs.some(t => t[0]===V.tab)) V.tab = tabs[0][0];
   HDR = null;
   const hd = header(conc,p);
-  const pn = HDR && V.painel === 'fogo' ? painelFogo(p,HDR.sq) : HDR && V.painel === 'avisos' ? painelAvisos(HDR.av, perfil) : '';
+  const pn = HDR && V.painel === 'fogo' ? painelFogo(p,HDR.sq) : HDR && V.painel === 'avisos' ? painelAvisos(HDR.av, perfil) : HDR && V.painel === 'perfil' ? painelPerfil(perfil) : '';
   const body = {hoje:vHoje, semana:vSemana, apostila:vApostila, edital:vEdital, prova:vProva}[V.tab](conc,p);
   app.innerHTML = hd + `<main class="wrap${V.tab==='apostila'?' wide':''}">${pn}${body}</main><nav class="tabs" aria-label="Seções"><div class="wrap" style="grid-template-columns:repeat(${tabs.length},minmax(0,1fr))">${tabs.map(([k,l,ic]) => `<button data-tab="${k}" aria-current="${V.tab===k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${l}</button>`).join('')}</div></nav>`;
 }
@@ -797,9 +844,9 @@ document.addEventListener('click', e => {
   const b = e.target.closest('button'); if(!b) return;
   const d = b.dataset;
   if(d.perfil){V = {...V, view:'concursos', perfil:d.perfil}; render(); scrollTo(0,0)}
-  else if(d.go){V.view = d.go; if(d.go === 'perfis') V.pinOk = null; render(); scrollTo(0,0)}
+  else if(d.go){V.painel = ''; V.view = d.go; if(d.go === 'perfis') V.pinOk = null; render(); scrollTo(0,0)}
   else if(d.conc){V = {...V, view:'conc', conc:d.conc, tab:d.conc===IBGE.id?'hoje':'edital', semana:0, mes:0, dia:null}; render(); scrollTo(0,0)}
-  else if(d.tab){V.tab = d.tab; V.semana = 0; V.mes = 0; V.pl = null; render(); scrollTo(0,0)}
+  else if(d.tab){V.painel = ''; V.tab = d.tab; V.semana = 0; V.mes = 0; V.pl = null; render(); scrollTo(0,0)}
   else if(d.modo){V.modo = d.modo; V.dia = V.dia || hoje(); keep()}
   else if(d.sem !== undefined){V.semana = d.sem === '0' ? 0 : V.semana + Number(d.sem); keep()}
   else if(d.mes !== undefined){V.mes += Number(d.mes); keep()}
@@ -812,6 +859,7 @@ document.addEventListener('click', e => {
   else if(d.rit !== undefined){const p = PP(), w = Number(d.rit); p.ritmo[w] = Math.max(0, Math.min(5, (p.ritmo[w]||0) + Number(d.d))); save(); keep()}
   else if(d.rmp !== undefined){const p = PP(); p.pausas.splice(Number(d.rmp),1); save(); toast('Pausa removida'); keep()}
   else if(d.tema){S.tema = d.tema; save(); keep()}
+  else if(b.id === 'modoNoite'){S.tema = escuroAgora() ? 'claro' : 'escuro'; save(); keep()}
   else if(d.del){if(b.dataset.sure){const pf = S.perfis.find(x => x.id===V.perfil); pf.concursos = pf.concursos.filter(x => x!==d.del); save(); V.view = 'concursos'; render()} else {b.dataset.sure = 1; b.textContent = 'Toque de novo para confirmar'}}
   else if(d.painel !== undefined){V.painel = V.painel === d.painel ? '' : d.painel; render(); scrollTo(0,0)}
   else if(d.fecha){FECHADOS.add(d.fecha); keep()}
