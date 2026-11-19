@@ -156,6 +156,46 @@ textarea{min-height:90px}
 a{color:inherit}
 .foot{text-align:center;font-size:12px;color:var(--mut);margin-top:8px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+.wrap.wide{max-width:1000px}
+.grp{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--mut);margin:14px 0 2px}
+.grp:first-of-type{margin-top:4px}
+.grp svg{width:18px;height:18px;flex:none}
+.sub{display:block;font-size:13px;color:var(--mut);margin-top:2px}
+.mini-btn{display:inline-flex;align-items:center;min-height:34px;padding:0 10px;margin-top:6px;margin-right:6px;border-radius:8px;border:1px solid var(--line);background:var(--bg);font-size:13px;font-weight:600;color:var(--ink)}
+.mini-btn.ok{border-color:var(--ct);color:var(--ct)}
+.plf{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px;font-size:14px}
+.plf input{width:64px;font-size:16px;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.fire{display:flex;align-items:center;gap:14px}
+.fire svg{width:46px;height:46px;flex:none}
+.fire b{font:700 34px/1 "Barlow Condensed"}
+.fire .muted{display:block;margin-top:2px}
+.prev{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.prev svg{width:22px;height:22px;flex:none;margin-top:1px}
+.adi{width:100%;margin-top:6px;flex-direction:column;gap:0;padding:8px 18px;min-height:52px}
+.adi small{font-weight:500;opacity:.85;font-size:13px}
+.stepper{display:grid;grid-template-columns:4.5em 44px 2.2em 44px minmax(0,1fr);align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line)}
+.stepper:first-of-type{border-top:0}
+.stepper b{text-align:center;font:700 20px "Barlow Condensed"}
+.stepper button{min-height:40px;border-radius:10px;border:1px solid var(--line);background:var(--bg);font-weight:700;font-size:20px}
+.stepper span.muted{font-size:13px}
+.pdfbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.pdfbar .pg{font-weight:700;font-size:16px}
+.pdfwrap{overflow:auto;border-radius:10px;background:var(--rest);min-height:300px;display:flex;justify-content:center;align-items:flex-start;touch-action:pan-y pinch-zoom}
+.pdfwrap canvas{display:block;background:#fff;max-width:none}
+.toc{display:grid;gap:2px;margin-top:8px}
+.toc button{display:flex;justify-content:space-between;gap:10px;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:10px 2px;min-height:44px;font-size:15px}
+.toc button.here{color:var(--ct);font-weight:700}
+details summary{cursor:pointer;font-weight:700;min-height:32px}
+.segt{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:var(--g2);border-radius:12px;padding:4px}
+.segt button{min-height:40px;border:0;border-radius:9px;background:transparent;font-weight:700;color:var(--mut)}
+.segt button[aria-pressed=true]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.perf div{display:grid;grid-template-columns:8em minmax(0,1fr) 3.2em;gap:10px;align-items:center;font-size:14px;margin-top:8px}
+.perf i{display:block;height:12px;border-radius:4px;background:var(--c)}
+.perf .track{background:var(--rest);border-radius:4px;overflow:hidden}
+.perf b{text-align:right}
+.pinbox{max-width:320px;margin:0 auto;text-align:center}
+.pinbox input{font-size:28px;letter-spacing:.5em;text-align:center;width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.err{color:var(--fx);font-size:14px;min-height:20px;margin-top:6px}
 </style>
 </head>
 <body>
@@ -163,7 +203,7 @@ a{color:inherit}
 <div class="toast" id="toast" role="status"></div>
 <script>
 {
-const VERSAO = '2.1.0';
+const VERSAO = '3.0.0';
 /* ---------- Dados do concurso (Edital IBGE nº 03/2026 + apostila do 12º Censo Agro) ---------- */
 const IBGE = {
   id:'ibge2027', nome:'IBGE 2027', cargo:'Recenseador (REC)', banca:'Fundação Cesgranrio',
@@ -178,112 +218,130 @@ const IBGE = {
     ['2027-01-26','Sai o Cartão de Confirmação de Inscrição (CCI) com o local da prova'],['2027-01-31','Prova objetiva, 13h às 17h',1],
     ['2027-02-01','Gabarito preliminar'],['2027-03-05','Resultado preliminar'],['2027-04-30','Resultado final']]
 };
+/* tipos de assunto: aq = videoaula + questões · a = videoaula · q = questões · lq = leitura + questões · l = leitura */
 const MAT = {
   pt:{nome:'Português', cor:'var(--pt)', itens:[
-    ['Ortografia oficial','Gran: aulas 1 a 4 — Ortografia e Acentuação'],
-    ['Acentuação gráfica','Gran: aulas 1 a 4 — Ortografia e Acentuação'],
-    ['Classes de palavras I: substantivo, adjetivo, artigo e numeral','Gran: aulas de Morfologia (a partir da aula 10)'],
-    ['Classes de palavras II: advérbio, preposição, conjunção e interjeição','Gran: aulas de Morfologia; Cesgranrio na prática, aulas 13 e 14 (conjunções)'],
-    ['Emprego dos verbos regulares e irregulares','Gran: aulas de Morfologia (verbo)'],
-    ['Vozes dos verbos (ativa, passiva e reflexiva)','Gran: Cesgranrio na prática, aula 17 — Vozes Verbais'],
-    ['Emprego dos pronomes: pessoais, de tratamento, possessivos e demonstrativos','Gran: aulas de Morfologia (pronomes)'],
-    ['Pronomes relativos e colocação pronominal','Gran: Cesgranrio na prática, aulas 12, 15 e 16'],
-    ['Base: termos da oração e predicação verbal','Gran: aulas de Sintaxe, Predicação Verbal (até a 22) e Termos Ligados ao Nome (23 a 25)'],
-    ['Base: período composto, orações substantivas e adjetivas','Gran: aulas 27 a 36'],
-    ['Concordância verbal','Gran: Cesgranrio na prática, aulas 18 e 19 — Concordância'],
-    ['Concordância nominal','Gran: Cesgranrio na prática, aulas 18 e 19 — Concordância'],
-    ['Regência verbal','Gran: aulas de Regência'],
-    ['Regência nominal','Gran: aulas de Regência'],
-    ['Pontuação: uso da vírgula','Gran: aulas de Pontuação'],
-    ['Pontuação: demais sinais; estrutura e sequência lógica de frases e parágrafos','Gran: aulas de Pontuação'],
-    ['Significação das palavras: sinônimos, antônimos e homônimos','Gran: aulas de Semântica'],
-    ['Compreensão de texto','Gran: Cesgranrio na prática, aulas 20 a 22 — Interpretação de Texto']],
+    ['Ortografia oficial','Gran: aulas 1 a 4 — Ortografia e Acentuação','aq'],
+    ['Acentuação gráfica','Gran: aulas 1 a 4 — Ortografia e Acentuação','aq'],
+    ['Classes de palavras I: substantivo, adjetivo, artigo e numeral','Gran: aulas de Morfologia (a partir da aula 10)','aq'],
+    ['Classes de palavras II: advérbio, preposição, conjunção e interjeição','Gran: aulas de Morfologia; Cesgranrio na prática, aulas 13 e 14','aq'],
+    ['Emprego dos verbos regulares e irregulares','Gran: aulas de Morfologia (verbo)','aq'],
+    ['Vozes dos verbos (ativa, passiva e reflexiva)','Gran: Cesgranrio na prática, aula 17 — Vozes Verbais','aq'],
+    ['Emprego dos pronomes: pessoais, de tratamento, possessivos e demonstrativos','Gran: aulas de Morfologia (pronomes)','aq'],
+    ['Pronomes relativos e colocação pronominal','Gran: Cesgranrio na prática, aulas 12, 15 e 16','aq'],
+    ['Base: termos da oração e predicação verbal','Gran: Sintaxe, Predicação Verbal (até a aula 22) e Termos Ligados ao Nome (23 a 25)','aq'],
+    ['Base: período composto, orações substantivas e adjetivas','Gran: aulas 27 a 36','aq'],
+    ['Concordância verbal','Gran: Cesgranrio na prática, aulas 18 e 19 — Concordância','aq'],
+    ['Concordância nominal','Gran: Cesgranrio na prática, aulas 18 e 19 — Concordância','aq'],
+    ['Regência verbal','Gran: aulas de Regência','aq'],
+    ['Regência nominal','Gran: aulas de Regência','aq'],
+    ['Pontuação: uso da vírgula','Gran: aulas de Pontuação','aq'],
+    ['Pontuação: demais sinais; estrutura e sequência lógica de frases e parágrafos','Gran: aulas de Pontuação','aq'],
+    ['Significação das palavras: sinônimos, antônimos e homônimos','Gran: aulas de Semântica','aq'],
+    ['Compreensão de texto','Gran: Cesgranrio na prática, aulas 20 a 22 — Interpretação de Texto','aq']],
     rev:['Questões de ortografia e acentuação','Flashcards: regras de acentuação e ortografia','Questões de classes de palavras e pronomes',
       'Questões de concordância','Questões de regência','Releitura dos resumos: verbos e vozes verbais','Questões de pontuação',
       'Questões de interpretação de texto (provas Cesgranrio)']},
   mt:{nome:'Matemática', cor:'var(--mt)', itens:[
-    ['Números naturais: operações e propriedades','Gran: aulas 1 a 9 — Introdução à Matemática Básica'],
-    ['Números inteiros e racionais: operações e propriedades','Gran: aulas 1 a 9 — Introdução à Matemática Básica'],
-    ['Frações e números decimais','Gran: Introdução à Matemática Básica'],
-    ['Múltiplos e divisores (MMC e MDC)','Gran: aulas 10 e 11 — MDC e MMC'],
-    ['Problemas com naturais, inteiros e racionais','Gran: caderno de questões'],
-    ['Equações do 1º grau','Gran: aula 12 — Equação do 1º grau'],
-    ['Problemas com equações do 1º grau','Gran: aulas 14 a 17 — Sistemas (ajudam nos problemas)'],
-    ['Razão e proporção','Gran: aula 19 — Razão e proporção'],
-    ['Divisão proporcional','Gran: aula 20 — Divisão proporcional'],
-    ['Regra de três simples','Gran: aulas de Regra de três'],
-    ['Porcentagem I: conceito e cálculo','Gran: aulas de Porcentagem'],
-    ['Porcentagem II: aumentos, descontos e problemas','Gran: aulas de Porcentagem'],
-    ['Medidas de comprimento e superfície; conversões','Gran: aulas 52 a 55 — Sistemas de Unidades de Medidas'],
-    ['Medidas de volume, massa e tempo; sistema métrico decimal','Gran: aulas 52 a 55 — Sistemas de Unidades de Medidas'],
-    ['Áreas e perímetros','Gran: aulas de Geometria Plana'],
-    ['Volumes','Gran: aulas 56 a 63 — Geometria Espacial'],
-    ['Tabelas, gráficos e quadros informativos','Gran: aulas de Tabelas e Gráficos'],
-    ['Mapas, croquis, esquemas e representações gráficas','Gran: Conhecimentos Técnicos, aulas 1 a 3 (Cartografia) ajudam aqui']],
+    ['Números naturais: operações e propriedades','Gran: aulas 1 a 9 — Introdução à Matemática Básica','aq'],
+    ['Números inteiros e racionais: operações e propriedades','Gran: aulas 1 a 9 — Introdução à Matemática Básica','aq'],
+    ['Frações e números decimais','Gran: Introdução à Matemática Básica','aq'],
+    ['Múltiplos e divisores (MMC e MDC)','Gran: aulas 10 e 11 — MDC e MMC','aq'],
+    ['Problemas com naturais, inteiros e racionais','Gran: caderno de questões','q'],
+    ['Equações do 1º grau','Gran: aula 12 — Equação do 1º grau','aq'],
+    ['Problemas com equações do 1º grau','Gran: aulas 14 a 17 — Sistemas (ajudam nos problemas)','aq'],
+    ['Razão e proporção','Gran: aula 19 — Razão e proporção','aq'],
+    ['Divisão proporcional','Gran: aula 20 — Divisão proporcional','aq'],
+    ['Regra de três simples','Gran: aulas de Regra de três','aq'],
+    ['Porcentagem I: conceito e cálculo','Gran: aulas de Porcentagem','aq'],
+    ['Porcentagem II: aumentos, descontos e problemas','Gran: aulas de Porcentagem','aq'],
+    ['Medidas de comprimento e superfície; conversões','Gran: aulas 52 a 55 — Sistemas de Unidades de Medidas','aq'],
+    ['Medidas de volume, massa e tempo; sistema métrico decimal','Gran: aulas 52 a 55 — Sistemas de Unidades de Medidas','aq'],
+    ['Áreas e perímetros','Gran: aulas de Geometria Plana','aq'],
+    ['Volumes','Gran: aulas 56 a 63 — Geometria Espacial','aq'],
+    ['Tabelas, gráficos e quadros informativos','Gran: aulas de Tabelas e Gráficos','aq'],
+    ['Mapas, croquis, esquemas e representações gráficas','Gran: Conhecimentos Técnicos, aulas 1 a 3 (Cartografia) ajudam aqui','aq']],
     rev:['Questões de porcentagem e regra de três','Questões de razão, proporção e divisão proporcional','Flashcards: conversão de medidas',
       'Questões de áreas, perímetros e volumes','Questões de equações do 1º grau','Questões de tabelas e gráficos','Questões de operações, MMC e MDC']},
   ct:{nome:'Conhecimentos Técnicos', cor:'var(--ct)', itens:[
-    ['Gran aula 1: Introdução aos Conceitos Básicos de Cartografia e Interpretação de Mapas','Videoaula'],
-    ['Gran aula 2: Conceitos Básicos de Cartografia e Interpretação de Mapas II','Videoaula'],
-    ['Gran aula 3: Conceitos Básicos de Cartografia e Interpretação de Mapas III','Videoaula'],
-    ['Apostila: Apresentação, o IBGE e o Censo Agropecuário, Florestal e Aquícola','Apostila, p. 3 a 7'],
-    ['Apostila: O 12º Censo Agropecuário, Florestal e Aquícola','Apostila, p. 8 a 10'],
-    ['Gran aula 4: Estudo dos conhecimentos técnicos do 12º Censo (parte 1)','Videoaula'],
-    ['Apostila: Estrutura Organizacional Censitária','Apostila, p. 11 a 19 — funções do ACR, ACS e Recenseador'],
-    ['Apostila: Instrumentos de trabalho','Apostila, p. 20 a 22'],
-    ['Gran aula 5: Estudo dos conhecimentos técnicos do 12º Censo (parte 2)','Videoaula'],
-    ['Apostila: Orientações de navegação para o trabalho em campo','Apostila, p. 23 a 31'],
-    ['Apostila: Divisão político-administrativa do Brasil','Apostila, p. 32 a 34'],
-    ['Gran aula 6: Estudo dos conhecimentos técnicos do 12º Censo (parte 3)','Videoaula'],
-    ['Apostila: Estruturas Territoriais e Estruturas territoriais de Povos e Comunidades Tradicionais (PCTs)','Apostila, p. 35 a 42'],
-    ['Apostila: Endereço','Apostila, p. 43 a 47'],
-    ['Apostila: Coordenadas Geográficas','Apostila, p. 48 a 50'],
-    ['Gran aula 7: Estudo dos conhecimentos técnicos do 12º Censo (parte 4)','Videoaula'],
-    ['Apostila: Estabelecimento Agropecuário','Apostila, p. 51 a 56'],
-    ['Apostila: Produtores sem área','Apostila, p. 57 e 58'],
-    ['Apostila: Situações especiais e Encerramento','Apostila, p. 59 a 68'],
-    ['Gran aula 8: Estudo dos conhecimentos técnicos do 12º Censo (parte 5)','Videoaula'],
-    ['Resumo da apostila inteira: conceitos, siglas e definições','Monte flashcards com o que mais confunde'],
-    ['Caderno de questões Gran: Conhecimentos Técnicos','Questões']],
+    ['Gran aula 1: Introdução aos Conceitos Básicos de Cartografia e Interpretação de Mapas','Videoaula','a'],
+    ['Gran aula 2: Conceitos Básicos de Cartografia e Interpretação de Mapas II','Videoaula','a'],
+    ['Gran aula 3: Conceitos Básicos de Cartografia e Interpretação de Mapas III','Videoaula','a'],
+    ['Apresentação, o IBGE e o Censo Agropecuário, Florestal e Aquícola','Apostila','lq',3,7],
+    ['O 12º Censo Agropecuário, Florestal e Aquícola','Apostila','lq',8,10],
+    ['Gran aula 4: Estudo dos conhecimentos técnicos do 12º Censo (parte 1)','Videoaula','a'],
+    ['Estrutura Organizacional Censitária','Apostila — funções do ACR, ACS e Recenseador','lq',11,19],
+    ['Instrumentos de trabalho','Apostila','lq',20,22],
+    ['Gran aula 5: Estudo dos conhecimentos técnicos do 12º Censo (parte 2)','Videoaula','a'],
+    ['Orientações de navegação para o trabalho em campo','Apostila','lq',23,31],
+    ['Divisão político-administrativa do Brasil','Apostila','lq',32,34],
+    ['Gran aula 6: Estudo dos conhecimentos técnicos do 12º Censo (parte 3)','Videoaula','a'],
+    ['Estruturas Territoriais e territórios de Povos e Comunidades Tradicionais (PCTs)','Apostila','lq',35,42],
+    ['Endereço','Apostila','lq',43,47],
+    ['Coordenadas Geográficas','Apostila','lq',48,50],
+    ['Gran aula 7: Estudo dos conhecimentos técnicos do 12º Censo (parte 4)','Videoaula','a'],
+    ['Estabelecimento Agropecuário','Apostila','lq',51,56],
+    ['Produtores sem área','Apostila','lq',57,58],
+    ['Situações especiais e Encerramento','Apostila','lq',59,68],
+    ['Gran aula 8: Estudo dos conhecimentos técnicos do 12º Censo (parte 5)','Videoaula','a'],
+    ['Resumo da apostila inteira: conceitos, siglas e definições','Monte flashcards com o que mais confunde','l'],
+    ['Caderno de questões Gran: Conhecimentos Técnicos','Questões','q']],
     rev:['Flashcards: siglas e funções da estrutura censitária','Releitura dos trechos marcados da apostila','Questões de Conhecimentos Técnicos',
       'Releitura dos resumos: estabelecimento agropecuário, produtores sem área e situações especiais','Questões: endereço, coordenadas e estruturas territoriais']},
   qs:{nome:'Questões', cor:'var(--qs)', itens:[
-    ['Gran: Resolução de prova Cesgranrio — CEF 2026 (partes I e II)','Português, aulas 1 e 2 do tópico de provas'],
-    ['Gran: Resolução de prova Cesgranrio — BNDES 2024 (partes I e II)','Português, aulas 3 e 4 do tópico de provas'],
-    ['Gran: Resolução de prova Cesgranrio — Banese 2025 (partes I e II)','Português, aulas 5 e 6 do tópico de provas'],
-    ['Gran: Cesgranrio na prática — pronome relativo e conjunções','Aulas 12 a 14'],
-    ['Gran: Cesgranrio na prática — conjunções e colocação pronominal','Aulas 15 e 16'],
-    ['Gran: Cesgranrio na prática — vozes verbais e concordância','Aulas 17 a 19'],
-    ['Gran: Cesgranrio na prática — interpretação de texto','Aulas 20 a 22'],
-    ['Caderno de questões: 30 questões de Português e Matemática','Gran'],
-    ['Caderno de questões: 30 questões de Conhecimentos Técnicos','Gran']],
+    ['Gran: Resolução de prova Cesgranrio — CEF 2026 (partes I e II)','Português, aulas 1 e 2 do tópico de provas','a'],
+    ['Gran: Resolução de prova Cesgranrio — BNDES 2024 (partes I e II)','Português, aulas 3 e 4 do tópico de provas','a'],
+    ['Gran: Resolução de prova Cesgranrio — Banese 2025 (partes I e II)','Português, aulas 5 e 6 do tópico de provas','a'],
+    ['Gran: Cesgranrio na prática — pronome relativo e conjunções','Aulas 12 a 14','a'],
+    ['Gran: Cesgranrio na prática — conjunções e colocação pronominal','Aulas 15 e 16','a'],
+    ['Gran: Cesgranrio na prática — vozes verbais e concordância','Aulas 17 a 19','a'],
+    ['Gran: Cesgranrio na prática — interpretação de texto','Aulas 20 a 22','a'],
+    ['Caderno de questões: 30 questões de Português e Matemática','Gran','q'],
+    ['Caderno de questões: 30 questões de Conhecimentos Técnicos','Gran','q']],
     rev:['Caderno de questões: 30 questões misturadas das três matérias','Refazer as questões que errou nas últimas semanas']}
 };
-const PAT = {1:['ct','pt'],2:['mt','ct'],3:['pt','ct'],4:['mt','ct'],5:['pt','mt'],6:['qs','rv'],0:['ct','qs']};
-const FINAL = [
-  ['2027-01-25','pt','Revisão final: concordância, regência, pontuação e pronomes + 20 questões'],
-  ['2027-01-26','mt','Revisão final: porcentagem, regra de três, medidas, áreas e volumes + 20 questões'],
-  ['2027-01-26','fx','Baixar o Cartão de Confirmação (CCI) no site da Cesgranrio e ver o local e o horário do portão'],
-  ['2027-01-27','ct','Revisão final: resumos e flashcards da apostila e mapas'],
-  ['2027-01-28','fx','Simulado completo: 60 questões em 4 horas (30 CT, 15 Português, 15 Matemática)'],
-  ['2027-01-29','fx','Corrigir o simulado e revisar os erros'],
-  ['2027-01-30','rv','Dia leve: revisão rápida de CT e separar documento original com foto, comprovante de inscrição e caneta azul ou preta de corpo transparente']
-];
+const SUM = [['Apresentação',3],['O Instituto Brasileiro de Geografia e Estatística',4],['O Censo Agropecuário, Florestal e Aquícola',6],['O 12º Censo Agropecuário, Florestal e Aquícola',8],
+  ['Estrutura Organizacional Censitária',11],['Instrumentos de trabalho',20],['Orientações de navegação para o trabalho em campo',23],['Divisão político-administrativa do Brasil',32],
+  ['Estruturas Territoriais',35],['Estruturas territoriais de Povos e Comunidades Tradicionais (PCTs)',39],['Endereço',43],['Coordenadas Geográficas',48],
+  ['Estabelecimento Agropecuário',51],['Produtores sem área',57],['Situações especiais',59],['Encerramento',67]];
+const AP_PAGS = 68;
+const STEPS = {aq:['a','q'], a:['a'], q:['q'], lq:['l','q'], l:['l'], x:['f']};
+const STEPNOME = {a:'Videoaula', q:'Questões', l:'Leitura', f:'Tarefa'};
+const ROT = ['ct','pt','ct','mt','pt','ct','mt','qs'];
+const REVROT = ['ct','pt','mt','ct','qs','pt','mt'];
+/* fila de conteúdo: matérias intercaladas, CT com mais peso (vale metade da prova) */
+const QC = (() => {const ptr = {pt:0,mt:0,ct:0,qs:0}, out = []; let ok = true;
+  while(ok){ok = false; for(const m of ROT){const it = MAT[m].itens[ptr[m]]; if(!it) continue; ok = true;
+    out.push({id:m+'-'+ptr[m], m, t:it[0], g:it[1], k:it[2], pg:it[3] ? [it[3],it[4]] : null}); ptr[m]++}}
+  return out})();
+const QR = (() => {const rk = {pt:0,mt:0,ct:0,qs:0}, out = [];
+  for(let i = 0; i < 220; i++){const m = REVROT[i % REVROT.length], k = rk[m]++, t = MAT[m].rev[k % MAT[m].rev.length];
+    out.push({id:m+'-r'+k, m, t:'Revisão: '+t, k:/^(Flashcards|Releitura)/.test(t) ? 'l' : 'q', rev:1})}
+  return out})();
+const FT = {pt:['Revisão final de Português: concordância, regência, pontuação e pronomes + 20 questões','q'],
+  mt:['Revisão final de Matemática: porcentagem, regra de três, medidas, áreas e volumes + 20 questões','q'],
+  ct:['Revisão final de Conhecimentos Técnicos: resumos, flashcards e trechos marcados da apostila','lq']};
+const FIXOS = [['2027-01-26','fx-cci','Baixar o Cartão de Confirmação (CCI) no site da Cesgranrio e ver o local e o horário do portão'],
+  ['2027-01-28','fx-sim','Simulado completo: 60 questões em 4 horas (30 CT, 15 Português, 15 Matemática)'],
+  ['2027-01-29','fx-cor','Corrigir o simulado e revisar os erros'],
+  ['2027-01-30','fx-ves','Dia leve: revisão rápida e separar documento original com foto, comprovante de inscrição e caneta azul ou preta de corpo transparente']];
 const TAGS = {pt:'Português',mt:'Matemática',ct:'Conh. Técnicos',qs:'Questões',rv:'Revisão',fx:'Reta final'};
 const COR = m => MAT[m]?.cor || (m==='fx' ? 'var(--fx)' : 'var(--rv)');
 const DIAS = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 const DIASL = ['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
 const MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const SUBJ = ['ct','pt','mt'];
+const EDITAL = QC.filter(a => a.m !== 'qs');
 
 /* ---------- Estado ---------- */
 const KEY = 'cronograma-estudos-v1';
-const base = () => ({v:2, perfis:[{id:'beatriz',nome:'Beatriz',concursos:['ibge2027']}], extras:{}, prog:{}});
+const base = () => ({v:3, perfis:[], extras:{}, prog:{}, tema:'auto'});
 let S; try{S = JSON.parse(localStorage.getItem(KEY)) || base()}catch(e){S = base()}
-const save = () => {try{localStorage.setItem(KEY, JSON.stringify(S))}catch(e){}};
-let V = {view:'perfis', perfil:null, conc:null, tab:'hoje', semana:0, modo:'semana', mes:0, dia:null};
-try{const l = JSON.parse(sessionStorage.getItem(KEY+'-v')); if(l) V = {...V, ...l}}catch(e){}
+if(!S.tema) S.tema = 'auto';
+const save = () => {try{localStorage.setItem(KEY, JSON.stringify(S))}catch(e){toast('Não deu para salvar neste aparelho')}};
+let V = {view:'perfis', perfil:null, conc:null, tab:'hoje', semana:0, modo:'semana', mes:0, dia:null, pl:null, pinOk:null, apPag:null, pinEdit:false};
+try{const l = JSON.parse(sessionStorage.getItem(KEY+'-v')); if(l) V = {...V, ...l, pl:null, pinEdit:false}}catch(e){}
 
-const P = (pid,cid) => {const k = pid+'|'+cid; if(!S.prog[k]) S.prog[k] = {done:{}, dias:[1,2,3,4,5,6], feriados:true, inicio:IBGE.inicio, pausas:[]}; if(!S.prog[k].pausas) S.prog[k].pausas = []; return S.prog[k]};
 const pad = n => String(n).padStart(2,'0');
 const iso = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 const parse = s => {const [y,m,d] = s.split('-').map(Number); return new Date(y,m-1,d)};
@@ -293,99 +351,173 @@ const fmt = s => {const d = parse(s); return DIAS[d.getDay()]+', '+pad(d.getDate
 const dm = s => s.slice(8)+'/'+s.slice(5,7);
 const diasAte = s => Math.round((parse(s) - parse(hoje()))/864e5);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const cap = s => s[0].toUpperCase()+s.slice(1);
+const cap1 = s => s[0].toUpperCase()+s.slice(1);
+const hashPin = (pin,id) => {let h = 5381; for(const c of id+'|'+pin) h = ((h<<5)+h+c.charCodeAt(0))|0; return (h>>>0).toString(36)};
 
-/* ---------- Gera o cronograma ---------- */
-function plano(p){
-  const ptr = {pt:0,mt:0,ct:0,qs:0}, rk = {pt:0,mt:0,ct:0,qs:0}, out = {};
-  const next = m => {
-    const M = MAT[m];
-    if(ptr[m] < M.itens.length){const i = ptr[m]++; return {id:m+'-'+i, m, t:M.itens[i][0], g:M.itens[i][1]}}
-    const k = rk[m]++; return {id:m+'-r'+k, m:m==='qs'?'qs':m, t:'Revisão: '+M.rev[k % M.rev.length], rev:1};
-  };
-  const fer = new Set(p.feriados ? IBGE.feriados : []);
-  const pausado = d => p.pausas.some(x => d >= x.de && d <= x.ate);
-  for(let d = p.inicio || IBGE.inicio; d <= IBGE.fimConteudo; d = addD(d,1)){
-    const w = parse(d).getDay();
-    if(!p.dias.includes(w) || fer.has(d) || pausado(d)) continue;
-    out[d] = PAT[w].map(m => m === 'rv' ? {id:'rv-'+d, m:'rv', t:'Revisão da semana: refazer os erros e reler os resumos', rev:1} : next(m));
-  }
-  FINAL.forEach(([d,m,t],i) => (out[d] = out[d] || []).push({id:'fx-'+i, m, t}));
-  out[IBGE.data] = [{id:'prova', m:'fx', t:'DIA DA PROVA: 13h, Catolé do Rocha. Chegue cedo!'}];
+function P(pid,cid){
+  const k = pid+'|'+cid;
+  if(!S.prog[k]) S.prog[k] = {done:{}, inicio:IBGE.inicio, feriados:true, pausas:[], extra:{}, placar:{}, perdao:[], recorde:0};
+  const p = S.prog[k];
+  p.pausas = p.pausas || []; p.extra = p.extra || {}; p.placar = p.placar || {}; p.perdao = p.perdao || []; p.recorde = p.recorde || 0;
+  if(!p.ritmo){p.ritmo = {0:0,1:1,2:1,3:1,4:1,5:1,6:3}; if(p.dias) for(let w = 0; w < 7; w++) if(!p.dias.includes(w)) p.ritmo[w] = 0; delete p.dias}
+  /* migração da v2: assunto marcado inteiro vira todas as etapas marcadas */
+  if(cid === IBGE.id) for(const a of [...QC,...QR]) if(p.done[a.id] && typeof p.done[a.id] === 'string'){for(const s of STEPS[a.k]) p.done[a.id+':'+s] = p.done[a.id]; delete p.done[a.id]}
+  return p;
+}
+
+/* ---------- Etapas e fila ---------- */
+const sd = (p,a,s) => p.done[a.id+':'+s];
+const aDone = (p,a) => {let mx = ''; for(const s of STEPS[a.k]){const d = sd(p,a,s); if(!d) return null; if(d > mx) mx = d} return mx};
+const aPart = (p,a) => STEPS[a.k].filter(s => sd(p,a,s)).length;
+const pausado = (p,d) => p.pausas.some(x => d >= x.de && d <= x.ate);
+const capDia = (p,d) => {const ini = p.inicio || IBGE.inicio; if(d < ini || d > IBGE.fimConteudo || pausado(p,d) || (p.feriados && IBGE.feriados.includes(d))) return 0; return p.ritmo[parse(d).getDay()] || 0};
+const motivoFolga = (p,d) => pausado(p,d) ? 'Pausa' : (p.feriados && IBGE.feriados.includes(d)) ? 'Feriado' : 'Folga';
+
+function placarStats(p){
+  const st = {pt:{a:0,t:0},mt:{a:0,t:0},ct:{a:0,t:0},mx:{a:0,t:0}};
+  for(const r of Object.values(p.placar)){const k = st[r.m] ? r.m : 'mx'; st[k].a += r.a; st[k].t += r.t}
+  return st;
+}
+const pctAc = x => x.t ? Math.round(100*x.a/x.t) : null;
+function fracos(p){const st = placarStats(p); return [...SUBJ].sort((x,y) => {const a = st[x].t >= 5 ? st[x].a/st[x].t : .99, b = st[y].t >= 5 ? st[y].a/st[y].t : .99; return a - b || SUBJ.indexOf(x) - SUBJ.indexOf(y)})}
+function finais(p){
+  const ord = fracos(p), out = [];
+  ord.forEach((m,i) => out.push([addD('2027-01-25',i), {id:'fx-'+m, m, t:FT[m][0], k:FT[m][1], fin:1}]));
+  FIXOS.forEach(([d,id,t]) => out.push([d, {id, m:'fx', t, k:'x', fin:1}]));
+  out.push([IBGE.data, {id:'prova', m:'fx', t:'DIA DA PROVA: 13h, Catolé do Rocha. Chegue cedo!', k:'x', fin:1}]);
   return out;
 }
-const motivoFolga = (p,d) => p.pausas.some(x => d >= x.de && d <= x.ate) ? 'Pausa' : (p.feriados && IBGE.feriados.includes(d)) ? 'Feriado' : 'Folga';
+
+function plano(p){
+  const h = hoje(), out = {}, add = (d,a) => (out[d] = out[d] || []).push(a);
+  const pend = [];
+  for(const a of [...QC,...QR]){const d = aDone(p,a); if(d) add(d,a); else pend.push(a)}
+  let i = 0, fim = null, iHoje = 0;
+  for(let d = h; d <= IBGE.fimConteudo && i < pend.length; d = addD(d,1)){
+    let vagas = capDia(p,d) + (d === h ? (p.extra[h]||0) : 0) - (d === h ? (out[h]||[]).length : 0);
+    while(vagas-- > 0 && i < pend.length){add(d,pend[i]); if(!pend[i].rev) fim = d; i++}
+    if(d === h) iHoje = i;
+  }
+  const sobra = pend.slice(i).filter(a => !a.rev).length;
+  if(!fim){const feitos = QC.map(a => aDone(p,a)).filter(Boolean).sort(); if(!pend.some(a => !a.rev)) fim = feitos[feitos.length-1] || null}
+  for(const [d,a] of finais(p)) add(d,a);
+  return {out, fim, sobra, prox:pend[iHoje] || null};
+}
+
+function sequencia(p,pl){
+  const h = hoje(), ini = p.inicio || IBGE.inicio, act = new Set(Object.values(p.done));
+  const conta = from => {let s = 0, d = from, miss = null;
+    for(let g = 0; g < 500; g++){
+      if(act.has(d)) s++;
+      else if(d < ini) break;
+      else if(capDia(p,d) > 0 && !p.perdao.includes(d)){miss = d; break}
+      d = addD(d,-1);
+    } return {s, miss}};
+  const r = conta(act.has(h) ? h : addD(h,-1));
+  const prev = r.miss ? conta(addD(r.miss,-1)).s : 0;
+  const feitosHoje = (pl.out[h]||[]).filter(a => !a.fin && aDone(p,a) === h).length;
+  const precisa = Math.max(1, capDia(p,h) + 1);
+  return {s:r.s, hojeOk:act.has(h), miss:r.miss, prev, recuperavel: !!(r.miss && prev > 0 && r.miss >= addD(h,-3)), feitosHoje, precisa};
+}
 
 /* ---------- Componentes ---------- */
 const ICK = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+const IC = {
+  casa:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg>',
+  cel:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18h2"/></svg>',
+  task:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 01-2 2H6a2 2 0 01-2-2V5a2 2 0 012-2h9"/></svg>',
+  alvo:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>',
+  aviso:'<svg viewBox="0 0 24 24" fill="none" stroke="var(--fx)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18v.5"/></svg>'
+};
+const FOGO = on => `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4c2 8 12 12 12 24a12 12 0 01-24 0c0-6 3-9 5-11 0 4 2 6 4 7-1-8 2-15 3-20z" fill="${on?'#f08a24':'none'}" stroke="${on?'#d9622b':'var(--mut)'}" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 26c1 4 6 5 6 10a6 6 0 01-12 0c0-3 2-5 3-6 0 2 1 3 2 3 0-3 0-5 1-7z" fill="${on?'#f4c430':'none'}" stroke="${on?'#f4c430':'var(--mut)'}" stroke-width="2" stroke-linejoin="round"/></svg>`;
 const TOPO = '<svg class="topo" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" fill="none" stroke="#fff" stroke-width="1.4">'+
   [0,1,2,3,4,5,6,7].map(i => `<path d="M-20 ${30+i*22} C 60 ${10+i*22}, 120 ${70+i*20}, 200 ${40+i*22} S 340 ${i*24}, 420 ${50+i*20}"/>`).join('')+
   '<circle cx="330" cy="60" r="18"/><circle cx="330" cy="60" r="34"/><circle cx="330" cy="60" r="52"/></svg>';
-const task = (t,done,late) => `<div class="task${done?' ok':''}"><button class="chk" data-t="${t.id}" aria-pressed="${!!done}" aria-label="Marcar como estudado">${ICK}</button><div><span class="tag" style="background:${COR(t.m)}">${TAGS[t.m]}</span>${late?`<span class="tag late">atrasada · ${late}</span>`:''}<span class="tt">${esc(t.t)}</span>${t.g?`<span class="hint">${esc(t.g)}</span>`:''}</div></div>`;
-const concById = id => id === IBGE.id ? IBGE : S.extras[id];
-const SUBJ = ['ct','pt','mt'];
-const topicosEdital = c => c === IBGE ? SUBJ.flatMap(m => MAT[m].itens.map((_,i) => m+'-'+i)) : (c.topicos||[]).map(t => t.id);
-const pct = (c,p) => {const ids = topicosEdital(c); return ids.length ? Math.round(100*ids.filter(i => p.done[i]).length/ids.length) : 0};
-const porMat = p => SUBJ.map(m => {const n = MAT[m].itens.length, f = MAT[m].itens.filter((_,i) => p.done[m+'-'+i]).length; return {m, n, f}});
+const tag = m => `<span class="tag" style="background:${COR(m)}">${TAGS[m]}</span>`;
+const stepTxt = (a,s) => s === 'a' ? 'Assistir à videoaula' : s === 'q' ? (a.k === 'q' ? 'Fazer as questões' : 'Fazer questões do assunto') : s === 'l' ? (a.pg ? `Ler a apostila, p. ${a.pg[0]} a ${a.pg[1]}` : 'Ler e revisar') : 'Feito';
 
-function header(c, p){
+function placarUI(p,a){
+  const key = a.id+':q', r = p.placar[key];
+  if(V.pl === key) return `<form class="plf" id="plForm" data-key="${key}" data-m="${a.m}">Acertei <input type="number" name="a" min="0" inputmode="numeric" value="${r?r.a:''}" required aria-label="Acertos"> de <input type="number" name="t" min="1" inputmode="numeric" value="${r?r.t:''}" required aria-label="Total"><button class="btn sm">Salvar</button></form>`;
+  if(!sd(p,a,'q')) return '';
+  return r ? `<button class="mini-btn ok" data-pl="${key}">${r.a}/${r.t} · ${pctAc(r)}% de acerto</button>` : `<button class="mini-btn" data-pl="${key}">Anotar acertos</button>`;
+}
+function stepRow(p,a,s){
+  const d = sd(p,a,s);
+  const extra = (s === 'l' && a.pg ? `<button class="mini-btn" data-ap="${a.pg[0]}">Abrir na p. ${a.pg[0]}</button>` : '') + (s === 'q' ? placarUI(p,a) : '');
+  return `<div class="task${d?' ok':''}"><button class="chk" data-s="${a.id}:${s}" aria-pressed="${!!d}" aria-label="Marcar ${STEPNOME[s]}">${ICK}</button><div>${tag(a.m)}<span class="tt">${esc(a.t)}</span><span class="sub">${stepTxt(a,s)}${s==='a'&&a.g&&a.g!=='Videoaula'?' · '+esc(a.g):''}</span>${extra}</div></div>`;
+}
+function aRow(p,a){
+  const d = aDone(p,a), n = STEPS[a.k].length, f = aPart(p,a);
+  const info = n > 1 ? STEPS[a.k].map(s => STEPNOME[s]+(sd(p,a,s)?' ✓':'')).join(' · ') : (a.g || '');
+  return `<div class="task${d?' ok':''}"><button class="chk" data-a="${a.id}" aria-pressed="${!!d}" aria-label="Marcar assunto">${ICK}</button><div>${tag(a.m)}${!d&&f?'<span class="tag late" style="color:var(--mt);border-color:var(--mt)">em andamento</span>':''}<span class="tt">${esc(a.t)}</span>${info?`<span class="sub">${esc(info)}</span>`:''}</div></div>`;
+}
+const ACHA = id => QC.find(a => a.id === id) || QR.find(a => a.id === id);
+const concById = id => id === IBGE.id ? IBGE : S.extras[id];
+const pct = (c,p) => {if(c === IBGE) return Math.round(100*EDITAL.filter(a => aDone(p,a)).length/EDITAL.length); const ids = (c.topicos||[]).map(t => t.id); return ids.length ? Math.round(100*ids.filter(i => p.done[i]).length/ids.length) : 0};
+const porMat = p => SUBJ.map(m => {const L = EDITAL.filter(a => a.m === m); return {m, n:L.length, f:L.filter(a => aDone(p,a)).length}});
+
+function header(c,p){
   const n = diasAte(c.data);
   const cont = n > 0 ? `<b>${n}</b><span>dias até a prova<br>${fmt(c.data)} · ${esc(c.hora||'')}</span>` : n === 0 ? `<b>Hoje!</b><span>Boa prova! ${esc(c.hora||'')}</span>` : `<b>✓</b><span>Prova realizada em ${fmt(c.data)}</span>`;
   const pc = pct(c,p);
-  let bar;
-  if(c === IBGE){const tot = topicosEdital(c).length; bar = porMat(p).map(x => `<i style="width:${100*x.f/tot}%;background:${MAT[x.m].cor}"></i>`).join('')}
-  else bar = `<i style="width:${pc}%;background:var(--sun)"></i>`;
+  const bar = c === IBGE ? porMat(p).map(x => `<i style="width:${100*x.f/EDITAL.length}%;background:${MAT[x.m].cor}"></i>`).join('') : `<i style="width:${pc}%;background:var(--sun)"></i>`;
   return `<header class="top">${TOPO}<div class="wrap"><button class="back" data-go="concursos">‹ Meus concursos</button><small>${esc(c.cargo||'')}</small><h1>${esc(c.nome)}</h1><div class="count">${cont}</div><div class="bar" role="progressbar" aria-valuenow="${pc}" aria-label="Edital concluído">${bar}</div><small style="margin-top:6px">${pc}% do edital concluído</small></div></header>`;
 }
 
 function vHoje(c,p){
-  const pl = plano(p), h = hoje(), dias = Object.keys(pl).sort();
-  const ini = p.inicio || IBGE.inicio;
+  const h = hoje(), pl = plano(p), ini = p.inicio || IBGE.inicio;
+  let sq = sequencia(p,pl);
+  if(sq.recuperavel && sq.feitosHoje >= sq.precisa){p.perdao.push(sq.miss); save(); toast('Sequência reacesa!'); sq = sequencia(p,pl)}
+  if(sq.s > p.recorde){p.recorde = sq.s; save()}
   let html = '';
   const prazo = IBGE.datas.find(([d,,big]) => d >= h && diasAte(d) <= 7 && !big);
   if(prazo) html += `<div class="alert"><b>${fmt(prazo[0])}:</b> ${esc(prazo[1])}.</div>`;
-  const atras = dias.filter(d => d < h).flatMap(d => pl[d].map(t => ({...t, d}))).filter(t => !p.done[t.id]);
-  if(h < ini){
-    const d0 = dias[0];
-    html += `<div class="alert">O cronograma começa ${DIASL[parse(d0).getDay()]}, <b>${dm(d0)}</b>. Até lá, dá para adiantar o primeiro dia.</div>`;
-    html += `<section class="card"><h2>Primeiro dia · ${fmt(d0)}</h2>${pl[d0].map(t => task(t,p.done[t.id])).join('')}</section>`;
-    return html;
+  html += `<section class="card"><div class="fire">${FOGO(sq.hojeOk)}<div><b>${sq.s}</b> ${sq.s===1?'dia seguido':'dias seguidos'}<span class="muted">${sq.hojeOk ? 'Hoje já conta. Recorde: '+p.recorde : sq.s ? 'Estude algo hoje para manter o fogo aceso. Recorde: '+p.recorde : 'Marque uma etapa hoje para acender o fogo. Recorde: '+p.recorde}</span></div></div>
+    ${sq.recuperavel ? `<p style="margin:12px 0 0;font-size:15px">Sua sequência de <b>${sq.prev} ${sq.prev>1?'dias':'dia'}</b> apagou em ${dm(sq.miss)}. Para reacender, conclua <b>${sq.precisa} ${sq.precisa>1?'assuntos':'assunto'}</b> hoje (${sq.feitosHoje} até agora). Use o botão "Adiantar".</p>` : ''}
+    <p class="muted" style="margin:10px 0 0">Folgas, feriados e pausas não apagam o fogo.</p></section>`;
+  const doDia = pl.out[h] || [];
+  if(h < ini && !doDia.length) html += `<div class="alert">O cronograma começa ${DIASL[parse(ini).getDay()]}, <b>${dm(ini)}</b>. Quer começar antes? Use "Adiantar".</div>`;
+  if(doDia.length){
+    const passos = doDia.flatMap(a => STEPS[a.k].map(s => [a,s]));
+    const grupo = (ic,tit,arr) => arr.length ? `<div class="grp">${ic}${tit}</div>${arr.map(([a,s]) => stepRow(p,a,s)).join('')}` : '';
+    const feitos = doDia.filter(a => aDone(p,a)).length;
+    html += `<section class="card"><h2>Hoje · ${fmt(h)}</h2><p class="muted" style="margin:-4px 0 4px">${feitos === doDia.length ? 'Tudo feito hoje. Mandou bem!' : `${doDia.length} ${doDia.length>1?'assuntos':'assunto'} hoje. Faça as etapas na ordem que der.`}</p>
+      ${grupo(IC.cel,'Leitura e questões · dá no trabalho',passos.filter(([,s]) => s==='l'||s==='q'))}
+      ${grupo(IC.casa,'Videoaulas · em casa',passos.filter(([,s]) => s==='a'))}
+      ${grupo(IC.task,'Tarefas',passos.filter(([,s]) => s==='f'))}</section>`;
+  } else if(h >= ini) {
+    html += `<section class="card"><h2>${h > IBGE.data ? 'Prova feita!' : 'Hoje é folga'}</h2><p class="muted" style="margin:0">${h > IBGE.data ? 'Agora é esperar o gabarito.' : motivoFolga(p,h)+'. Descanse, ou adiante algo se quiser.'}</p></section>`;
   }
-  const doDia = pl[h] || [];
-  const lista = [...atras.map(t => task(t,false,dm(t.d))), ...doDia.map(t => task(t,p.done[t.id]))];
-  if(lista.length){
-    const feitos = doDia.filter(t => p.done[t.id]).length;
-    const msg = !atras.length && doDia.length && feitos === doDia.length ? 'Tudo feito hoje. Mandou bem!' : atras.length ? `${atras.length} ${atras.length>1?'tarefas vieram':'tarefa veio'} de dias anteriores. Faça o que der; o resto segue para amanhã.` : 'Assista à aula do Gran do assunto e depois faça questões.';
-    html += `<section class="card"><h2>${doDia.length ? 'Hoje' : 'Hoje é folga'} · ${fmt(h)}</h2><p class="muted" style="margin:-4px 0 6px">${msg}</p>${lista.join('')}</section>`;
-  } else {
-    const nx = dias.find(d => d > h);
-    html += `<section class="card"><h2>${h > IBGE.data ? 'Prova feita!' : 'Hoje é folga'}</h2>${nx ? `<p class="muted">Próximo dia de estudo: <b>${fmt(nx)}</b></p>${pl[nx].map(t => task(t,p.done[t.id])).join('')}` : ''}</section>`;
-  }
+  if(pl.prox && h <= IBGE.fimConteudo) html += `<button class="btn alt adi" id="adiantar">Adiantar o próximo assunto<small>${TAGS[pl.prox.m]}: ${esc(pl.prox.t)}</small></button>`;
+  if(h <= IBGE.fimConteudo) html += `<section class="card" style="margin-top:14px"><div class="prev">${pl.sobra ? IC.aviso : IC.alvo}<div>${pl.sobra
+    ? `Nesse ritmo, <b>${pl.sobra} ${pl.sobra>1?'assuntos ficam':'assunto fica'}</b> de fora até 24/01. Aumente o ritmo de algum dia na aba Prova ou use "Adiantar".`
+    : pl.fim ? `Nesse ritmo, o conteúdo termina em <b>${fmt(pl.fim)}</b>${pl.fim < IBGE.fimConteudo ? ', e o resto até a reta final vira revisão' : ''}.` : 'Conteúdo todo concluído. Agora é revisão!'}</div></div></section>`;
   return html;
 }
 
 function diaCard(d,pl,p,h){
-  const ts = pl[d], w = parse(d).getDay();
-  return `<section class="card day${d===h?' hoje':''}${ts?'':' off'}"><h3><span>${cap(DIASL[w])} · ${dm(d)}</span>${d===h?'<span class="muted">hoje</span>':''}</h3>${ts ? ts.map(t => task(t,p.done[t.id], (d < h && !p.done[t.id]) ? 'não feita' : '')).join('') : `<p class="muted" style="margin:6px 0 0">${motivoFolga(p,d)}</p>`}</section>`;
+  const ts = pl.out[d], w = parse(d).getDay();
+  const vazio = d < h ? 'Nada marcado neste dia' : motivoFolga(p,d);
+  return `<section class="card day${d===h?' hoje':''}${ts?'':' off'}"><h3><span>${cap1(DIASL[w])} · ${dm(d)}</span>${d===h?'<span class="muted">hoje</span>':''}</h3>${ts ? ts.map(a => aRow(p,a)).join('') : `<p class="muted" style="margin:6px 0 0">${vazio}</p>`}</section>`;
 }
 
 function vSemana(c,p){
-  const pl = plano(p), h = hoje(), ini = p.inicio || IBGE.inicio;
-  const base = h < ini ? ini : h;
+  const pl = plano(p), h = hoje(), ini = p.inicio || IBGE.inicio, base = h < ini ? ini : h;
   let html = `<div class="seg" role="group" aria-label="Visualização"><button data-modo="semana" aria-pressed="${V.modo==='semana'}">Semana</button><button data-modo="mes" aria-pressed="${V.modo==='mes'}">Mês</button></div>`;
+  html += `<p class="muted" style="margin:-4px 0 12px">O cronograma é uma fila: o que você adianta ou deixa para depois reorganiza os próximos dias sozinho.</p>`;
   if(V.modo === 'mes'){
     const r = parse(base); r.setDate(1); r.setMonth(r.getMonth()+V.mes);
     const y = r.getFullYear(), mo = r.getMonth(), first = iso(r), off = r.getDay(), n = new Date(y,mo+1,0).getDate();
-    html += `<div class="wk"><button class="btn alt sm" data-mes="-1" aria-label="Mês anterior">‹</button><h2>${cap(MESES[mo])} de ${y}</h2><button class="btn alt sm" data-mes="1" aria-label="Próximo mês">›</button></div>`;
+    html += `<div class="wk"><button class="btn alt sm" data-mes="-1" aria-label="Mês anterior">‹</button><h2>${cap1(MESES[mo])} de ${y}</h2><button class="btn alt sm" data-mes="1" aria-label="Próximo mês">›</button></div>`;
     html += `<div class="card" style="padding:10px"><div class="cal">${DIAS.map(x => `<div class="h">${x}</div>`).join('')}${'<button class="fora" tabindex="-1" aria-hidden="true"></button>'.repeat(off)}`;
     for(let i = 0; i < n; i++){
-      const d = addD(first,i), ts = pl[d] || [], ok = ts.length && ts.every(t => p.done[t.id]);
+      const d = addD(first,i), ts = pl.out[d] || [], ok = ts.length && ts.every(a => aDone(p,a));
       const cls = [d===h?'hoje':'', d===V.dia?'sel':'', d===IBGE.data?'prova':'', ok?'feito':''].join(' ');
-      html += `<button class="${cls}" data-dia-sel="${d}" aria-label="${fmt(d)}: ${ts.length} tarefas"><span class="n">${i+1}</span><span class="dots">${ts.map(t => `<i class="${p.done[t.id]?'ok':''}" style="--c:${COR(t.m)}"></i>`).join('')}</span></button>`;
+      html += `<button class="${cls}" data-dia-sel="${d}" aria-label="${fmt(d)}: ${ts.length} assuntos"><span class="n">${i+1}</span><span class="dots">${ts.map(a => `<i class="${aDone(p,a)?'ok':''}" style="--c:${COR(a.m)}"></i>`).join('')}</span></button>`;
     }
-    html += `</div><div class="leg">${['pt','mt','ct','qs','rv','fx'].map(m => `<span style="--c:${COR(m)}">${TAGS[m]}</span>`).join('')}</div></div>`;
-    if(V.dia && V.dia.slice(0,7) === first.slice(0,7)) html += diaCard(V.dia,pl,p,h);
-    else html += `<p class="muted" style="text-align:center">Toque num dia para ver o que estudar.</p>`;
+    html += `</div><div class="leg">${['pt','mt','ct','qs','fx'].map(m => `<span style="--c:${COR(m)}">${TAGS[m]}</span>`).join('')}</div></div>`;
+    html += V.dia && V.dia.slice(0,7) === first.slice(0,7) ? diaCard(V.dia,pl,p,h) : `<p class="muted" style="text-align:center">Toque num dia para ver o que estudar.</p>`;
     return html;
   }
   const ref = parse(base); ref.setDate(ref.getDate() - ((ref.getDay()+6)%7) + V.semana*7);
@@ -400,56 +532,117 @@ function donut(p){
   const R = 60, C = 2*Math.PI*R; let acc = 0;
   const segs = pm.map(x => {const len = C*x.f/tot, s = `<circle r="${R}" cx="75" cy="75" fill="none" stroke="${MAT[x.m].cor}" stroke-width="18" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-acc}"/>`; acc += len; return s}).join('');
   return `<section class="card"><h2>Andamento do edital</h2><div class="donut"><div class="fig"><svg viewBox="0 0 150 150" aria-hidden="true"><circle r="${R}" cx="75" cy="75" fill="none" stroke="var(--rest)" stroke-width="18"/>${segs}</svg><div class="c"><b>${Math.round(100*feitos/tot)}%</b><span>concluído</span></div></div>
-  <div class="lg">${pm.map(x => `<div style="--c:${MAT[x.m].cor}"><b><span>${MAT[x.m].nome}</span><span>${x.f}/${x.n}</span></b><div class="mini"><i style="width:${100*x.f/x.n}%"></i></div></div>`).join('')}<div class="muted">Faltam ${tot-feitos} de ${tot} assuntos.</div></div></div></section>`;
+  <div class="lg">${pm.map(x => `<div style="--c:${MAT[x.m].cor}"><b><span>${MAT[x.m].nome}</span><span>${x.f}/${x.n}</span></b><div class="mini"><i style="width:${100*x.f/x.n}%"></i></div></div>`).join('')}<div class="muted">Faltam ${tot-feitos} de ${tot} assuntos. Um assunto conta quando todas as etapas estão marcadas.</div></div></div></section>`;
 }
-
+function desempenho(p){
+  const st = placarStats(p), tot = Object.values(st).reduce((a,x) => ({a:a.a+x.a, t:a.t+x.t}), {a:0,t:0});
+  const fr = fracos(p)[0];
+  return `<section class="card"><h2>Desempenho em questões</h2>
+    ${tot.t ? `<p style="margin:0 0 4px"><b>${tot.t}</b> questões feitas · <b>${pctAc(tot)}%</b> de acerto no geral</p>
+    <div class="perf">${SUBJ.map(m => {const x = st[m], pc = pctAc(x); return `<div style="--c:${MAT[m].cor}"><span>${MAT[m].nome}</span><span class="track"><i style="width:${pc||0}%"></i></span><b>${pc===null?'—':pc+'%'}</b></div>`}).join('')}</div>
+    ${st[fr].t >= 5 ? `<p style="margin:12px 0 0">Ponto fraco agora: <b>${MAT[fr].nome}</b>. As revisões da reta final começam por ela.</p>` : '<p class="muted" style="margin:12px 0 0">Com pelo menos 5 questões numa matéria, o app aponta o ponto fraco.</p>'}`
+    : '<p class="muted" style="margin:0">Depois de marcar uma etapa de questões, toque em "Anotar acertos". Aqui aparece a porcentagem por matéria.</p>'}
+    <details style="margin-top:12px"><summary>Anotar questões avulsas</summary><form id="avulso" class="plf"><select name="m" aria-label="Matéria" style="font-size:16px;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)">${SUBJ.map(m => `<option value="${m}">${MAT[m].nome}</option>`).join('')}</select> acertei <input type="number" name="a" min="0" required inputmode="numeric" aria-label="Acertos"> de <input type="number" name="t" min="1" required inputmode="numeric" aria-label="Total"><button class="btn sm">Salvar</button></form></details></section>`;
+}
 function vEdital(c,p){
   if(c !== IBGE){
     const ts = c.topicos||[];
-    return `<section class="card"><h2>Conteúdo</h2>${ts.length ? ts.map(t => task({id:t.id,m:'rv',t:t.t},p.done[t.id])).join('').replace(/>Revisão<\/span>/g,'>Assunto</span>') : '<p class="muted">Nenhum assunto ainda.</p>'}
+    return `<section class="card"><h2>Conteúdo</h2>${ts.length ? ts.map(t => `<div class="task${p.done[t.id]?' ok':''}"><button class="chk" data-t="${t.id}" aria-pressed="${!!p.done[t.id]}" aria-label="Marcar">${ICK}</button><div><span class="tt">${esc(t.t)}</span></div></div>`).join('') : '<p class="muted">Nenhum assunto ainda.</p>'}
     <form id="addTop" class="row" style="margin-top:12px;align-items:flex-end"><label class="f" style="flex:1;margin:0">Novo assunto<input name="t" required></label><button class="btn">Adicionar</button></form></section>`;
   }
-  return donut(p) + SUBJ.map(m => {
-    const M = MAT[m], ids = M.itens.map((_,i) => m+'-'+i), f = ids.filter(i => p.done[i]).length;
-    return `<section class="card subj" style="--c:${M.cor}"><h3><span>${M.nome}</span><span class="muted">${f}/${ids.length}</span></h3><div class="mini"><i style="width:${100*f/ids.length}%"></i></div>${M.itens.map((t,i) => task({id:m+'-'+i,m,t:t[0],g:t[1]},p.done[m+'-'+i])).join('')}</section>`;
-  }).join('') + `<p class="muted">Português e Matemática seguem o Anexo III do edital; os itens marcados como "Base" ajudam em concordância, regência e pontuação. Conhecimentos Técnicos segue as seções da apostila e as 8 aulas do Gran.</p>`;
+  return donut(p) + desempenho(p) + SUBJ.map(m => {
+    const L = EDITAL.filter(a => a.m === m), f = L.filter(a => aDone(p,a)).length;
+    return `<section class="card subj" style="--c:${MAT[m].cor}"><h3><span>${MAT[m].nome}</span><span class="muted">${f}/${L.length}</span></h3><div class="mini"><i style="width:${100*f/L.length}%"></i></div>${L.map(a => aRow(p,a)).join('')}</section>`;
+  }).join('') + `<p class="muted">Português e Matemática seguem o Anexo III do edital; os itens "Base" ajudam em concordância, regência e pontuação. Conhecimentos Técnicos segue as seções da apostila e as 8 aulas do Gran.</p>`;
 }
 
+/* ---------- Apostila (PDF.js) ---------- */
+let PDF = null, pdfLoading = null, apZoom = 1, apRender = null;
+const apPerfil = () => {const pf = S.perfis.find(x => x.id === V.perfil); pf.ap = pf.ap || {pag:1, max:0}; return pf.ap};
+function loadPdf(){
+  if(PDF) return Promise.resolve(PDF);
+  if(pdfLoading) return pdfLoading;
+  pdfLoading = new Promise((ok,err) => {
+    const go = () => {window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'vendor/pdf.worker.min.js'; window.pdfjsLib.getDocument('apostila.pdf').promise.then(d => {PDF = d; ok(d)}, err)};
+    if(window.pdfjsLib) return go();
+    const s = document.createElement('script'); s.src = 'vendor/pdf.min.js'; s.onload = go; s.onerror = err; document.head.appendChild(s);
+  });
+  pdfLoading.catch(() => {pdfLoading = null});
+  return pdfLoading;
+}
+async function abrirPagina(n){
+  const ap = apPerfil(); n = Math.max(1, Math.min(AP_PAGS, n)); ap.pag = n; if(n > ap.max) ap.max = n; save();
+  const lab = document.getElementById('apPg'), wrap = document.getElementById('apWrap'), cv = document.getElementById('apCv');
+  if(!wrap) return;
+  if(lab) lab.textContent = `p. ${n} de ${AP_PAGS}`;
+  const bar = document.getElementById('apBar'); if(bar) bar.style.width = (100*ap.max/AP_PAGS)+'%';
+  const mx = document.getElementById('apMax'); if(mx) mx.textContent = ap.max;
+  document.querySelectorAll('.toc button').forEach(b => b.classList.toggle('here', +b.dataset.ap <= n && (+b.nextElementSibling?.dataset.ap || 999) > n));
+  try{
+    const doc = await loadPdf(), page = await doc.getPage(n);
+    const w = Math.max(280, wrap.clientWidth) * apZoom, vp0 = page.getViewport({scale:1}), sc = w / vp0.width, dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+    const vp = page.getViewport({scale:sc*dpr});
+    if(apRender) try{apRender.cancel()}catch(e){}
+    cv.width = vp.width; cv.height = vp.height; cv.style.width = (vp.width/dpr)+'px'; cv.style.height = (vp.height/dpr)+'px';
+    apRender = page.render({canvasContext:cv.getContext('2d'), viewport:vp}); await apRender.promise.catch(() => {});
+    const st = document.getElementById('apStatus'); if(st) st.textContent = '';
+  }catch(e){const st = document.getElementById('apStatus'); if(st) st.textContent = 'Não deu para abrir a apostila. Confira a internet na primeira vez; depois ela fica salva no aparelho.'}
+}
+function vApostila(c,p){
+  const ap = apPerfil(), n = V.apPag || ap.pag || 1; V.apPag = null;
+  setTimeout(() => abrirPagina(n), 0);
+  return `<section class="card"><h2>Apostila do Censo Agro</h2><p class="muted" style="margin:-4px 0 8px">Conhecimentos básicos para o Censo Agropecuário, Florestal e Aquícola (IBGE). É a matéria de Conhecimentos Técnicos: 30 das 60 questões.</p>
+    <p style="margin:0 0 6px">Você leu até a <b>p. <span id="apMax">${ap.max}</span></b> de ${AP_PAGS}.</p><div class="mini" style="--c:var(--ct)"><i id="apBar" style="width:${100*ap.max/AP_PAGS}%"></i></div>
+    <details style="margin-top:12px"><summary>Sumário</summary><div class="toc">${SUM.map(([t,pg]) => `<button data-ap="${pg}"><span>${esc(t)}</span><span class="muted">p. ${pg}</span></button>`).join('')}</div></details></section>
+    <section class="card" style="padding:12px"><div class="pdfbar"><button class="btn alt sm" id="apPrev" aria-label="Página anterior">‹ Anterior</button><span class="pg" id="apPg">p. ${n} de ${AP_PAGS}</span><button class="btn alt sm" id="apNext" aria-label="Próxima página">Próxima ›</button></div>
+    <div class="row" style="justify-content:center;margin-bottom:10px"><button class="btn alt sm" id="apMenos" aria-label="Diminuir">A−</button><button class="btn alt sm" id="apMais" aria-label="Aumentar">A+</button></div>
+    <div class="pdfwrap" id="apWrap"><canvas id="apCv" aria-label="Página da apostila"></canvas></div><p class="muted" id="apStatus" style="text-align:center">Carregando a apostila…</p>
+    <p class="muted" style="text-align:center;margin:4px 0 0">Deslize para o lado para virar a página. O app lembra onde você parou.</p></section>`;
+}
+
+/* ---------- Prova e ajustes ---------- */
 function vProva(c,p){
-  const h = hoje();
+  const h = hoje(), pf = S.perfis.find(x => x.id === V.perfil);
   let html = `<section class="card"><h2>Informações da prova</h2><dl>
   <dt>Data</dt><dd>${fmt(c.data)}/${c.data.slice(0,4)}</dd>${c.hora?`<dt>Horário</dt><dd>${esc(c.hora)}</dd>`:''}
   ${c.cargo?`<dt>Cargo</dt><dd>${esc(c.cargo)}</dd>`:''}${c.nivel?`<dt>Nível</dt><dd>${esc(c.nivel)}</dd>`:''}
   ${c.area?`<dt>Área de trabalho</dt><dd>${esc(c.area)}</dd>`:''}${c.local?`<dt>Local de prova</dt><dd>${esc(c.local)}</dd>`:''}
   ${c.banca?`<dt>Banca</dt><dd>${esc(c.banca)}</dd>`:''}${c.extra?`<dt>Para</dt><dd>${esc(c.extra)}</dd>`:''}</dl>`;
   if(c === IBGE){
+    const pl = plano(p);
     html += `<p class="muted" style="margin-top:12px">O endereço exato e o horário do portão saem no Cartão de Confirmação (CCI), em 26/01.</p></section>
     <section class="card"><h2>Como é a prova</h2><p style="margin:0 0 8px">60 questões de múltipla escolha (A a E), todas com peso 1, em 4 horas.</p><div class="dist">${c.prova.map(([n,q,m]) => `<div><span>${n}</span><i style="--c:${MAT[m].cor};width:${q/30*100}%"></i><b>${q}</b></div>`).join('')}</div>
-    <p style="margin:12px 0 0"><b>Para passar:</b> no mínimo 18 pontos (30%) no total <b>e</b> pelo menos 1 ponto em cada matéria.</p>
-    <p class="muted" style="margin-top:8px">Conhecimentos Técnicos vale metade da prova, por isso aparece em quase todo dia do cronograma.</p></section>
+    <p style="margin:12px 0 0"><b>Para passar:</b> no mínimo 18 pontos (30%) no total <b>e</b> pelo menos 1 ponto em cada matéria.</p></section>
     <section class="card"><h2>Datas importantes</h2><ul class="tl">${c.datas.map(([d,t,big]) => `<li class="${d<h?'past':''} ${big?'big':''}"><b>${dm(d)}/${d.slice(2,4)}</b><span>${esc(t)}</span></li>`).join('')}</ul></section>
     <section class="card"><h2>No dia da prova</h2><ul class="dots-list">
     <li>Levar documento <b>original com foto</b> (RG, CNH ou CNH digital no app oficial), comprovante de inscrição e <b>caneta azul ou preta de corpo transparente</b>.</li>
     <li>Proibido: lápis, lapiseira, borracha, corretor e calculadora.</li>
     <li>Só pode sair depois de <b>2 horas</b> de prova; o caderno de questões só pode ser levado na última hora.</li>
     <li>Não há segunda chamada.</li></ul></section>
-    <section class="card"><h2>Links</h2><p style="margin:0 0 8px"><a href="https://www.cesgranrio.org.br" target="_blank" rel="noopener">Fundação Cesgranrio</a>: edital, apostila e cartão de confirmação</p><p style="margin:0"><a href="https://www.grancursosonline.com.br/aluno/curso/s/ibge-instituto-brasileiro-de-geografia-e-estatistica-temporario-recenseador-rec-pos-edital" target="_blank" rel="noopener">Curso no Gran</a>: videoaulas e caderno de questões</p></section>
-    <section class="card"><h2>Meus dias de estudo</h2><p class="muted" style="margin:-4px 0 10px">Toque para ligar ou desligar. O cronograma se reorganiza sozinho, sem perder o que já foi marcado.</p>
-    <div class="chips">${[1,2,3,4,5,6,0].map(w => `<button class="chip" data-dia="${w}" aria-pressed="${p.dias.includes(w)}">${DIAS[w]}</button>`).join('')}</div>
+    <section class="card"><h2>Links</h2><p style="margin:0 0 8px"><a href="https://www.cesgranrio.org.br" target="_blank" rel="noopener">Fundação Cesgranrio</a>: edital e cartão de confirmação</p><p style="margin:0"><a href="https://www.grancursosonline.com.br/aluno/curso/s/ibge-instituto-brasileiro-de-geografia-e-estatistica-temporario-recenseador-rec-pos-edital" target="_blank" rel="noopener">Curso no Gran</a>: videoaulas e caderno de questões</p></section>
+    <section class="card"><h2>Meu ritmo</h2><p class="muted" style="margin:-4px 0 8px">Quantos assuntos por dia. Cada assunto tem a videoaula e as questões (ou a leitura da apostila). Zero é folga.</p>
+    ${[1,2,3,4,5,6,0].map(w => `<div class="stepper"><span>${cap1(DIASL[w])}</span><button data-rit="${w}" data-d="-1" aria-label="Menos em ${DIASL[w]}">−</button><b>${p.ritmo[w]||0}</b><button data-rit="${w}" data-d="1" aria-label="Mais em ${DIASL[w]}">+</button><span class="muted">${p.ritmo[w] ? (p.ritmo[w]>1?'assuntos':'assunto') : 'folga'}</span></div>`).join('')}
+    <div class="prev" style="margin-top:10px">${pl.sobra ? IC.aviso : IC.alvo}<div>${pl.sobra ? `Nesse ritmo, <b>${pl.sobra}</b> ${pl.sobra>1?'assuntos ficam':'assunto fica'} de fora até 24/01.` : pl.fim ? `Nesse ritmo, o conteúdo termina em <b>${fmt(pl.fim)}</b>.` : 'Conteúdo todo concluído.'}</div></div>
     <label class="row" style="margin-top:14px;gap:10px;min-height:44px"><input type="checkbox" id="fer" ${p.feriados?'checked':''} style="width:22px;height:22px"> Folga em 24, 25 e 31/12 e 1º/01</label>
     <label class="f" style="margin-top:6px">Começar em<input type="date" id="ini" value="${p.inicio||IBGE.inicio}" max="${IBGE.fimConteudo}"></label></section>
-    <section class="card"><h2>Pausas</h2><p class="muted" style="margin:-4px 0 10px">Viagem, feriado da cidade, semana corrida… Os dias pausados ficam sem estudo e o conteúdo é empurrado para os dias seguintes.</p>
+    <section class="card"><h2>Pausas</h2><p class="muted" style="margin:-4px 0 10px">Viagem, feriado da cidade, semana corrida… Os dias pausados ficam sem estudo, a fila espera e o fogo não apaga.</p>
     ${p.pausas.map((x,i) => `<div class="pausa"><span>${dm(x.de)}${x.ate!==x.de?' a '+dm(x.ate):''}${x.nome?' · '+esc(x.nome):''}</span><button class="btn alt sm" data-rmp="${i}">Remover</button></div>`).join('')}
     <form id="addPausa" style="margin-top:10px"><div class="two"><label class="f">De<input type="date" name="de" required></label><label class="f">Até<input type="date" name="ate"></label></div><label class="f">Motivo (opcional)<input name="nome" placeholder="Ex.: viagem"></label><button class="btn sm">Adicionar pausa</button></form></section>`;
   } else {
     html += `<div class="row" style="margin-top:14px"><button class="btn alt sm" data-del="${c.id}">Remover concurso</button></div></section>`;
   }
-  html += `<section class="card"><h2>Cópia de segurança</h2><p class="muted" style="margin:-4px 0 10px">O progresso fica salvo neste aparelho. De vez em quando, copie o código e guarde no WhatsApp ou nas Notas.</p>
+  html += `<section class="card"><h2>Aparência</h2><div class="segt" role="group" aria-label="Tema">${[['auto','Automático'],['claro','Claro'],['escuro','Noite']].map(([k,l]) => `<button data-tema="${k}" aria-pressed="${S.tema===k}">${l}</button>`).join('')}</div><p class="muted" style="margin:8px 0 0">Automático segue o modo claro ou escuro do aparelho.</p></section>
+  <section class="card"><h2>Perfil e PIN</h2><p class="muted" style="margin:-4px 0 10px">O PIN evita que outra pessoa abra seu perfil neste aparelho. Ele não substitui uma senha de conta: os dados ficam só aqui.</p>
+  ${V.pinEdit ? `<form id="pinForm" class="plf">Novo PIN <input type="password" name="pin" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required style="width:90px" aria-label="Novo PIN de 4 dígitos"><button class="btn sm">Salvar</button></form>`
+    : `<div class="row">${pf.pin ? '<button class="btn alt sm" id="pinNovo">Trocar PIN</button><button class="btn alt sm" id="pinTirar">Remover PIN</button>' : '<button class="btn alt sm" id="pinNovo">Criar PIN de 4 dígitos</button>'}</div>`}</section>
+  <section class="card"><h2>Cópia de segurança</h2><p class="muted" style="margin:-4px 0 10px">O progresso fica salvo neste aparelho. De vez em quando, copie o código e guarde no WhatsApp ou nas Notas.</p>
   <div class="row"><button class="btn sm" id="bkp">Copiar código</button><button class="btn alt sm" id="rst">Restaurar</button></div>
   <div id="rstBox" hidden style="margin-top:12px"><label class="f">Cole o código aqui<textarea id="rstTxt"></textarea></label><button class="btn sm" id="rstOk">Restaurar progresso</button></div></section>
   <section class="card"><h2>Créditos</h2><ul class="dots-list muted">
   <li>Fontes Barlow e Barlow Condensed, de Jeremy Tribby, via Google Fonts (SIL Open Font License 1.1).</li>
-  <li>Conteúdo baseado no Edital IBGE nº 03/2026 e na apostila "Conhecimentos básicos para o Censo Agropecuário, Florestal e Aquícola" (IBGE/ENCE), publicados pela Fundação Cesgranrio.</li>
+  <li>Leitor de PDF: PDF.js, da Mozilla (Apache License 2.0).</li>
+  <li>Apostila "Conhecimentos básicos para o Censo Agropecuário, Florestal e Aquícola" (IBGE / ENCE / CTA), distribuída sem alterações, como publicada pela Fundação Cesgranrio.</li>
+  <li>Conteúdo baseado no Edital IBGE nº 03/2026 e sua retificação.</li>
   <li>Nomes das aulas citados como referência do curso Gran. Sem relação oficial com Gran, Cesgranrio ou IBGE.</li></ul>
   <p class="foot">Meu Cronograma de Estudo · v${VERSAO} · QyuDev</p></section>`;
   return html;
@@ -457,22 +650,39 @@ function vProva(c,p){
 
 const TABS = [['hoje','Hoje','<path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/><circle cx="12" cy="12" r="4"/>'],
   ['semana','Calendário','<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>'],
+  ['apostila','Apostila','<path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 21V5M8 7h7"/>'],
   ['edital','Edital','<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/>'],
   ['prova','Prova','<path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>']];
 
+function tema(){const r = document.documentElement; if(S.tema === 'claro' || S.tema === 'escuro'){r.dataset.theme = S.tema === 'claro' ? 'light' : 'dark'; r.dataset.ours = '1'} else if(r.dataset.ours){r.removeAttribute('data-theme'); delete r.dataset.ours}}
+
+function telaPerfis(app){
+  const novo = !S.perfis.length;
+  app.innerHTML = `<header class="top">${TOPO}<div class="wrap"><small>Meu Cronograma de Estudo</small><h1>${novo ? 'Bem-vindo!' : 'Quem vai estudar?'}</h1></div></header>
+  <main class="wrap">${S.perfis.map(x => `<button class="pick" data-perfil="${x.id}"><span class="av">${x.foto?`<img src="${x.foto}" alt="">`:esc(x.nome[0])}</span><strong>${esc(x.nome)}</strong>${x.pin?' <span class="muted">· com PIN</span>':''}</button>`).join('')}
+  <form id="addPerfil" class="card"><h2>${novo ? 'Qual é o seu nome?' : 'Novo perfil'}</h2>${novo ? '<p class="muted" style="margin:-4px 0 12px">O cronograma do IBGE 2027 já vem pronto. Tudo fica salvo só neste aparelho.</p>' : ''}
+  <label class="f">Nome<input name="n" required maxlength="30" autocomplete="given-name"></label>
+  <label class="f">PIN de 4 dígitos (opcional)<input name="pin" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4"></label>
+  <button class="btn">${novo ? 'Começar' : 'Criar perfil'}</button></form><p class="foot">v${VERSAO}</p></main>`;
+}
+function telaPin(app){
+  const pf = S.perfis.find(x => x.id === V.pinFor);
+  app.innerHTML = `<header class="top">${TOPO}<div class="wrap"><button class="back" data-go="perfis">‹ Voltar</button><small>Perfil</small><h1>${esc(pf.nome)}</h1></div></header>
+  <main class="wrap"><form id="pinCheck" class="card pinbox"><h2>Digite seu PIN</h2><input type="password" name="pin" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required autofocus aria-label="PIN"><div class="err" id="pinErr"></div><button class="btn" style="width:100%">Entrar</button>
+  <p class="muted" style="margin:12px 0 0">Esqueceu? Sem o PIN, só restaurando um código de backup ou limpando os dados do navegador.</p></form></main>`;
+}
+
 function render(){
-  try{sessionStorage.setItem(KEY+'-v', JSON.stringify(V))}catch(e){}
+  tema();
+  try{sessionStorage.setItem(KEY+'-v', JSON.stringify({...V, pl:null}))}catch(e){}
   const app = document.getElementById('app');
-  const perfil = S.perfis.find(x => x.id === V.perfil);
-  if(V.view === 'perfis' || !perfil){
-    app.innerHTML = `<header class="top">${TOPO}<div class="wrap"><small>Meu Cronograma de Estudo</small><h1>Quem vai estudar?</h1></div></header>
-    <main class="wrap">${S.perfis.map(x => `<button class="pick" data-perfil="${x.id}"><span class="av">${x.foto?`<img src="${x.foto}" alt="">`:esc(x.nome[0])}</span><strong>${esc(x.nome)}</strong></button>`).join('')}
-    <form id="addPerfil" class="card"><h2>Novo perfil</h2><label class="f">Nome<input name="n" required maxlength="30"></label><button class="btn">Criar perfil</button></form><p class="foot">v${VERSAO}</p></main>`;
-    return;
-  }
+  if(V.view === 'pin' && S.perfis.some(x => x.id === V.pinFor)) return telaPin(app);
+  let perfil = S.perfis.find(x => x.id === V.perfil);
+  if(V.view === 'perfis' || !perfil) return telaPerfis(app);
+  if(perfil.pin && V.pinOk !== perfil.id){V.view = 'pin'; V.pinFor = perfil.id; return telaPin(app)}
   const conc = concById(V.conc);
   if(V.view === 'concursos' || !conc){
-    app.innerHTML = `<header class="top">${TOPO}<div class="wrap"><button class="back" data-go="perfis">‹ Trocar perfil</button><div class="who"><button class="foto" id="fotoBtn" aria-label="Trocar foto">${perfil.foto?`<img src="${perfil.foto}" alt="">`:esc(perfil.nome[0])}</button><div><small>Olá,</small><h1>${esc(perfil.nome)}</h1><button class="fotobtn" id="fotoBtn2">${perfil.foto?'Trocar foto':'Adicionar foto'}</button>${perfil.foto?' <button class="fotobtn" id="fotoDel">Remover</button>':''}</div></div><input type="file" id="fotoIn" accept="image/*" hidden></div></header>
+    app.innerHTML = `<header class="top">${TOPO}<div class="wrap"><button class="back" data-go="perfis">‹ Trocar perfil</button><div class="who"><button class="foto" id="fotoBtn" aria-label="Trocar foto">${perfil.foto?`<img src="${perfil.foto}" alt="">`:esc(perfil.nome[0])}</button><div><small>Olá,</small><h1>${esc(perfil.nome)}</h1><button class="fotobtn" id="fotoBtn2">${perfil.foto?'Trocar foto':'Adicionar foto'}</button>${perfil.foto?'<button class="fotobtn" id="fotoDel">Remover</button>':''}</div></div><input type="file" id="fotoIn" accept="image/*" hidden></div></header>
     <main class="wrap"><h2 style="font-size:26px;margin:4px 0 12px">Meus concursos</h2>
     ${perfil.concursos.map(concById).filter(Boolean).map(c => {const p = P(perfil.id,c.id), n = diasAte(c.data), pc = pct(c,p);
       return `<button class="pick conc" data-conc="${c.id}"><h3>${esc(c.nome)}</h3><div class="meta muted">${esc(c.cargo||'')} · ${fmt(c.data)}/${c.data.slice(0,4)} · ${n>0?`faltam ${n} dias`:n===0?'é hoje!':'prova realizada'}</div><div class="mini"><i style="width:${pc}%"></i></div><div class="muted" style="margin-top:6px">${pc}% do edital concluído</div></button>`}).join('')}
@@ -487,28 +697,41 @@ function render(){
   const p = P(perfil.id, conc.id);
   const tabs = conc === IBGE ? TABS : TABS.filter(t => t[0]==='edital'||t[0]==='prova');
   if(!tabs.some(t => t[0]===V.tab)) V.tab = tabs[0][0];
-  const body = {hoje:vHoje, semana:vSemana, edital:vEdital, prova:vProva}[V.tab](conc,p);
-  app.innerHTML = header(conc,p) + `<main class="wrap">${body}</main><nav class="tabs" aria-label="Seções"><div class="wrap" style="grid-template-columns:repeat(${tabs.length},minmax(0,1fr))">${tabs.map(([k,l,ic]) => `<button data-tab="${k}" aria-current="${V.tab===k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${l}</button>`).join('')}</div></nav>`;
+  const body = {hoje:vHoje, semana:vSemana, apostila:vApostila, edital:vEdital, prova:vProva}[V.tab](conc,p);
+  app.innerHTML = header(conc,p) + `<main class="wrap${V.tab==='apostila'?' wide':''}">${body}</main><nav class="tabs" aria-label="Seções"><div class="wrap" style="grid-template-columns:repeat(${tabs.length},minmax(0,1fr))">${tabs.map(([k,l,ic]) => `<button data-tab="${k}" aria-current="${V.tab===k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${l}</button>`).join('')}</div></nav>`;
 }
 
-function toast(m){const t = document.getElementById('toast'); t.textContent = m; t.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), 2200)}
+function toast(m){const t = document.getElementById('toast'); if(!t) return; t.textContent = m; t.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), 2200)}
 const keep = () => {const y = scrollY; render(); scrollTo(0,y)};
+const PP = () => P(V.perfil,V.conc);
 
 document.addEventListener('click', e => {
   const b = e.target.closest('button'); if(!b) return;
   const d = b.dataset;
   if(d.perfil){V = {...V, view:'concursos', perfil:d.perfil}; render(); scrollTo(0,0)}
-  else if(d.go){V.view = d.go; render(); scrollTo(0,0)}
+  else if(d.go){V.view = d.go; if(d.go === 'perfis') V.pinOk = null; render(); scrollTo(0,0)}
   else if(d.conc){V = {...V, view:'conc', conc:d.conc, tab:d.conc===IBGE.id?'hoje':'edital', semana:0, mes:0, dia:null}; render(); scrollTo(0,0)}
-  else if(d.tab){V.tab = d.tab; V.semana = 0; V.mes = 0; render(); scrollTo(0,0)}
+  else if(d.tab){V.tab = d.tab; V.semana = 0; V.mes = 0; V.pl = null; render(); scrollTo(0,0)}
   else if(d.modo){V.modo = d.modo; V.dia = V.dia || hoje(); keep()}
   else if(d.sem !== undefined){V.semana = d.sem === '0' ? 0 : V.semana + Number(d.sem); keep()}
   else if(d.mes !== undefined){V.mes += Number(d.mes); keep()}
   else if(d.diaSel){V.dia = d.diaSel; keep()}
-  else if(d.t){const p = P(V.perfil,V.conc); if(p.done[d.t]) delete p.done[d.t]; else {p.done[d.t] = hoje(); toast('Marcado como estudado')} save(); keep()}
-  else if(d.dia !== undefined){const p = P(V.perfil,V.conc), w = Number(d.dia); p.dias = p.dias.includes(w) ? p.dias.filter(x => x!==w) : [...p.dias,w]; if(!p.dias.length) p.dias = [w]; save(); keep()}
-  else if(d.rmp !== undefined){const p = P(V.perfil,V.conc); p.pausas.splice(Number(d.rmp),1); save(); toast('Pausa removida'); keep()}
+  else if(d.s){const p = PP(); if(p.done[d.s]) delete p.done[d.s]; else {p.done[d.s] = hoje(); const a = ACHA(d.s.split(':')[0]); if(d.s.endsWith(':q')) V.pl = d.s; toast(a && aDone(p,a) ? 'Assunto concluído!' : 'Etapa marcada')} save(); keep()}
+  else if(d.a){const p = PP(), a = ACHA(d.a) || finais(p).map(x => x[1]).find(x => x.id === d.a); if(!a) return; if(aDone(p,a)) STEPS[a.k].forEach(s => delete p.done[a.id+':'+s]); else {STEPS[a.k].forEach(s => {if(!p.done[a.id+':'+s]) p.done[a.id+':'+s] = hoje()}); toast('Assunto concluído!')} save(); keep()}
+  else if(d.t){const p = PP(); if(p.done[d.t]) delete p.done[d.t]; else p.done[d.t] = hoje(); save(); keep()}
+  else if(d.pl){V.pl = V.pl === d.pl ? null : d.pl; keep()}
+  else if(d.ap){V.tab = 'apostila'; V.apPag = Number(d.ap); if(document.getElementById('apWrap')){V.apPag = null; abrirPagina(Number(d.ap)); document.getElementById('apWrap').scrollIntoView({behavior:'smooth'})} else {render(); scrollTo(0,0)}}
+  else if(d.rit !== undefined){const p = PP(), w = Number(d.rit); p.ritmo[w] = Math.max(0, Math.min(5, (p.ritmo[w]||0) + Number(d.d))); save(); keep()}
+  else if(d.rmp !== undefined){const p = PP(); p.pausas.splice(Number(d.rmp),1); save(); toast('Pausa removida'); keep()}
+  else if(d.tema){S.tema = d.tema; save(); keep()}
   else if(d.del){if(b.dataset.sure){const pf = S.perfis.find(x => x.id===V.perfil); pf.concursos = pf.concursos.filter(x => x!==d.del); save(); V.view = 'concursos'; render()} else {b.dataset.sure = 1; b.textContent = 'Toque de novo para confirmar'}}
+  else if(b.id === 'adiantar'){const p = PP(), h = hoje(); p.extra[h] = (p.extra[h]||0) + 1; save(); toast('Próximo assunto puxado para hoje'); keep()}
+  else if(b.id === 'apPrev'){abrirPagina(apPerfil().pag - 1)}
+  else if(b.id === 'apNext'){abrirPagina(apPerfil().pag + 1)}
+  else if(b.id === 'apMais'){apZoom = Math.min(2.5, apZoom + .25); abrirPagina(apPerfil().pag)}
+  else if(b.id === 'apMenos'){apZoom = Math.max(.5, apZoom - .25); abrirPagina(apPerfil().pag)}
+  else if(b.id === 'pinNovo'){V.pinEdit = true; keep()}
+  else if(b.id === 'pinTirar'){delete S.perfis.find(x => x.id===V.perfil).pin; save(); toast('PIN removido'); keep()}
   else if(b.id === 'fotoBtn' || b.id === 'fotoBtn2'){document.getElementById('fotoIn').click()}
   else if(b.id === 'fotoDel'){delete S.perfis.find(x => x.id===V.perfil).foto; save(); render()}
   else if(b.id === 'bkp'){const code = btoa(unescape(encodeURIComponent(JSON.stringify(S)))); navigator.clipboard.writeText(code).then(() => toast('Código copiado'), () => {document.getElementById('rstBox').hidden = false; const t = document.getElementById('rstTxt'); t.value = code; t.select(); toast('Copie o código selecionado')})}
@@ -523,17 +746,31 @@ document.addEventListener('change', e => {
       S.perfis.find(x => x.id===V.perfil).foto = c.toDataURL('image/jpeg',.82); save(); toast('Foto salva neste aparelho'); render()};
     img.onerror = () => toast('Não deu para abrir essa imagem'); img.src = url; return;
   }
-  const p = V.perfil && V.conc ? P(V.perfil,V.conc) : null; if(!p) return;
+  const p = V.perfil && V.conc ? PP() : null; if(!p) return;
   if(e.target.id === 'fer'){p.feriados = e.target.checked; save(); keep()}
   if(e.target.id === 'ini' && e.target.value){p.inicio = e.target.value; save(); keep()}
 });
 document.addEventListener('submit', e => {
   e.preventDefault(); const f = e.target, fd = new FormData(f);
-  if(f.id === 'addPerfil'){const n = fd.get('n').trim(); if(!n) return; const id = 'p'+Date.now().toString(36); S.perfis.push({id, nome:n, concursos:['ibge2027']}); save(); render()}
+  if(f.id === 'addPerfil'){const n = String(fd.get('n')).trim(), pin = String(fd.get('pin')||''); if(!n) return; if(pin && !/^\d{4}$/.test(pin)){toast('O PIN precisa ter 4 números'); return}
+    const id = S.perfis.length ? 'p'+Date.now().toString(36) : n.toLowerCase().normalize('NFD').replace(/[^a-z0-9]/g,'') || 'p1';
+    const pf = {id, nome:n, concursos:['ibge2027']}; if(pin) pf.pin = hashPin(pin,id); S.perfis.push(pf); save(); V = {...V, view:'concursos', perfil:id, pinOk:id}; render(); scrollTo(0,0)}
+  if(f.id === 'pinCheck'){const pf = S.perfis.find(x => x.id === V.pinFor); if(pf && hashPin(String(fd.get('pin')),pf.id) === pf.pin){V = {...V, view:'concursos', perfil:pf.id, pinOk:pf.id}; render()} else {document.getElementById('pinErr').textContent = 'PIN incorreto'; f.reset()}}
+  if(f.id === 'pinForm'){const pin = String(fd.get('pin')); if(!/^\d{4}$/.test(pin)){toast('O PIN precisa ter 4 números'); return} const pf = S.perfis.find(x => x.id===V.perfil); pf.pin = hashPin(pin,pf.id); V.pinEdit = false; V.pinOk = pf.id; save(); toast('PIN salvo'); keep()}
+  if(f.id === 'plForm'){const a = Number(fd.get('a')), t = Number(fd.get('t')); if(!(t > 0) || a < 0 || a > t){toast('Confira os números: acertos não podem passar do total'); return}
+    PP().placar[f.dataset.key] = {a, t, m:f.dataset.m, d:hoje()}; V.pl = null; save(); toast(`${Math.round(100*a/t)}% de acerto anotado`); keep()}
+  if(f.id === 'avulso'){const a = Number(fd.get('a')), t = Number(fd.get('t')); if(!(t > 0) || a < 0 || a > t){toast('Confira os números'); return}
+    const p = PP(), k = 'av-'+Date.now().toString(36); p.placar[k] = {a, t, m:fd.get('m'), d:hoje()}; p.done[k] = hoje(); save(); toast('Questões anotadas'); keep()}
   if(f.id === 'addConc'){const id = 'c'+Date.now().toString(36); S.extras[id] = {id, nome:fd.get('nome').trim(), cargo:fd.get('cargo').trim(), banca:fd.get('banca').trim(), data:fd.get('data'), hora:fd.get('hora').trim(), local:fd.get('local').trim(), topicos:String(fd.get('top')).split('\n').map(s => s.trim()).filter(Boolean).map((t,i) => ({id:id+'-'+i, t}))}; S.perfis.find(x => x.id===V.perfil).concursos.push(id); save(); toast('Concurso adicionado'); render()}
   if(f.id === 'addTop'){const c = S.extras[V.conc], t = fd.get('t').trim(); if(t){c.topicos.push({id:c.id+'-'+Date.now().toString(36), t}); save(); render()}}
-  if(f.id === 'addPausa'){const p = P(V.perfil,V.conc); let de = fd.get('de'), ate = fd.get('ate') || de; if(ate < de) [de,ate] = [ate,de]; p.pausas.push({de, ate, nome:String(fd.get('nome')||'').trim()}); p.pausas.sort((a,b) => a.de < b.de ? -1 : 1); save(); toast('Pausa adicionada'); keep()}
+  if(f.id === 'addPausa'){const p = PP(); let de = fd.get('de'), ate = fd.get('ate') || de; if(ate < de) [de,ate] = [ate,de]; p.pausas.push({de, ate, nome:String(fd.get('nome')||'').trim()}); p.pausas.sort((a,b) => a.de < b.de ? -1 : 1); save(); toast('Pausa adicionada'); keep()}
 });
+/* virar a página da apostila deslizando o dedo */
+let tx = null, ty = null;
+document.addEventListener('touchstart', e => {if(e.target.closest('#apWrap') && e.touches.length === 1){tx = e.touches[0].clientX; ty = e.touches[0].clientY} else tx = null}, {passive:true});
+document.addEventListener('touchend', e => {if(tx === null) return; const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; tx = null;
+  if(apZoom <= 1 && Math.abs(dx) > 60 && Math.abs(dx) > 2*Math.abs(dy)) abrirPagina(apPerfil().pag + (dx < 0 ? 1 : -1))}, {passive:true});
+let rz; addEventListener('resize', () => {clearTimeout(rz); rz = setTimeout(() => {if(document.getElementById('apWrap')) abrirPagina(apPerfil().pag)}, 250)});
 render();
 try{if('serviceWorker' in navigator && location.protocol === 'https:' && !/claude\.ai$|claudeusercontent\.com$/.test(location.hostname)) navigator.serviceWorker.register('sw.js').catch(() => {})}catch(e){}
 }
