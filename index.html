@@ -7,6 +7,19 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Estudos">
+<meta name="description" content="Cronograma de estudos para concursos: o que estudar em cada dia, checklist do edital e contagem até a prova.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Meu Cronograma de Estudo">
+<meta property="og:title" content="Meu Cronograma de Estudo">
+<meta property="og:description" content="Plano diário, checklist do edital e contagem até a prova. Instale na tela inicial do celular.">
+<meta property="og:url" content="https://jacobbv.github.io/meu-cronograma-estudo/">
+<meta property="og:image" content="https://jacobbv.github.io/meu-cronograma-estudo/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Meu Cronograma de Estudo</title>
@@ -53,6 +66,11 @@ main{padding:18px 0 calc(96px + env(safe-area-inset-bottom))}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .pick{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:12px;min-height:44px}
 .pick .av{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--g);color:var(--sun);font:700 26px "Barlow Condensed";margin-right:14px;vertical-align:middle}
+.pick .av img,.top .foto img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
+.pick .av{overflow:hidden}
+.foto{display:inline-grid;place-items:center;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid var(--sun);color:var(--sun);font:700 30px "Barlow Condensed";overflow:hidden;padding:0;cursor:pointer;flex:none}
+.who{display:flex;align-items:center;gap:14px;margin-top:4px}
+.fotobtn{margin-right:14px;background:none;border:0;color:#fff;opacity:.85;font-size:14px;font-weight:600;text-decoration:underline;padding:6px 0;min-height:32px}
 .pick strong{font-size:22px;font-family:"Barlow Condensed";vertical-align:middle}
 .conc h3{font-size:26px}
 .conc .meta{margin:4px 0 12px}
@@ -145,7 +163,7 @@ a{color:inherit}
 <div class="toast" id="toast" role="status"></div>
 <script>
 {
-const VERSAO = '2.0.0';
+const VERSAO = '2.1.0';
 /* ---------- Dados do concurso (Edital IBGE nº 03/2026 + apostila do 12º Censo Agro) ---------- */
 const IBGE = {
   id:'ibge2027', nome:'IBGE 2027', cargo:'Recenseador (REC)', banca:'Fundação Cesgranrio',
@@ -448,13 +466,13 @@ function render(){
   const perfil = S.perfis.find(x => x.id === V.perfil);
   if(V.view === 'perfis' || !perfil){
     app.innerHTML = `<header class="top">${TOPO}<div class="wrap"><small>Meu Cronograma de Estudo</small><h1>Quem vai estudar?</h1></div></header>
-    <main class="wrap">${S.perfis.map(x => `<button class="pick" data-perfil="${x.id}"><span class="av">${esc(x.nome[0])}</span><strong>${esc(x.nome)}</strong></button>`).join('')}
+    <main class="wrap">${S.perfis.map(x => `<button class="pick" data-perfil="${x.id}"><span class="av">${x.foto?`<img src="${x.foto}" alt="">`:esc(x.nome[0])}</span><strong>${esc(x.nome)}</strong></button>`).join('')}
     <form id="addPerfil" class="card"><h2>Novo perfil</h2><label class="f">Nome<input name="n" required maxlength="30"></label><button class="btn">Criar perfil</button></form><p class="foot">v${VERSAO}</p></main>`;
     return;
   }
   const conc = concById(V.conc);
   if(V.view === 'concursos' || !conc){
-    app.innerHTML = `<header class="top">${TOPO}<div class="wrap"><button class="back" data-go="perfis">‹ Trocar perfil</button><small>Olá,</small><h1>${esc(perfil.nome)}</h1></div></header>
+    app.innerHTML = `<header class="top">${TOPO}<div class="wrap"><button class="back" data-go="perfis">‹ Trocar perfil</button><div class="who"><button class="foto" id="fotoBtn" aria-label="Trocar foto">${perfil.foto?`<img src="${perfil.foto}" alt="">`:esc(perfil.nome[0])}</button><div><small>Olá,</small><h1>${esc(perfil.nome)}</h1><button class="fotobtn" id="fotoBtn2">${perfil.foto?'Trocar foto':'Adicionar foto'}</button>${perfil.foto?' <button class="fotobtn" id="fotoDel">Remover</button>':''}</div></div><input type="file" id="fotoIn" accept="image/*" hidden></div></header>
     <main class="wrap"><h2 style="font-size:26px;margin:4px 0 12px">Meus concursos</h2>
     ${perfil.concursos.map(concById).filter(Boolean).map(c => {const p = P(perfil.id,c.id), n = diasAte(c.data), pc = pct(c,p);
       return `<button class="pick conc" data-conc="${c.id}"><h3>${esc(c.nome)}</h3><div class="meta muted">${esc(c.cargo||'')} · ${fmt(c.data)}/${c.data.slice(0,4)} · ${n>0?`faltam ${n} dias`:n===0?'é hoje!':'prova realizada'}</div><div class="mini"><i style="width:${pc}%"></i></div><div class="muted" style="margin-top:6px">${pc}% do edital concluído</div></button>`}).join('')}
@@ -491,11 +509,20 @@ document.addEventListener('click', e => {
   else if(d.dia !== undefined){const p = P(V.perfil,V.conc), w = Number(d.dia); p.dias = p.dias.includes(w) ? p.dias.filter(x => x!==w) : [...p.dias,w]; if(!p.dias.length) p.dias = [w]; save(); keep()}
   else if(d.rmp !== undefined){const p = P(V.perfil,V.conc); p.pausas.splice(Number(d.rmp),1); save(); toast('Pausa removida'); keep()}
   else if(d.del){if(b.dataset.sure){const pf = S.perfis.find(x => x.id===V.perfil); pf.concursos = pf.concursos.filter(x => x!==d.del); save(); V.view = 'concursos'; render()} else {b.dataset.sure = 1; b.textContent = 'Toque de novo para confirmar'}}
+  else if(b.id === 'fotoBtn' || b.id === 'fotoBtn2'){document.getElementById('fotoIn').click()}
+  else if(b.id === 'fotoDel'){delete S.perfis.find(x => x.id===V.perfil).foto; save(); render()}
   else if(b.id === 'bkp'){const code = btoa(unescape(encodeURIComponent(JSON.stringify(S)))); navigator.clipboard.writeText(code).then(() => toast('Código copiado'), () => {document.getElementById('rstBox').hidden = false; const t = document.getElementById('rstTxt'); t.value = code; t.select(); toast('Copie o código selecionado')})}
   else if(b.id === 'rst'){document.getElementById('rstBox').hidden = false; document.getElementById('rstTxt').value = ''}
   else if(b.id === 'rstOk'){try{const n = JSON.parse(decodeURIComponent(escape(atob(document.getElementById('rstTxt').value.trim())))); if(!n.perfis) throw 0; S = n; save(); toast('Progresso restaurado'); render()}catch(err){toast('Código inválido')}}
 });
 document.addEventListener('change', e => {
+  if(e.target.id === 'fotoIn' && e.target.files[0]){
+    const img = new Image(), url = URL.createObjectURL(e.target.files[0]);
+    img.onload = () => {const c = document.createElement('canvas'), z = 192; c.width = c.height = z; const s = Math.min(img.width,img.height);
+      c.getContext('2d').drawImage(img,(img.width-s)/2,(img.height-s)/2,s,s,0,0,z,z); URL.revokeObjectURL(url);
+      S.perfis.find(x => x.id===V.perfil).foto = c.toDataURL('image/jpeg',.82); save(); toast('Foto salva neste aparelho'); render()};
+    img.onerror = () => toast('Não deu para abrir essa imagem'); img.src = url; return;
+  }
   const p = V.perfil && V.conc ? P(V.perfil,V.conc) : null; if(!p) return;
   if(e.target.id === 'fer'){p.feriados = e.target.checked; save(); keep()}
   if(e.target.id === 'ini' && e.target.value){p.inicio = e.target.value; save(); keep()}

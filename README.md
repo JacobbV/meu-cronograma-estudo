@@ -8,7 +8,7 @@ O primeiro cronograma pronto é o do **IBGE 2027 – Recenseador (REC)** do 12º
 
 ## Funcionalidades
 
-- **Perfis sem senha:** quem vai estudar escolhe o próprio nome ao abrir o app (ex.: Beatriz).
+- **Perfis sem senha:** quem vai estudar escolhe o próprio nome ao abrir o app (ex.: Beatriz), com foto opcional. A foto é reduzida e salva só no aparelho, nunca no repositório.
 - **Vários concursos por perfil:** o IBGE já vem montado, e dá para cadastrar outros com data, local e lista de assuntos.
 - **Hoje:** o que estudar no dia, com caixinha para marcar. O que não foi feito nos dias anteriores aparece no dia seguinte como "atrasada", até ser marcado.
 - **Calendário:** visão por **semana** ou por **mês**, com bolinhas coloridas por matéria em cada dia; tocando no dia, aparecem as tarefas.
@@ -19,6 +19,7 @@ O primeiro cronograma pronto é o do **IBGE 2027 – Recenseador (REC)** do 12º
 - **Revisões variadas:** quando o conteúdo acaba, as revisões alternam entre questões, flashcards, releitura dos resumos e dos trechos marcados da apostila.
 - **Reta final automática:** a última semana antes da prova é só revisão, com lembrete do cartão de confirmação e simulado completo.
 - **Avisos de prazo:** lembra no Hoje quando falta uma semana ou menos para um prazo do edital.
+- **Card de compartilhamento:** ao mandar o link no WhatsApp ou em outras redes, aparece um card com título, descrição e imagem (Open Graph), e a aba do navegador mostra o ícone do app.
 - **Cópia de segurança:** gera um código com todo o progresso para guardar e restaurar depois.
 
 ## Como instalar no celular
@@ -47,6 +48,8 @@ sw.js                 # service worker (cache offline)
 icon-180.png          # ícone do iPhone
 icon-192.png          # ícone do Android
 icon-512.png          # ícone grande / splash
+favicon-32.png        # ícone da aba do navegador
+og-image.png          # imagem do card de compartilhamento (1200×630)
 ```
 
 ## Créditos e referências
@@ -57,6 +60,8 @@ icon-512.png          # ícone grande / splash
 - Ícones do app e da interface desenhados no próprio projeto.
 
 ## Versões
+
+- **v2.1.0** (19/11/2026): card de compartilhamento (Open Graph), ícone na aba do navegador e foto de perfil salva só no aparelho.
 
 - **v2.0.0** (19/11/2026): calendário mensal, tarefas atrasadas passam para o dia seguinte, gráfico de andamento do edital por matéria, pausas por período, assuntos conferidos com o edital e a apostila (com a aula do Gran ou as páginas de cada um), revisões variadas, datas do edital, regras do dia da prova e tela de créditos.
 
