@@ -9,7 +9,7 @@ O primeiro cronograma pronto é o do **IBGE 2027 – Recenseador (REC)** do 12º
 ## Funcionalidades
 
 - **Tela de entrada:** "Bora estudar?", com ilustração própria, contagem de dias para a prova e os perfis do aparelho.
-- **Boas-vindas:** na primeira vez que o perfil abre o cronograma, aparece um cartão de boas-vindas (com um recado especial para a Bia).
+- **Boas-vindas:** na primeira vez que o perfil abre o cronograma, aparece um cartão de boas-vindas (com um recado especial para a Bia), que também fica fixado no topo dos Avisos.
 - **Primeiro acesso:** o app pergunta o nome e, se quiser, um PIN de 4 dígitos. Cada pessoa cria o próprio perfil, com foto opcional.
 - **Cronograma em fila:** os assuntos formam uma fila, com as matérias intercaladas e Conhecimentos Técnicos com mais peso. Se a pessoa adianta ou deixa algo para depois, os próximos dias se reorganizam sozinhos, sem acumular tarefas atrasadas.
 - **Ritmo por dia da semana:** escolhe quantos assuntos estudar em cada dia (por exemplo, 1 de segunda a sexta e 3 no sábado). O app mostra a data em que o conteúdo termina e avisa se não couber até a reta final.
@@ -76,6 +76,8 @@ qyudev.png              # marca QYUDEV. nos créditos
 - Ícones, ilustração da tela de entrada e imagens do app desenhados no próprio projeto.
 
 ## Versões
+
+- **v3.6.1** (19/11/2026): recado de boas-vindas fixado no topo da gaveta de Avisos.
 
 - **v3.6.0** (19/11/2026): cartão de boas-vindas na primeira abertura, com recado especial para a Bia, e link direto da aula 1 de Português.
 

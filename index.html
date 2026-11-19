@@ -316,6 +316,14 @@ details.subj[open] > summary{margin-bottom:6px}
 .bv .ass{display:flex;align-items:center;gap:8px;font-weight:700;font-size:18px}
 .bv .ass svg{width:24px;height:24px}
 @keyframes fd{from{opacity:0}to{opacity:1}}
+
+.fixo{background:var(--g2);border-radius:12px;padding:12px 14px;margin:6px 0 12px}
+.fixo h2{font-size:22px;margin:4px 0 6px;color:var(--ink)}
+.fixo p{margin:0 0 8px;font-size:15px;line-height:1.5}
+.fixo .ass{display:flex;align-items:center;gap:6px;font-weight:700;margin:0}
+.fixo .ass svg{width:20px;height:20px}
+.fx-tag{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--g)}
+.fx-tag svg{width:14px;height:14px}
 </style>
 </head>
 <body>
@@ -323,7 +331,7 @@ details.subj[open] > summary{margin-bottom:6px}
 <div class="toast" id="toast" role="status"></div>
 <script>
 {
-const VERSAO = '3.6.0';
+const VERSAO = '3.6.1';
 /* ---------- Dados do concurso (Edital IBGE nº 03/2026 + apostila do 12º Censo Agro) ---------- */
 const IBGE = {
   id:'ibge2027', nome:'IBGE 2027', cargo:'Recenseador (REC)', banca:'Fundação Cesgranrio',
@@ -642,6 +650,7 @@ function painelPerfil(pf){
 }
 function painelAvisos(av,pf){
   return `<section class="card painel"><div class="dh"><h2>Avisos</h2><button class="x" data-painel="" aria-label="Fechar">×</button></div>
+    <div class="fixo"><span class="fx-tag">${PIN_IC} Fixado</span>${recado(pf)}</div>
     ${av.length ? av.map(a => `<div class="av-it${(pf.lidos||[]).includes(a.id)?'':' novo'}">${a.txt}</div>`).join('') + '<button class="mini-btn" id="lerTodos" style="margin-top:10px">Marcar todos como lidos</button>' : '<p class="muted" style="margin:0">Nenhum aviso por enquanto. Os prazos do edital aparecem aqui quando estiverem perto.</p>'}</section>`;
 }
 function header(c,p){
@@ -923,13 +932,17 @@ function render(){
   if(conc === IBGE && !perfil.vindo) app.insertAdjacentHTML('beforeend', boasVindas(perfil));
 }
 
+const PIN_IC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 17v5M9 10.8V4h6v6.8l3 3.2H6z"/></svg>';
 const CORACAO = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-10-9.4C.4 8.3 2.3 4 6.3 4c2.2 0 3.7 1.3 4.7 2.8C12 5.3 13.5 4 15.7 4c4 0 5.9 4.3 4.3 7.6C19.5 16.4 12 21 12 21z" fill="var(--g)"/></svg>';
-function boasVindas(pf){
+function recado(pf){
   const n = pf.nome.toLowerCase().normalize('NFD').replace(/[^a-z ]/g,'').trim();
   const bia = /^(beatriz|bia|ana beatriz)\b/.test(n);
-  const corpo = bia
+  return bia
     ? `<h2>Bia,</h2><p>Fiz esse app pra te acompanhar até o dia 31. Um assunto por dia, no teu ritmo, sem culpa se atrasar: a fila se ajeita sozinha. Eu acredito em você!</p><p class="ass">${CORACAO}<span>Seu amor, Jacó</span></p>`
     : `<h2>Bem-vindo(a), ${esc(pf.nome)}!</h2><p>Seu cronograma do IBGE 2027 já está pronto. Um assunto por dia, no seu ritmo, sem culpa se atrasar: a fila se ajeita sozinha.</p>`;
+}
+function boasVindas(pf){
+  const corpo = recado(pf);
   return `<div class="bv-bg"></div><section class="card bv" role="dialog" aria-label="Boas-vindas">${ILU}${corpo}<button class="btn" id="bvOk" style="width:100%">Bora estudar!</button></section>`;
 }
 function toast(m){const t = document.getElementById('toast'); if(!t) return; t.textContent = m; t.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), 2200)}
