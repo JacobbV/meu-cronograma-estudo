@@ -160,7 +160,7 @@ a{color:inherit}
 .grp:first-of-type{margin-top:4px}
 .grp svg{width:18px;height:18px;flex:none}
 .sub{display:block;font-size:13px;color:var(--mut);margin-top:2px}
-.mini-btn{display:inline-flex;align-items:center;min-height:34px;padding:0 10px;margin-top:6px;margin-right:6px;border-radius:8px;border:1px solid var(--line);background:var(--bg);font-size:13px;font-weight:600;color:var(--ink)}
+.mini-btn{text-decoration:none;display:inline-flex;align-items:center;min-height:34px;padding:0 10px;margin-top:6px;margin-right:6px;border-radius:8px;border:1px solid var(--line);background:var(--bg);font-size:13px;font-weight:600;color:var(--ink)}
 .mini-btn.ok{border-color:var(--ct);color:var(--ct)}
 .plf{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px;font-size:14px}
 .plf input{width:64px;font-size:16px;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
@@ -314,7 +314,7 @@ details.subj[open] > summary{margin-bottom:6px}
 <div class="toast" id="toast" role="status"></div>
 <script>
 {
-const VERSAO = '3.4.1';
+const VERSAO = '3.5.0';
 /* ---------- Dados do concurso (Edital IBGE nº 03/2026 + apostila do 12º Censo Agro) ---------- */
 const IBGE = {
   id:'ibge2027', nome:'IBGE 2027', cargo:'Recenseador (REC)', banca:'Fundação Cesgranrio',
@@ -332,83 +332,85 @@ const IBGE = {
 /* tipos de assunto: aq = videoaula + questões · a = videoaula · q = questões · lq = leitura + questões · l = leitura */
 const MAT = {
   pt:{nome:'Português', cor:'var(--pt)', itens:[
-    ['Ortografia oficial','Gran: aulas 1 a 4 — Ortografia e Acentuação','aq'],
-    ['Acentuação gráfica','Gran: aulas 1 a 4 — Ortografia e Acentuação','aq'],
-    ['Classes de palavras I: substantivo, adjetivo, artigo e numeral','Gran: aulas de Morfologia (a partir da aula 10)','aq'],
-    ['Classes de palavras II: advérbio, preposição, conjunção e interjeição','Gran: aulas de Morfologia; Cesgranrio na prática, aulas 13 e 14','aq'],
-    ['Emprego dos verbos regulares e irregulares','Gran: aulas de Morfologia (verbo)','aq'],
-    ['Vozes dos verbos (ativa, passiva e reflexiva)','Gran: Cesgranrio na prática, aula 17 — Vozes Verbais','aq'],
-    ['Emprego dos pronomes: pessoais, de tratamento, possessivos e demonstrativos','Gran: aulas de Morfologia (pronomes)','aq'],
-    ['Pronomes relativos e colocação pronominal','Gran: Cesgranrio na prática, aulas 12, 15 e 16','aq'],
-    ['Base: termos da oração e predicação verbal','Gran: Sintaxe, Predicação Verbal (até a aula 22) e Termos Ligados ao Nome (23 a 25)','aq'],
-    ['Base: período composto, orações substantivas e adjetivas','Gran: aulas 27 a 36','aq'],
-    ['Concordância verbal','Gran: Cesgranrio na prática, aulas 18 e 19 — Concordância','aq'],
-    ['Concordância nominal','Gran: Cesgranrio na prática, aulas 18 e 19 — Concordância','aq'],
-    ['Regência verbal','Gran: aulas de Regência','aq'],
-    ['Regência nominal','Gran: aulas de Regência','aq'],
-    ['Pontuação: uso da vírgula','Gran: aulas de Pontuação','aq'],
-    ['Pontuação: demais sinais; estrutura e sequência lógica de frases e parágrafos','Gran: aulas de Pontuação','aq'],
-    ['Significação das palavras: sinônimos, antônimos e homônimos','Gran: aulas de Semântica','aq'],
-    ['Compreensão de texto','Gran: Cesgranrio na prática, aulas 20 a 22 — Interpretação de Texto','aq']],
-    rev:['Questões de ortografia e acentuação','Flashcards: regras de acentuação e ortografia','Questões de classes de palavras e pronomes',
-      'Questões de concordância','Questões de regência','Releitura dos resumos: verbos e vozes verbais','Questões de pontuação',
+    ['Ortografia oficial e acentuação gráfica','Gran: aulas 1 a 3 — Ortografia e Acentuação','aq'],
+    ['Ortografia e acentuação: exercícios e complementos','Gran: aulas 4 a 6 — Ortografia e Acentuação (exercícios, IV e V)','aq'],
+    ['Classes de palavras I','Gran: aulas 7 a 9 — Morfologia','aq'],
+    ['Classes de palavras II','Gran: aulas 10 a 12 — Morfologia IV, V e exercícios','aq'],
+    ['Base: sujeito e predicação verbal','Gran: aulas 13 a 22 — Sintaxe (Sujeito) e Predicação Verbal','aq'],
+    ['Base: termos ligados ao nome e orações substantivas','Gran: aulas 23 a 30 — Termos Ligados ao Nome, Período Composto e Orações Substantivas','aq'],
+    ['Base: orações adjetivas e pronome relativo','Gran: aulas 31 a 36 — Orações Subordinadas Adjetivas','aq'],
+    ['Base: orações adverbiais, coordenadas e reduzidas','Gran: aulas 37 a 41','aq'],
+    ['Pontuação: uso da vírgula','Gran: aulas 42 a 44 — Pontuação','aq'],
+    ['Pontuação: demais sinais; estrutura e sequência lógica de frases e parágrafos','Gran: aulas 45 a 48 — Pontuação IV, V e exercícios','aq'],
+    ['Emprego dos pronomes pessoais','Gran: aulas 49 e 50 — Pronomes Pessoais','aq'],
+    ['Colocação pronominal','Gran: aulas 51 a 53 — Colocação Pronominal','aq'],
+    ['Vozes dos verbos (ativa, passiva e reflexiva)','Gran: aulas 54 a 57 — Vozes Verbais e SE','aq'],
+    ['Regência nominal e verbal','Gran: Cesgranrio na prática, aulas 4 e 5 (revise também Predicação Verbal, aulas 19 a 22)','aq',null,null,'5dL2LwTeZNs%3D'],
+    ['Crase','Gran: aulas 58 a 62 — Crase','aq'],
+    ['Reescrita de frases','Gran: aulas 63 e 64 — Reescrita','aq'],
+    ['Concordância nominal e verbal','Gran: aulas 65 e 66 — Casos Especiais de Concordância; Cesgranrio na prática, aulas 18 e 19','aq',null,null,'EuZzeUXKtvo%3D'],
+    ['Verbos: conceitos gerais e conjugação dos regulares','Gran: aulas 67 a 70','aq',null,null,'8dyjqOE9HNw%3D'],
+    ['Verbos irregulares, tempos e modos','Gran: aulas 71 a 76','aq',null,null,'%2FBSzNlgkVPU%3D'],
+    ['Significação das palavras: sinônimos, antônimos e homônimos','Sem aula específica no Gran: leia o PDF e faça questões','lq'],
+    ['Compreensão de texto','Gran: Cesgranrio na prática, aulas 20 a 22 — Interpretação de Texto','aq',null,null,'taq0xgJQ%2Bpw%3D']],
+    rev:['Questões de ortografia e acentuação','Flashcards: regras de acentuação e crase','Questões de classes de palavras e pronomes',
+      'Questões de concordância','Questões de regência e crase','Releitura dos resumos: verbos e vozes verbais','Questões de pontuação',
       'Questões de interpretação de texto (provas Cesgranrio)']},
   mt:{nome:'Matemática', cor:'var(--mt)', itens:[
-    ['Números naturais: operações e propriedades','Gran: aulas 1 a 9 — Introdução à Matemática Básica','aq'],
-    ['Números inteiros e racionais: operações e propriedades','Gran: aulas 1 a 9 — Introdução à Matemática Básica','aq'],
-    ['Frações e números decimais','Gran: Introdução à Matemática Básica','aq'],
-    ['Múltiplos e divisores (MMC e MDC)','Gran: aulas 10 e 11 — MDC e MMC','aq'],
-    ['Problemas com naturais, inteiros e racionais','Gran: caderno de questões','q'],
-    ['Equações do 1º grau','Gran: aula 12 — Equação do 1º grau','aq'],
-    ['Problemas com equações do 1º grau','Gran: aulas 14 a 17 — Sistemas (ajudam nos problemas)','aq'],
-    ['Razão e proporção','Gran: aula 19 — Razão e proporção','aq'],
-    ['Divisão proporcional','Gran: aula 20 — Divisão proporcional','aq'],
-    ['Regra de três simples','Gran: aulas de Regra de três','aq'],
-    ['Porcentagem I: conceito e cálculo','Gran: aulas de Porcentagem','aq'],
-    ['Porcentagem II: aumentos, descontos e problemas','Gran: aulas de Porcentagem','aq'],
-    ['Medidas de comprimento e superfície; conversões','Gran: aulas 52 a 55 — Sistemas de Unidades de Medidas','aq'],
-    ['Medidas de volume, massa e tempo; sistema métrico decimal','Gran: aulas 52 a 55 — Sistemas de Unidades de Medidas','aq'],
-    ['Áreas e perímetros','Gran: aulas de Geometria Plana','aq'],
-    ['Volumes','Gran: aulas 56 a 63 — Geometria Espacial','aq'],
-    ['Tabelas, gráficos e quadros informativos','Gran: aulas de Tabelas e Gráficos','aq'],
-    ['Mapas, croquis, esquemas e representações gráficas','Gran: Conhecimentos Técnicos, aulas 1 a 3 (Cartografia) ajudam aqui','aq']],
+    ['Números naturais, inteiros e racionais: operações e propriedades','Gran: aulas 1 a 3 — Introdução à Matemática Básica','aq'],
+    ['Conjuntos numéricos e fatoração','Gran: aulas 4 e 5','aq'],
+    ['Múltiplos e divisores: MDC e MMC','Gran: aulas 6 a 8','aq'],
+    ['MDC e MMC: problemas','Gran: aulas 9 a 11','aq'],
+    ['Equações do 1º grau','Gran: aulas 12 e 13 — Equação do 1º Grau','aq'],
+    ['Problemas com equações: sistemas','Gran: aulas 14 a 17 — Sistemas de Equações','aq'],
+    ['Razão e proporção','Gran: aulas 18 e 19','aq'],
+    ['Divisão proporcional','Gran: aulas 20 a 22','aq'],
+    ['Regra de três simples','Gran: aulas 23 a 26 — Regra de Três','aq'],
+    ['Porcentagem','Gran: aulas 27 a 29','aq'],
+    ['Porcentagem: aumentos e descontos','Gran: aulas 30 a 33 — Fator de Aumento e Redução','aq'],
+    ['Geometria plana: noções e perímetros','Gran: aulas 34 a 38 — Noções de Geometria Plana','aq'],
+    ['Triângulo retângulo e semelhança de triângulos','Gran: aulas 39 a 44','aq'],
+    ['Quadriláteros e áreas de figuras planas I','Gran: aulas 45 a 48','aq'],
+    ['Áreas de figuras planas II','Gran: aulas 49 a 51 — Área de Figuras Planas III a V','aq'],
+    ['Medidas de comprimento, superfície, volume, massa e tempo; sistema métrico decimal','Gran: aulas 52 a 55 — Sistemas de Unidades de Medidas','aq'],
+    ['Volumes I','Gran: aulas 56 a 59 — Geometria Espacial','aq',null,null,'b7m%2Bhiy2XKQ%3D'],
+    ['Volumes II','Gran: aulas 60 a 63 — Geometria Espacial','aq',null,null,'Zo1spezxk3g%3D'],
+    ['Tabelas, gráficos e quadros informativos','Sem aula específica no Gran: faça questões do caderno','q'],
+    ['Mapas, croquis, esquemas e representações gráficas','Conhecimentos Técnicos, aulas 1 a 3 (Cartografia), ajudam aqui','q']],
     rev:['Questões de porcentagem e regra de três','Questões de razão, proporção e divisão proporcional','Flashcards: conversão de medidas',
       'Questões de áreas, perímetros e volumes','Questões de equações do 1º grau','Questões de tabelas e gráficos','Questões de operações, MMC e MDC']},
   ct:{nome:'Conhecimentos Técnicos', cor:'var(--ct)', itens:[
-    ['Gran aula 1: Introdução aos Conceitos Básicos de Cartografia e Interpretação de Mapas','Videoaula','a'],
-    ['Gran aula 2: Conceitos Básicos de Cartografia e Interpretação de Mapas II','Videoaula','a'],
-    ['Gran aula 3: Conceitos Básicos de Cartografia e Interpretação de Mapas III','Videoaula','a'],
-    ['Apresentação, o IBGE e o Censo Agropecuário, Florestal e Aquícola','Apostila','lq',3,7],
-    ['O 12º Censo Agropecuário, Florestal e Aquícola','Apostila','lq',8,10],
-    ['Gran aula 4: Estudo dos conhecimentos técnicos do 12º Censo (parte 1)','Videoaula','a'],
+    ['Gran aula 1: Introdução aos Conceitos Básicos de Cartografia e Interpretação de Mapas','Videoaula','a',null,null,'%2BfEaI%2Bl0rts%3D'],
+    ['Gran aula 2: Conceitos Básicos de Cartografia e Interpretação de Mapas II','Videoaula','a',null,null,'e8j8RlZNcsI%3D'],
+    ['Gran aula 3: Conceitos Básicos de Cartografia e Interpretação de Mapas III','Videoaula','a',null,null,'3jVfMGUsQS0%3D'],
+    ['Apresentação, o IBGE e o 12º Censo Agropecuário, Florestal e Aquícola','Apostila','lq',3,10],
+    ['Gran aula 4: Estudo dos conhecimentos técnicos do 12º Censo (parte 1)','Videoaula','a',null,null,'Ph0d%2FB%2BET%2FQ%3D'],
     ['Estrutura Organizacional Censitária','Apostila — funções do ACR, ACS e Recenseador','lq',11,19],
     ['Instrumentos de trabalho','Apostila','lq',20,22],
-    ['Gran aula 5: Estudo dos conhecimentos técnicos do 12º Censo (parte 2)','Videoaula','a'],
+    ['Gran aula 5: Estudo dos conhecimentos técnicos do 12º Censo (parte 2)','Videoaula','a',null,null,'V33uPQoU2y0%3D'],
     ['Orientações de navegação para o trabalho em campo','Apostila','lq',23,31],
     ['Divisão político-administrativa do Brasil','Apostila','lq',32,34],
-    ['Gran aula 6: Estudo dos conhecimentos técnicos do 12º Censo (parte 3)','Videoaula','a'],
+    ['Gran aula 6: Estudo dos conhecimentos técnicos do 12º Censo (parte 3)','Videoaula','a',null,null,'dT6eyMPHLVw%3D'],
     ['Estruturas Territoriais e territórios de Povos e Comunidades Tradicionais (PCTs)','Apostila','lq',35,42],
-    ['Endereço','Apostila','lq',43,47],
-    ['Coordenadas Geográficas','Apostila','lq',48,50],
-    ['Gran aula 7: Estudo dos conhecimentos técnicos do 12º Censo (parte 4)','Videoaula','a'],
-    ['Estabelecimento Agropecuário','Apostila','lq',51,56],
-    ['Produtores sem área','Apostila','lq',57,58],
+    ['Endereço e Coordenadas Geográficas','Apostila','lq',43,50],
+    ['Gran aula 7: Estudo dos conhecimentos técnicos do 12º Censo (parte 4)','Videoaula','a',null,null,'xTeV%2BiunNAA%3D'],
+    ['Estabelecimento Agropecuário e Produtores sem área','Apostila','lq',51,58],
     ['Situações especiais e Encerramento','Apostila','lq',59,68],
-    ['Gran aula 8: Estudo dos conhecimentos técnicos do 12º Censo (parte 5)','Videoaula','a'],
+    ['Gran aula 8: Estudo dos conhecimentos técnicos do 12º Censo (parte 5)','Videoaula','a',null,null,'hGhB%2BhQFcvw%3D'],
     ['Resumo da apostila inteira: conceitos, siglas e definições','Monte flashcards com o que mais confunde','l'],
     ['Caderno de questões Gran: Conhecimentos Técnicos','Questões','q']],
     rev:['Flashcards: siglas e funções da estrutura censitária','Releitura dos trechos marcados da apostila','Questões de Conhecimentos Técnicos',
       'Releitura dos resumos: estabelecimento agropecuário, produtores sem área e situações especiais','Questões: endereço, coordenadas e estruturas territoriais']},
   qs:{nome:'Questões', cor:'var(--qs)', itens:[
-    ['Gran: Resolução de prova Cesgranrio — CEF 2026 (partes I e II)','Português, aulas 1 e 2 do tópico de provas','a'],
-    ['Gran: Resolução de prova Cesgranrio — BNDES 2024 (partes I e II)','Português, aulas 3 e 4 do tópico de provas','a'],
-    ['Gran: Resolução de prova Cesgranrio — Banese 2025 (partes I e II)','Português, aulas 5 e 6 do tópico de provas','a'],
-    ['Gran: Cesgranrio na prática — pronome relativo e conjunções','Aulas 12 a 14','a'],
-    ['Gran: Cesgranrio na prática — conjunções e colocação pronominal','Aulas 15 e 16','a'],
-    ['Gran: Cesgranrio na prática — vozes verbais e concordância','Aulas 17 a 19','a'],
-    ['Gran: Cesgranrio na prática — interpretação de texto','Aulas 20 a 22','a'],
-    ['Caderno de questões: 30 questões de Português e Matemática','Gran','q'],
-    ['Caderno de questões: 30 questões de Conhecimentos Técnicos','Gran','q']],
+    ['Gran: Resolução de prova Cesgranrio — CEF 2026','Português, tópico 2, aulas 1 e 2','a',null,null,'8krVwT1J1jo%3D'],
+    ['Gran: Cesgranrio na prática — classes de palavras e morfossintaxe','Português, tópico 3, aulas 1 a 3','a',null,null,'aHyDnzevLwU%3D'],
+    ['Gran: Resolução de prova Cesgranrio — BNDES 2024','Português, tópico 2, aulas 3 e 4','a',null,null,'JknPRaMUFsY%3D'],
+    ['Gran: Cesgranrio na prática — crase e período composto','Português, tópico 3, aulas 6 a 8','a',null,null,'waEqSno5Sq8%3D'],
+    ['Gran: Resolução de prova Cesgranrio — Banese 2025','Português, tópico 2, aulas 5 e 6','a',null,null,'48L%2B4txpFcE%3D'],
+    ['Gran: Cesgranrio na prática — pronome relativo e orações subordinadas','Português, tópico 3, aulas 9 a 12','a',null,null,'QRee%2FpyZz%2Fw%3D'],
+    ['Gran: Cesgranrio na prática — conjunções e colocação pronominal','Português, tópico 3, aulas 13 a 16','a',null,null,'gQ7dU12MImU%3D'],
+    ['Gran: Cesgranrio na prática — vozes verbais','Português, tópico 3, aula 17','a',null,null,'le9GezkDejc%3D'],
+    ['Caderno de questões: 30 questões misturadas','Gran','q']],
     rev:['Caderno de questões: 30 questões misturadas das três matérias','Refazer as questões que errou nas últimas semanas']}
 };
 const SUM = [['Apresentação',3],['O Instituto Brasileiro de Geografia e Estatística',4],['O Censo Agropecuário, Florestal e Aquícola',6],['O 12º Censo Agropecuário, Florestal e Aquícola',8],
@@ -423,7 +425,7 @@ const REVROT = ['ct','pt','mt','ct','qs','pt','mt'];
 /* fila de conteúdo: matérias intercaladas, CT com mais peso (vale metade da prova) */
 const QC = (() => {const ptr = {pt:0,mt:0,ct:0,qs:0}, out = []; let ok = true;
   while(ok){ok = false; for(const m of ROT){const it = MAT[m].itens[ptr[m]]; if(!it) continue; ok = true;
-    out.push({id:m+'-'+ptr[m], m, t:it[0], g:it[1], k:it[2], pg:it[3] ? [it[3],it[4]] : null}); ptr[m]++}}
+    out.push({id:m+'-'+ptr[m], m, t:it[0], g:it[1], k:it[2], pg:it[3] ? [it[3],it[4]] : null, u:it[5] || null}); ptr[m]++}}
   return out})();
 const QR = (() => {const rk = {pt:0,mt:0,ct:0,qs:0}, out = [];
   for(let i = 0; i < 220; i++){const m = REVROT[i % REVROT.length], k = rk[m]++, t = MAT[m].rev[k % MAT[m].rev.length];
@@ -470,7 +472,7 @@ function P(pid,cid){
   if(!S.prog[k]) S.prog[k] = {done:{}, inicio:IBGE.inicio, feriados:true, pausas:[], extra:{}, placar:{}, perdao:[], recorde:0};
   const p = S.prog[k];
   p.pausas = p.pausas || []; p.extra = p.extra || {}; p.placar = p.placar || {}; p.perdao = p.perdao || []; p.recorde = p.recorde || 0;
-  if(!p.ritmo){p.ritmo = {0:0,1:1,2:1,3:1,4:1,5:1,6:3}; if(p.dias) for(let w = 0; w < 7; w++) if(!p.dias.includes(w)) p.ritmo[w] = 0; delete p.dias}
+  if(!p.ritmo){p.ritmo = {0:1,1:1,2:1,3:1,4:1,5:1,6:3}; if(p.dias) for(let w = 0; w < 7; w++) if(!p.dias.includes(w)) p.ritmo[w] = 0; delete p.dias}
   /* migração da v2: assunto marcado inteiro vira todas as etapas marcadas */
   if(cid === IBGE.id) for(const a of [...QC,...QR]) if(p.done[a.id] && typeof p.done[a.id] === 'string'){for(const s of STEPS[a.k]) p.done[a.id+':'+s] = p.done[a.id]; delete p.done[a.id]}
   return p;
@@ -555,12 +557,14 @@ function placarUI(p,a){
 }
 function stepRow(p,a,s){
   const d = sd(p,a,s);
-  const extra = (s === 'l' && a.pg ? `<button class="mini-btn" data-ap="${a.pg[0]}">Abrir na p. ${a.pg[0]}</button>` : '') + (s === 'q' ? placarUI(p,a) : '');
+  const GRAN = 'https://www.grancursosonline.com.br/aluno/curso/video/codigo/K3VrtUjW6Ls%3D/v/', CURSO = 'https://www.grancursosonline.com.br/aluno/curso/s/ibge-instituto-brasileiro-de-geografia-e-estatistica-temporario-recenseador-rec-pos-edital';
+  const aula = s === 'a' && a.m !== 'fx' ? `<a class="mini-btn" href="${a.u ? GRAN+a.u : CURSO}" target="_blank" rel="noopener">${a.u ? 'Abrir aula no Gran' : 'Abrir o curso no Gran'}</a>` : '';
+  const extra = (s === 'l' && a.pg ? `<button class="mini-btn" data-ap="${a.pg[0]}">Abrir na p. ${a.pg[0]}</button>` : '') + aula + (s === 'q' ? placarUI(p,a) : '');
   return `<div class="task${d?' ok':''}"><button class="chk" data-s="${a.id}:${s}" aria-pressed="${!!d}" aria-label="Marcar ${STEPNOME[s]}">${ICK}</button><div>${tag(a.m)}<span class="tt">${esc(a.t)}</span><span class="sub">${stepTxt(a,s)}${s==='a'&&a.g&&a.g!=='Videoaula'?' · '+esc(a.g):''}</span>${extra}</div></div>`;
 }
 function aRow(p,a){
   const d = aDone(p,a), n = STEPS[a.k].length, f = aPart(p,a);
-  const info = n > 1 ? STEPS[a.k].map(s => STEPNOME[s]+(sd(p,a,s)?' ✓':'')).join(' · ') : (a.g || '');
+  const info = [a.g && a.g !== 'Videoaula' ? a.g : '', n > 1 ? STEPS[a.k].map(s => STEPNOME[s]+(sd(p,a,s)?' ✓':'')).join(' · ') : (a.g === 'Videoaula' ? 'Videoaula' : '')].filter(Boolean).join(' · ');
   return `<div class="task${d?' ok':''}"><button class="chk" data-a="${a.id}" aria-pressed="${!!d}" aria-label="Marcar assunto">${ICK}</button><div>${tag(a.m)}${!d&&f?'<span class="tag late" style="color:var(--mt);border-color:var(--mt)">em andamento</span>':''}<span class="tt">${esc(a.t)}</span>${info?`<span class="sub">${esc(info)}</span>`:''}</div></div>`;
 }
 const ACHA = id => QC.find(a => a.id === id) || QR.find(a => a.id === id);

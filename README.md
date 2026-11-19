@@ -19,6 +19,7 @@ O primeiro cronograma pronto é o do **IBGE 2027 – Recenseador (REC)** do 12º
 - **Sequência de dias (foguinho):** conta os dias seguidos de estudo. Tocando no foguinho, abre um calendário das últimas 4 semanas com os dias estudados, a sequência atual, o recorde e uma mensagem do dia. Folgas, feriados e pausas não apagam o fogo. Se a sequência apagar há até 3 dias, dá para reacender estudando um assunto a mais no dia.
 - **Placar de questões:** depois das questões, anota quantas acertou. O app mostra o percentual de acerto por matéria, aponta o ponto fraco e começa a reta final por ele.
 - **Calendário:** visão por semana ou por mês, com bolinhas coloridas por matéria.
+- **Aulas do Gran numeradas:** cada assunto mostra as aulas exatas do curso do Gran, e as videoaulas têm o botão "Abrir aula no Gran" (ou "Abrir o curso no Gran" quando não há link direto).
 - **Edital:** gráfico de rosca com o andamento por matéria e a lista de todos os assuntos, em blocos que abrem e fecham por matéria, com a aula do Gran ou as páginas da apostila.
 - **Prova:** data, horário, local, banca, questões por matéria, nota mínima, datas importantes do edital e o que levar no dia.
 - **Pausas:** marca um período sem estudo (viagem, feriado da cidade) e a fila espera.
@@ -74,6 +75,8 @@ qyudev.png              # marca QYUDEV. nos créditos
 - Ícones, ilustração da tela de entrada e imagens do app desenhados no próprio projeto.
 
 ## Versões
+
+- **v3.5.0** (19/11/2026): assuntos reorganizados pela ordem e numeração exata das aulas do Gran (Português 1 a 76, Matemática 1 a 63, Cesgranrio na prática 1 a 22, provas resolvidas 1 a 6, Conhecimentos Técnicos 1 a 8), botão para abrir a aula no Gran, seções curtas da apostila agrupadas e ritmo padrão com 1 assunto no domingo.
 
 - **v3.4.1** (19/11/2026): na aba Edital, as listas de Conhecimentos Técnicos, Português e Matemática abrem e fecham.
 
