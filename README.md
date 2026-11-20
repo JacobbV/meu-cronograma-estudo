@@ -154,7 +154,7 @@ EDITAIS=editais/ python3 tools/build_vitrine.py
 
 ## 🗒️ Versões
 
-**Atual: v4.2.0** — radar de concursos atualizado todo dia e modelos da comunidade.<br>
+**Atual: v4.2.1** — radar de concursos atualizado todo dia e modelos da comunidade.<br>
 Histórico completo no [CHANGELOG](CHANGELOG.md).
 
 ---
