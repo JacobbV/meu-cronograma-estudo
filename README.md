@@ -75,6 +75,7 @@ Envie o **PDF do edital** ou **cole o conteúdo programático**. O app separa ma
 - Funciona **sem internet** e sincroniza quando a conexão volta.
 - Prefere sem conta? Também dá: tudo fica salvo só no aparelho, com cópia de segurança.
 - Tema claro, noite ou automático e seis cores para escolher.
+- Botão para **compartilhar o app** com quem também está estudando.
 
 ---
 
@@ -154,7 +155,7 @@ EDITAIS=editais/ python3 tools/build_vitrine.py
 
 ## 🗒️ Versões
 
-**Atual: v4.3.0** — nova marca na tela de entrada, radar de concursos diário e modelos da comunidade.<br>
+**Atual: v4.4.0** — compartilhar o app e página de créditos.<br>
 Histórico completo no [CHANGELOG](CHANGELOG.md).
 
 ---
