@@ -1,1 +1,1622 @@
-{"atualizado":"","fontes":{},"itens":[]}
+{
+ "atualizado": "2026-11-20",
+ "fontes": {
+  "pci": {
+   "nome": "PCI Concursos",
+   "url": "https://www.pciconcursos.com.br/concursos/nordeste/",
+   "ok": "2026-11-20",
+   "n": 90
+  },
+  "gran": {
+   "nome": "Blog do Gran",
+   "url": "https://blog.grancursosonline.com.br/ultimas-noticias/",
+   "ok": "2026-11-20",
+   "n": 2
+  },
+  "estrategia-mapa": {
+   "nome": "Estratégia · Mapa dos concursos",
+   "url": "https://concursos.estrategia.com/blog/mapa-concursos",
+   "ok": "2026-11-20",
+   "n": 0
+  },
+  "estrategia": {
+   "nome": "Estratégia · Portal",
+   "url": "https://concursos.estrategia.com/portal/",
+   "ok": "2026-11-20",
+   "n": 40
+  }
+ },
+ "itens": [
+  {
+   "id": "pci-prefeitura-de-itapororoca-pb",
+   "nome": "Prefeitura de Itapororoca",
+   "uf": "PB",
+   "vagas": "175",
+   "salario": "R$ 10.000,00",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-20",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-itapororoca-pb-abre-concurso-com-salarios-de-ate-10000",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-itiuba-ba",
+   "nome": "Prefeitura de Itiúba",
+   "uf": "BA",
+   "vagas": "65",
+   "salario": "R$ 4.318,18",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-22",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-itiuba-ba-abre-processo-seletivo-para-profissionais-de-saude",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-oros-ce",
+   "nome": "Prefeitura de Orós",
+   "uf": "CE",
+   "vagas": "95",
+   "salario": "R$ 3.606,93",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-22",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-oros-ce-abre-concurso-publico-com-vagas-para-diversas-areas",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-ifma-instituto-federal-de-educacao-ciencia-e-tecnologia-do-maranhao-ma",
+   "nome": "IFMA - Instituto Federal de Educação, Ciência e Tecnologia do Maranhão",
+   "uf": "MA",
+   "vagas": "3",
+   "salario": "R$ 8.058,29",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-22",
+   "link": "https://www.pciconcursos.com.br/noticias/ifma-abre-processo-seletivo-para-professores-substitutos-no-campus-coelho-neto",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-camara-de-guarabira-pb",
+   "nome": "Câmara de Guarabira",
+   "uf": "PB",
+   "vagas": "5",
+   "salario": "R$ 3.354,70",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-22",
+   "link": "https://www.pciconcursos.com.br/noticias/camara-de-guarabira-pb-abre-concurso-publico-com-salarios-de-ate-3354",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-mairi-ba",
+   "nome": "Prefeitura de Mairi",
+   "uf": "BA",
+   "vagas": "20",
+   "salario": "R$ 3.242,00",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-23",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-mairi-ba-abre-concurso-publico-com-vagas-na-saude-e-educacao",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-cbm-corpo-de-bombeiros-militar-pe",
+   "nome": "CBM - Corpo de Bombeiros Militar",
+   "uf": "PE",
+   "vagas": "570",
+   "salario": "R$ 12.937,33",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-23",
+   "link": "https://www.pciconcursos.com.br/noticias/secretaria-de-defesa-social-pe-retifica-concurso-com-570-vagas-para-bombeiros",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-pmpe-policia-militar-de-pernambuco-pe",
+   "nome": "PMPE - Polícia Militar de Pernambuco",
+   "uf": "PE",
+   "vagas": "1320",
+   "salario": "R$ 12.937,33",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-23",
+   "link": "https://www.pciconcursos.com.br/noticias/pmpe-altera-periodo-de-inscricao-para-concurso-publico-de-soldados-e-oficiais",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-cristalandia-do-piaui-pi",
+   "nome": "Prefeitura de Cristalândia do Piauí",
+   "uf": "PI",
+   "vagas": "50",
+   "salario": "R$ 4.750,00",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-23",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-cristalandia-do-piaui-pi-abre-concurso-publico-para-diversos-cargos",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-monsenhor-gil-pi",
+   "nome": "Prefeitura de Monsenhor Gil",
+   "uf": "PI",
+   "vagas": "101",
+   "salario": "R$ 8.000,00",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-23",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-monsenhor-gil-pi-abre-concurso-publico-com-salarios-de-ate-8000",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-upanema-rn",
+   "nome": "Prefeitura de Upanema",
+   "uf": "RN",
+   "vagas": "92",
+   "salario": "R$ 3.610,20",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-24",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-upanema-rn-abre-selecao-para-profissionais-da-educacao",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-camara-de-santa-rita-de-cassia-ba",
+   "nome": "Câmara de Santa Rita de Cássia",
+   "uf": "BA",
+   "vagas": "13",
+   "salario": "R$ 4.400,00",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-25",
+   "link": "https://www.pciconcursos.com.br/noticias/camara-de-santa-rita-de-cassia-ba-retifica-edital-de-concurso-publico",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-tucano-ba",
+   "nome": "Prefeitura de Tucano",
+   "uf": "BA",
+   "vagas": "83",
+   "salario": "R$ 3.000,00",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-25",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-tucano-ba-abre-processo-seletivo-com-83-vagas",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-itapipoca-ce",
+   "nome": "Prefeitura de Itapipoca",
+   "uf": "CE",
+   "vagas": "688",
+   "salario": "R$ 2.565,32",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-25",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-itapipoca-ce-abre-processo-seletivo-para-a-educacao",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-semed-secretaria-municipal-de-educacao-de-timon-ma",
+   "nome": "SEMED - Secretaria Municipal de Educação de Timon",
+   "uf": "MA",
+   "vagas": "327",
+   "salario": "",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-25",
+   "link": "https://www.pciconcursos.com.br/noticias/semed-de-timon-ma-abre-processo-seletivo-para-professores-com-diversas-especialidades",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-uema-universidade-estadual-do-maranhao-ma",
+   "nome": "UEMA - Universidade Estadual do Maranhão",
+   "uf": "MA",
+   "vagas": "2",
+   "salario": "R$ 3.624,64",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-25",
+   "link": "https://www.pciconcursos.com.br/noticias/uema-abre-processos-seletivos-para-professores-substitutos-em-coroata-e-sao-luis",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-belem-do-piaui-pi",
+   "nome": "Prefeitura de Belém do Piauí",
+   "uf": "PI",
+   "vagas": "49",
+   "salario": "R$ 12.000,00",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-25",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-belem-do-piaui-pi-abre-concurso-com-remuneracoes-de-ate-12000",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-campo-grande-do-piaui-pi",
+   "nome": "Prefeitura de Campo Grande do Piauí",
+   "uf": "PI",
+   "vagas": "90",
+   "salario": "R$ 8.257,00",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-25",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-campo-grande-do-piaui-pi-abre-concurso-publico-para-diversos-cargos-e-cadastro-de-reserva",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-canto-do-buriti-pi",
+   "nome": "Prefeitura de Canto do Buriti",
+   "uf": "PI",
+   "vagas": "257",
+   "salario": "R$ 16.210,00",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-26",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-canto-do-buriti-pi-retifica-edital-de-concurso-publico",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-coronel-jose-dias-pi",
+   "nome": "Prefeitura de Coronel José Dias",
+   "uf": "PI",
+   "vagas": "6",
+   "salario": "R$ 2.434,00",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-26",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-coronel-jose-dias-pi-abre-processo-seletivo-com-seis-vagas",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-funesa-fundacao-estadual-de-saude-se",
+   "nome": "FUNESA - Fundação Estadual de Saúde",
+   "uf": "SE",
+   "vagas": "5",
+   "salario": "R$ 3.957,26",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-26",
+   "link": "https://www.pciconcursos.com.br/noticias/funesa-se-abre-selecao-para-cirurgiao-dentista-e-auxiliar-em-saude-bucal",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-camara-de-croata-ce",
+   "nome": "Câmara de Croatá",
+   "uf": "CE",
+   "vagas": "15",
+   "salario": "R$ 1.621,00",
+   "niveis": [
+    "Fundamental",
+    "Médio"
+   ],
+   "inscricoesAte": "2026-11-27",
+   "link": "https://www.pciconcursos.com.br/noticias/camara-de-croata-ce-abre-concurso-publico-com-vagas-imediatas-e-cadastro-de-reserva",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-surubim-pe",
+   "nome": "Prefeitura de Surubim",
+   "uf": "PE",
+   "vagas": "9",
+   "salario": "R$ 2.600,00",
+   "niveis": [
+    "Fundamental",
+    "Médio"
+   ],
+   "inscricoesAte": "2026-11-27",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-surubim-pe-abre-processo-seletivo-para-a-secretaria-de-saude",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-formosa-do-rio-preto-ba",
+   "nome": "Prefeitura de Formosa do Rio Preto",
+   "uf": "BA",
+   "vagas": "68",
+   "salario": "R$ 1.808,33",
+   "niveis": [],
+   "inscricoesAte": "2026-11-29",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-formosa-do-rio-preto-ba-abre-processo-seletivo-para-profissionais-da-saude",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-conscensul-consorcio-publico-da-regiao-sertao-centro-sul-ce",
+   "nome": "CONSCENSUL - Consórcio Público da Região Sertão Centro Sul",
+   "uf": "CE",
+   "vagas": "9",
+   "salario": "R$ 5.500,00",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-29",
+   "link": "https://www.pciconcursos.com.br/noticias/conscensul-ce-abre-concurso-publico-com-vagas-de-nivel-superior-em-lavras-da-mangabeira",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-ifce-instituto-federal-de-educacao-ciencia-e-tecnologia-do-ceara-ce",
+   "nome": "IFCE - Instituto Federal de Educação, Ciência e Tecnologia do Ceará",
+   "uf": "CE",
+   "vagas": "1",
+   "salario": "R$ 8.340,33",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-29",
+   "link": "https://www.pciconcursos.com.br/noticias/ifce-abre-selecao-para-professor-substituto-de-lingua-portuguesa-em-tiangua",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-camara-de-areia-pb",
+   "nome": "Câmara de Areia",
+   "uf": "PB",
+   "vagas": "4",
+   "salario": "R$ 1.621,00",
+   "niveis": [
+    "Fundamental",
+    "Médio"
+   ],
+   "inscricoesAte": "2026-11-29",
+   "link": "https://www.pciconcursos.com.br/noticias/camara-de-areia-pb-abre-concurso-para-auxiliar-de-servicos-gerais-e-auxiliar-administrativo",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-ifpb-instituto-federal-de-educacao-ciencia-e-tecnologia-da-paraiba-pb",
+   "nome": "IFPB - Instituto Federal de Educação, Ciência e Tecnologia da Paraíba",
+   "uf": "PB",
+   "vagas": "1",
+   "salario": "R$ 4.326,60",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-29",
+   "link": "https://www.pciconcursos.com.br/noticias/ifpb-abre-selecao-para-professor-substituto-de-informatica-no-campus-monteiro",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-serra-grande-pb",
+   "nome": "Prefeitura de Serra Grande",
+   "uf": "PB",
+   "vagas": "41",
+   "salario": "R$ 3.651,00",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-29",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-serra-grande-pb-retifica-concurso-publico-com-vagas-para-diversos-cargos",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-sao-jose-da-lagoa-tapada-pb",
+   "nome": "Prefeitura de São José da Lagoa Tapada",
+   "uf": "PB",
+   "vagas": "68",
+   "salario": "R$ 1.621,00",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-30",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-sao-jose-da-lagoa-tapada-pb-abre-processo-seletivo-para-a-secretaria-de-educacao",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-camara-de-sao-joao-do-piaui-pi",
+   "nome": "Câmara de São João do Piauí",
+   "uf": "PI",
+   "vagas": "1",
+   "salario": "R$ 4.052,50",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-30",
+   "link": "https://www.pciconcursos.com.br/noticias/camara-de-sao-joao-do-piaui-pi-abre-concurso-publico-para-controlador-interno",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-cristino-castro-pi",
+   "nome": "Prefeitura de Cristino Castro",
+   "uf": "PI",
+   "vagas": "132",
+   "salario": "R$ 2.565,31",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-30",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-cristino-castro-pi-abre-processo-seletivo-para-diversas-areas",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-ribeiraozinho-do-maranhao-ma",
+   "nome": "Prefeitura de Ribeirãozinho do Maranhão",
+   "uf": "MA",
+   "vagas": "211",
+   "salario": "R$ 6.500,00",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-01",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-ribeiraozinho-do-maranhao-ma-publica-editais-de-concurso-e-processo-seletivo",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-nova-olinda-pb",
+   "nome": "Prefeitura de Nova Olinda",
+   "uf": "PB",
+   "vagas": "11",
+   "salario": "R$ 2.565,31",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-01",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-nova-olinda-pb-abre-processo-seletivo-para-professores-da-eja",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-moreilandia-pe",
+   "nome": "Prefeitura de Moreilândia",
+   "uf": "PE",
+   "vagas": "381",
+   "salario": "R$ 10.000,00",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-03",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-moreilandia-pe-retifica-dois-concursos-publicos",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-toritama-pe",
+   "nome": "Prefeitura de Toritama",
+   "uf": "PE",
+   "vagas": "61",
+   "salario": "R$ 1.800,00",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-04",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-toritama-pe-abre-selecao-com-vagas-para-diversos-cargos",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-camara-de-petrolina-pe",
+   "nome": "Câmara de Petrolina",
+   "uf": "PE",
+   "vagas": "17",
+   "salario": "R$ 8.561,42",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-05",
+   "link": "https://www.pciconcursos.com.br/noticias/camara-de-petrolina-pe-abre-concurso-publico-com-salarios-de-ate-8561",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-boa-viagem-ce",
+   "nome": "Prefeitura de Boa Viagem",
+   "uf": "CE",
+   "vagas": "1001",
+   "salario": "R$ 14.718,92",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-07",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-boa-viagem-ce-abre-concurso-publico-com-vagas-para-diversas-areas-de-atuacao",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-ufc-universidade-federal-do-ceara-ce",
+   "nome": "UFC - Universidade Federal do Ceará",
+   "uf": "CE",
+   "vagas": "11",
+   "salario": "R$ 13.753,96",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-07",
+   "link": "https://www.pciconcursos.com.br/noticias/ufc-ce-abre-concurso-publico-para-professores-do-magisterio-superior",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-sao-mateus-do-maranhao-ma",
+   "nome": "Prefeitura de São Mateus do Maranhão",
+   "uf": "MA",
+   "vagas": "314",
+   "salario": "R$ 5.130,65",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-07",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-sao-mateus-do-maranhao-ma-abre-tres-concursos-publicos-com-diversas-vagas",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-unilab-universidade-da-integracao-internacional-da-lusofonia-afro-brasileira-ce",
+   "nome": "Unilab - Universidade da Integração Internacional da Lusofonia Afro-Brasileira",
+   "uf": "CE",
+   "vagas": "16",
+   "salario": "R$ 13.753,96",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-09",
+   "link": "https://www.pciconcursos.com.br/noticias/unilab-ce-abre-concurso-publico-com-vagas-para-professores-do-magisterio-superior",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-parari-pb",
+   "nome": "Prefeitura de Parari",
+   "uf": "PB",
+   "vagas": "29",
+   "salario": "R$ 10.000,00",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-09",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-parari-pb-abre-concurso-publico-com-salarios-de-ate-10000",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-juazeiro-do-norte-ce",
+   "nome": "Prefeitura de Juazeiro do Norte",
+   "uf": "CE",
+   "vagas": "672",
+   "salario": "R$ 12.000,00",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-10",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-juazeiro-do-norte-ce-abre-processo-seletivo-para-a-secretaria-de-saude",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-sao-caetano-pe",
+   "nome": "Prefeitura de São Caetano",
+   "uf": "PE",
+   "vagas": "46",
+   "salario": "R$ 3.242,00",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-10",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-sao-caetano-pe-abre-concurso-publico-com-salarios-de-ate-3242",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-cbmpb-corpo-de-bombeiros-militar-da-paraiba-pb",
+   "nome": "CBMPB - Corpo de Bombeiros Militar da Paraíba",
+   "uf": "PB",
+   "vagas": "20",
+   "salario": "R$ 11.142,96",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-11",
+   "link": "https://www.pciconcursos.com.br/noticias/corpo-de-bombeiros-militar-pb-concurso-abre-vagas-para-curso-de-formacao-de-oficiais",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-natuba-pb",
+   "nome": "Prefeitura de Natuba",
+   "uf": "PB",
+   "vagas": "141",
+   "salario": "R$ 3.988,96",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-13",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-natuba-pb-abre-concurso-publico-para-diversos-cargos",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-camara-de-alto-do-rodrigues-rn",
+   "nome": "Câmara de Alto do Rodrigues",
+   "uf": "RN",
+   "vagas": "12",
+   "salario": "R$ 2.500,00",
+   "niveis": [
+    "Fundamental",
+    "Médio"
+   ],
+   "inscricoesAte": "2026-12-13",
+   "link": "https://www.pciconcursos.com.br/noticias/camara-de-alto-do-rodrigues-rn-abre-concurso-publico-com-12-vagas",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-baia-da-traicao-pb",
+   "nome": "Prefeitura de Baía da Traição",
+   "uf": "PB",
+   "vagas": "117",
+   "salario": "R$ 10.000,00",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-16",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-baia-da-traicao-pb-abre-concurso-publico-com-vagas-em-diversos-cargos",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-pc-policia-civil-pe",
+   "nome": "PC - Polícia Civil",
+   "uf": "PE",
+   "vagas": "1315",
+   "salario": "R$ 13.560,00",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-16",
+   "link": "https://www.pciconcursos.com.br/noticias/secretaria-de-defesa-social-e-de-administracao-pe-retificam-concurso-para-a-policia-civil",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-custodia-pe",
+   "nome": "Prefeitura de Custódia",
+   "uf": "PE",
+   "vagas": "384",
+   "salario": "R$ 8.000,00",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-18",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-custodia-pe-abre-concurso-publico-com-diversas-vagas",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-ufs-fundacao-universidade-federal-de-sergipe-se",
+   "nome": "UFS - Fundação Universidade Federal de Sergipe",
+   "uf": "SE",
+   "vagas": "2",
+   "salario": "R$ 14.081,78",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-22",
+   "link": "https://www.pciconcursos.com.br/noticias/ufs-se-abre-concurso-para-professor-titular-livre",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-camara-de-picui-pb",
+   "nome": "Câmara de Picuí",
+   "uf": "PB",
+   "vagas": "7",
+   "salario": "R$ 3.900,00",
+   "niveis": [
+    "Fundamental",
+    "Médio"
+   ],
+   "inscricoesAte": "2026-12-27",
+   "link": "https://www.pciconcursos.com.br/noticias/camara-de-picui-pb-abre-concurso-publico-com-salarios-de-ate-3900",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-seap-secretaria-de-administracao-penitenciaria-e-ressocializacao-pe",
+   "nome": "SEAP - Secretaria de Administração Penitenciária e Ressocialização",
+   "uf": "PE",
+   "vagas": "700",
+   "salario": "R$ 5.667,92",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2027-01-04",
+   "link": "https://www.pciconcursos.com.br/noticias/seap-pe-abre-concurso-publico-com-700-vagas-para-policial-penal",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-aracati-ce",
+   "nome": "Prefeitura de Aracati",
+   "uf": "CE",
+   "vagas": "60",
+   "salario": "R$ 3.242,00",
+   "niveis": [
+    "Médio"
+   ],
+   "inscricoesAte": "2027-01-07",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-aracati-ce-abre-concursos-para-agente-comunitario-de-saude-e-interprete-de-libras",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-itinga-do-maranhao-ma",
+   "nome": "Prefeitura de Itinga do Maranhão",
+   "uf": "MA",
+   "vagas": "33",
+   "salario": "",
+   "niveis": [
+    "Fundamental",
+    "Superior"
+   ],
+   "inscricoesAte": "2027-01-15",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-itinga-do-maranhao-ma-abre-processo-seletivo-para-professores",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-sead-secretaria-de-estado-da-administracao-ma",
+   "nome": "SEAD - Secretaria de Estado da Administração",
+   "uf": "MA",
+   "vagas": "2317",
+   "salario": "R$ 14.950,78",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2027-01-29",
+   "link": "https://www.pciconcursos.com.br/noticias/sead-ma-abre-concurso-publico-com-salarios-de-ate-14950",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-sao-juliao-pi",
+   "nome": "Prefeitura de São Julião",
+   "uf": "PI",
+   "vagas": "112",
+   "salario": "R$ 6.000,00",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-sao-juliao-pi-suspende-concurso-publico",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-ibge-retifica-processo-seletivo-com-27-279-vagas-para-recenseador",
+   "nome": "| IBGE retifica processo seletivo com 27.279 vagas para Recenseador",
+   "uf": "",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/ibge-retifica-processo-seletivo-com-27279-vagas-para-recenseador",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-trf3-sp-ms-retifica-concurso-publico-para-analistas-e-tecnicos-judiciarios-sp",
+   "nome": "| TRF3 - SP/MS retifica concurso público para analistas e técnicos judiciários",
+   "uf": "SP",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/trf3-sp-ms-retifica-concurso-publico-para-analistas-e-tecnicos-judiciarios",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-cetesb-sp-abre-concursos-publicos-para-diversos-cargos-sp",
+   "nome": "| CETESB - SP abre concursos públicos para diversos cargos",
+   "uf": "SP",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/cetesb-sp-abre-concursos-publicos-para-diversos-cargos",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-policia-militar-sp-abre-2-000-vagas-para-aluno-soldado-sp",
+   "nome": "| Polícia Militar - SP abre 2.000 vagas para Aluno-Soldado",
+   "uf": "SP",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/policia-militar-sp-abre-2000-vagas-para-aluno-soldado",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-guaratingueta-sp-abre-concurso-publico-com-salarios-de-ate-r-18-54",
+   "nome": "| Prefeitura de Guaratinguetá - SP abre concurso público com salários de até R$ 18.540,71",
+   "uf": "SP",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-guaratingueta-sp-abre-concurso-publico-com-salarios-de-ate-18540",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-leme-sp-abre-concurso-publico-com-salarios-de-ate-r-13-359-44-sp",
+   "nome": "| Prefeitura de Leme - SP abre concurso público com salários de até R$ 13.359,44",
+   "uf": "SP",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-leme-sp-abre-concurso-publico-com-salarios-de-ate-13359",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-suzano-sp-abre-concurso-publico-com-salarios-de-ate-r-12-062-91-sp",
+   "nome": "| Prefeitura de Suzano - SP abre concurso público com salários de até R$ 12.062,91",
+   "uf": "SP",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-suzano-sp-abre-concurso-publico-com-salarios-de-ate-12062",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-birigui-sp-abre-concurso-publico-com-salarios-de-ate-r-13-881-85-s",
+   "nome": "| Prefeitura de Birigui - SP abre concurso público com salários de até R$ 13.881,85",
+   "uf": "SP",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-birigui-sp-abre-concurso-publico-com-salarios-de-ate-13881",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-tjsp-abre-concursos-para-oficial-de-justica-e-escrevente-tecnico-judiciario",
+   "nome": "| TJSP abre concursos para Oficial de Justiça e Escrevente Técnico Judiciário",
+   "uf": "",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/tjsp-abre-concursos-para-oficial-de-justica-e-escrevente-tecnico-judiciario",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-setec-campinas-sp-abre-concurso-publico-com-salarios-de-ate-r-10-428-05-sp",
+   "nome": "| SETEC Campinas - SP abre concurso público com salários de até R$ 10.428,05",
+   "uf": "SP",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/setec-campinas-sp-abre-concurso-publico-com-salarios-de-ate-10428",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-paraguacu-mg-abre-concurso-publico-com-salarios-de-ate-r-20-128-27",
+   "nome": "| Prefeitura de Paraguaçu - MG abre concurso público com salários de até R$ 20.128,27",
+   "uf": "MG",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-paraguacu-mg-abre-concurso-publico-com-salarios-de-ate-20128",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-santa-luzia-mg-abre-concurso-publico-com-salarios-de-ate-r-8-628-8",
+   "nome": "| Prefeitura de Santa Luzia - MG abre concurso público com salários de até R$ 8.628,87",
+   "uf": "MG",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-santa-luzia-mg-abre-concurso-publico-com-salarios-de-ate-8628",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-hospital-municipal-dr-gil-alves-mg-abre-concurso-com-salarios-de-ate-r-7-950-00-",
+   "nome": "| Hospital Municipal Dr. Gil Alves - MG abre concurso com salários de até R$ 7.950,00",
+   "uf": "MG",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/hospital-municipal-dr-gil-alves-mg-abre-concurso-com-salarios-de-ate-7950",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-pmmg-abre-concurso-com-90-vagas-para-o-curso-de-formacao-de-oficiais",
+   "nome": "| PMMG abre concurso com 90 vagas para o Curso de Formação de Oficiais",
+   "uf": "",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/pmmg-abre-concurso-com-90-vagas-para-o-curso-de-formacao-de-oficiais",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-contagem-mg-retifica-edital-de-concurso-publico-mg",
+   "nome": "| Prefeitura de Contagem - MG retifica edital de concurso público",
+   "uf": "MG",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-contagem-mg-retifica-edital-de-concurso-publico",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-banestes-e-banestes-seguros-es-retificam-concursos-para-cadastro-de-reserva-es",
+   "nome": "| Banestes e Banestes Seguros - ES retificam concursos para cadastro de reserva",
+   "uf": "ES",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/banestes-e-banestes-seguros-es-retificam-concursos-para-cadastro-de-reserva",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-quedas-do-iguacu-pr-retifica-edital-de-concurso-publico-pr",
+   "nome": "| Prefeitura de Quedas do Iguaçu - PR retifica edital de concurso público",
+   "uf": "PR",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-quedas-do-iguacu-pr-retifica-edital-de-concurso-publico",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-trt4-rs-abre-concurso-publico-para-analistas-e-tecnicos-judiciarios-rs",
+   "nome": "| TRT4 - RS abre concurso público para analistas e técnicos judiciários",
+   "uf": "RS",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/trt4-rs-abre-concurso-publico-para-analistas-e-tecnicos-judiciarios",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-aparecida-de-goiania-go-abre-concurso-publico-com-vagas-na-area-da",
+   "nome": "| Prefeitura de Aparecida de Goiânia - GO abre concurso público com vagas na área da educação",
+   "uf": "GO",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-aparecida-de-goiania-go-abre-concurso-publico-com-vagas-na-area-da-educacao",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-ufms-abre-concurso-publico-para-cargos-tecnico-administrativos-em-educacao",
+   "nome": "| UFMS abre concurso público para cargos técnico-administrativos em educação",
+   "uf": "",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/ufms-abre-concurso-publico-para-cargos-tecnico-administrativos-em-educacao",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-camara-de-cuiaba-mt-abre-concurso-publico-com-salarios-de-ate-r-11-629-67-mt",
+   "nome": "| Câmara de Cuiabá - MT abre concurso público com salários de até R$ 11.629,67",
+   "uf": "MT",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/camara-de-cuiaba-mt-abre-concurso-publico-com-salarios-de-ate-11629",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-policia-civil-do-estado-do-acre-pcac-e-sead-ac-abrem-concurso-publico-com-salari",
+   "nome": "| Polícia Civil do Estado do Acre (PCAC) e SEAD - AC abrem concurso público com salários de até R$ 19.505,66",
+   "uf": "AC",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/policia-civil-do-estado-do-acre-pcac-e-sead-ac-abrem-concurso-publico-com-salarios-de-ate-19505",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-prefeitura-de-marituba-pa-reabre-inscricoes-de-concurso-publico-para-guarda-civi",
+   "nome": "| Prefeitura de Marituba - PA reabre inscrições de concurso público para Guarda Civil",
+   "uf": "PA",
+   "vagas": "",
+   "salario": "",
+   "niveis": [],
+   "inscricoesAte": "",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-marituba-pa-reabre-inscricoes-de-concurso-publico-para-guarda-civil",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "gran-concurso-nacional-unificado",
+   "titulo": "Concurso Nacional Unificado",
+   "uf": "",
+   "link": "https://blog.grancursosonline.com.br/concurso-nacional-unificado/",
+   "fonte": "gran",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "gran-concursos-administrativos",
+   "titulo": "Concursos Administrativos",
+   "uf": "",
+   "link": "https://blog.grancursosonline.com.br/concursos-administrativos/",
+   "fonte": "gran",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-acesse-os-concursos-da-regiao-sudeste-sudeste",
+   "titulo": "Acesse os concursos da região Sudeste! | Sudeste",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concursos-sudeste/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-acesse-os-concursos-da-regiao-sul-sul",
+   "titulo": "Acesse os concursos da região Sul! | Sul",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concursos-sul/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-acesse-os-concursos-da-regiao-norte-norte",
+   "titulo": "Acesse os concursos da região Norte! | Norte",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concursos-norte/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-acesse-os-concursos-da-regiao-nordeste-nordeste",
+   "titulo": "Acesse os concursos da região Nordeste! | Nordeste",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concursos-nordeste/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-acesse-os-concursos-da-regiao-centro-oeste-centro-oeste",
+   "titulo": "Acesse os concursos da região Centro-oeste! | Centro-Oeste",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concursos-centro-oeste/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-black-friday-estrategia-concursos-2026-como-funciona",
+   "titulo": "Black Friday Estratégia Concursos 2026: como funciona?",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/black-friday-concursos-estrategia/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-camara-dos-deputados-184-vagas-e-ate-r-32-mil",
+   "titulo": "Concurso Câmara dos Deputados: 184 vagas e até R$ 32 mil",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-camara-dos-deputados/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-unificado-ma-edital-publicado-com-2-3-mil-vagas",
+   "titulo": "Concurso Unificado MA: edital publicado com 2,3 mil vagas!",
+   "uf": "MA",
+   "link": "https://concursos.estrategia.com/portal/concurso-unificado-ma/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-transpetro-2026-mais-de-400-mil-inscritos-provas-em-6-de-dezembro",
+   "titulo": "Concurso Transpetro 2026: mais de 400 mil inscritos; provas em 6 de dezembro!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-transpetro/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-receita-federal-banca-e-edital-ainda-em-2026",
+   "titulo": "Concurso Receita Federal: banca e edital ainda em 2026!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-receita-federal/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-cnu-2027-nova-edicao-e-prevista-com-ate-3-mil-vagas",
+   "titulo": "CNU 2027: nova edição é prevista com até 3 mil vagas!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-nacional-unificado/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-prf-estudo-projeta-13-mil-vagas-e-autorizacao-em-2027",
+   "titulo": "Concurso PRF: estudo projeta 13 mil vagas e autorização em 2027",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-prf-estudo-novos-policiais-autorizacao-2027/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concursos-abertos-em-novembro-2026-ate-r-32-mil",
+   "titulo": "Concursos abertos em novembro 2026: até R$ 32 mil!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concursos-abertos-novembro-2026/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-carta-aos-assinantes-do-estrategia-concursos-316",
+   "titulo": "Carta aos Assinantes do Estratégia Concursos – 316",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/carta-aos-assinantes-316/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-pm-sp-quanto-ganha-um-soldado",
+   "titulo": "Concurso PM SP: quanto ganha um Soldado?",
+   "uf": "SP",
+   "link": "https://concursos.estrategia.com/portal/concurso-pm-sp-quanto-ganha-soldado/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-tce-ma-veja-as-orientacoes-para-provas-do-concurso",
+   "titulo": "TCE MA: veja as orientações para provas do concurso",
+   "uf": "MA",
+   "link": "https://concursos.estrategia.com/portal/concurso-tce-ma-orientacoes-para-as-provas/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-policia-penal-pe-quais-sao-as-etapas",
+   "titulo": "Concurso Polícia Penal PE: quais são as etapas?",
+   "uf": "PE",
+   "link": "https://concursos.estrategia.com/portal/concurso-policia-penal-pe-2026-etapas/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-tcu-novo-edital-pode-ser-destinado-as-mulheres",
+   "titulo": "Concurso TCU: novo edital pode ser destinado às mulheres",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-tcu-2027-edital-apenas-para-mulheres/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-seduc-ce-72-mil-inscritos-realizam-provas-dia-22",
+   "titulo": "Concurso Seduc CE: 72 mil inscritos realizam provas dia 22!",
+   "uf": "CE",
+   "link": "https://concursos.estrategia.com/portal/concurso-seduc-ce/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-seduc-ce-registra-mais-de-72-mil-inscritos",
+   "titulo": "Concurso Seduc CE registra mais de 72 mil inscritos",
+   "uf": "CE",
+   "link": "https://concursos.estrategia.com/portal/concurso-seduc-ce-2027-inscritos/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-terminais-aereos-de-maringa-edital-publicado",
+   "titulo": "Concurso Terminais Aéreos de Maringá: edital publicado!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-terminais-aereos-de-maringa/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-tcdf-o-que-levar-horarios-e-instrucoes-da-prova",
+   "titulo": "Concurso TCDF: o que levar, horários e instruções da prova",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-tcdf-o-que-levar-horarios-e-instrucoes-da-prova/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-inss-presidente-prioriza-preencher-2-mil-vagas",
+   "titulo": "Concurso INSS: presidente prioriza preencher 2 mil vagas",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-inss-2027-presidente-prioriza-2-mil-vagas/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-noticias-sobre-edital-de-19-de-novembro-de-2026",
+   "titulo": "Notícias sobre edital de 19 de novembro de 2026",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/principais-noticias-edital-concursos/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-guarda-de-sao-goncalo-606-vagas-participe",
+   "titulo": "Concurso Guarda de São Gonçalo: 606 vagas; participe!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-guarda-de-sao-goncalo-rj/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-bacen-contrato-com-a-fgv-assinado-edital-iminente",
+   "titulo": "Concurso Bacen: contrato com a FGV assinado; edital iminente",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-bacen-2026-contrato-fgv-assinado/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concursos-ambientais-cetesb-ipa-ou-sp-aguas-qual-escolher",
+   "titulo": "Concursos Ambientais: Cetesb, IPA ou SP Águas, qual escolher?",
+   "uf": "SP",
+   "link": "https://concursos.estrategia.com/portal/concursos-ambientais-sp-2026-cetesb-ipa-sp-aguas/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-unificado-maranhao-cargos-e-vagas-abertas",
+   "titulo": "Concurso Unificado Maranhão: cargos e vagas abertas!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-unificado-maranhao-2027-cargos-e-vagas/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-bacen-2026-fgv-e-contratada-serao-170-vagas",
+   "titulo": "Concurso BACEN 2026: FGV é contratada; serão 170 vagas!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-bacen/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-iffar-iniciais-de-ate-r-5-2-mil-inscreva-se",
+   "titulo": "Concurso IFFar: iniciais de até R$ 5,2 mil; inscreva-se",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-iffar/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-matao-28-vagas-e-ate-r-9-7-mil",
+   "titulo": "Concurso Matão: 28 vagas e até R$ 9,7 mil!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-prefeitura-matao/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-camara-feira-de-santana-ba-banca-em-definicao",
+   "titulo": "Concurso Câmara Feira de Santana BA: banca em definição!",
+   "uf": "BA",
+   "link": "https://concursos.estrategia.com/portal/concurso-camara-feira-de-santana-ba/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-cadernos-de-reta-final-do-concurso-iss-nova-padua",
+   "titulo": "Cadernos de Reta Final do Concurso ISS Nova Pádua",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/cadernos-de-reta-final-concurso-iss-nova-padua/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-edital-bombeiros-pb-publicado-20-vagas-de-oficial",
+   "titulo": "Edital Bombeiros PB publicado! 20 vagas de Oficial",
+   "uf": "PB",
+   "link": "https://concursos.estrategia.com/portal/concurso-bombeiros-pb-edital-publicado-oficial-2027/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-camara-paraiso-do-tocantins-inscreva-se",
+   "titulo": "Concurso Câmara Paraíso do Tocantins: inscreva-se!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-camara-paraiso-do-tocantins/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-fumep-sete-lagoas-mg-provas-em-dezembro-39-vagas",
+   "titulo": "Concurso FUMEP Sete Lagoas MG: provas em dezembro; 39 vagas",
+   "uf": "MG",
+   "link": "https://concursos.estrategia.com/portal/concurso-fumep-sete-lagoas/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-bombeiro-pb-2027-20-vagas-para-oficial-inscreva-se",
+   "titulo": "Concurso Bombeiro PB 2027: 20 vagas para Oficial; inscreva-se",
+   "uf": "PB",
+   "link": "https://concursos.estrategia.com/portal/concurso-bombeiro-pb/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-pge-rj-comissao-formada-33-vagas-autorizadas",
+   "titulo": "Concurso PGE RJ: comissão formada; 33 vagas autorizadas",
+   "uf": "RJ",
+   "link": "https://concursos.estrategia.com/portal/concurso-pge-rj/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-camara-pires-do-rio-go-provas-em-janeiro-iniciais-ate-r-6-5-mil",
+   "titulo": "Concurso Câmara Pires do Rio GO: provas em janeiro! Iniciais até R$ 6,5 mil",
+   "uf": "GO",
+   "link": "https://concursos.estrategia.com/portal/concurso-camara-pires-do-rio/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-der-rj-2027-escolha-da-banca-e-iniciada-confira",
+   "titulo": "Concurso DER RJ 2027: escolha da banca é iniciada; confira!",
+   "uf": "RJ",
+   "link": "https://concursos.estrategia.com/portal/concurso-der-rj/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  }
+ ]
+}
