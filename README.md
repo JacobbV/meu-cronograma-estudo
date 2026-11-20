@@ -8,6 +8,8 @@ O primeiro cronograma pronto é o do **IBGE 2027 – Recenseador (REC)** do 12º
 
 ## Funcionalidades
 
+- **Conta na nuvem:** login com Google ou com e-mail e senha. O progresso, a foto, os concursos e o ritmo ficam salvos na conta e aparecem em qualquer celular, tablet ou computador. No primeiro login, o app oferece levar o progresso que já estava salvo no aparelho. Sem internet, continua funcionando e envia as mudanças quando a conexão volta. Quem preferir pode usar sem conta, salvando só no aparelho.
+
 - **Tela de entrada:** "Bora estudar?", com ilustração própria, contagem de dias para a prova e os perfis do aparelho.
 - **Boas-vindas:** na primeira vez que o perfil abre o cronograma, aparece um cartão de boas-vindas (com um recado especial para a Bia), que também fica fixado no topo dos Avisos.
 - **Primeiro acesso:** o app pergunta o nome e, se quiser, um PIN de 4 dígitos. Cada pessoa cria o próprio perfil, com foto opcional.
@@ -39,13 +41,33 @@ O primeiro cronograma pronto é o do **IBGE 2027 – Recenseador (REC)** do 12º
 
 ## Onde os dados ficam
 
-Tudo fica salvo só no próprio aparelho (`localStorage`), sem servidor. Quem abre o link em outro aparelho vê o app vazio. O PIN só impede que outra pessoa abra o perfil no mesmo aparelho; ele não é uma senha de conta. Para trocar de aparelho, use a **Cópia de segurança**.
+- **Com conta:** no Cloud Firestore (Firebase), num documento por pessoa (`usuarios/{uid}`). As regras do banco só deixam cada pessoa ler e gravar o próprio documento. O aparelho também guarda uma cópia, para abrir sem internet.
+- **Sem conta:** só no próprio aparelho (`localStorage`). Para trocar de aparelho, use a **Cópia de segurança**.
+- **Contas especiais:** algumas contas já começam com o cronograma do IBGE e as aulas do Gran. O código guarda só o hash SHA-256 desses e-mails, nunca os e-mails.
+
+## Configurar o Firebase (uma vez)
+
+1. Crie um projeto em [console.firebase.google.com](https://console.firebase.google.com) (o plano gratuito Spark basta, sem cartão).
+2. **Authentication:** ative os provedores **Google** e **E-mail/senha** e adicione `jacobbv.github.io` em Domínios autorizados.
+3. **Firestore Database:** crie o banco em modo produção (região `southamerica-east1`) e publique estas regras:
+   ```
+   rules_version = '2';
+   service cloud.firestore {
+     match /databases/{database}/documents {
+       match /usuarios/{uid} {
+         allow read, write: if request.auth != null && request.auth.uid == uid;
+       }
+     }
+   }
+   ```
+4. Registre um app **Web** e cole o objeto `firebaseConfig` em `firebase-config.js`. Essas chaves são públicas por natureza; quem protege os dados são as regras acima. Enquanto o arquivo estiver com `null`, o app funciona sem conta.
 
 ## Tecnologias
 
 - HTML, CSS e JavaScript puro, sem framework e sem etapa de build
 - PWA: Web App Manifest e Service Worker (cache para uso offline, inclusive da apostila)
 - PDF.js para ler a apostila dentro do app
+- Firebase Authentication (Google e e-mail/senha) e Cloud Firestore para a conta na nuvem, no plano gratuito
 - `localStorage` para salvar o progresso
 - GitHub Pages para hospedagem
 
@@ -53,6 +75,7 @@ Tudo fica salvo só no próprio aparelho (`localStorage`), sem servidor. Quem ab
 
 ```
 index.html              # o app inteiro (HTML, CSS e JS)
+firebase-config.js      # configuração pública do Firebase (login e nuvem)
 manifest.webmanifest    # nome, cores e ícones do app instalado
 sw.js                   # service worker (cache offline)
 apostila.pdf            # apostila oficial do 12º Censo Agro (IBGE), sem alterações
@@ -69,6 +92,7 @@ qyudev.png              # marca QYUDEV. nos créditos
 ## Créditos e referências
 
 - **Fontes Barlow e Barlow Condensed:** Jeremy Tribby, via [Google Fonts](https://fonts.google.com/specimen/Barlow). Licença [SIL Open Font License 1.1](https://openfontlicense.org).
+- **Firebase (Authentication e Cloud Firestore):** [Google](https://firebase.google.com). SDK JavaScript 10.14.1 sob licença [Apache 2.0](https://github.com/firebase/firebase-js-sdk/blob/main/LICENSE).
 - **PDF.js 3.11.174:** [Mozilla](https://mozilla.github.io/pdf.js/). Licença [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 - **Apostila:** *Conhecimentos básicos para o Censo Agropecuário, Florestal e Aquícola*, do [IBGE](https://www.ibge.gov.br) (ENCE / CTA), distribuída sem alterações, como publicada pela [Fundação Cesgranrio](https://www.cesgranrio.org.br) para o processo seletivo.
 - **Conteúdo do cronograma:** baseado no Edital IBGE nº 03/2026 e na retificação de 16/11/2026.
@@ -76,6 +100,8 @@ qyudev.png              # marca QYUDEV. nos créditos
 - Ícones, ilustração da tela de entrada e imagens do app desenhados no próprio projeto.
 
 ## Versões
+
+- **v4.0.0** (19/11/2026): conta na nuvem com login pelo Google ou por e-mail e senha, sincronização entre aparelhos, importação do progresso salvo no aparelho, funcionamento sem internet, contas especiais com o IBGE e as aulas do Gran, opção de usar sem conta e correção dos campos de data e horário que se sobrepunham.
 
 - **v3.6.2** (19/11/2026): correção do conteúdo cortado atrás da barra de abas, barra de abas mais baixa no iPhone e faixa fixa atrás da barra de status.
 

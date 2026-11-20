@@ -21,6 +21,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
+<script src="firebase-config.js"></script>
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Meu Cronograma de Estudo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -325,6 +326,16 @@ details.subj[open] > summary{margin-bottom:6px}
 .fixo .ass svg{width:20px;height:20px}
 .fx-tag{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--g)}
 .fx-tag svg{width:14px;height:14px}
+
+.login h2{margin-bottom:12px}
+.gbtn{width:100%;background:var(--card);color:var(--ink);border:1px solid var(--line);gap:10px}
+.gbtn svg{width:22px;height:22px}
+.ou{display:flex;align-items:center;gap:10px;margin:16px 0 10px;color:var(--mut);font-size:13px}
+.ou::before,.ou::after{content:"";flex:1;height:1px;background:var(--line)}
+.linkbtn{background:none;border:0;color:var(--g);font-weight:600;text-decoration:underline;padding:10px 0;min-height:44px}
+.two>*{min-width:0}
+input[type=date]{-webkit-appearance:none;appearance:none;min-height:46px;min-width:0;max-width:100%;text-align:left}
+input[type=date]::-webkit-date-and-time-value{text-align:left}
 </style>
 </head>
 <body>
@@ -332,7 +343,7 @@ details.subj[open] > summary{margin-bottom:6px}
 <div class="toast" id="toast" role="status"></div>
 <script>
 {
-const VERSAO = '3.6.2';
+const VERSAO = '4.0.0';
 /* ---------- Dados do concurso (Edital IBGE nº 03/2026 + apostila do 12º Censo Agro) ---------- */
 const IBGE = {
   id:'ibge2027', nome:'IBGE 2027', cargo:'Recenseador (REC)', banca:'Fundação Cesgranrio',
@@ -469,7 +480,26 @@ const KEY = 'cronograma-estudos-v1';
 const base = () => ({v:3, perfis:[], extras:{}, prog:{}, tema:'auto'});
 let S; try{S = JSON.parse(localStorage.getItem(KEY)) || base()}catch(e){S = base()}
 if(!S.tema) S.tema = 'auto';
-const save = () => {try{localStorage.setItem(KEY, JSON.stringify(S))}catch(e){toast('Não deu para salvar neste aparelho')}};
+/* ---------- Conta na nuvem (Firebase Auth + Firestore) ---------- */
+/* Contas especiais (IBGE com as aulas do Gran): guardamos só o hash SHA-256 do e-mail, nunca o e-mail. */
+const ESPECIAIS = ['d298af43ef0957270d65005babb6471bfe8cd9ab9d3015fbd50e29e8948dd265','9ae248f2fee2945df5c8ccdd9717480b3207143c2bc2b5658f630481200a2934'];
+const FBV = 'https://www.gstatic.com/firebasejs/10.14.1/';
+const NV = {ok:false, carregando:false, user:null, especial:false, fb:null, status:'', legado:null, offline:false};
+const chaveConta = uid => 'cronograma-conta-'+uid;
+let saveT = null;
+const save = () => {
+  S._t = Date.now();
+  try{localStorage.setItem(NV.user ? chaveConta(NV.user.uid) : KEY, JSON.stringify(S))}catch(e){toast('Não deu para salvar neste aparelho')}
+  if(NV.user && NV.fb){clearTimeout(saveT); saveT = setTimeout(enviar, 1200); NV.status = 'salvando'; mostraStatus()}
+};
+async function enviar(){
+  if(!NV.user || !NV.fb) return;
+  try{await NV.fb.F.setDoc(NV.fb.F.doc(NV.fb.db,'usuarios',NV.user.uid), {dados:JSON.stringify(S), atualizado:S._t || Date.now(), versao:VERSAO}); NV.status = 'ok'}
+  catch(e){NV.status = 'offline'}
+  mostraStatus();
+}
+function mostraStatus(){const el = document.getElementById('nvStatus'); if(el) el.textContent = textoStatus()}
+const textoStatus = () => !NV.user ? 'Salvo só neste aparelho' : NV.offline || NV.status === 'offline' ? 'Sem internet: salvo no aparelho, envia quando voltar' : NV.status === 'salvando' ? 'Salvando na nuvem…' : 'Salvo na nuvem';
 let V = {view:'perfis', perfil:null, conc:null, tab:'hoje', semana:0, modo:'semana', mes:0, dia:null, pl:null, pinOk:null, apPag:null, pinEdit:false, painel:''};
 try{const l = JSON.parse(sessionStorage.getItem(KEY+'-v')); if(l) V = {...V, ...l, pl:null, pinEdit:false, painel:''}}catch(e){}
 
@@ -647,7 +677,7 @@ function painelPerfil(pf){
   <div class="it" style="flex-wrap:wrap"><span class="ico" style="--c:var(--g)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1.3"/><circle cx="12" cy="7.5" r="1.3"/><circle cx="15.5" cy="10" r="1.3"/></svg></span>Cor do app<span class="cores">${CORES.map(([k,c]) => `<button class="cor${(S.cor||'laranja')===k?' on':''}" data-cor="${k}" style="--c:${c}" aria-label="Cor ${k}" aria-pressed="${(S.cor||'laranja')===k}"></button>`).join('')}</span></div>
   <button data-tab="prova" data-alvo="pin"><span class="ico" style="--c:var(--mt)">${MI.cad}</span>${pf.pin?'PIN ativo · trocar ou remover':'Criar PIN'}</button>
   <div class="lbl">CONTA</div>
-  <button data-go="perfis"><span class="ico" style="--c:var(--fx)">${MI.troca}</span>Trocar perfil</button></div></section>`;
+  ${NV.user ? `<button id="sair"><span class="ico" style="--c:var(--fx)">${MI.troca}</span>Sair da conta</button>` : `<button data-go="perfis"><span class="ico" style="--c:var(--fx)">${MI.troca}</span>Trocar perfil</button>`}</div><p class="muted" id="nvStatus" style="margin:8px 0 0;text-align:center">${textoStatus()}</p></section>`;
 }
 function painelAvisos(av,pf){
   return `<section class="card painel"><div class="dh"><h2>Avisos</h2><button class="x" data-painel="" aria-label="Fechar">×</button></div>
@@ -824,7 +854,7 @@ function vProva(c,p){
     <li>Proibido: lápis, lapiseira, borracha, corretor e calculadora.</li>
     <li>Só pode sair depois de <b>2 horas</b> de prova; o caderno de questões só pode ser levado na última hora.</li>
     <li>Não há segunda chamada.</li></ul></section>
-    <section class="card"><h2>Links</h2><p style="margin:0 0 8px"><a href="https://www.cesgranrio.org.br" target="_blank" rel="noopener">Fundação Cesgranrio</a>: edital e cartão de confirmação</p><p style="margin:0"><a href="https://www.grancursosonline.com.br/aluno/curso/s/ibge-instituto-brasileiro-de-geografia-e-estatistica-temporario-recenseador-rec-pos-edital" target="_blank" rel="noopener">Curso no Gran</a>: videoaulas e caderno de questões</p></section>
+    <section class="card"><h2>Links</h2><p style="margin:0 0 8px"><a href="https://www.cesgranrio.org.br" target="_blank" rel="noopener">Fundação Cesgranrio</a>: edital e cartão de confirmação</p>${!NV.user || NV.especial ? '<p style="margin:0"><a href="https://www.grancursosonline.com.br/aluno/curso/s/ibge-instituto-brasileiro-de-geografia-e-estatistica-temporario-recenseador-rec-pos-edital" target="_blank" rel="noopener">Curso no Gran</a>: videoaulas e caderno de questões</p>' : ''}</section>
     <section class="card"><h2>Meu ritmo</h2><p class="muted" style="margin:-4px 0 8px">Quantos assuntos por dia. Cada assunto tem a videoaula e as questões (ou a leitura da apostila). Zero é folga.</p>
     ${[1,2,3,4,5,6,0].map(w => `<div class="stepper"><span>${cap1(DIASL[w])}</span><button data-rit="${w}" data-d="-1" aria-label="Menos em ${DIASL[w]}">−</button><b>${p.ritmo[w]||0}</b><button data-rit="${w}" data-d="1" aria-label="Mais em ${DIASL[w]}">+</button><span class="muted">${p.ritmo[w] ? (p.ritmo[w]>1?'assuntos':'assunto') : 'folga'}</span></div>`).join('')}
     <div class="prev" style="margin-top:10px">${pl.sobra ? IC.aviso : IC.alvo}<div>${pl.sobra ? `Nesse ritmo, <b>${pl.sobra}</b> ${pl.sobra>1?'assuntos ficam':'assunto fica'} de fora até 24/01.` : pl.fim ? `Nesse ritmo, o conteúdo termina em <b>${fmt(pl.fim)}</b>.` : 'Conteúdo todo concluído.'}</div></div>
@@ -837,15 +867,18 @@ function vProva(c,p){
     html += `<div class="row" style="margin-top:14px"><button class="btn alt sm" data-del="${c.id}">Remover concurso</button></div></section>`;
   }
   html += `<section class="card"><h2>Aparência</h2><div class="segt" role="group" aria-label="Tema">${[['auto','Automático'],['claro','Claro'],['escuro','Noite']].map(([k,l]) => `<button data-tema="${k}" aria-pressed="${S.tema===k}">${l}</button>`).join('')}</div><p class="muted" style="margin:8px 0 0">Automático segue o modo claro ou escuro do aparelho.</p></section>
-  <section class="card"><h2>Perfil e PIN</h2><p class="muted" style="margin:-4px 0 10px">O PIN evita que outra pessoa abra seu perfil neste aparelho. Ele não substitui uma senha de conta: os dados ficam só aqui.</p>
+  ${NV.user ? `<section class="card"><h2>Sua conta</h2><p style="margin:0 0 4px"><b>${esc(NV.user.email || '')}</b></p><p class="muted" id="nvStatus" style="margin:0 0 12px">${textoStatus()}</p>
+  <form id="nomeForm" class="plf" style="margin:0 0 12px">Seu nome <input name="nome" value="${esc(pf.nome)}" maxlength="30" required style="width:160px" aria-label="Seu nome"><button class="btn alt sm">Salvar</button></form>
+  <button class="btn alt sm" id="sair">Sair da conta</button></section>` : `<section class="card"><h2>Perfil e PIN</h2><p class="muted" style="margin:-4px 0 10px">O PIN evita que outra pessoa abra seu perfil neste aparelho. Ele não substitui uma senha de conta: os dados ficam só aqui.</p>
   ${V.pinEdit ? `<form id="pinForm" class="plf">Novo PIN <input type="password" name="pin" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" required style="width:90px" aria-label="Novo PIN de 4 dígitos"><button class="btn sm">Salvar</button></form>`
-    : `<div class="row">${pf.pin ? '<button class="btn alt sm" id="pinNovo">Trocar PIN</button><button class="btn alt sm" id="pinTirar">Remover PIN</button>' : '<button class="btn alt sm" id="pinNovo">Criar PIN de 4 dígitos</button>'}</div>`}</section>
-  <section class="card"><h2>Cópia de segurança</h2><p class="muted" style="margin:-4px 0 10px">O progresso fica salvo neste aparelho. De vez em quando, copie o código e guarde no WhatsApp ou nas Notas.</p>
+    : `<div class="row">${pf.pin ? '<button class="btn alt sm" id="pinNovo">Trocar PIN</button><button class="btn alt sm" id="pinTirar">Remover PIN</button>' : '<button class="btn alt sm" id="pinNovo">Criar PIN de 4 dígitos</button>'}</div>`}</section>`}
+  <section class="card"><h2>Cópia de segurança</h2><p class="muted" style="margin:-4px 0 10px">${NV.user ? 'Sua conta já guarda tudo na nuvem. O código é uma cópia extra, se quiser.' : 'O progresso fica salvo neste aparelho. De vez em quando, copie o código e guarde no WhatsApp ou nas Notas.'}</p>
   <div class="row"><button class="btn sm" id="bkp">Copiar código</button><button class="btn alt sm" id="rst">Restaurar</button></div>
   <div id="rstBox" hidden style="margin-top:12px"><label class="f">Cole o código aqui<textarea id="rstTxt"></textarea></label><button class="btn sm" id="rstOk">Restaurar progresso</button></div></section>
   <section class="card"><h2>Créditos</h2><ul class="dots-list muted">
   <li>Fontes Barlow e Barlow Condensed, de Jeremy Tribby, via Google Fonts (SIL Open Font License 1.1).</li>
   <li>Leitor de PDF: PDF.js, da Mozilla (Apache License 2.0).</li>
+  <li>Login e nuvem: Firebase Authentication e Cloud Firestore, do Google (SDK sob Apache License 2.0).</li>
   <li>Apostila "Conhecimentos básicos para o Censo Agropecuário, Florestal e Aquícola" (IBGE / ENCE / CTA), distribuída sem alterações, como publicada pela Fundação Cesgranrio.</li>
   <li>Conteúdo baseado no Edital IBGE nº 03/2026 e sua retificação.</li>
   <li>Nomes das aulas citados como referência do curso Gran. Sem relação oficial com Gran, Cesgranrio ou IBGE.</li></ul>
@@ -890,6 +923,7 @@ function telaPerfis(app){
   <label class="f">PIN de 4 dígitos (opcional)<input name="pin" type="password" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" autocomplete="off"></label>
   <div class="row"><button class="btn">${novo ? 'Começar a estudar' : 'Criar perfil'}</button>${novo ? '' : '<button type="button" class="btn alt" id="novoCancel">Cancelar</button>'}</div></form>`
     : `<button class="btn alt" id="novoPerfil" style="width:100%;margin-top:4px">+ Novo perfil</button>`}
+  ${window.FIREBASE_CONFIG && window.FIREBASE_CONFIG.apiKey ? '<button class="linkbtn" id="comConta" style="display:block;margin:14px auto 0">Entrar com uma conta (salva na nuvem)</button>' : ''}
   <footer class="rod">${ASSINA}<span>v${VERSAO}</span></footer></main>`;
 }
 function telaPin(app){
@@ -900,18 +934,116 @@ function telaPin(app){
   <footer class="rod">${ASSINA}</footer></main>`;
 }
 
+const GLOGO = '<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>';
+function telaCarregando(app){app.innerHTML = `<header class="hero"><div class="wrap heroin"><div><span class="selo">Meu Cronograma de Estudo</span><h1>Bora estudar?</h1><p>Carregando sua conta…</p></div>${ILU}</div></header>`}
+function telaLogin(app){
+  app.innerHTML = `<header class="hero"><div class="wrap heroin"><div><span class="selo">Meu Cronograma de Estudo</span><h1>Bora estudar?</h1>
+    <p>Seu cronograma do concurso, um dia de cada vez. Entre para salvar o progresso e continuar em qualquer celular, tablet ou computador.</p></div>${ILU}</div></header>
+  <main class="wrap" style="padding-bottom:40px"><section class="card login"><h2>Entrar</h2>
+  <button class="btn gbtn" id="gLogin">${GLOGO}<span>Entrar com Google</span></button>
+  <div class="ou"><span>ou com e-mail e senha</span></div>
+  <form id="emailForm"><label class="f">E-mail<input type="email" name="email" required autocomplete="email" autocapitalize="off" spellcheck="false"></label>
+  <label class="f">Senha<input type="password" name="senha" required minlength="6" autocomplete="current-password"></label>
+  <div class="err" id="loginErr" role="alert"></div>
+  <div class="row"><button class="btn" value="entrar">Entrar</button><button class="btn alt" value="criar">Criar conta</button></div>
+  <button type="button" class="linkbtn" id="esqueci">Esqueci minha senha</button></form></section>
+  <button class="linkbtn" id="semConta" style="display:block;margin:6px auto 0">Usar sem conta (salva só neste aparelho)</button>
+  <footer class="rod">${ASSINA}<span>v${VERSAO}</span></footer></main>`;
+}
+function telaImportar(app){
+  const L = NV.legado;
+  app.innerHTML = `<header class="hero"><div class="wrap"><span class="selo">Bem-vindo(a) à sua conta</span><h1 style="font-size:clamp(32px,8vw,44px)">Levar o que já foi feito?</h1>
+    <p>Encontramos progresso salvo neste aparelho. Escolha qual perfil vai para a sua conta. Ele fica salvo na nuvem a partir de agora.</p></div></header>
+  <main class="wrap" style="padding-bottom:40px">${L.perfis.map(x => `<button class="pick pk" data-imp="${x.id}"><span class="av">${x.foto?`<img src="${x.foto}" alt="">`:esc(x.nome[0])}</span><span class="pkn"><strong>${esc(x.nome)}</strong><span class="muted">Levar este perfil para a conta</span></span><span class="seta">›</span></button>`).join('')}
+  <button class="btn alt" data-imp="" style="width:100%;margin-top:4px">Começar do zero</button></main>`;
+}
+const erroLogin = c => ({'auth/invalid-credential':'E-mail ou senha incorretos.','auth/wrong-password':'E-mail ou senha incorretos.','auth/user-not-found':'Não existe conta com esse e-mail. Toque em Criar conta.',
+  'auth/email-already-in-use':'Esse e-mail já tem conta. Toque em Entrar.','auth/weak-password':'A senha precisa ter pelo menos 6 caracteres.','auth/invalid-email':'Confira o e-mail.',
+  'auth/missing-password':'Digite a senha.','auth/network-request-failed':'Sem internet. Tente de novo.','auth/too-many-requests':'Muitas tentativas. Espere um pouco e tente de novo.',
+  'auth/popup-closed-by-user':'','auth/cancelled-popup-request':''}[c] ?? 'Não deu para entrar agora ('+c+').');
+async function sha256(t){const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)); return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2,'0')).join('')}
+const modoLocal = () => {try{return localStorage.getItem('cronograma-modo') === 'local'}catch(e){return false}};
+function novaConta(u){const em = (u.email||'').toLowerCase(); const n = u.displayName || em.split('@')[0] || 'Estudante';
+  return {v:4, perfis:[{id:u.uid, nome:n.split(' ')[0].slice(0,30), concursos: NV.especial ? ['ibge2027'] : []}], extras:{}, prog:{}, tema:'auto'}}
+function fixaPerfil(){
+  const uid = NV.user.uid; if(!S.perfis.length) S.perfis = novaConta(NV.user).perfis;
+  const pf = S.perfis[0]; pf.id = uid; delete pf.pin; S.perfis = [pf];
+  if(NV.especial && !pf.concursos.includes('ibge2027')) pf.concursos.unshift('ibge2027');
+  V.perfil = uid; V.pinOk = uid;
+}
+function importar(id){
+  const L = NV.legado, u = NV.user, pf = L.perfis.find(x => x.id === id);
+  if(!pf){S = novaConta(u)} else {
+    const prog = {}; for(const [k,v] of Object.entries(L.prog||{})){const [a,c] = k.split('|'); if(a === pf.id) prog[u.uid+'|'+c] = v}
+    const extras = {}; for(const c of pf.concursos) if(L.extras && L.extras[c]) extras[c] = L.extras[c];
+    S = {v:4, perfis:[{...pf, id:u.uid}], extras, prog, tema:L.tema||'auto', cor:L.cor};
+  }
+  NV.legado = null; fixaPerfil(); V.view = 'concursos'; save(); render(); scrollTo(0,0);
+}
+async function entrou(u){
+  NV.user = u;
+  if(!u){NV.carregando = false; S = base(); V = {...V, view:'concursos', perfil:null, conc:null, painel:''}; return render()}
+  NV.carregando = true; render();
+  const em = (u.email||'').trim().toLowerCase();
+  try{NV.especial = em ? ESPECIAIS.includes(await sha256(em)) : false}catch(e){NV.especial = false}
+  try{localStorage.setItem('cronograma-ultima-conta', JSON.stringify({uid:u.uid, email:u.email||'', especial:NV.especial}))}catch(e){}
+  let cache = null, remoto = null;
+  try{cache = JSON.parse(localStorage.getItem(chaveConta(u.uid)))}catch(e){}
+  try{const d = await NV.fb.F.getDoc(NV.fb.F.doc(NV.fb.db,'usuarios',u.uid)); if(d.exists()) remoto = JSON.parse(d.data().dados); NV.status = 'ok'}catch(e){NV.status = 'offline'}
+  NV.carregando = false;
+  const est = remoto && (!cache || (remoto._t||0) >= (cache._t||0)) ? remoto : cache;
+  if(!est){
+    let L = null; try{L = JSON.parse(localStorage.getItem(KEY))}catch(e){}
+    if(L && L.perfis && L.perfis.length){NV.legado = L; V.view = 'importar'; return render()}
+    S = novaConta(u); fixaPerfil(); V.view = 'concursos'; save(); return render();
+  }
+  S = est; fixaPerfil();
+  if(est === cache && (!remoto || (cache._t||0) > (remoto._t||0))) enviar();
+  try{localStorage.setItem(chaveConta(u.uid), JSON.stringify(S))}catch(e){}
+  if(['perfis','pin','importar'].includes(V.view)) V.view = 'concursos';
+  render();
+}
+async function iniciarNuvem(){
+  const cfg = window.FIREBASE_CONFIG;
+  if(!cfg || !cfg.apiKey || modoLocal()) return render();
+  NV.carregando = true; render();
+  try{
+    const [app, A, F] = await Promise.all([import(FBV+'firebase-app.js'), import(FBV+'firebase-auth.js'), import(FBV+'firebase-firestore.js')]);
+    const fa = app.initializeApp(cfg);
+    NV.fb = {auth:A.getAuth(fa), db:F.getFirestore(fa), A, F}; NV.ok = true;
+    A.getRedirectResult(NV.fb.auth).catch(e => {NV.erroLogin = erroLogin(e.code)});
+    A.onAuthStateChanged(NV.fb.auth, u => entrou(u));
+  }catch(e){
+    /* sem internet na abertura: usa a última conta salva no aparelho e sincroniza depois */
+    NV.carregando = false; let ult = null; try{ult = JSON.parse(localStorage.getItem('cronograma-ultima-conta'))}catch(er){}
+    let cache = null; try{cache = ult && JSON.parse(localStorage.getItem(chaveConta(ult.uid)))}catch(er){}
+    if(ult && cache){NV.user = {uid:ult.uid, email:ult.email}; NV.especial = ult.especial; NV.offline = true; S = cache; fixaPerfil(); addEventListener('online', () => location.reload(), {once:true})}
+    render();
+  }
+}
+document.addEventListener('visibilitychange', async () => {
+  if(document.visibilityState !== 'visible' || !NV.user || !NV.fb) return;
+  try{const d = await NV.fb.F.getDoc(NV.fb.F.doc(NV.fb.db,'usuarios',NV.user.uid)); if(!d.exists()) return; const r = JSON.parse(d.data().dados);
+    if((r._t||0) > (S._t||0)){S = r; fixaPerfil(); try{localStorage.setItem(chaveConta(NV.user.uid), JSON.stringify(S))}catch(e){} keep()}}catch(e){}
+});
+addEventListener('online', () => {if(NV.user && NV.fb && NV.status === 'offline') enviar()});
 function render(){
   tema();
   try{sessionStorage.setItem(KEY+'-v', JSON.stringify({...V, pl:null}))}catch(e){}
   const app = document.getElementById('app');
+  if(NV.carregando) return telaCarregando(app);
+  if(NV.ok && !NV.user) return telaLogin(app);
+  if(V.view === 'importar' && NV.legado) return telaImportar(app);
+  if(NV.user && (V.view === 'perfis' || V.view === 'pin')) V.view = 'concursos';
   if(V.view === 'pin' && S.perfis.some(x => x.id === V.pinFor)) return telaPin(app);
   let perfil = S.perfis.find(x => x.id === V.perfil);
   if(V.view === 'perfis' || !perfil) return telaPerfis(app);
   if(perfil.pin && V.pinOk !== perfil.id){V.view = 'pin'; V.pinFor = perfil.id; return telaPin(app)}
   const conc = concById(V.conc);
   if(V.view === 'concursos' || !conc){
-    app.innerHTML = `<header class="top">${TOPO}<div class="wrap"><button class="back" data-go="perfis">‹ Trocar perfil</button><div class="who"><button class="foto" id="fotoBtn" aria-label="Trocar foto">${perfil.foto?`<img src="${perfil.foto}" alt="">`:esc(perfil.nome[0])}</button><div><small>Olá,</small><h1>${esc(perfil.nome)}</h1><button class="fotobtn" id="fotoBtn2">${perfil.foto?'Trocar foto':'Adicionar foto'}</button>${perfil.foto?'<button class="fotobtn" id="fotoDel">Remover</button>':''}</div></div><input type="file" id="fotoIn" accept="image/*" hidden></div></header>
+    app.innerHTML = `<header class="top">${TOPO}<div class="wrap">${NV.user ? '<button class="back" id="sair">Sair da conta</button>' : '<button class="back" data-go="perfis">‹ Trocar perfil</button>'}<div class="who"><button class="foto" id="fotoBtn" aria-label="Trocar foto">${perfil.foto?`<img src="${perfil.foto}" alt="">`:esc(perfil.nome[0])}</button><div><small>Olá,</small><h1>${esc(perfil.nome)}</h1><button class="fotobtn" id="fotoBtn2">${perfil.foto?'Trocar foto':'Adicionar foto'}</button>${perfil.foto?'<button class="fotobtn" id="fotoDel">Remover</button>':''}</div></div><input type="file" id="fotoIn" accept="image/*" hidden></div></header>
     <main class="wrap"><h2 style="font-size:26px;margin:4px 0 12px">Meus concursos</h2>
+    ${NV.user && !perfil.concursos.length ? '<section class="card"><h2>Monte seu cronograma</h2><p style="margin:0">Na próxima versão chega a vitrine com concursos prontos e a leitura do edital. Por enquanto, cadastre o seu concurso abaixo com os assuntos.</p></section>' : ''}
     ${perfil.concursos.map(concById).filter(Boolean).map(c => {const p = P(perfil.id,c.id), n = diasAte(c.data), pc = pct(c,p);
       return `<button class="pick conc" data-conc="${c.id}"><h3>${esc(c.nome)}</h3><div class="meta muted">${esc(c.cargo||'')} · ${fmt(c.data)}/${c.data.slice(0,4)} · ${n>0?`faltam ${n} dias`:n===0?'é hoje!':'prova realizada'}</div><div class="mini"><i style="width:${pc}%"></i></div><div class="muted" style="margin-top:6px">${pc}% do edital concluído</div></button>`}).join('')}
     <form id="addConc" class="card"><h2>Adicionar concurso</h2>
@@ -978,6 +1110,15 @@ document.addEventListener('click', e => {
   else if(b.id === 'lerTodos'){const pf = S.perfis.find(x => x.id===V.perfil); pf.lidos = [...new Set([...(pf.lidos||[]), ...HDR.av.map(a => a.id)])].slice(-80); save(); keep()}
   else if(b.id === 'apTela'){telaCheia(true)}
   else if(b.id === 'apSair'){telaCheia(false)}
+  else if(b.id === 'gLogin'){const A = NV.fb.A, prov = new A.GoogleAuthProvider(), er = document.getElementById('loginErr');
+    A.signInWithPopup(NV.fb.auth, prov).catch(e => {if(['auth/popup-blocked','auth/operation-not-supported-in-this-environment','auth/web-storage-unsupported'].includes(e.code)) A.signInWithRedirect(NV.fb.auth, prov); else if(er) er.textContent = erroLogin(e.code)})}
+  else if(b.id === 'esqueci'){const em = document.querySelector('#emailForm [name=email]').value.trim(), er = document.getElementById('loginErr');
+    if(!em){er.textContent = 'Digite seu e-mail acima e toque de novo em "Esqueci minha senha".'; return}
+    NV.fb.A.sendPasswordResetEmail(NV.fb.auth, em).then(() => {er.textContent = ''; toast('Enviamos um e-mail para criar uma nova senha')}, e => {er.textContent = erroLogin(e.code)})}
+  else if(b.id === 'semConta'){try{localStorage.setItem('cronograma-modo','local')}catch(e){} location.reload()}
+  else if(b.id === 'comConta'){try{localStorage.removeItem('cronograma-modo')}catch(e){} location.reload()}
+  else if(b.id === 'sair'){V.painel = ''; NV.fb ? NV.fb.A.signOut(NV.fb.auth) : location.reload()}
+  else if(d.imp !== undefined){importar(d.imp)}
   else if(b.id === 'bvOk'){S.perfis.find(x => x.id===V.perfil).vindo = true; save(); render(); scrollTo(0,0)}
   else if(b.id === 'novoPerfil'){V.novo = true; render()}
   else if(b.id === 'novoCancel'){V.novo = false; render()}
@@ -1008,6 +1149,10 @@ document.addEventListener('change', e => {
 });
 document.addEventListener('submit', e => {
   e.preventDefault(); const f = e.target, fd = new FormData(f);
+  if(f.id === 'emailForm'){const em = String(fd.get('email')).trim(), se = String(fd.get('senha')), er = document.getElementById('loginErr'), A = NV.fb.A;
+    const criar = e.submitter && e.submitter.value === 'criar'; er.textContent = criar ? 'Criando sua conta…' : 'Entrando…';
+    (criar ? A.createUserWithEmailAndPassword(NV.fb.auth, em, se) : A.signInWithEmailAndPassword(NV.fb.auth, em, se)).catch(x => {er.textContent = erroLogin(x.code)}); return}
+  if(f.id === 'nomeForm'){const n = String(fd.get('nome')).trim(); if(n){S.perfis.find(x => x.id === V.perfil).nome = n; save(); toast('Nome salvo'); keep()} return}
   if(f.id === 'addPerfil'){const n = String(fd.get('n')).trim(), pin = String(fd.get('pin')||''); if(!n) return; if(pin && !/^\d{4}$/.test(pin)){toast('O PIN precisa ter 4 números'); return}
     const id = S.perfis.length ? 'p'+Date.now().toString(36) : n.toLowerCase().normalize('NFD').replace(/[^a-z0-9]/g,'') || 'p1';
     const pf = {id, nome:n, concursos:['ibge2027']}; if(pin) pf.pin = hashPin(pin,id); S.perfis.push(pf); save(); V = {...V, view:'concursos', perfil:id, pinOk:id, novo:false}; render(); scrollTo(0,0)}
@@ -1029,7 +1174,7 @@ document.addEventListener('touchend', e => {if(tx === null) return; const dx = e
   if(apZoom <= 1 && Math.abs(dx) > 60 && Math.abs(dx) > 2*Math.abs(dy)) abrirPagina(apPerfil().pag + (dx < 0 ? 1 : -1))}, {passive:true});
 let rz; addEventListener('keydown', e => {if(e.key === 'Escape' && V.painel){V.painel = ''; keep()}});
 addEventListener('resize', () => {clearTimeout(rz); rz = setTimeout(() => {if(document.getElementById('apWrap')) abrirPagina(apPerfil().pag)}, 250)});
-render();
+iniciarNuvem();
 try{if('serviceWorker' in navigator && location.protocol === 'https:' && !/claude\.ai$|claudeusercontent\.com$/.test(location.hostname)) navigator.serviceWorker.register('sw.js').catch(() => {})}catch(e){}
 }
 </script>
