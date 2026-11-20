@@ -76,6 +76,7 @@ Envie o **PDF do edital** ou **cole o conteúdo programático**. O app separa ma
 - Prefere sem conta? Também dá: tudo fica salvo só no aparelho, com cópia de segurança.
 - Tema claro, noite ou automático e seis cores para escolher.
 - **Voltar deslizando** da borda da tela, como nos outros apps.
+- **No computador**, um layout próprio: barra lateral, Hoje em duas colunas, semana como agenda e vitrine em grade. Celular e tablet ficam como estão.
 - Botão para **compartilhar o app** com quem também está estudando.
 
 ---
@@ -156,7 +157,7 @@ EDITAIS=editais/ python3 tools/build_vitrine.py
 
 ## 🗒️ Versões
 
-**Atual: v4.5.1** — voltar deslizando da borda da tela, como nos outros apps.<br>
+**Atual: v4.6.0** — versão própria para computador, sem mudar nada no celular e no tablet.<br>
 Histórico completo no [CHANGELOG](CHANGELOG.md).
 
 ---
