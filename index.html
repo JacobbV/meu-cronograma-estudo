@@ -22,6 +22,7 @@
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
 <script src="firebase-config.js"></script>
+<script src="vitrine.js"></script>
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Meu Cronograma de Estudo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -336,6 +337,24 @@ details.subj[open] > summary{margin-bottom:6px}
 .two>*{min-width:0}
 input[type=date]{-webkit-appearance:none;appearance:none;min-height:46px;min-width:0;max-width:100%;text-align:left}
 input[type=date]::-webkit-date-and-time-value{text-align:left}
+/* v4.1: vitrine, status por data e editor de conteúdo */
+label.f select{display:block;width:100%;margin-top:4px;font-size:16px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-height:46px}
+.st{display:inline-block;font:600 12px/1.2 'Barlow',sans-serif;padding:5px 10px;border-radius:99px;border:1px solid var(--c);color:var(--c);margin-bottom:6px}
+.st-abertas{--c:#1d8a52}.st-breve{--c:#0e8f9c}.st-pos{--c:#2f6fd0}.st-pre{--c:#9a6b12}
+.vit .vt{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.vit h3{margin:2px 0 2px;font:700 22px 'Barlow Condensed',sans-serif}
+.vit .vi{margin:8px 0 0;font-size:14px}
+.vit .row{gap:8px;flex-wrap:wrap}
+.alvo{margin-top:12px;padding:12px;border-radius:12px;background:var(--rest)}
+.alvo .row{gap:8px;flex-wrap:wrap}
+.filtros{display:flex;gap:8px;overflow-x:auto;padding:2px 0 6px;margin-bottom:10px;scrollbar-width:none}
+.filtros button{flex:none;min-height:40px;padding:0 14px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:600 14px 'Barlow',sans-serif}
+.filtros button[aria-pressed=true]{background:var(--g);border-color:var(--g);color:#fff}
+.filtros button span{opacity:.7;margin-left:4px}
+.ok-tag{color:var(--ct);font-weight:600;align-self:center}
+a.btn{text-decoration:none}
+fieldset.mated{border:0;border-left:5px solid var(--c);margin:0 0 14px;min-width:0}
+.card.novo{margin-top:6px}
 </style>
 </head>
 <body>
@@ -343,7 +362,7 @@ input[type=date]::-webkit-date-and-time-value{text-align:left}
 <div class="toast" id="toast" role="status"></div>
 <script>
 {
-const VERSAO = '4.0.0';
+const VERSAO = '4.1.0';
 /* ---------- Dados do concurso (Edital IBGE nº 03/2026 + apostila do 12º Censo Agro) ---------- */
 const IBGE = {
   id:'ibge2027', nome:'IBGE 2027', cargo:'Recenseador (REC)', banca:'Fundação Cesgranrio',
@@ -359,7 +378,7 @@ const IBGE = {
     ['2027-02-01','Gabarito preliminar'],['2027-03-05','Resultado preliminar'],['2027-04-30','Resultado final']]
 };
 /* tipos de assunto: aq = videoaula + questões · a = videoaula · q = questões · lq = leitura + questões · l = leitura */
-const MAT = {
+const MAT_IBGE = {
   pt:{nome:'Português', cor:'var(--pt)', itens:[
     ['Ortografia oficial e acentuação gráfica','Gran: aulas 1 a 3 — Ortografia e Acentuação','aq',null,null,'SanZETigdZA%3D'],
     ['Ortografia e acentuação: exercícios e complementos','Gran: aulas 4 a 6 — Ortografia e Acentuação (exercícios, IV e V)','aq'],
@@ -451,29 +470,88 @@ const STEPS = {aq:['a','q'], a:['a'], q:['q'], lq:['l','q'], l:['l'], x:['f']};
 const STEPNOME = {a:'Videoaula', q:'Questões', l:'Leitura', f:'Tarefa'};
 const ROT = ['ct','pt','ct','mt','pt','ct','mt','qs'];
 const REVROT = ['ct','pt','mt','ct','qs','pt','mt'];
-/* fila de conteúdo: matérias intercaladas, CT com mais peso (vale metade da prova) */
-const QC = (() => {const ptr = {pt:0,mt:0,ct:0,qs:0}, out = []; let ok = true;
-  while(ok){ok = false; for(const m of ROT){const it = MAT[m].itens[ptr[m]]; if(!it) continue; ok = true;
-    out.push({id:m+'-'+ptr[m], m, t:it[0], g:it[1], k:it[2], pg:it[3] ? [it[3],it[4]] : null, u:it[5] || null}); ptr[m]++}}
-  return out})();
-const QR = (() => {const rk = {pt:0,mt:0,ct:0,qs:0}, out = [];
-  for(let i = 0; i < 220; i++){const m = REVROT[i % REVROT.length], k = rk[m]++, t = MAT[m].rev[k % MAT[m].rev.length];
-    out.push({id:m+'-r'+k, m, t:'Revisão: '+t, k:/^(Flashcards|Releitura)/.test(t) ? 'l' : 'q', rev:1})}
-  return out})();
-const FT = {pt:['Revisão final de Português: concordância, regência, pontuação e pronomes + 20 questões','q'],
+const FT_IBGE = {pt:['Revisão final de Português: concordância, regência, pontuação e pronomes + 20 questões','q'],
   mt:['Revisão final de Matemática: porcentagem, regra de três, medidas, áreas e volumes + 20 questões','q'],
   ct:['Revisão final de Conhecimentos Técnicos: resumos, flashcards e trechos marcados da apostila','lq']};
 const FIXOS = [['2027-01-26','fx-cci','Baixar o Cartão de Confirmação (CCI) no site da Cesgranrio e ver o local e o horário do portão'],
   ['2027-01-28','fx-sim','Simulado completo: 60 questões em 4 horas (30 CT, 15 Português, 15 Matemática)'],
   ['2027-01-29','fx-cor','Corrigir o simulado e revisar os erros'],
   ['2027-01-30','fx-ves','Dia leve: revisão rápida e separar documento original com foto, comprovante de inscrição e caneta azul ou preta de corpo transparente']];
-const TAGS = {pt:'Português',mt:'Matemática',ct:'Conh. Técnicos',qs:'Questões',rv:'Revisão',fx:'Reta final'};
-const COR = m => MAT[m]?.cor || (m==='fx' ? 'var(--fx)' : 'var(--rv)');
+const TAGS0 = {pt:'Português',mt:'Matemática',ct:'Conh. Técnicos',qs:'Questões',rv:'Revisão',fx:'Reta final'};
 const DIAS = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
 const DIASL = ['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
 const MESES = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
-const SUBJ = ['ct','pt','mt'];
-const EDITAL = QC.filter(a => a.m !== 'qs');
+
+/* ---------- Motor genérico (v4.1) ----------
+   Cada concurso vira um "contexto": matérias com cor, fila de conteúdo (QC), fila de revisão (QR),
+   reta final e datas. O IBGE usa os dados feitos à mão acima; os outros concursos (vitrine, PDF do
+   edital ou conteúdo colado) são montados a partir de c.materias = [{nome, q, topicos:[[título, dica]]}].
+   Assim Hoje, Calendário, foguinho, Edital e Prova funcionam igual para qualquer concurso. */
+const PAL = ['#2f6fd0','#1d8a52','#d9622b','#6b4fbf','#d6457f','#0e8f9c','#b07d12','#a3324a','#5b7a1f','#3d5a80','#c0392b','#8e44ad','#16a085','#7d6b5d'];
+/* contas especiais (e o modo sem conta) veem as aulas do Gran no IBGE; as outras contas não */
+const ESPEC = () => !NV.user || NV.especial;
+const semGran = t => String(t||'').replace(/^Gran aula (\d+):\s*/, 'Videoaula $1: ').replace(/^Gran:\s*/, '').replace(/ Gran:/, ':');
+/* intercala as matérias na proporção do peso (round-robin ponderado suave) */
+function rotacao(ids, peso){
+  const cur = Object.fromEntries(ids.map(i => [i,0])), tot = ids.reduce((a,i) => a + peso[i], 0), out = [];
+  for(let k = 0; k < Math.min(tot, 3000); k++){let best = null; for(const i of ids){cur[i] += peso[i]; if(best === null || cur[i] > cur[best]) best = i} cur[best] -= tot; out.push(best)}
+  return out;
+}
+function montaFila(mat, rot, revrot, nrev){
+  const ptr = {}, rk = {}, QC = [], QR = []; let ok = true;
+  for(const m in mat){ptr[m] = 0; rk[m] = 0}
+  while(ok && rot.length){ok = false; for(const m of rot){const it = mat[m].itens[ptr[m]]; if(!it) continue; ok = true;
+    QC.push({id:m+'-'+(it[6] ?? ptr[m]), m, t:it[0], g:it[1], k:it[2], pg:it[3] ? [it[3],it[4]] : null, u:it[5] || null}); ptr[m]++}}
+  for(let i = 0; revrot.length && i < nrev; i++){const m = revrot[i % revrot.length], k = rk[m]++, rv = mat[m].rev, t = rv[k % rv.length];
+    QR.push({id:m+'-r'+k, m, t:'Revisão: '+t, k:/^(Flashcards|Releitura)/.test(t) ? 'l' : 'q', rev:1})}
+  return {QC, QR};
+}
+/* feriados nacionais (fixos + Carnaval, Sexta-feira Santa e Corpus Christi) e as vésperas 24 e 31/12 */
+function pascoa(y){const a = y%19, b = Math.floor(y/100), c = y%100, d = Math.floor(b/4), e = b%4, f = Math.floor((b+8)/25), g = Math.floor((b-f+1)/3), h = (19*a+b-d-g+15)%30, i = Math.floor(c/4), k = c%4, l = (32+2*e+2*i-h-k)%7, m = Math.floor((a+11*h+22*l)/451), mes = Math.floor((h+l-7*m+114)/31), dia = ((h+l-7*m+114)%31)+1; return iso(new Date(y,mes-1,dia))}
+function feriadosNac(de, ate){
+  const out = []; if(!de || !ate) return out;
+  for(let y = +de.slice(0,4); y <= +ate.slice(0,4); y++){
+    ['01-01','04-21','05-01','09-07','10-12','11-02','11-15','11-20','12-24','12-25','12-31'].forEach(md => out.push(y+'-'+md));
+    const p = pascoa(y); out.push(addD(p,-48), addD(p,-47), addD(p,-2), addD(p,60));
+  }
+  return out.filter(d => d >= de && d <= ate).sort();
+}
+const CTXC = new Map();
+function ctxDe(c){
+  const chave = c.id+'|'+(c._v||0)+'|'+ESPEC()+'|'+(c.data||'')+'|'+(c.fimConteudo||'')+'|'+(c.inicio||'');
+  if(CTXC.has(chave)) return CTXC.get(chave);
+  let cx;
+  if(c === IBGE){
+    const esp = ESPEC(), mat = {};
+    for(const [k,m] of Object.entries(MAT_IBGE)) mat[k] = {...m,
+      itens: esp ? m.itens : m.itens.map(it => [semGran(it[0]), /Gran/.test(it[1]||'') ? '' : it[1], it[2], it[3], it[4], null])};
+    const {QC, QR} = montaFila(mat, ROT, REVROT, 220);
+    cx = {c, ibge:true, MAT:mat, QC, QR, EDITAL:QC.filter(a => a.m !== 'qs'), SUBJ:['ct','pt','mt'], LEG:['pt','mt','ct','qs','fx'], TAGS:TAGS0, FT:FT_IBGE,
+      inicio:IBGE.inicio, fimConteudo:IBGE.fimConteudo, feriados:IBGE.feriados, data:IBGE.data};
+  } else {
+    const mat = {}, TG = {rv:'Revisão', fx:'Reta final'}, ids = [];
+    (c.materias||[]).forEach((m,i) => {
+      const id = m.id || 'm'+i; ids.push(id);
+      mat[id] = {nome:m.nome, cor:PAL[i % PAL.length], q:m.q||0, itens:(m.topicos||[]).filter(t => t && t[0]).map(t => [t[0], t[1]||'', t[2]||'aq', null, null, null, t[3] ?? null]),
+        rev:['Questões de '+m.nome, 'Releitura dos resumos de '+m.nome, 'Flashcards de '+m.nome, 'Refazer as questões que errou em '+m.nome]};
+      TG[id] = m.nome.length > 22 ? m.nome.slice(0,20).trim()+'…' : m.nome;
+    });
+    const usa = ids.filter(id => mat[id].itens.length);
+    const peso = Object.fromEntries(usa.map(id => [id, mat[id].itens.length]));
+    const pesoR = Object.fromEntries(usa.map(id => [id, Math.max(1, mat[id].q || mat[id].itens.length)]));
+    const {QC, QR} = montaFila(mat, rotacao(usa, peso), rotacao(usa, pesoR), 400);
+    const data = c.data, ini = c.inicio || hoje(), dd = Math.round((parse(data) - parse(ini))/864e5);
+    /* reta final de 7 dias; se a prova está perto, a reta final encolhe */
+    const fim = c.fimConteudo || addD(data, dd >= 28 ? -8 : -Math.max(1, Math.floor(dd/4)));
+    const FTg = Object.fromEntries(ids.map(id => [id, ['Revisão final de '+mat[id].nome+': resumos, flashcards e questões','lq']]));
+    cx = {c, ibge:false, MAT:mat, QC, QR, EDITAL:QC, SUBJ:usa, LEG:[...usa,'fx'], TAGS:TG, FT:FTg, inicio:ini, fimConteudo:fim, feriados:feriadosNac(ini, data), data};
+  }
+  CTXC.set(chave, cx); return cx;
+}
+/* o concurso aberto na tela define as variáveis que o resto do app usa */
+let CX = null, MAT = MAT_IBGE, QC = [], QR = [], EDITAL = [], SUBJ = [], TAGS = TAGS0, FT = FT_IBGE;
+function usar(c){CX = ctxDe(c); ({MAT, QC, QR, EDITAL, SUBJ, TAGS, FT} = CX); return CX}
+const COR = m => MAT[m]?.cor || (m==='fx' ? 'var(--fx)' : 'var(--rv)');
 
 /* ---------- Estado ---------- */
 const KEY = 'cronograma-estudos-v1';
@@ -517,12 +595,12 @@ const hashPin = (pin,id) => {let h = 5381; for(const c of id+'|'+pin) h = ((h<<5
 
 function P(pid,cid){
   const k = pid+'|'+cid;
-  if(!S.prog[k]) S.prog[k] = {done:{}, inicio:IBGE.inicio, feriados:true, pausas:[], extra:{}, placar:{}, perdao:[], recorde:0};
+  if(!S.prog[k]) S.prog[k] = {done:{}, inicio:cid === IBGE.id ? IBGE.inicio : (S.extras[cid]?.inicio || hoje()), feriados:true, pausas:[], extra:{}, placar:{}, perdao:[], recorde:0};
   const p = S.prog[k];
   p.pausas = p.pausas || []; p.extra = p.extra || {}; p.placar = p.placar || {}; p.perdao = p.perdao || []; p.recorde = p.recorde || 0;
   if(!p.ritmo){p.ritmo = {0:1,1:1,2:1,3:1,4:1,5:1,6:3}; if(p.dias) for(let w = 0; w < 7; w++) if(!p.dias.includes(w)) p.ritmo[w] = 0; delete p.dias}
   /* migração da v2: assunto marcado inteiro vira todas as etapas marcadas */
-  if(cid === IBGE.id) for(const a of [...QC,...QR]) if(p.done[a.id] && typeof p.done[a.id] === 'string'){for(const s of STEPS[a.k]) p.done[a.id+':'+s] = p.done[a.id]; delete p.done[a.id]}
+  if(cid === IBGE.id) for(const a of [...ctxDe(IBGE).QC,...ctxDe(IBGE).QR]) if(p.done[a.id] && typeof p.done[a.id] === 'string'){for(const s of STEPS[a.k]) p.done[a.id+':'+s] = p.done[a.id]; delete p.done[a.id]}
   return p;
 }
 
@@ -531,11 +609,11 @@ const sd = (p,a,s) => p.done[a.id+':'+s];
 const aDone = (p,a) => {let mx = ''; for(const s of STEPS[a.k]){const d = sd(p,a,s); if(!d) return null; if(d > mx) mx = d} return mx};
 const aPart = (p,a) => STEPS[a.k].filter(s => sd(p,a,s)).length;
 const pausado = (p,d) => p.pausas.some(x => d >= x.de && d <= x.ate);
-const capDia = (p,d) => {const ini = p.inicio || IBGE.inicio; if(d < ini || d > IBGE.fimConteudo || pausado(p,d) || (p.feriados && IBGE.feriados.includes(d))) return 0; return p.ritmo[parse(d).getDay()] || 0};
-const motivoFolga = (p,d) => pausado(p,d) ? 'Pausa' : (p.feriados && IBGE.feriados.includes(d)) ? 'Feriado' : 'Folga';
+const capDia = (p,d) => {const ini = p.inicio || CX.inicio; if(d < ini || d > CX.fimConteudo || pausado(p,d) || (p.feriados && CX.feriados.includes(d))) return 0; return p.ritmo[parse(d).getDay()] || 0};
+const motivoFolga = (p,d) => pausado(p,d) ? 'Pausa' : (p.feriados && CX.feriados.includes(d)) ? 'Feriado' : 'Folga';
 
 function placarStats(p){
-  const st = {pt:{a:0,t:0},mt:{a:0,t:0},ct:{a:0,t:0},mx:{a:0,t:0}};
+  const st = {mx:{a:0,t:0}}; for(const m of SUBJ) st[m] = {a:0,t:0};
   for(const r of Object.values(p.placar)){const k = st[r.m] ? r.m : 'mx'; st[k].a += r.a; st[k].t += r.t}
   return st;
 }
@@ -543,9 +621,25 @@ const pctAc = x => x.t ? Math.round(100*x.a/x.t) : null;
 function fracos(p){const st = placarStats(p); return [...SUBJ].sort((x,y) => {const a = st[x].t >= 5 ? st[x].a/st[x].t : .99, b = st[y].t >= 5 ? st[y].a/st[y].t : .99; return a - b || SUBJ.indexOf(x) - SUBJ.indexOf(y)})}
 function finais(p){
   const ord = fracos(p), out = [];
-  ord.forEach((m,i) => out.push([addD('2027-01-25',i), {id:'fx-'+m, m, t:FT[m][0], k:FT[m][1], fin:1}]));
-  FIXOS.forEach(([d,id,t]) => out.push([d, {id, m:'fx', t, k:'x', fin:1}]));
-  out.push([IBGE.data, {id:'prova', m:'fx', t:'DIA DA PROVA: 13h, Catolé do Rocha. Chegue cedo!', k:'x', fin:1}]);
+  if(CX.ibge){
+    ord.forEach((m,i) => out.push([addD('2027-01-25',i), {id:'fx-'+m, m, t:FT[m][0], k:FT[m][1], fin:1}]));
+    FIXOS.forEach(([d,id,t]) => out.push([d, {id, m:'fx', t, k:'x', fin:1}]));
+    out.push([IBGE.data, {id:'prova', m:'fx', t:'DIA DA PROVA: 13h, Catolé do Rocha. Chegue cedo!', k:'x', fin:1}]);
+    return out;
+  }
+  /* outros concursos: revisão final por matéria (a mais fraca primeiro) nos dias entre o fim do conteúdo e a prova,
+     simulado 3 dias antes, correção 2 dias antes e dia leve na véspera */
+  const c = CX.c, d0 = addD(CX.fimConteudo,1), dv = addD(CX.data,-4), dias = [];
+  for(let d = d0; d <= dv; d = addD(d,1)) dias.push(d);
+  if(!dias.length) dias.push(d0 <= CX.data ? d0 : CX.data);
+  ord.forEach((m,i) => out.push([dias[Math.floor(i*dias.length/ord.length)], {id:'fx-'+m, m, t:FT[m][0], k:FT[m][1], fin:1}]));
+  const nq = SUBJ.reduce((a,m) => a + (MAT[m].q||0), 0);
+  if(addD(CX.data,-3) > CX.fimConteudo){
+    out.push([addD(CX.data,-3), {id:'fx-sim', m:'fx', t:'Simulado completo'+(nq ? `: ${nq} questões no tempo da prova` : ' no tempo da prova'), k:'x', fin:1}]);
+    out.push([addD(CX.data,-2), {id:'fx-cor', m:'fx', t:'Corrigir o simulado e revisar os erros', k:'x', fin:1}]);
+  }
+  out.push([addD(CX.data,-1), {id:'fx-ves', m:'fx', t:c.pre ? 'Dia leve: revisão rápida do que mais errou' : 'Dia leve: revisão rápida e separar documento original com foto, comprovante de inscrição e caneta', k:'x', fin:1}]);
+  out.push([CX.data, {id:'prova', m:'fx', t:c.pre ? 'META: conteúdo do edital fechado! Daqui pra frente é revisão e questões até sair o novo edital.' : `DIA DA PROVA${c.hora ? ' · '+c.hora : ''}${c.local ? ' · '+c.local : ''}. Chegue cedo!`, k:'x', fin:1}]);
   return out;
 }
 
@@ -554,7 +648,7 @@ function plano(p){
   const pend = [];
   for(const a of [...QC,...QR]){const d = aDone(p,a); if(d) add(d,a); else pend.push(a)}
   let i = 0, fim = null, iHoje = 0;
-  for(let d = h; d <= IBGE.fimConteudo && i < pend.length; d = addD(d,1)){
+  for(let d = h; d <= CX.fimConteudo && i < pend.length; d = addD(d,1)){
     let vagas = capDia(p,d) + (d === h ? (p.extra[h]||0) : 0) - (d === h ? (out[h]||[]).length : 0);
     while(vagas-- > 0 && i < pend.length){add(d,pend[i]); if(!pend[i].rev) fim = d; i++}
     if(d === h) iHoje = i;
@@ -566,7 +660,7 @@ function plano(p){
 }
 
 function sequencia(p,pl){
-  const h = hoje(), ini = p.inicio || IBGE.inicio, act = new Set(Object.values(p.done));
+  const h = hoje(), ini = p.inicio || CX.inicio, act = new Set(Object.values(p.done));
   const conta = from => {let s = 0, d = from, miss = null;
     for(let g = 0; g < 500; g++){
       if(act.has(d)) s++;
@@ -605,8 +699,8 @@ function placarUI(p,a){
 }
 function stepRow(p,a,s){
   const d = sd(p,a,s);
-  const GRAN = 'https://www.grancursosonline.com.br/aluno/curso/video/codigo/K3VrtUjW6Ls%3D/v/', CURSO = 'https://www.grancursosonline.com.br/aluno/curso/s/ibge-instituto-brasileiro-de-geografia-e-estatistica-temporario-recenseador-rec-pos-edital';
-  const aula = s === 'a' && a.m !== 'fx' ? `<a class="mini-btn" href="${a.u ? GRAN+a.u : CURSO}" target="_blank" rel="noopener">${a.u ? 'Abrir aula no Gran' : 'Abrir o curso no Gran'}</a>` : '';
+  const lk = s === 'a' && a.m !== 'fx' ? aulaLink(p,a) : null;
+  const aula = lk ? `<a class="mini-btn" href="${esc(lk.url)}" target="_blank" rel="noopener">${esc(lk.txt)}</a>` : '';
   const extra = (s === 'l' && a.pg ? `<button class="mini-btn" data-ap="${a.pg[0]}">Abrir na p. ${a.pg[0]}</button>` : '') + aula + (s === 'q' ? placarUI(p,a) : '');
   return `<div class="task${d?' ok':''}"><button class="chk" data-s="${a.id}:${s}" aria-pressed="${!!d}" aria-label="Marcar ${STEPNOME[s]}">${ICK}</button><div>${tag(a.m)}<span class="tt">${esc(a.t)}</span><span class="sub">${stepTxt(a,s)}${s==='a'&&a.g&&a.g!=='Videoaula'?' · '+esc(a.g):''}</span>${extra}</div></div>`;
 }
@@ -617,7 +711,7 @@ function aRow(p,a){
 }
 const ACHA = id => QC.find(a => a.id === id) || QR.find(a => a.id === id);
 const concById = id => id === IBGE.id ? IBGE : S.extras[id];
-const pct = (c,p) => {if(c === IBGE) return Math.round(100*EDITAL.filter(a => aDone(p,a)).length/EDITAL.length); const ids = (c.topicos||[]).map(t => t.id); return ids.length ? Math.round(100*ids.filter(i => p.done[i]).length/ids.length) : 0};
+const pct = (c,p) => {const E = ctxDe(c).EDITAL; return E.length ? Math.round(100*E.filter(a => aDone(p,a)).length/E.length) : 0};
 const porMat = p => SUBJ.map(m => {const L = EDITAL.filter(a => a.m === m); return {m, n:L.length, f:L.filter(a => aDone(p,a)).length}});
 
 const MOTIV = ['Domingo é dia de descansar, mas uma revisão leve conta.','Segunda é dia de começar com tudo!','Terça firme: um assunto de cada vez.','Quarta: metade da semana já foi.','Quinta é quase sexta! Não desanima!','Sexta: fecha a semana com chave de ouro.','Sábado é dia de render mais: bora!'];
@@ -630,12 +724,11 @@ function seqAtual(p){
   return {sq, pl};
 }
 function avisos(c,p,sq,pl){
-  const h = hoje(), ini = p.inicio || IBGE.inicio, out = [];
-  if(c !== IBGE) return out;
-  for(const [d,t,big] of IBGE.datas){const n = diasAte(d); if(d >= h && (n <= 7 || (big && n <= 14))) out.push({id:'ed-'+d, tipo:'prazo', txt:`<b>${n===0?'Hoje':fmt(d)}:</b> ${esc(t)}.`})}
+  const h = hoje(), ini = p.inicio || CX.inicio, out = [];
+  for(const [d,t,big] of (c.datas||[])){const n = diasAte(d); if(d >= h && (n <= 7 || (big && n <= 14))) out.push({id:'ed-'+d, tipo:'prazo', txt:`<b>${n===0?'Hoje':fmt(d)}:</b> ${esc(t)}.`})}
   if(h < ini) out.push({id:'ini-'+ini, tipo:'info', txt:`O cronograma começa ${DIASL[parse(ini).getDay()]}, <b>${dm(ini)}</b>. Quer começar antes? Use "Adiantar".`});
   if(sq.recuperavel) out.push({id:'rec-'+sq.miss, tipo:'fogo', txt:`Sua sequência de <b>${sq.prev} ${sq.prev>1?'dias':'dia'}</b> apagou em ${dm(sq.miss)}. Para reacender, conclua <b>${sq.precisa} ${sq.precisa>1?'assuntos':'assunto'}</b> hoje (${sq.feitosHoje} até agora).`});
-  if(pl.sobra && h <= IBGE.fimConteudo) out.push({id:'sobra-'+h, tipo:'ritmo', txt:`Nesse ritmo, <b>${pl.sobra} ${pl.sobra>1?'assuntos ficam':'assunto fica'}</b> de fora até 24/01. Aumente o ritmo na aba Prova ou use "Adiantar".`});
+  if(pl.sobra && h <= CX.fimConteudo) out.push({id:'sobra-'+h, tipo:'ritmo', txt:`Nesse ritmo, <b>${pl.sobra} ${pl.sobra>1?'assuntos ficam':'assunto fica'}</b> de fora até ${dm(CX.fimConteudo)}. Aumente o ritmo na aba Prova ou use "Adiantar".`});
   return out;
 }
 const SINO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0112 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 003.4 0"/></svg>';
@@ -667,7 +760,7 @@ const MI = {
 };
 function painelPerfil(pf){
   const noite = escuroAgora();
-  return `<section class="card painel"><div class="perfhd"><span class="avp">${pf.foto?`<img src="${pf.foto}" alt="">`:esc(pf.nome[0])}</span><div style="flex:1"><span class="selo">IBGE 2027</span><div style="font:700 22px 'Barlow Condensed'">${esc(pf.nome)}</div></div><button class="x" data-painel="" aria-label="Fechar">×</button></div>
+  return `<section class="card painel"><div class="perfhd"><span class="avp">${pf.foto?`<img src="${pf.foto}" alt="">`:esc(pf.nome[0])}</span><div style="flex:1"><span class="selo">${esc(CX ? CX.c.nome : '')}</span><div style="font:700 22px 'Barlow Condensed'">${esc(pf.nome)}</div></div><button class="x" data-painel="" aria-label="Fechar">×</button></div>
   <div class="menu"><div class="lbl">SEUS CONTEÚDOS</div>
   <button data-go="concursos"><span class="ico" style="--c:var(--pt)">${MI.conc}</span>Meus concursos</button>
   <button data-tab="prova"><span class="ico" style="--c:var(--ct)">${MI.ajus}</span>Ritmo, pausas e backup</button>
@@ -686,20 +779,21 @@ function painelAvisos(av,pf){
 }
 function header(c,p){
   const n = diasAte(c.data);
-  const cont = n > 0 ? `<b>${n}</b><span>dias até a prova<br>${fmt(c.data)} · ${esc(c.hora||'')}</span>` : n === 0 ? `<b>Hoje!</b><span>Boa prova! ${esc(c.hora||'')}</span>` : `<b>✓</b><span>Prova realizada em ${fmt(c.data)}</span>`;
+  const hr = c.hora && !c.pre ? ' · '+esc(c.hora) : '';
+  const cont = n > 0 ? `<b>${n}</b><span>${c.pre ? 'dias até a sua meta' : 'dias até a prova'}<br>${fmt(c.data)}${hr}</span>` : n === 0 ? `<b>Hoje!</b><span>${c.pre ? 'Dia da sua meta!' : 'Boa prova!'}${hr}</span>` : `<b>✓</b><span>${c.pre ? 'Meta' : 'Prova realizada'} em ${fmt(c.data)}</span>`;
   const pc = pct(c,p);
-  const bar = c === IBGE ? porMat(p).map(x => `<i style="width:${100*x.f/EDITAL.length}%;background:${MAT[x.m].cor}"></i>`).join('') : `<i style="width:${pc}%;background:var(--g)"></i>`;
+  const bar = EDITAL.length ? porMat(p).map(x => `<i style="width:${100*x.f/EDITAL.length}%;background:${MAT[x.m].cor}"></i>`).join('') : `<i style="width:${pc}%;background:var(--g)"></i>`;
   let acts = '';
-  if(c === IBGE){
+  {
     const pf = S.perfis.find(x => x.id === V.perfil), {sq, pl} = seqAtual(p), av = avisos(c,p,sq,pl), nl = av.filter(a => !(pf.lidos||[]).includes(a.id)).length;
     HDR = {sq, pl, av};
     acts = `<div class="acts"><button class="chipf${sq.hojeOk?' on':''}" data-painel="fogo" aria-label="Sequência de ${sq.s} dias">${FOGO(sq.hojeOk)}<span>${sq.s} ${sq.s===1?'dia':'dias'}</span></button><button class="sino" data-painel="avisos" aria-label="Avisos${nl?': '+nl+' novos':''}">${SINO}${nl?`<i>${nl}</i>`:''}</button><button class="avp" data-painel="perfil" aria-label="Menu do perfil">${pf.foto?`<img src="${pf.foto}" alt="">`:esc(pf.nome[0])}</button></div>`;
   }
-  return `<header class="top">${TOPO}<div class="wrap"><div class="toprow"><button class="back" data-go="concursos">‹ Meus concursos</button>${acts}</div><small>${esc(c.cargo||'')}</small><h1>${esc(c.nome)}</h1><div class="count">${cont}</div><div class="bar" role="progressbar" aria-valuenow="${pc}" aria-label="Edital concluído">${bar}</div><small style="margin-top:6px">${pc}% do edital concluído</small></div></header>`;
+  return `<header class="top">${TOPO}<div class="wrap"><div class="toprow"><button class="back" data-go="concursos">‹ Meus concursos</button>${acts}</div><small>${esc(c.cargo||'')}</small><h1>${esc(c.nome)}</h1><div class="count">${cont}</div><div class="bar" role="progressbar" aria-valuenow="${pc}" aria-label="Edital concluído">${bar}</div><small style="margin-top:6px">${pc}% do edital concluído${c.pre ? ' · pré-edital' : ''}</small></div></header>`;
 }
 
 function vHoje(c,p){
-  const h = hoje(), pl = plano(p), ini = p.inicio || IBGE.inicio;
+  const h = hoje(), pl = plano(p), ini = p.inicio || CX.inicio;
   let html = '';
   for(const a of (HDR ? HDR.av : []).filter(a => a.tipo !== 'ritmo' && !FECHADOS.has(a.id))) html += `<div class="alert av"><span>${a.txt}</span><button class="x" data-fecha="${a.id}" aria-label="Fechar aviso">×</button></div>`;
   const doDia = pl.out[h] || [];
@@ -712,12 +806,12 @@ function vHoje(c,p){
       ${grupo(IC.casa,'Videoaulas · em casa',passos.filter(([,s]) => s==='a'))}
       ${grupo(IC.task,'Tarefas',passos.filter(([,s]) => s==='f'))}</section>`;
   } else if(h >= ini) {
-    html += `<section class="card"><h2>${h > IBGE.data ? 'Prova feita!' : 'Hoje é folga'}</h2><p class="muted" style="margin:0">${h > IBGE.data ? 'Agora é esperar o gabarito.' : motivoFolga(p,h)+'. Descanse, ou adiante algo se quiser.'}</p></section>`;
+    html += `<section class="card"><h2>${h > CX.data ? (CX.c.pre ? 'Meta cumprida!' : 'Prova feita!') : 'Hoje é folga'}</h2><p class="muted" style="margin:0">${h > CX.data ? (CX.c.pre ? 'Agora é revisão e questões até sair o edital.' : 'Agora é esperar o gabarito.') : motivoFolga(p,h)+'. Descanse, ou adiante algo se quiser.'}</p></section>`;
   }
-  if(pl.prox && h <= IBGE.fimConteudo) html += `<button class="btn alt adi" id="adiantar">Adiantar o próximo assunto<small>${TAGS[pl.prox.m]}: ${esc(pl.prox.t)}</small></button>`;
-  if(h <= IBGE.fimConteudo) html += `<section class="card" style="margin-top:14px"><div class="prev">${pl.sobra ? IC.aviso : IC.alvo}<div>${pl.sobra
-    ? `Nesse ritmo, <b>${pl.sobra} ${pl.sobra>1?'assuntos ficam':'assunto fica'}</b> de fora até 24/01. Aumente o ritmo de algum dia na aba Prova ou use "Adiantar".`
-    : pl.fim ? `Nesse ritmo, o conteúdo termina em <b>${fmt(pl.fim)}</b>${pl.fim < IBGE.fimConteudo ? ', e o resto até a reta final vira revisão' : ''}.` : 'Conteúdo todo concluído. Agora é revisão!'}</div></div></section>`;
+  if(pl.prox && h <= CX.fimConteudo) html += `<button class="btn alt adi" id="adiantar">Adiantar o próximo assunto<small>${TAGS[pl.prox.m]}: ${esc(pl.prox.t)}</small></button>`;
+  if(h <= CX.fimConteudo) html += `<section class="card" style="margin-top:14px"><div class="prev">${pl.sobra ? IC.aviso : IC.alvo}<div>${pl.sobra
+    ? `Nesse ritmo, <b>${pl.sobra} ${pl.sobra>1?'assuntos ficam':'assunto fica'}</b> de fora até ${dm(CX.fimConteudo)}. Aumente o ritmo de algum dia na aba Prova ou use "Adiantar".`
+    : pl.fim ? `Nesse ritmo, o conteúdo termina em <b>${fmt(pl.fim)}</b>${pl.fim < CX.fimConteudo ? ', e o resto até a reta final vira revisão' : ''}.` : 'Conteúdo todo concluído. Agora é revisão!'}</div></div></section>`;
   return html;
 }
 
@@ -728,7 +822,7 @@ function diaCard(d,pl,p,h){
 }
 
 function vSemana(c,p){
-  const pl = plano(p), h = hoje(), ini = p.inicio || IBGE.inicio, base = h < ini ? ini : h;
+  const pl = plano(p), h = hoje(), ini = p.inicio || CX.inicio, base = h < ini ? ini : h;
   let html = `<div class="seg" role="group" aria-label="Visualização"><button data-modo="semana" aria-pressed="${V.modo==='semana'}">Semana</button><button data-modo="mes" aria-pressed="${V.modo==='mes'}">Mês</button></div>`;
   html += `<p class="muted" style="margin:-4px 0 12px">O cronograma é uma fila: o que você adianta ou deixa para depois reorganiza os próximos dias sozinho.</p>`;
   if(V.modo === 'mes'){
@@ -738,10 +832,10 @@ function vSemana(c,p){
     html += `<div class="card" style="padding:10px"><div class="cal">${DIAS.map(x => `<div class="h">${x}</div>`).join('')}${'<button class="fora" tabindex="-1" aria-hidden="true"></button>'.repeat(off)}`;
     for(let i = 0; i < n; i++){
       const d = addD(first,i), ts = pl.out[d] || [], ok = ts.length && ts.every(a => aDone(p,a));
-      const cls = [d===h?'hoje':'', d===V.dia?'sel':'', d===IBGE.data?'prova':'', ok?'feito':''].join(' ');
+      const cls = [d===h?'hoje':'', d===V.dia?'sel':'', d===CX.data?'prova':'', ok?'feito':''].join(' ');
       html += `<button class="${cls}" data-dia-sel="${d}" aria-label="${fmt(d)}: ${ts.length} assuntos"><span class="n">${i+1}</span><span class="dots">${ts.map(a => `<i class="${aDone(p,a)?'ok':''}" style="--c:${COR(a.m)}"></i>`).join('')}</span></button>`;
     }
-    html += `</div><div class="leg">${['pt','mt','ct','qs','fx'].map(m => `<span style="--c:${COR(m)}">${TAGS[m]}</span>`).join('')}</div></div>`;
+    html += `</div><div class="leg">${CX.LEG.map(m => `<span style="--c:${COR(m)}">${TAGS[m]}</span>`).join('')}</div></div>`;
     html += V.dia && V.dia.slice(0,7) === first.slice(0,7) ? diaCard(V.dia,pl,p,h) : `<p class="muted" style="text-align:center">Toque num dia para ver o que estudar.</p>`;
     return html;
   }
@@ -770,15 +864,12 @@ function desempenho(p){
     <details style="margin-top:12px"><summary>Anotar questões avulsas</summary><form id="avulso" class="plf"><select name="m" aria-label="Matéria" style="font-size:16px;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)">${SUBJ.map(m => `<option value="${m}">${MAT[m].nome}</option>`).join('')}</select> acertei <input type="number" name="a" min="0" required inputmode="numeric" aria-label="Acertos"> de <input type="number" name="t" min="1" required inputmode="numeric" aria-label="Total"><button class="btn sm">Salvar</button></form></details></section>`;
 }
 function vEdital(c,p){
-  if(c !== IBGE){
-    const ts = c.topicos||[];
-    return `<section class="card"><h2>Conteúdo</h2>${ts.length ? ts.map(t => `<div class="task${p.done[t.id]?' ok':''}"><button class="chk" data-t="${t.id}" aria-pressed="${!!p.done[t.id]}" aria-label="Marcar">${ICK}</button><div><span class="tt">${esc(t.t)}</span></div></div>`).join('') : '<p class="muted">Nenhum assunto ainda.</p>'}
-    <form id="addTop" class="row" style="margin-top:12px;align-items:flex-end"><label class="f" style="flex:1;margin:0">Novo assunto<input name="t" required></label><button class="btn">Adicionar</button></form></section>`;
-  }
+  if(!EDITAL.length) return `<section class="card"><h2>Conteúdo</h2><p class="muted">Nenhum assunto ainda.</p><button class="btn sm" data-editar="${c.id}">Adicionar o conteúdo</button></section>`;
   return donut(p) + desempenho(p) + SUBJ.map(m => {
     const L = EDITAL.filter(a => a.m === m), f = L.filter(a => aDone(p,a)).length;
     return `<details class="card subj" data-mat="${m}" style="--c:${MAT[m].cor}"${(V.abertos||[]).includes(m)?' open':''}><summary><h3><span>${MAT[m].nome}</span><span class="muted">${f}/${L.length}<span class="chev" aria-hidden="true">›</span></span></h3><div class="mini"><i style="width:${100*f/L.length}%"></i></div></summary>${L.map(a => aRow(p,a)).join('')}</details>`;
-  }).join('') + `<p class="muted">Português e Matemática seguem o Anexo III do edital; os itens "Base" ajudam em concordância, regência e pontuação. Conhecimentos Técnicos segue as seções da apostila e as 8 aulas do Gran.</p>`;
+  }).join('') + (CX.ibge ? `<p class="muted">Português e Matemática seguem o Anexo III do edital; os itens "Base" ajudam em concordância, regência e pontuação. Conhecimentos Técnicos segue as seções da apostila${ESPEC() ? ' e as 8 aulas do Gran' : ''}.</p>`
+    : `<section class="card"><h2>Mudou o edital?</h2><p class="muted" style="margin:-4px 0 10px">Renomeie matérias, tire ou acrescente assuntos. O que você já marcou continua marcado.</p><button class="btn alt sm" data-editar="${c.id}">Editar conteúdo</button></section>`);
 }
 
 /* ---------- Apostila (PDF.js) ---------- */
@@ -836,15 +927,27 @@ function vApostila(c,p){
 }
 
 /* ---------- Prova e ajustes ---------- */
+const PLATS = [['','Nenhuma'],['gran','Gran Cursos','https://www.grancursosonline.com.br'],['estrategia','Estratégia Concursos','https://www.estrategiaconcursos.com.br'],
+  ['aprova','Aprova Concursos','https://www.aprovaconcursos.com.br'],['focus','Focus Concursos','https://www.focusconcursos.com.br'],['direcao','Direção Concursos','https://www.direcaoconcursos.com.br'],
+  ['alfacon','AlfaCon','https://www.alfaconcursos.com.br'],['qc','QConcursos','https://www.qconcursos.com'],['youtube','YouTube','https://www.youtube.com'],['outra','Outra']];
+const platDe = p => PLATS.find(x => x[0] === (p.plat||'')) || PLATS[0];
+/* link da aula: no IBGE das contas especiais é a aula exata do Gran; no resto, o link do curso que a pessoa salvou */
+function aulaLink(p,a){
+  const GRAN = 'https://www.grancursosonline.com.br/aluno/curso/video/codigo/K3VrtUjW6Ls%3D/v/', CURSO = 'https://www.grancursosonline.com.br/aluno/curso/s/ibge-instituto-brasileiro-de-geografia-e-estatistica-temporario-recenseador-rec-pos-edital';
+  if(CX.ibge && ESPEC() && !p.curso) return {url:a.u ? GRAN+a.u : CURSO, txt:a.u ? 'Abrir aula no Gran' : 'Abrir o curso no Gran'};
+  const pl = platDe(p), url = p.curso || pl[2];
+  return url ? {url, txt:'Abrir aula'+(pl[0] && pl[0] !== 'outra' ? ' · '+pl[1] : '')} : null;
+}
+const LINKN = {inscricao:'Inscrição', edital:'Edital e publicações', banca:'Site da banca'};
 function vProva(c,p){
-  const h = hoje(), pf = S.perfis.find(x => x.id === V.perfil);
-  let html = `<section class="card"><h2>Informações da prova</h2><dl>
-  <dt>Data</dt><dd>${fmt(c.data)}/${c.data.slice(0,4)}</dd>${c.hora?`<dt>Horário</dt><dd>${esc(c.hora)}</dd>`:''}
-  ${c.cargo?`<dt>Cargo</dt><dd>${esc(c.cargo)}</dd>`:''}${c.nivel?`<dt>Nível</dt><dd>${esc(c.nivel)}</dd>`:''}
+  const h = hoje(), pf = S.perfis.find(x => x.id === V.perfil), pl = plano(p);
+  let html = `<section class="card"><h2>${c.pre ? 'Sua meta' : 'Informações da prova'}</h2><dl>
+  <dt>${c.pre ? 'Fechar o conteúdo até' : 'Data'}</dt><dd>${fmt(c.data)}/${c.data.slice(0,4)}</dd>${c.hora && !c.pre?`<dt>Horário</dt><dd>${esc(c.hora)}</dd>`:''}
+  ${c.cargo?`<dt>Cargo</dt><dd>${esc(c.cargo)}</dd>`:''}${c.orgao?`<dt>Órgão</dt><dd>${esc(c.orgao)}</dd>`:''}${c.nivel?`<dt>Nível</dt><dd>${esc(c.nivel)}</dd>`:''}
   ${c.area?`<dt>Área de trabalho</dt><dd>${esc(c.area)}</dd>`:''}${c.local?`<dt>Local de prova</dt><dd>${esc(c.local)}</dd>`:''}
   ${c.banca?`<dt>Banca</dt><dd>${esc(c.banca)}</dd>`:''}${c.extra?`<dt>Para</dt><dd>${esc(c.extra)}</dd>`:''}</dl>`;
-  if(c === IBGE){
-    const pl = plano(p);
+  if(c.pre) html += `<p class="muted" style="margin-top:12px">Pré-edital: o cronograma usa o conteúdo do edital de ${esc(c.base||'')}. Quando sair o edital novo, confira se mudou alguma matéria em Edital › Editar conteúdo.</p>`;
+  if(CX.ibge){
     html += `<p class="muted" style="margin-top:12px">O endereço exato e o horário do portão saem no Cartão de Confirmação (CCI), em 26/01.</p></section>
     <section class="card"><h2>Como é a prova</h2><p style="margin:0 0 8px">60 questões de múltipla escolha (A a E), todas com peso 1, em 4 horas.</p><div class="dist">${c.prova.map(([n,q,m]) => `<div><span>${n}</span><i style="--c:${MAT[m].cor};width:${q/30*100}%"></i><b>${q}</b></div>`).join('')}</div>
     <p style="margin:12px 0 0"><b>Para passar:</b> no mínimo 18 pontos (30%) no total <b>e</b> pelo menos 1 ponto em cada matéria.</p></section>
@@ -854,18 +957,31 @@ function vProva(c,p){
     <li>Proibido: lápis, lapiseira, borracha, corretor e calculadora.</li>
     <li>Só pode sair depois de <b>2 horas</b> de prova; o caderno de questões só pode ser levado na última hora.</li>
     <li>Não há segunda chamada.</li></ul></section>
-    <section class="card"><h2>Links</h2><p style="margin:0 0 8px"><a href="https://www.cesgranrio.org.br" target="_blank" rel="noopener">Fundação Cesgranrio</a>: edital e cartão de confirmação</p>${!NV.user || NV.especial ? '<p style="margin:0"><a href="https://www.grancursosonline.com.br/aluno/curso/s/ibge-instituto-brasileiro-de-geografia-e-estatistica-temporario-recenseador-rec-pos-edital" target="_blank" rel="noopener">Curso no Gran</a>: videoaulas e caderno de questões</p>' : ''}</section>
-    <section class="card"><h2>Meu ritmo</h2><p class="muted" style="margin:-4px 0 8px">Quantos assuntos por dia. Cada assunto tem a videoaula e as questões (ou a leitura da apostila). Zero é folga.</p>
+    <section class="card"><h2>Links</h2><p style="margin:0 0 8px"><a href="https://www.cesgranrio.org.br" target="_blank" rel="noopener">Fundação Cesgranrio</a>: edital e cartão de confirmação</p>${ESPEC() ? '<p style="margin:0"><a href="https://www.grancursosonline.com.br/aluno/curso/s/ibge-instituto-brasileiro-de-geografia-e-estatistica-temporario-recenseador-rec-pos-edital" target="_blank" rel="noopener">Curso no Gran</a>: videoaulas e caderno de questões</p>' : ''}</section>`;
+  } else {
+    html += `</section>`;
+    const comQ = SUBJ.filter(m => MAT[m].q), mx = Math.max(1, ...comQ.map(m => MAT[m].q));
+    if(c.regras || comQ.length) html += `<section class="card"><h2>Como é a prova</h2>${c.regras ? `<p style="margin:0 0 8px">${esc(c.regras)}</p>` : ''}
+      ${comQ.length ? `<div class="dist">${comQ.map(m => `<div><span>${esc(MAT[m].nome)}</span><i style="--c:${MAT[m].cor};width:${MAT[m].q/mx*100}%"></i><b>${MAT[m].q}</b></div>`).join('')}</div>` : ''}</section>`;
+    const ds = (c.datas||[]).filter(x => !c.pre || x[0] >= h);
+    if(ds.length) html += `<section class="card"><h2>Datas importantes</h2><ul class="tl">${ds.map(([d,t,big]) => `<li class="${d<h?'past':''} ${big?'big':''}"><b>${dm(d)}/${d.slice(2,4)}</b><span>${esc(t)}</span></li>`).join('')}</ul></section>`;
+    if(!c.pre) html += `<section class="card"><h2>No dia da prova</h2><ul class="dots-list"><li>Levar documento <b>original com foto</b> e o comprovante de inscrição. Confira no edital o tipo de caneta.</li><li>Veja o local e o horário do portão no cartão de confirmação, que sai alguns dias antes.</li><li>Chegue cedo: com o portão fechado, não entra.</li></ul></section>`;
+    const L = Object.entries(c.links||{}).filter(([,u]) => u);
+    if(L.length) html += `<section class="card"><h2>Links</h2>${L.map(([k,u]) => `<p style="margin:0 0 8px"><a href="${esc(u)}" target="_blank" rel="noopener">${LINKN[k]||esc(k)}</a></p>`).join('')}</section>`;
+  }
+  /* curso: plataforma + link (o botão "Abrir aula" usa esse link) */
+  html += `<section class="card"><h2>Seu curso</h2><p class="muted" style="margin:-4px 0 10px">Onde você assiste às aulas. O botão "Abrir aula" das videoaulas abre esse link.${CX.ibge && ESPEC() ? ' Deixe vazio para usar as aulas do Gran que já vêm no cronograma.' : ''}</p>
+    <form id="cursoForm"><label class="f">Plataforma<select name="plat">${PLATS.map(([k,n]) => `<option value="${k}"${(p.plat||'')===k?' selected':''}>${n}</option>`).join('')}</select></label>
+    <label class="f">Link do curso<input name="curso" type="url" inputmode="url" placeholder="https://…" value="${esc(p.curso||'')}"></label><button class="btn sm">Salvar curso</button></form></section>`;
+  html += `<section class="card"><h2>Meu ritmo</h2><p class="muted" style="margin:-4px 0 8px">Quantos assuntos por dia. Cada assunto tem a videoaula e as questões${CX.ibge ? ' (ou a leitura da apostila)' : ''}. Zero é folga.</p>
     ${[1,2,3,4,5,6,0].map(w => `<div class="stepper"><span>${cap1(DIASL[w])}</span><button data-rit="${w}" data-d="-1" aria-label="Menos em ${DIASL[w]}">−</button><b>${p.ritmo[w]||0}</b><button data-rit="${w}" data-d="1" aria-label="Mais em ${DIASL[w]}">+</button><span class="muted">${p.ritmo[w] ? (p.ritmo[w]>1?'assuntos':'assunto') : 'folga'}</span></div>`).join('')}
-    <div class="prev" style="margin-top:10px">${pl.sobra ? IC.aviso : IC.alvo}<div>${pl.sobra ? `Nesse ritmo, <b>${pl.sobra}</b> ${pl.sobra>1?'assuntos ficam':'assunto fica'} de fora até 24/01.` : pl.fim ? `Nesse ritmo, o conteúdo termina em <b>${fmt(pl.fim)}</b>.` : 'Conteúdo todo concluído.'}</div></div>
-    <label class="row" style="margin-top:14px;gap:10px;min-height:44px"><input type="checkbox" id="fer" ${p.feriados?'checked':''} style="width:22px;height:22px"> Folga em 24, 25 e 31/12 e 1º/01</label>
-    <label class="f" style="margin-top:6px">Começar em<input type="date" id="ini" value="${p.inicio||IBGE.inicio}" max="${IBGE.fimConteudo}"></label></section>
+    <div class="prev" style="margin-top:10px">${pl.sobra ? IC.aviso : IC.alvo}<div>${pl.sobra ? `Nesse ritmo, <b>${pl.sobra}</b> ${pl.sobra>1?'assuntos ficam':'assunto fica'} de fora até ${dm(CX.fimConteudo)}.` : pl.fim ? `Nesse ritmo, o conteúdo termina em <b>${fmt(pl.fim)}</b>.` : 'Conteúdo todo concluído.'}</div></div>
+    <label class="row" style="margin-top:14px;gap:10px;min-height:44px"><input type="checkbox" id="fer" ${p.feriados?'checked':''} style="width:22px;height:22px"> ${CX.ibge ? 'Folga em 24, 25 e 31/12 e 1º/01' : 'Folga nos feriados nacionais, no Carnaval e em 24 e 31/12'}</label>
+    <label class="f" style="margin-top:6px">Começar em<input type="date" id="ini" value="${p.inicio||CX.inicio}" max="${CX.fimConteudo}"></label></section>
     <section class="card"><h2>Pausas</h2><p class="muted" style="margin:-4px 0 10px">Viagem, feriado da cidade, semana corrida… Os dias pausados ficam sem estudo, a fila espera e o fogo não apaga.</p>
     ${p.pausas.map((x,i) => `<div class="pausa"><span>${dm(x.de)}${x.ate!==x.de?' a '+dm(x.ate):''}${x.nome?' · '+esc(x.nome):''}</span><button class="btn alt sm" data-rmp="${i}">Remover</button></div>`).join('')}
     <form id="addPausa" style="margin-top:10px"><div class="two"><label class="f">De<input type="date" name="de" required></label><label class="f">Até<input type="date" name="ate"></label></div><label class="f">Motivo (opcional)<input name="nome" placeholder="Ex.: viagem"></label><button class="btn sm">Adicionar pausa</button></form></section>`;
-  } else {
-    html += `<div class="row" style="margin-top:14px"><button class="btn alt sm" data-del="${c.id}">Remover concurso</button></div></section>`;
-  }
+  html += `<section class="card"><h2>Este concurso</h2><p class="muted" style="margin:-4px 0 10px">Remover tira o concurso da sua lista. O progresso marcado fica guardado se você adicionar de novo.</p><button class="btn alt sm" data-del="${c.id}">Remover concurso</button></section>`;
   html += `<section class="card"><h2>Aparência</h2><div class="segt" role="group" aria-label="Tema">${[['auto','Automático'],['claro','Claro'],['escuro','Noite']].map(([k,l]) => `<button data-tema="${k}" aria-pressed="${S.tema===k}">${l}</button>`).join('')}</div><p class="muted" style="margin:8px 0 0">Automático segue o modo claro ou escuro do aparelho.</p></section>
   ${NV.user ? `<section class="card"><h2>Sua conta</h2><p style="margin:0 0 4px"><b>${esc(NV.user.email || '')}</b></p><p class="muted" id="nvStatus" style="margin:0 0 12px">${textoStatus()}</p>
   <form id="nomeForm" class="plf" style="margin:0 0 12px">Seu nome <input name="nome" value="${esc(pf.nome)}" maxlength="30" required style="width:160px" aria-label="Seu nome"><button class="btn alt sm">Salvar</button></form>
@@ -881,9 +997,220 @@ function vProva(c,p){
   <li>Login e nuvem: Firebase Authentication e Cloud Firestore, do Google (SDK sob Apache License 2.0).</li>
   <li>Apostila "Conhecimentos básicos para o Censo Agropecuário, Florestal e Aquícola" (IBGE / ENCE / CTA), distribuída sem alterações, como publicada pela Fundação Cesgranrio.</li>
   <li>Conteúdo baseado no Edital IBGE nº 03/2026 e sua retificação.</li>
-  <li>Nomes das aulas citados como referência do curso Gran. Sem relação oficial com Gran, Cesgranrio ou IBGE.</li></ul>
+  <li>Nomes das aulas citados como referência do curso Gran. Sem relação oficial com Gran, Cesgranrio ou IBGE.</li>
+  <li>Vitrine de concursos montada a partir dos editais oficiais (Cebraspe, Instituto AOCP, CPCon/UEPB e COMPEC/IFPB). Datas e conteúdos podem mudar: confira sempre o site da banca.</li>
+  <li>Gran, Estratégia, Aprova, Focus, Direção, AlfaCon, QConcursos e YouTube são marcas dos seus donos. O app só abre o link do curso que você salvar.</li></ul>
   <footer class="rod" style="margin-top:12px">${ASSINA}<span>Meu Cronograma de Estudo · v${VERSAO}</span></footer></section>`;
   return html;
+}
+
+/* ---------- Vitrine de concursos e novo concurso (v4.1) ---------- */
+/* status automático pela data: inscrições abertas (curto prazo) → pós-edital até a prova (médio) → pré-edital (longo) */
+function statusDe(t, h = hoje()){
+  const [ini, fim] = t.inscricoes || [];
+  if(fim && h <= fim) return ini && h < ini ? {k:'breve', txt:'Inscrições em breve', prazo:'Curto prazo'} : {k:'abertas', txt:'Inscrições abertas', prazo:'Curto prazo'};
+  if(t.prova && h <= t.prova) return {k:'pos', txt:'Pós-edital', prazo:'Médio prazo'};
+  return {k:'pre', txt:`Concurso realizado · pré-edital (base: edital de ${t.ano || String(t.prova||'').slice(0,4)})`, prazo:'Longo prazo'};
+}
+const dmy = s => s ? dm(s)+'/'+s.slice(0,4) : '';
+const VITRINE_IBGE = () => ({id:IBGE.id, nativo:true, nome:IBGE.nome, cargo:IBGE.cargo, banca:IBGE.banca, orgao:'Instituto Brasileiro de Geografia e Estatística', nivel:IBGE.nivel,
+  ano:2026, prova:IBGE.data, inscricoes:[null,'2026-11-25'], vagas:null, links:{edital:'https://www.cesgranrio.org.br', inscricao:'https://www.cesgranrio.org.br'}});
+const modelos = () => [VITRINE_IBGE(), ...(window.VITRINE || [])];
+const perfilAtual = () => S.perfis.find(x => x.id === V.perfil);
+const jaTem = (pf,t) => pf.concursos.some(id => id === t.id || S.extras[id]?.tpl === t.id);
+function cardVitrine(t, pf){
+  const st = statusDe(t), tem = jaTem(pf,t);
+  const nM = t.nativo ? 3 : t.materias.length, nT = t.nativo ? ctxDe(IBGE).EDITAL.length : t.materias.reduce((a,m) => a + m.topicos.length, 0);
+  const info = [st.k !== 'pre' && t.inscricoes ? (st.k === 'breve' ? 'Inscrições de '+dmy(t.inscricoes[0])+' a ' : 'Inscrições até ')+dmy(t.inscricoes[1]) : '',
+    st.k !== 'pre' ? 'Prova em '+dmy(t.prova) : '', `${nM} ${nM>1?'matérias':'matéria'} · ${nT} assuntos`].filter(Boolean).join(' · ');
+  const L = t.links || {};
+  return `<article class="card vit"><div class="vt"><span class="st st-${st.k}">${esc(st.txt)}</span><span class="muted">${st.prazo}</span></div>
+    <h3>${esc(t.nome)}${st.k === 'pre' ? '' : ''}</h3><div class="muted">${esc(t.cargo||'')}${t.banca?' · '+esc(t.banca):''}${t.vagas?' · '+esc(t.vagas)+' vagas':''}${t.uf && t.uf !== 'BR'?' · '+esc(t.uf):''}</div>
+    <p class="vi">${esc(info)}</p>
+    ${V.alvo === t.id ? `<div class="alvo"><b>Até quando você quer fechar o conteúdo?</b><p class="muted" style="margin:2px 0 8px">Sem prova marcada, o app monta o cronograma para essa meta e usa o conteúdo do último edital.</p><div class="row">${[[3,'3 meses'],[6,'6 meses'],[12,'1 ano']].map(([n,l]) => `<button class="btn sm" data-meta="${n}" data-tpl="${t.id}">${l}</button>`).join('')}<button class="btn alt sm" data-fechaalvo="1">Cancelar</button></div></div>` : ''}
+    <div class="row" style="margin-top:10px">${tem ? '<span class="ok-tag">✓ Já está nos seus concursos</span>' : `<button class="btn sm" data-usar="${t.id}">Usar este cronograma</button>`}
+    ${L.inscricao && (st.k === 'abertas' || st.k === 'breve') ? `<a class="btn alt sm" href="${esc(L.inscricao)}" target="_blank" rel="noopener">Inscrição</a>` : ''}${L.edital ? `<a class="btn alt sm" href="${esc(L.edital)}" target="_blank" rel="noopener">Edital</a>` : ''}</div></article>`;
+}
+function vitrine(pf){
+  const f = V.vf || 'todos', ms = modelos().map(t => [t, statusDe(t)]);
+  const ord = {abertas:0, breve:1, pos:2, pre:3}, lista = ms.filter(([,st]) => f === 'todos' || (f === 'abertas' ? st.k === 'abertas' || st.k === 'breve' : st.k === f))
+    .sort((a,b) => ord[a[1].k] - ord[b[1].k] || (a[1].k === 'pre' ? String(b[0].prova).localeCompare(String(a[0].prova)) : String(a[0].prova).localeCompare(String(b[0].prova))));
+  const n = k => ms.filter(([,st]) => k === 'abertas' ? st.k === 'abertas' || st.k === 'breve' : st.k === k).length;
+  return `<h2 style="font-size:26px;margin:22px 0 4px">Vitrine de concursos</h2><p class="muted" style="margin:0 0 10px">Cronogramas prontos, montados a partir dos editais. Escolha um e ele vem com o edital verticalizado, a fila do dia e o foguinho.</p>
+    <div class="filtros" role="group" aria-label="Filtro da vitrine">${[['todos','Todos',ms.length],['abertas','Inscrições abertas',n('abertas')],['pos','Pós-edital',n('pos')],['pre','Pré-edital',n('pre')]].map(([k,l,q]) => `<button data-vf="${k}" aria-pressed="${f===k}">${l} <span>${q}</span></button>`).join('')}</div>
+    ${lista.map(([t]) => cardVitrine(t,pf)).join('') || '<p class="muted">Nada nesse filtro.</p>'}
+    <section class="card novo"><h2>Seu concurso não está aqui?</h2><p class="muted" style="margin:-4px 0 12px">Envie o PDF do edital ou cole o conteúdo programático. O app separa as matérias e os assuntos e monta o cronograma igual ao dos concursos da vitrine.</p><button class="btn" data-go="novo">Montar a partir do edital</button></section>`;
+}
+/* cria o concurso do usuário a partir de um modelo da vitrine */
+function criarDeModelo(t, meses){
+  const pf = perfilAtual(), h = hoje();
+  if(t.nativo){if(!pf.concursos.includes(IBGE.id)) pf.concursos.push(IBGE.id); save(); return IBGE.id}
+  const pre = statusDe(t).k === 'pre', id = 'c'+Date.now().toString(36);
+  let data = t.prova;
+  if(pre){const d = parse(h); d.setMonth(d.getMonth() + (meses||6)); data = iso(d)}
+  S.extras[id] = {id, tpl:t.id, nome:t.nome+(pre ? ' · pré-edital' : ''), cargo:t.cargo||'', orgao:t.orgao||'', banca:t.banca||'', nivel:t.nivel||'', data,
+    hora:pre ? '' : t.hora||'', local:t.local||'', regras:t.regras||'', links:{...(t.links||{})}, datas:pre ? [] : (t.datas||[]).map(x => [...x]), pre, base:t.ano||'', inicio:h,
+    materias:t.materias.map((m,i) => ({id:'m'+i, nome:m.nome, q:m.q||0, topicos:m.topicos.map(x => [...x])}))};
+  pf.concursos.push(id); save(); return id;
+}
+
+/* ---------- Leitura do edital no navegador (sem IA): PDF.js + regras ---------- */
+function pdfLib(){
+  if(window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+  return new Promise((ok,err) => {const s = document.createElement('script'); s.src = 'vendor/pdf.min.js'; s.onload = () => {window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'vendor/pdf.worker.min.js'; ok(window.pdfjsLib)}; s.onerror = err; document.head.appendChild(s)});
+}
+/* junta os pedaços de texto de cada página em linhas, pela altura (y) e pela distância (x) */
+async function textoDoPdf(file, prog){
+  const lib = await pdfLib(), doc = await lib.getDocument({data:await file.arrayBuffer()}).promise;
+  let out = '';
+  for(let i = 1; i <= doc.numPages; i++){
+    const tc = await (await doc.getPage(i)).getTextContent(), linhas = [];
+    for(const it of tc.items){if(!it.str) continue; const y = it.transform[5], x = it.transform[4];
+      let L = linhas.find(l => Math.abs(l.y - y) < 2.5); if(!L){L = {y, its:[]}; linhas.push(L)} L.its.push({x, w:it.width||0, s:it.str})}
+    linhas.sort((a,b) => b.y - a.y);
+    for(const L of linhas){L.its.sort((a,b) => a.x - b.x); let s = '', fim = null;
+      for(const it of L.its){if(fim !== null && it.x > fim + 1.5 && !/\s$/.test(s) && !/^\s/.test(it.s)) s += ' '; s += it.s; fim = it.x + it.w}
+      out += s + '\n'}
+    out += '\f\n'; if(prog) prog(i, doc.numPages);
+  }
+  return out;
+}
+const limpaTxt = t => String(t).replace(/ﬁ/g,'fi').replace(/ﬂ/g,'fl').replace(/[​­]/g,'').replace(/\r/g,'').replace(/\f/g,'\n')
+  .replace(/^.*(pciconcursos|pcimarkpci|Página \d+ de \d+).*$/gm,'').replace(/^\s*\d+(\.\d+){2,}\s+[A-ZÀ-Ý ]+$/gm,'').replace(/-\n(?=[a-zà-ú])/g,'');
+const PEQ = new Set(['de','da','do','das','dos','e','em','a','o','ou','para','com','no','na','à']);
+const tituloMat = n => {n = n.replace(/\s+/g,' ').trim().replace(/\.$/,''); if(n !== n.toUpperCase()) return n[0].toUpperCase()+n.slice(1);
+  return n.toLowerCase().split(' ').map((w,i) => i && PEQ.has(w) ? w : w.slice(0,1).toUpperCase()+w.slice(1)).join(' ')};
+/* "MATÉRIA: 1 Tópico. 1.1 Sub. 2 Tópico." → tópicos de topo (1, 2, 3…), com os subitens como dica */
+function topicosDe(corpo){
+  corpo = corpo.replace(/\s+/g,' ').trim();
+  const re = /(\d{1,2})(?:\s*[.)\-–]\s+|\s+)(?=[A-ZÀ-Ýa-zà-ý])/g, pos = []; let esp = 1, m;
+  while((m = re.exec(corpo))){const ant = corpo[m.index-1]; if(ant && /[\wÀ-ÿ.,\/º-]/.test(ant)) continue; if(+m[1] === esp){pos.push([m.index, m.index + m[0].length]); esp++}}
+  const apara = t => t.replace(/^[ .;]+|[ .;]+$/g,'');
+  if(!pos.length) return corpo.length > 3 ? [[apara(corpo), '']] : [];
+  const out = [];
+  pos.forEach(([,b],i) => {
+    let t = corpo.slice(b, i+1 < pos.length ? pos[i+1][0] : corpo.length);
+    t = apara(t.split(/\s\d{1,3}\s+[A-ZÀ-Ý][A-ZÀ-Ý ()]{5,}:/)[0].replace(/\s*\d+(\.\d+)+\.?\s*$/,''));
+    if(!t || /^[a-zà-ý]/.test(t)) return;
+    let ti = t, di = ''; const sm = (' '+t).search(/\s\d+\.\d+\.?\s/);
+    if(sm > 0){ti = t.slice(0, sm-1).replace(/[ .;:]+$/,''); di = t.slice(sm-1).trim()}
+    if(ti.length > 95){const mm = ti.match(/^(.{12,90}?)(?: – | - |: |\. )/); if(mm){di = (ti.slice(mm[0].length) + (di ? ' '+di : '')).trim(); ti = mm[1].trim()}}
+    if(ti) out.push(di ? [ti, di] : [ti]);
+  });
+  return out;
+}
+function parseConteudo(txt){
+  txt = limpaTxt(txt); const re = /^[ \t]*([A-ZÀ-Ý][^:\n]{2,90}?)\s*:\s*(?=1(?:[.)\-–]|\s))/gm, ms = [...txt.matchAll(re)], out = [];
+  ms.forEach((m,i) => {const tp = topicosDe(txt.slice(m.index + m[0].length, i+1 < ms.length ? ms[i+1].index : txt.length)); if(tp.length) out.push({nome:tituloMat(m[1]), topicos:tp})});
+  return out;
+}
+/* separa por cargo ou nível quando o edital tem vários */
+function secoes(txt){
+  txt = limpaTxt(txt);
+  const h = txt.match(/^[\s\d.]*(?:ANEXO [IVX]+\s*[–-]?\s*)?(?:D[OA]S? )?(CONTE[ÚU]DOS? PROGRAM[ÁA]TICOS?|OBJETOS DE AVALIA[ÇC][ÃA]O)/m);
+  const corpo = h ? txt.slice(h.index) : txt;
+  const mk = /^[ \t]*(?:\d+(?:\.\d+)*\s+)?(CARGO\s+\d+\s*[:–-]\s*[^\n]{3,120}|PARA O CARGO DE\s+[^\n]{3,120}|N[ÍI]VEL\s+(?:FUNDAMENTAL|M[ÉE]DIO|SUPERIOR)[^\n]{0,40})\s*$/gm;
+  const cortes = [...corpo.matchAll(mk)], secs = [];
+  cortes.forEach((m,i) => secs.push({nome:tituloMat(m[1].replace(/\s+/g,' ')), materias:parseConteudo(corpo.slice(m.index + m[0].length, i+1 < cortes.length ? cortes[i+1].index : corpo.length))}));
+  const boas = secs.filter(s => s.materias.length);
+  return boas.length ? boas : [{nome:'', materias:parseConteudo(corpo)}].filter(s => s.materias.length);
+}
+const BANCAS = ['Cebraspe','Cesgranrio','FGV','FCC','Vunesp','Instituto AOCP','IBFC','Idecan','Quadrix','CPCon','Consulplan','Fundatec','Iades','Ibade','Selecon','Objetiva','Fepese','Avança SP','IBAM','Fundep','UPENET','IAUPE','Instituto Access','COMPEC','Comperve','Funcab','Cetrede','Instituto Consulplan','Legalle','Fafipa','Fundação La Salle'];
+function achaInfo(txt){
+  const L = txt.split('\n'), h = hoje(); let prova = null;
+  for(let i = 0; i < L.length; i++) if(/(aplica[çc][ãa]o|realiza[çc][ãa]o) d[ao]s? (prova|exame)/i.test(L[i])){
+    const m = (L[i]+' '+(L[i+1]||'')).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/); if(!m) continue;
+    const d = m[3]+'-'+pad(m[2])+'-'+pad(m[1]); if(!prova || (d >= h && (prova < h || d < prova))) prova = d}
+  let banca = '', mx = 0;
+  for(const b of BANCAS){const n = (txt.match(new RegExp(b.replace(/ /g,'\\s+'), 'gi'))||[]).length; if(n > mx){mx = n; banca = b}}
+  return {prova, banca};
+}
+
+/* ---------- Telas: novo concurso e editor de conteúdo ---------- */
+const novoRasc = () => ({nome:'', cargo:'', banca:'', data:'', hora:'', local:'', links:{inscricao:'', edital:'', banca:''}, plat:'', curso:'', pre:false, meses:6, texto:'', materias:null, secoes:null});
+function telaNovo(app, pf){
+  const r = V.rascunho || (V.rascunho = novoRasc());
+  const topo = `<header class="top">${TOPO}<div class="wrap"><button class="back" data-cancelanovo="1">‹ ${r.editId ? 'Voltar ao concurso' : 'Meus concursos'}</button><small>${r.editId ? 'Editar conteúdo' : 'Novo concurso'}</small><h1>${r.editId ? esc(S.extras[r.editId]?.nome || '') : r.materias ? 'Confira o conteúdo' : 'Montar a partir do edital'}</h1></div></header>`;
+  if(r.secoes && !r.materias){
+    app.innerHTML = topo + `<main class="wrap"><section class="card"><h2>Qual é o seu cargo?</h2><p class="muted" style="margin:-4px 0 10px">O edital tem conteúdo para mais de um cargo ou nível. Escolha o seu.</p>
+      ${r.secoes.map((s,i) => `<button class="pick" data-sec="${i}"><h3>${esc(s.nome || 'Conteúdo')}</h3><div class="muted">${s.materias.length} matérias · ${s.materias.reduce((a,m) => a + m.topicos.length, 0)} assuntos</div></button>`).join('')}
+      <button class="btn alt sm" data-voltanovo="1">Voltar</button></section></main>`;
+    return;
+  }
+  if(r.materias){
+    app.innerHTML = topo + `<main class="wrap"><p class="muted" style="margin:0 0 12px">${r.editId ? 'Renomeie, tire ou acrescente.' : 'O app separou o conteúdo assim. Ajuste o que precisar:'} um assunto por linha. O nº de questões é opcional e ajuda nas revisões.</p>
+      <form id="revForm">${r.materias.map((m,i) => `<fieldset class="card mated" style="--c:${PAL[i % PAL.length]}"><div class="two" style="grid-template-columns:minmax(0,1fr) 96px"><label class="f">Matéria<input name="n${i}" value="${esc(m.nome)}" required></label><label class="f">Questões<input name="q${i}" type="number" min="0" inputmode="numeric" value="${m.q||''}"></label></div>
+        <label class="f">Assuntos (${m.topicos.length})<textarea name="t${i}" rows="${Math.min(10, Math.max(3, m.topicos.length))}">${esc(m.topicos.map(t => t[0]).join('\n'))}</textarea></label>
+        <button type="button" class="btn alt sm" data-rmmat="${i}">Tirar esta matéria</button></fieldset>`).join('')}
+      <button type="button" class="btn alt" id="addMat" style="width:100%;margin-bottom:14px">+ Adicionar matéria</button>
+      <button class="btn" style="width:100%">${r.editId ? 'Salvar conteúdo' : 'Criar meu cronograma'}</button></form>
+      ${r.editId ? '' : '<p style="text-align:center"><button class="linkbtn" data-voltanovo="1">Voltar e mudar os dados</button></p>'}</main>`;
+    return;
+  }
+  app.innerHTML = topo + `<main class="wrap"><form id="novoForm" class="card"><h2>Dados do concurso</h2>
+    <label class="f">Nome<input name="nome" required value="${esc(r.nome)}" placeholder="Ex.: Prefeitura de Patos 2027"></label>
+    <label class="f">Cargo<input name="cargo" value="${esc(r.cargo)}"></label><label class="f">Banca<input name="banca" value="${esc(r.banca)}" placeholder="O app tenta achar no PDF"></label>
+    <label class="row" style="gap:10px;min-height:44px;margin:4px 0 8px"><input type="checkbox" name="pre" ${r.pre?'checked':''} style="width:22px;height:22px"> Ainda sem data de prova (pré-edital)</label>
+    <div class="two"><label class="f">Data da prova<input name="data" type="date" value="${esc(r.data)}"></label><label class="f">Horário<input name="hora" value="${esc(r.hora)}" placeholder="Ex.: 8h às 12h"></label></div>
+    <label class="f">Se for pré-edital, fechar o conteúdo em<select name="meses">${[[3,'3 meses'],[6,'6 meses'],[12,'1 ano']].map(([n,l]) => `<option value="${n}"${+r.meses===n?' selected':''}>${l}</option>`).join('')}</select></label>
+    <label class="f">Local de prova<input name="local" value="${esc(r.local)}"></label>
+    <h2 style="margin-top:18px">Links (opcional)</h2>
+    <label class="f">Inscrição<input name="li" type="url" inputmode="url" value="${esc(r.links.inscricao)}" placeholder="https://…"></label>
+    <label class="f">Edital<input name="le" type="url" inputmode="url" value="${esc(r.links.edital)}" placeholder="https://…"></label>
+    <label class="f">Site da banca<input name="lb" type="url" inputmode="url" value="${esc(r.links.banca)}" placeholder="https://…"></label>
+    <h2 style="margin-top:18px">Seu curso (opcional)</h2>
+    <div class="two"><label class="f">Plataforma<select name="plat">${PLATS.map(([k,n]) => `<option value="${k}"${r.plat===k?' selected':''}>${n}</option>`).join('')}</select></label><label class="f">Link do curso<input name="curso" type="url" inputmode="url" value="${esc(r.curso)}" placeholder="https://…"></label></div>
+    <h2 style="margin-top:18px">Conteúdo programático</h2>
+    <label class="f">PDF do edital<input type="file" id="pdfIn" accept="application/pdf"></label>
+    <p class="muted" style="margin:-4px 0 10px">A leitura é feita aqui no aparelho, sem enviar o arquivo para lugar nenhum. Edital do Diário Oficial em colunas às vezes embaralha: nesse caso, cole o texto abaixo.</p>
+    <label class="f">Ou cole o conteúdo<textarea name="texto" rows="6" placeholder="LÍNGUA PORTUGUESA: 1 Compreensão de textos. 2 Ortografia. …&#10;MATEMÁTICA: 1 Porcentagem. 2 Regra de três. …">${esc(r.texto)}</textarea></label>
+    <p class="muted" id="pdfSt" role="status" style="margin:0 0 10px"></p>
+    <button class="btn" style="width:100%">Ler o conteúdo</button></form></main>`;
+}
+function lerRev(){
+  const r = V.rascunho, f = document.getElementById('revForm'); if(!r || !f) return;
+  const fd = new FormData(f);
+  r.materias = r.materias.map((m,i) => {
+    const antigos = m.topicos.map(t => ({t, usado:false}));
+    const linhas = String(fd.get('t'+i)||'').split('\n').map(x => x.trim()).filter(Boolean);
+    const topicos = linhas.map((l,j) => {const o = antigos.find(x => !x.usado && x.t[0] === l); if(o){o.usado = true; return o.t} return [l, '', '', 'n'+Date.now().toString(36)+j]});
+    return {...m, nome:String(fd.get('n'+i)||m.nome).trim() || m.nome, q:Number(fd.get('q'+i)) || 0, topicos};
+  });
+}
+/* o editor guarda um id fixo por assunto (4ª posição), para o que já foi marcado não mudar de lugar */
+const comIds = ms => ms.map((m,i) => ({id:m.id || 'm'+i, nome:m.nome, q:m.q||0, topicos:m.topicos.map((t,j) => [t[0], t[1]||'', t[2]||'', t[3] ?? String(j)])}));
+
+/* passo 1 do novo concurso: lê o PDF (ou o texto colado) e separa as matérias */
+async function lerNovo(f, fd){
+  const r = V.rascunho, st = document.getElementById('pdfSt'), arq = document.getElementById('pdfIn')?.files[0];
+  Object.assign(r, {nome:String(fd.get('nome')).trim(), cargo:String(fd.get('cargo')).trim(), banca:String(fd.get('banca')).trim(), data:String(fd.get('data')||''), hora:String(fd.get('hora')).trim(),
+    local:String(fd.get('local')).trim(), pre:!!fd.get('pre'), meses:Number(fd.get('meses'))||6, plat:String(fd.get('plat')||''), curso:String(fd.get('curso')).trim(), texto:String(fd.get('texto')||''),
+    links:{inscricao:String(fd.get('li')).trim(), edital:String(fd.get('le')).trim(), banca:String(fd.get('lb')).trim()}});
+  let txt = r.texto;
+  if(arq){
+    try{st.textContent = 'Abrindo o PDF…'; txt = await textoDoPdf(arq, (i,n) => {st.textContent = `Lendo o PDF: página ${i} de ${n}…`})}
+    catch(e){st.textContent = 'Não deu para ler esse PDF. Tente colar o conteúdo no campo de texto.'; return}
+    const info = achaInfo(txt); if(!r.data && info.prova && !r.pre) r.data = info.prova; if(!r.banca && info.banca) r.banca = info.banca;
+  }
+  if(!txt.trim()){st.textContent = 'Envie o PDF do edital ou cole o conteúdo programático.'; return}
+  if(!r.pre && !r.data){st.textContent = 'Coloque a data da prova ou marque "Ainda sem data de prova".'; render(); return}
+  let secs = secoes(txt);
+  if(!secs.length && !arq){const linhas = txt.split('\n').map(x => x.trim()).filter(x => x.length > 2); if(linhas.length) secs = [{nome:'', materias:[{nome:'Conteúdo', topicos:linhas.map(l => [l])}]}]}
+  if(!secs.length){st.textContent = 'Não encontrei o conteúdo programático nesse PDF. Copie o trecho das matérias e cole no campo de texto.'; return}
+  if(secs.length > 1){r.secoes = secs} else r.materias = comIds(secs[0].materias);
+  render(); scrollTo(0,0);
+}
+/* passo 2: cria o concurso (ou salva a edição do conteúdo) */
+function salvarRev(){
+  lerRev(); const r = V.rascunho, ms = r.materias.filter(m => m.topicos.length);
+  if(!ms.length){toast('Coloque pelo menos um assunto'); return}
+  if(r.editId){const c = S.extras[r.editId]; c.materias = ms; c._v = (c._v||0) + 1; save(); V.rascunho = null; V = {...V, view:'conc', conc:c.id, tab:'edital'}; toast('Conteúdo salvo'); render(); scrollTo(0,0); return}
+  const pf = perfilAtual(), h = hoje(), id = 'c'+Date.now().toString(36);
+  let data = r.data; if(r.pre){const d = parse(h); d.setMonth(d.getMonth() + r.meses); data = iso(d)}
+  S.extras[id] = {id, nome:r.nome + (r.pre ? ' · pré-edital' : ''), cargo:r.cargo, banca:r.banca, data, hora:r.pre ? '' : r.hora, local:r.local, links:r.links, pre:r.pre, base:'', inicio:h,
+    datas:r.pre ? [] : [[data, 'Prova', 1]], materias:ms};
+  pf.concursos.push(id); const p = P(pf.id, id); p.plat = r.plat; p.curso = r.curso;
+  save(); V.rascunho = null; V = {...V, view:'conc', conc:id, tab:'hoje', semana:0, mes:0, dia:null}; toast('Cronograma pronto!'); render(); scrollTo(0,0);
 }
 
 const TABS = [['hoje','Hoje','<path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4"/><circle cx="12" cy="12" r="4"/>'],
@@ -1027,8 +1354,17 @@ document.addEventListener('visibilitychange', async () => {
     if((r._t||0) > (S._t||0)){S = r; fixaPerfil(); try{localStorage.setItem(chaveConta(NV.user.uid), JSON.stringify(S))}catch(e){} keep()}}catch(e){}
 });
 addEventListener('online', () => {if(NV.user && NV.fb && NV.status === 'offline') enviar()});
+/* concursos criados até a v4.0 (lista simples de assuntos) viram uma matéria "Conteúdo", sem perder o que foi marcado */
+function normaliza(){
+  for(const c of Object.values(S.extras||{})){
+    if(!c || c.materias || !c.topicos) continue;
+    c.materias = [{id:'m0', nome:'Conteúdo', q:0, topicos:c.topicos.map((t,j) => [t.t, '', 'aq', String(j)])}];
+    for(const [k,p] of Object.entries(S.prog||{})) if(k.endsWith('|'+c.id)) c.topicos.forEach((t,j) => {const d = p.done[t.id]; if(d){p.done['m0-'+j+':a'] = d; p.done['m0-'+j+':q'] = d; delete p.done[t.id]}});
+    c.inicio = c.inicio || hoje(); delete c.topicos;
+  }
+}
 function render(){
-  tema();
+  tema(); normaliza();
   try{sessionStorage.setItem(KEY+'-v', JSON.stringify({...V, pl:null}))}catch(e){}
   const app = document.getElementById('app');
   if(NV.carregando) return telaCarregando(app);
@@ -1040,22 +1376,19 @@ function render(){
   if(V.view === 'perfis' || !perfil) return telaPerfis(app);
   if(perfil.pin && V.pinOk !== perfil.id){V.view = 'pin'; V.pinFor = perfil.id; return telaPin(app)}
   const conc = concById(V.conc);
+  if(V.view === 'novo') return telaNovo(app, perfil);
   if(V.view === 'concursos' || !conc){
     app.innerHTML = `<header class="top">${TOPO}<div class="wrap">${NV.user ? '<button class="back" id="sair">Sair da conta</button>' : '<button class="back" data-go="perfis">‹ Trocar perfil</button>'}<div class="who"><button class="foto" id="fotoBtn" aria-label="Trocar foto">${perfil.foto?`<img src="${perfil.foto}" alt="">`:esc(perfil.nome[0])}</button><div><small>Olá,</small><h1>${esc(perfil.nome)}</h1><button class="fotobtn" id="fotoBtn2">${perfil.foto?'Trocar foto':'Adicionar foto'}</button>${perfil.foto?'<button class="fotobtn" id="fotoDel">Remover</button>':''}</div></div><input type="file" id="fotoIn" accept="image/*" hidden></div></header>
     <main class="wrap"><h2 style="font-size:26px;margin:4px 0 12px">Meus concursos</h2>
-    ${NV.user && !perfil.concursos.length ? '<section class="card"><h2>Monte seu cronograma</h2><p style="margin:0">Na próxima versão chega a vitrine com concursos prontos e a leitura do edital. Por enquanto, cadastre o seu concurso abaixo com os assuntos.</p></section>' : ''}
-    ${perfil.concursos.map(concById).filter(Boolean).map(c => {const p = P(perfil.id,c.id), n = diasAte(c.data), pc = pct(c,p);
-      return `<button class="pick conc" data-conc="${c.id}"><h3>${esc(c.nome)}</h3><div class="meta muted">${esc(c.cargo||'')} · ${fmt(c.data)}/${c.data.slice(0,4)} · ${n>0?`faltam ${n} dias`:n===0?'é hoje!':'prova realizada'}</div><div class="mini"><i style="width:${pc}%"></i></div><div class="muted" style="margin-top:6px">${pc}% do edital concluído</div></button>`}).join('')}
-    <form id="addConc" class="card"><h2>Adicionar concurso</h2>
-    <label class="f">Nome<input name="nome" required placeholder="Ex.: Prefeitura 2027"></label>
-    <label class="f">Cargo<input name="cargo"></label><label class="f">Banca<input name="banca"></label>
-    <div class="two"><label class="f">Data da prova<input name="data" type="date" required></label><label class="f">Horário<input name="hora" placeholder="Ex.: 8h às 12h"></label></div>
-    <label class="f">Local de prova<input name="local"></label>
-    <label class="f">Assuntos (um por linha)<textarea name="top"></textarea></label><button class="btn">Adicionar</button></form></main>`;
+    ${!perfil.concursos.length ? '<section class="card"><h2>Monte seu cronograma</h2><p style="margin:0">Escolha um concurso da vitrine logo abaixo ou monte o seu a partir do edital.</p></section>' : ''}
+    ${perfil.concursos.map(concById).filter(Boolean).map(c => {const p = P(perfil.id,c.id), n = diasAte(c.data), pc = pct(c,p), t = c === IBGE ? VITRINE_IBGE() : modelos().find(x => x.id === c.tpl), st = t && !c.pre ? statusDe(t) : null;
+      return `<button class="pick conc" data-conc="${c.id}">${c.pre ? '<span class="st st-pre">Pré-edital · meta</span>' : st ? `<span class="st st-${st.k}">${esc(st.txt)}</span>` : ''}<h3>${esc(c.nome)}</h3><div class="meta muted">${esc(c.cargo||'')} · ${fmt(c.data)}/${c.data.slice(0,4)} · ${n>0?`faltam ${n} dias`:n===0?'é hoje!':c.pre?'meta alcançada':'prova realizada'}</div><div class="mini"><i style="width:${pc}%"></i></div><div class="muted" style="margin-top:6px">${pc}% do edital concluído</div></button>`}).join('')}
+    ${vitrine(perfil)}</main>`;
     return;
   }
+  usar(conc);
   const p = P(perfil.id, conc.id);
-  const tabs = conc === IBGE ? TABS : TABS.filter(t => t[0]==='edital'||t[0]==='prova');
+  const tabs = CX.ibge ? TABS : TABS.filter(t => t[0] !== 'apostila');
   if(!tabs.some(t => t[0]===V.tab)) V.tab = tabs[0][0];
   HDR = null;
   const hd = header(conc,p);
@@ -1072,7 +1405,7 @@ function recado(pf){
   const bia = /^(beatriz|bia|ana beatriz)\b/.test(n);
   return bia
     ? `<h2>Bia,</h2><p>Fiz esse app pra te acompanhar até o dia 31. Um assunto por dia, no teu ritmo, sem culpa se atrasar: a fila se ajeita sozinha. Eu acredito em você!</p><p class="ass">${CORACAO}<span>Seu amor, Jacó</span></p>`
-    : `<h2>Bem-vindo(a), ${esc(pf.nome)}!</h2><p>Seu cronograma do IBGE 2027 já está pronto. Um assunto por dia, no seu ritmo, sem culpa se atrasar: a fila se ajeita sozinha.</p>`;
+    : `<h2>Bem-vindo(a), ${esc(pf.nome)}!</h2><p>Seu cronograma${CX ? ' do '+esc(CX.c.nome) : ''} já está pronto. Um assunto por dia, no seu ritmo, sem culpa se atrasar: a fila se ajeita sozinha.</p>`;
 }
 function boasVindas(pf){
   const corpo = recado(pf);
@@ -1087,8 +1420,8 @@ document.addEventListener('click', e => {
   const b = e.target.closest('button'); if(!b) return;
   const d = b.dataset;
   if(d.perfil){V = {...V, view:'concursos', perfil:d.perfil}; render(); scrollTo(0,0)}
-  else if(d.go){V.painel = ''; V.view = d.go; if(d.go === 'perfis') V.pinOk = null; render(); scrollTo(0,0)}
-  else if(d.conc){V = {...V, view:'conc', conc:d.conc, tab:d.conc===IBGE.id?'hoje':'edital', semana:0, mes:0, dia:null}; render(); scrollTo(0,0)}
+  else if(d.go){V.painel = ''; V.view = d.go; if(d.go === 'novo') V.rascunho = null; if(d.go === 'perfis') V.pinOk = null; render(); scrollTo(0,0)}
+  else if(d.conc){V = {...V, view:'conc', conc:d.conc, tab:'hoje', semana:0, mes:0, dia:null}; render(); scrollTo(0,0)}
   else if(d.tab){V.painel = ''; V.tab = d.tab; V.semana = 0; V.mes = 0; V.pl = null; render(); scrollTo(0,0)}
   else if(d.modo){V.modo = d.modo; V.dia = V.dia || hoje(); keep()}
   else if(d.sem !== undefined){V.semana = d.sem === '0' ? 0 : V.semana + Number(d.sem); keep()}
@@ -1107,6 +1440,18 @@ document.addEventListener('click', e => {
   else if(d.del){if(b.dataset.sure){const pf = S.perfis.find(x => x.id===V.perfil); pf.concursos = pf.concursos.filter(x => x!==d.del); save(); V.view = 'concursos'; render()} else {b.dataset.sure = 1; b.textContent = 'Toque de novo para confirmar'}}
   else if(d.painel !== undefined){V.painel = V.painel === d.painel ? '' : d.painel; keep()}
   else if(d.fecha){FECHADOS.add(d.fecha); keep()}
+  else if(d.vf){V.vf = d.vf; keep()}
+  else if(d.usar){const t = modelos().find(x => x.id === d.usar); if(!t) return;
+    if(statusDe(t).k === 'pre'){V.alvo = t.id; keep(); return}
+    const id = criarDeModelo(t); toast('Cronograma pronto!'); V = {...V, view:'conc', conc:id, tab:'hoje', semana:0, mes:0, dia:null, alvo:null}; render(); scrollTo(0,0)}
+  else if(d.fechaalvo !== undefined){V.alvo = null; keep()}
+  else if(d.meta){const t = modelos().find(x => x.id === d.tpl); if(!t) return; const id = criarDeModelo(t, Number(d.meta)); toast('Cronograma pré-edital pronto!'); V = {...V, view:'conc', conc:id, tab:'hoje', semana:0, mes:0, dia:null, alvo:null}; render(); scrollTo(0,0)}
+  else if(d.cancelanovo){const r = V.rascunho; V.rascunho = null; if(r && r.editId){V.view = 'conc'; V.conc = r.editId; V.tab = 'edital'} else V.view = 'concursos'; render(); scrollTo(0,0)}
+  else if(d.voltanovo){V.rascunho.materias = null; V.rascunho.secoes = null; render(); scrollTo(0,0)}
+  else if(d.sec !== undefined){V.rascunho.materias = comIds(V.rascunho.secoes[Number(d.sec)].materias); render(); scrollTo(0,0)}
+  else if(d.rmmat !== undefined){lerRev(); V.rascunho.materias.splice(Number(d.rmmat),1); keep()}
+  else if(b.id === 'addMat'){lerRev(); V.rascunho.materias.push({id:'m'+Date.now().toString(36), nome:'Nova matéria', q:0, topicos:[]}); keep()}
+  else if(d.editar){const c = S.extras[d.editar]; if(!c) return; V.rascunho = {...novoRasc(), editId:c.id, materias:comIds(c.materias||[])}; V.view = 'novo'; render(); scrollTo(0,0)}
   else if(b.id === 'lerTodos'){const pf = S.perfis.find(x => x.id===V.perfil); pf.lidos = [...new Set([...(pf.lidos||[]), ...HDR.av.map(a => a.id)])].slice(-80); save(); keep()}
   else if(b.id === 'apTela'){telaCheia(true)}
   else if(b.id === 'apSair'){telaCheia(false)}
@@ -1162,6 +1507,9 @@ document.addEventListener('submit', e => {
     PP().placar[f.dataset.key] = {a, t, m:f.dataset.m, d:hoje()}; V.pl = null; save(); toast(`${Math.round(100*a/t)}% de acerto anotado`); keep()}
   if(f.id === 'avulso'){const a = Number(fd.get('a')), t = Number(fd.get('t')); if(!(t > 0) || a < 0 || a > t){toast('Confira os números'); return}
     const p = PP(), k = 'av-'+Date.now().toString(36); p.placar[k] = {a, t, m:fd.get('m'), d:hoje()}; p.done[k] = hoje(); save(); toast('Questões anotadas'); keep()}
+  if(f.id === 'cursoForm'){const p = PP(); p.plat = String(fd.get('plat')||''); p.curso = String(fd.get('curso')||'').trim(); save(); toast('Curso salvo'); keep(); return}
+  if(f.id === 'novoForm'){lerNovo(f, fd); return}
+  if(f.id === 'revForm'){salvarRev(); return}
   if(f.id === 'addConc'){const id = 'c'+Date.now().toString(36); S.extras[id] = {id, nome:fd.get('nome').trim(), cargo:fd.get('cargo').trim(), banca:fd.get('banca').trim(), data:fd.get('data'), hora:fd.get('hora').trim(), local:fd.get('local').trim(), topicos:String(fd.get('top')).split('\n').map(s => s.trim()).filter(Boolean).map((t,i) => ({id:id+'-'+i, t}))}; S.perfis.find(x => x.id===V.perfil).concursos.push(id); save(); toast('Concurso adicionado'); render()}
   if(f.id === 'addTop'){const c = S.extras[V.conc], t = fd.get('t').trim(); if(t){c.topicos.push({id:c.id+'-'+Date.now().toString(36), t}); save(); render()}}
   if(f.id === 'addPausa'){const p = PP(); let de = fd.get('de'), ate = fd.get('ate') || de; if(ate < de) [de,ate] = [ate,de]; p.pausas.push({de, ate, nome:String(fd.get('nome')||'').trim()}); p.pausas.sort((a,b) => a.de < b.de ? -1 : 1); save(); toast('Pausa adicionada'); keep()}

@@ -8,6 +8,12 @@ O primeiro cronograma pronto é o do **IBGE 2027 – Recenseador (REC)** do 12º
 
 ## Funcionalidades
 
+- **Vitrine de concursos:** cronogramas prontos montados a partir dos editais oficiais (IBGE 2027, PCPE 2026 Agente e Escrivão, PMPE e CBMPE 2026 Soldado, Câmara de Guarabira 2026, IFPB professor substituto, PF 2025 Agente e Escrivão e PRF 2021). O selo muda sozinho pela data: **Inscrições abertas** (curto prazo), **Pós-edital** até a prova (médio prazo) e **Concurso realizado · pré-edital** com o ano do edital-base (longo prazo).
+- **Pré-edital com meta:** num concurso já realizado, o app pergunta até quando fechar o conteúdo (3 meses, 6 meses ou 1 ano) e monta o cronograma para essa meta.
+- **Montar a partir do edital:** envie o PDF do edital (lido no próprio aparelho com PDF.js e regras, sem IA e sem enviar o arquivo) ou cole o conteúdo programático. O app separa matérias e assuntos, pergunta o cargo quando o edital tem vários, tenta achar a data da prova e a banca, e abre uma tela para conferir e ajustar.
+- **Editar conteúdo:** renomear matérias, tirar ou acrescentar assuntos depois; o que já foi marcado continua marcado.
+- **Todo concurso completo:** Hoje, Calendário, foguinho, avisos, Edital com gráfico e Prova funcionam em qualquer concurso, com reta final (revisão por matéria, simulado e véspera) e feriados nacionais.
+- **Seu curso:** escolha a plataforma (Gran, Estratégia, Aprova, Focus, Direção, AlfaCon, QConcursos, YouTube ou outra) e cole o link do curso; o botão "Abrir aula" das videoaulas abre esse link. As aulas exatas do Gran no IBGE ficam só para as contas especiais.
 - **Conta na nuvem:** login com Google ou com e-mail e senha. O progresso, a foto, os concursos e o ritmo ficam salvos na conta e aparecem em qualquer celular, tablet ou computador. No primeiro login, o app oferece levar o progresso que já estava salvo no aparelho. Sem internet, continua funcionando e envia as mudanças quando a conexão volta. Quem preferir pode usar sem conta, salvando só no aparelho.
 
 - **Tela de entrada:** "Bora estudar?", com ilustração própria, contagem de dias para a prova e os perfis do aparelho.
@@ -76,6 +82,9 @@ O primeiro cronograma pronto é o do **IBGE 2027 – Recenseador (REC)** do 12º
 ```
 index.html              # o app inteiro (HTML, CSS e JS)
 firebase-config.js      # configuração pública do Firebase (login e nuvem)
+vitrine.js              # concursos prontos da vitrine (gerado a partir dos editais)
+tools/parse.py          # leitor do conteúdo programático (mesmas regras do app)
+tools/build_vitrine.py  # gera o vitrine.js a partir do texto dos editais
 manifest.webmanifest    # nome, cores e ícones do app instalado
 sw.js                   # service worker (cache offline)
 apostila.pdf            # apostila oficial do 12º Censo Agro (IBGE), sem alterações
@@ -101,6 +110,7 @@ qyudev.png              # marca QYUDEV. nos créditos
 
 ## Versões
 
+- **v4.1.0** (20/11/2026): vitrine de concursos montada a partir de 7 editais, selo automático por data (inscrições abertas, pós-edital, pré-edital), meta para pré-edital, motor genérico (Hoje, Calendário, foguinho e Prova em qualquer concurso), leitura do PDF do edital ou do conteúdo colado, editor de conteúdo, escolha da plataforma e do link do curso, e Gran só para as contas especiais.
 - **v4.0.0** (19/11/2026): conta na nuvem com login pelo Google ou por e-mail e senha, sincronização entre aparelhos, importação do progresso salvo no aparelho, funcionamento sem internet, contas especiais com o IBGE e as aulas do Gran, opção de usar sem conta e correção dos campos de data e horário que se sobrepunham.
 
 - **v3.6.2** (19/11/2026): correção do conteúdo cortado atrás da barra de abas, barra de abas mais baixa no iPhone e faixa fixa atrás da barra de status.
