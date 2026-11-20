@@ -5,7 +5,7 @@
    "nome": "PCI Concursos",
    "url": "https://www.pciconcursos.com.br/concursos/nordeste/",
    "ok": "2026-11-20",
-   "n": 89
+   "n": 90
   },
   "gran": {
    "nome": "Blog do Gran",
@@ -1015,6 +1015,15 @@
    "visto": "2026-11-20"
   },
   {
+   "id": "pci-prefeitura-de-sao-goncalo-rj-abre-concursos-para-guardas-municipais",
+   "titulo": "| Prefeitura de São Gonçalo - RJ abre concursos para Guardas Municipais",
+   "uf": "RJ",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-sao-goncalo-rj-abre-concursos-para-guardas-municipais",
+   "fonte": "pci",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
    "id": "pci-prefeitura-de-paraguacu-mg-abre-concurso-publico-com-salarios-de-ate-r-20-128-27",
    "titulo": "| Prefeitura de Paraguaçu - MG abre concurso público com salários de até R$ 20.128,27",
    "uf": "MG",
@@ -1190,6 +1199,60 @@
    "titulo": "Concursos abertos em novembro 2026: até R$ 32 mil!",
    "uf": "",
    "link": "https://concursos.estrategia.com/portal/concursos-abertos-novembro-2026/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concursos-educacao-2027-orcamento-preve-19-4-mil-vagas",
+   "titulo": "Concursos Educação 2027: Orçamento prevê 19,4 mil vagas!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concursos-educacao/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-piraquara-educacao-saiu-edital-50-vagas-cr",
+   "titulo": "Concurso Piraquara Educação: saiu edital; 50 vagas + CR!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-piraquara-educacao/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-noticias-sobre-edital-de-20-de-novembro-de-2026",
+   "titulo": "Notícias sobre edital de 20 de novembro de 2026",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/principais-noticias-edital-concursos/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-e-books-estrategicos-para-o-concurso-petrobras-2027",
+   "titulo": "E-books Estratégicos para o Concurso Petrobras 2027",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/e-books-estrategicos-concurso-petrobras-2027/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-concurso-curitiba-improbidade-administrativa",
+   "titulo": "Concurso Curitiba – Improbidade Administrativa",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-curitiba-improbidade-administrativa/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "estrategia-questoes-de-concurso-pratique-com-questoes-de-concursos",
+   "titulo": "Questões de Concurso: pratique com questões de concursos",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/questoes-de-concurso/",
    "fonte": "estrategia",
    "tipo": "noticia",
    "visto": "2026-11-20"
@@ -1384,15 +1447,6 @@
    "visto": "2026-11-20"
   },
   {
-   "id": "estrategia-noticias-sobre-edital-de-19-de-novembro-de-2026",
-   "titulo": "Notícias sobre edital de 19 de novembro de 2026",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/principais-noticias-edital-concursos/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
    "id": "estrategia-concurso-guarda-de-sao-goncalo-606-vagas-participe",
    "titulo": "Concurso Guarda de São Gonçalo: 606 vagas; participe!",
    "uf": "",
@@ -1442,51 +1496,6 @@
    "titulo": "Concurso IFFar: iniciais de até R$ 5,2 mil; inscreva-se",
    "uf": "",
    "link": "https://concursos.estrategia.com/portal/concurso-iffar/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-matao-28-vagas-e-ate-r-9-7-mil",
-   "titulo": "Concurso Matão: 28 vagas e até R$ 9,7 mil!",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-prefeitura-matao/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-camara-feira-de-santana-ba-banca-em-definicao",
-   "titulo": "Concurso Câmara Feira de Santana BA: banca em definição!",
-   "uf": "BA",
-   "link": "https://concursos.estrategia.com/portal/concurso-camara-feira-de-santana-ba/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-edital-bombeiros-pb-publicado-20-vagas-de-oficial",
-   "titulo": "Edital Bombeiros PB publicado! 20 vagas de Oficial",
-   "uf": "PB",
-   "link": "https://concursos.estrategia.com/portal/concurso-bombeiros-pb-edital-publicado-oficial-2027/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-camara-paraiso-do-tocantins-inscreva-se",
-   "titulo": "Concurso Câmara Paraíso do Tocantins: inscreva-se!",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-camara-paraiso-do-tocantins/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-fumep-sete-lagoas-mg-provas-em-dezembro-39-vagas",
-   "titulo": "Concurso FUMEP Sete Lagoas MG: provas em dezembro; 39 vagas",
-   "uf": "MG",
-   "link": "https://concursos.estrategia.com/portal/concurso-fumep-sete-lagoas/",
    "fonte": "estrategia",
    "tipo": "noticia",
    "visto": "2026-11-20"
