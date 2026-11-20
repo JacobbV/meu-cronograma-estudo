@@ -400,6 +400,14 @@ html.desk .pick,html.desk .vit,html.desk .card.subj summary,html.desk .cal butto
 html.desk .pick:hover,html.desk .vit:hover{border-color:var(--g)}
 html.desk .pick{cursor:pointer}
 html.desk .top .wrap,html.desk .hero .wrap{max-width:1200px}
+/* v4.7: fixar o concurso principal */
+.cwrap{position:relative}
+.cwrap>.pick{width:100%;height:100%;padding-right:56px}
+.pinb{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--mut);display:grid;place-items:center;padding:0;cursor:pointer}
+.pinb svg{width:18px;height:18px}
+.pinb[aria-pressed=true]{background:var(--g);border-color:var(--g);color:#fff}
+.cwrap.fixo-on>.pick{border-color:var(--g)}
+html.desk .gridv>.cwrap{display:flex}
 /* v4.1: vitrine, status por data e editor de conteúdo */
 label.f select{display:block;width:100%;margin-top:4px;font-size:16px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-height:46px}
 .st{display:inline-block;font:600 12px/1.2 'Barlow',sans-serif;padding:5px 10px;border-radius:99px;border:1px solid var(--c);color:var(--c);margin-bottom:6px}
@@ -426,7 +434,7 @@ fieldset.mated{border:0;border-left:5px solid var(--c);margin:0 0 14px;min-width
 <div class="volta" id="volta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></div>
 <script>
 {
-const VERSAO = '4.6.0';
+const VERSAO = '4.7.0';
 /* Computador = tela de 1024 px ou mais E mouse/trackpad como ponteiro principal.
    Tablet (iPad, Android) e celular têm toque como ponteiro principal, então continuam com o layout do celular,
    mesmo um iPad de 11" deitado. */
@@ -1513,7 +1521,11 @@ async function entrou(u){
   S = est; fixaPerfil();
   if(est === cache && (!remoto || (cache._t||0) > (remoto._t||0))) enviar();
   try{localStorage.setItem(chaveConta(u.uid), JSON.stringify(S))}catch(e){}
-  if(['perfis','pin','importar'].includes(V.view)) V.view = 'concursos';
+  if(['perfis','pin','importar'].includes(V.view)){
+    /* com um concurso fixado, o app já abre direto nele */
+    const pf = S.perfis[0], fx = pf && pf.fixo && pf.concursos.includes(pf.fixo) ? pf.fixo : null;
+    if(fx){V.view = 'conc'; V.perfil = pf.id; V.conc = fx; V.tab = 'hoje'} else V.view = 'concursos';
+  }
   render();
 }
 async function iniciarNuvem(){
@@ -1586,8 +1598,9 @@ function desenha(){
     app.innerHTML = `<header class="top">${TOPO}<div class="wrap">${NV.user ? '<button class="back" id="sair">Sair da conta</button>' : '<button class="back" data-go="perfis">‹ Trocar perfil</button>'}<div class="who"><button class="foto" id="fotoBtn" aria-label="Trocar foto">${perfil.foto?`<img src="${perfil.foto}" alt="">`:esc(perfil.nome[0])}</button><div><small>Olá,</small><h1>${esc(perfil.nome)}</h1><button class="fotobtn" id="fotoBtn2">${perfil.foto?'Trocar foto':'Adicionar foto'}</button>${perfil.foto?'<button class="fotobtn" id="fotoDel">Remover</button>':''}</div></div><input type="file" id="fotoIn" accept="image/*" hidden></div></header>
     <main class="wrap"><h2 style="font-size:26px;margin:4px 0 12px">Meus concursos</h2>
     ${!perfil.concursos.length ? '<section class="card"><h2>Monte seu cronograma</h2><p style="margin:0">Escolha um concurso da vitrine logo abaixo ou monte o seu a partir do edital.</p></section>' : ''}
-    <div class="gridv">${perfil.concursos.map(concById).filter(Boolean).map(c => {const p = P(perfil.id,c.id), n = diasAte(c.data), pc = pct(c,p), t = c === IBGE ? VITRINE_IBGE() : modelos().find(x => x.id === c.tpl), st = t && !c.pre ? statusDe(t) : null;
-      return `<button class="pick conc" data-conc="${c.id}">${c.pre ? '<span class="st st-pre">Pré-edital · meta</span>' : st ? `<span class="st st-${st.k}">${esc(st.txt)}</span>` : ''}<h3>${esc(c.nome)}</h3><div class="meta muted">${esc(c.cargo||'')} · ${fmt(c.data)}/${c.data.slice(0,4)} · ${n>0?`faltam ${n} dias`:n===0?'é hoje!':c.pre?'meta alcançada':'prova realizada'}</div><div class="mini"><i style="width:${pc}%"></i></div><div class="muted" style="margin-top:6px">${pc}% do edital concluído</div></button>`}).join('')}</div>
+    <div class="gridv">${[...perfil.concursos].sort((a,b) => (b === perfil.fixo) - (a === perfil.fixo)).map(concById).filter(Boolean).map(c => {const p = P(perfil.id,c.id), n = diasAte(c.data), pc = pct(c,p), t = c === IBGE ? VITRINE_IBGE() : modelos().find(x => x.id === c.tpl), st = t && !c.pre ? statusDe(t) : null;
+      const fx = perfil.fixo === c.id;
+      return `<div class="cwrap${fx?' fixo-on':''}"><button class="pick conc" data-conc="${c.id}">${c.pre ? '<span class="st st-pre">Pré-edital · meta</span>' : st ? `<span class="st st-${st.k}">${esc(st.txt)}</span>` : ''}<h3>${esc(c.nome)}</h3><div class="meta muted">${esc(c.cargo||'')} · ${fmt(c.data)}/${c.data.slice(0,4)} · ${n>0?`faltam ${n} dias`:n===0?'é hoje!':c.pre?'meta alcançada':'prova realizada'}</div><div class="mini"><i style="width:${pc}%"></i></div><div class="muted" style="margin-top:6px">${pc}% do edital concluído</div></button><button class="pinb" data-fixar="${c.id}" aria-pressed="${fx}" aria-label="${fx ? 'Desafixar' : 'Fixar como concurso principal'}" title="${fx ? 'Concurso principal · tocar para desafixar' : 'Fixar como principal'}">${PIN_IC}</button></div>`}).join('')}</div>
     ${vitrine(perfil)}
     <p style="text-align:center;margin:18px 0 0"><button class="linkbtn" id="compartilharApp">Compartilhar o app</button> · <button class="linkbtn" id="abrirSobre">Sobre e créditos</button></p></main>`;
     return;
@@ -1656,6 +1669,7 @@ document.addEventListener('click', e => {
   else if(b.id === 'passarAntes'){const p = PP(), h = hoje(); let n = 0;
     for(const a of QC){const ks = STEPS[a.k].map(s => a.id+':'+s); if(ks.every(k => p.done[k] === h)){ks.forEach(k => p.done[k] = ANTES); n++}}
     p.extra[h] = 0; save(); toast(n+' '+(n>1?'assuntos passaram':'assunto passou')+' para "já estudado"'); keep()}
+  else if(d.fixar){const pf = perfilAtual(); pf.fixo = pf.fixo === d.fixar ? null : d.fixar; save(); toast(pf.fixo ? 'Concurso principal fixado no topo' : 'Concurso desafixado'); keep()}
   else if(d.vf){V.vf = d.vf; keep()}
   else if(d.rmais){V.rmais = true; keep()}
   else if(d.radar){const x = (RADAR && RADAR.itens || []).find(y => y.id === d.radar); if(!x) return;

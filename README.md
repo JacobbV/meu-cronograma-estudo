@@ -157,7 +157,7 @@ EDITAIS=editais/ python3 tools/build_vitrine.py
 
 ## 🗒️ Versões
 
-**Atual: v4.6.0** — versão própria para computador, sem mudar nada no celular e no tablet.<br>
+**Atual: v4.7.0** — fixar o concurso principal.<br>
 Histórico completo no [CHANGELOG](CHANGELOG.md).
 
 ---
