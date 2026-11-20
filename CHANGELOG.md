@@ -1,5 +1,8 @@
 # Histórico de versões
 
+## v4.7.0 · 20/11/2026
+- Fixar o concurso principal: o alfinete no card de Meus concursos deixa o concurso em primeiro e faz o app abrir direto nele.
+
 ## v4.6.0 · 20/11/2026
 - Versão para computador (tela larga e mouse): barra lateral com a marca e as abas, Hoje em duas colunas (assuntos do dia de um lado; curso, próximos dias, andamento e datas do outro), semana em 7 colunas como agenda, mês com o dia escolhido ao lado, Edital e Prova em duas colunas e vitrine, radar e meus concursos em grade.
 - Celular e tablet continuam com o layout de antes, mesmo o iPad deitado.
