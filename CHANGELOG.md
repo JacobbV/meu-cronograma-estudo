@@ -1,5 +1,9 @@
 # Histórico de versões
 
+## v4.3.0 · 20/11/2026
+- Nova marca na tela de entrada e nas boas-vindas: o check laranja com os quadrados das matérias, igual à imagem de compartilhamento, com uma animação curta ao abrir.
+- Notícias do radar ganharam o botão "montar cronograma".
+
 ## v4.2.1 · 20/11/2026
 - Radar mais limpo: manchetes do PCI sem prazo de inscrição viram notícias, saem menus e propaganda dos blogs e, quando uma fonte é lida, o radar troca tudo dela pelo que está no ar hoje.
 
