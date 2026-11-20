@@ -337,6 +337,7 @@ details.subj[open] > summary{margin-bottom:6px}
 .two>*{min-width:0}
 input[type=date]{-webkit-appearance:none;appearance:none;min-height:46px;min-width:0;max-width:100%;text-align:left}
 input[type=date]::-webkit-date-and-time-value{text-align:left}
+.btn svg{width:20px;height:20px}
 .it-sw{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:none;border:0;padding:0;text-align:left;color:var(--ink);min-height:44px}
 .it-sw>span:first-child{display:flex;flex-direction:column;gap:2px}
 .st-novo{--c:#c0392b}.st-com{--c:#6b4fbf}
@@ -370,7 +371,7 @@ fieldset.mated{border:0;border-left:5px solid var(--c);margin:0 0 14px;min-width
 <div class="toast" id="toast" role="status"></div>
 <script>
 {
-const VERSAO = '4.3.0';
+const VERSAO = '4.4.0';
 /* data usada para o que foi estudado antes de começar a usar o app: não cai em nenhum dia nem conta no foguinho */
 const ANTES = '0000-00-00';
 /* ---------- Dados do concurso (Edital IBGE nº 03/2026 + apostila do 12º Censo Agro) ---------- */
@@ -766,6 +767,8 @@ const MI = {
   lua:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>',
   cel:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18h2"/></svg>',
   cad:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>',
+  comp:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>',
+  info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>',
   ajus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>'
 };
 function painelPerfil(pf){
@@ -779,6 +782,9 @@ function painelPerfil(pf){
   <button data-tema="auto" aria-pressed="${S.tema==='auto'}"><span class="ico" style="--c:var(--mut)">${MI.cel}</span>Seguir o aparelho${S.tema==='auto'?'<span class="muted" style="margin-left:auto">ativo</span>':''}</button>
   <div class="it" style="flex-wrap:wrap"><span class="ico" style="--c:var(--g)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="8.5" cy="10" r="1.3"/><circle cx="12" cy="7.5" r="1.3"/><circle cx="15.5" cy="10" r="1.3"/></svg></span>Cor do app<span class="cores">${CORES.map(([k,c]) => `<button class="cor${(S.cor||'laranja')===k?' on':''}" data-cor="${k}" style="--c:${c}" aria-label="Cor ${k}" aria-pressed="${(S.cor||'laranja')===k}"></button>`).join('')}</span></div>
   <button data-tab="prova" data-alvo="pin"><span class="ico" style="--c:var(--mt)">${MI.cad}</span>${pf.pin?'PIN ativo · trocar ou remover':'Criar PIN'}</button>
+  <div class="lbl">O APP</div>
+  <button id="compartilharApp"><span class="ico" style="--c:var(--pt)">${MI.comp}</span>Compartilhar o app</button>
+  <button id="abrirSobre"><span class="ico" style="--c:var(--mut)">${MI.info}</span>Sobre e créditos</button>
   <div class="lbl">CONTA</div>
   ${NV.user ? `<button id="sair"><span class="ico" style="--c:var(--fx)">${MI.troca}</span>Sair da conta</button>` : `<button data-go="perfis"><span class="ico" style="--c:var(--fx)">${MI.troca}</span>Trocar perfil</button>`}</div><p class="muted" id="nvStatus" style="margin:8px 0 0;text-align:center">${textoStatus()}</p></section>`;
 }
@@ -1009,6 +1015,23 @@ function vProva(c,p){
   <section class="card"><h2>Cópia de segurança</h2><p class="muted" style="margin:-4px 0 10px">${NV.user ? 'Sua conta já guarda tudo na nuvem. O código é uma cópia extra, se quiser.' : 'O progresso fica salvo neste aparelho. De vez em quando, copie o código e guarde no WhatsApp ou nas Notas.'}</p>
   <div class="row"><button class="btn sm" id="bkp">Copiar código</button><button class="btn alt sm" id="rst">Restaurar</button></div>
   <div id="rstBox" hidden style="margin-top:12px"><label class="f">Cole o código aqui<textarea id="rstTxt"></textarea></label><button class="btn sm" id="rstOk">Restaurar progresso</button></div></section>
+  <p style="text-align:center;margin:6px 0 0"><button class="linkbtn" id="abrirSobre">Sobre o app e créditos</button></p>`;
+  return html;
+}
+
+/* ---------- Sobre e créditos (v4.4): página aberta pelo menu do perfil ---------- */
+const LINK_APP = 'https://jacobbv.github.io/meu-cronograma-estudo/';
+async function compartilharApp(){
+  const dados = {title:'Meu Cronograma de Estudo', text:'Cronograma de estudos para concursos: o que estudar hoje, o edital para marcar e a contagem até a prova. É grátis:', url:LINK_APP};
+  try{if(navigator.share){await navigator.share(dados); return}}catch(e){if(e && e.name === 'AbortError') return}
+  try{await navigator.clipboard.writeText(dados.text+' '+LINK_APP); toast('Link copiado. É só colar no WhatsApp')}catch(e){prompt('Copie o link do app:', LINK_APP)}
+}
+function telaSobre(app){
+  app.innerHTML = `<header class="hero"><div class="wrap"><button class="back" id="voltarSobre">‹ Voltar</button></div><div class="wrap heroin"><div><span class="selo">Meu Cronograma de Estudo</span><h1>Sobre o app</h1>
+    <p>Cronograma de estudos para concursos, um dia de cada vez: o que estudar hoje, o edital para marcar, a vitrine de concursos e a contagem até a prova. Grátis, funciona sem internet e pode ser instalado na tela inicial.</p></div>${ILU}</div></header>
+  <main class="wrap" style="padding-bottom:40px">
+  <section class="card"><h2>Chame mais gente</h2><p class="muted" style="margin:-4px 0 12px">Mande o link para quem também está estudando. Cada pessoa cria a própria conta e o progresso de cada um fica separado.</p>
+    <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn" id="compartilharApp">${MI.comp}<span>Compartilhar o app</span></button><button class="btn alt" id="copiarLink">Copiar o link</button></div></section>
   <section class="card"><h2>Créditos</h2><ul class="dots-list muted">
   <li>Fontes Barlow e Barlow Condensed, de Jeremy Tribby, via Google Fonts (SIL Open Font License 1.1).</li>
   <li>Leitor de PDF: PDF.js, da Mozilla (Apache License 2.0).</li>
@@ -1017,9 +1040,8 @@ function vProva(c,p){
   <li>Conteúdo baseado no Edital IBGE nº 03/2026 e sua retificação.</li>
   <li>Nomes das aulas citados como referência do curso Gran. Sem relação oficial com Gran, Cesgranrio ou IBGE.</li>
   <li>Vitrine de concursos montada a partir dos editais oficiais (Cebraspe, Instituto AOCP, CPCon/UEPB e COMPEC/IFPB). Datas e conteúdos podem mudar: confira sempre o site da banca.</li>
-  <li>Gran, Estratégia, Aprova, Focus, Direção, AlfaCon, QConcursos e YouTube são marcas dos seus donos. O app só abre o link do curso que você salvar.</li></ul>
-  <footer class="rod" style="margin-top:12px">${ASSINA}<span>Meu Cronograma de Estudo · v${VERSAO}</span></footer></section>`;
-  return html;
+  <li>Gran, Estratégia, Aprova, Focus, Direção, AlfaCon, QConcursos e YouTube são marcas dos seus donos. O app só abre o link do curso que você salvar.</li></ul></section>
+  <footer class="rod">${ASSINA}<span>Meu Cronograma de Estudo · v${VERSAO}</span></footer></main>`;
 }
 
 /* ---------- Vitrine de concursos e novo concurso (v4.1) ---------- */
@@ -1451,6 +1473,7 @@ function render(){
   if(NV.carregando) return telaCarregando(app);
   if(NV.ok && !NV.user) return telaLogin(app);
   if(V.view === 'importar' && NV.legado) return telaImportar(app);
+  if(V.view === 'sobre') return telaSobre(app);
   if(NV.user && (V.view === 'perfis' || V.view === 'pin')) V.view = 'concursos';
   if(V.view === 'pin' && S.perfis.some(x => x.id === V.pinFor)) return telaPin(app);
   let perfil = S.perfis.find(x => x.id === V.perfil);
@@ -1464,7 +1487,8 @@ function render(){
     ${!perfil.concursos.length ? '<section class="card"><h2>Monte seu cronograma</h2><p style="margin:0">Escolha um concurso da vitrine logo abaixo ou monte o seu a partir do edital.</p></section>' : ''}
     ${perfil.concursos.map(concById).filter(Boolean).map(c => {const p = P(perfil.id,c.id), n = diasAte(c.data), pc = pct(c,p), t = c === IBGE ? VITRINE_IBGE() : modelos().find(x => x.id === c.tpl), st = t && !c.pre ? statusDe(t) : null;
       return `<button class="pick conc" data-conc="${c.id}">${c.pre ? '<span class="st st-pre">Pré-edital · meta</span>' : st ? `<span class="st st-${st.k}">${esc(st.txt)}</span>` : ''}<h3>${esc(c.nome)}</h3><div class="meta muted">${esc(c.cargo||'')} · ${fmt(c.data)}/${c.data.slice(0,4)} · ${n>0?`faltam ${n} dias`:n===0?'é hoje!':c.pre?'meta alcançada':'prova realizada'}</div><div class="mini"><i style="width:${pc}%"></i></div><div class="muted" style="margin-top:6px">${pc}% do edital concluído</div></button>`}).join('')}
-    ${vitrine(perfil)}</main>`;
+    ${vitrine(perfil)}
+    <p style="text-align:center;margin:18px 0 0"><button class="linkbtn" id="compartilharApp">Compartilhar o app</button> · <button class="linkbtn" id="abrirSobre">Sobre e créditos</button></p></main>`;
     return;
   }
   usar(conc);
@@ -1521,6 +1545,10 @@ document.addEventListener('click', e => {
   else if(d.del){if(b.dataset.sure){const pf = S.perfis.find(x => x.id===V.perfil); pf.concursos = pf.concursos.filter(x => x!==d.del); save(); V.view = 'concursos'; render()} else {b.dataset.sure = 1; b.textContent = 'Toque de novo para confirmar'}}
   else if(d.painel !== undefined){V.painel = V.painel === d.painel ? '' : d.painel; keep()}
   else if(d.fecha){FECHADOS.add(d.fecha); keep()}
+  else if(b.id === 'compartilharApp'){compartilharApp()}
+  else if(b.id === 'copiarLink'){navigator.clipboard.writeText(LINK_APP).then(() => toast('Link copiado'), () => prompt('Copie o link do app:', LINK_APP))}
+  else if(b.id === 'abrirSobre'){V.voltar = V.view; V.painel = ''; V.view = 'sobre'; render(); scrollTo(0,0)}
+  else if(b.id === 'voltarSobre'){V.view = V.voltar && V.voltar !== 'sobre' ? V.voltar : 'concursos'; render(); scrollTo(0,0)}
   else if(b.id === 'jaEstudei'){V.jaEstudei = !V.jaEstudei; keep()}
   else if(b.id === 'passarAntes'){const p = PP(), h = hoje(); let n = 0;
     for(const a of QC){const ks = STEPS[a.k].map(s => a.id+':'+s); if(ks.every(k => p.done[k] === h)){ks.forEach(k => p.done[k] = ANTES); n++}}

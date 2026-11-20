@@ -1,5 +1,9 @@
 # Histórico de versões
 
+## v4.4.0 · 20/11/2026
+- Compartilhar o app de dentro dele: no menu do perfil, na página Sobre e no fim da tela de concursos (abre o compartilhar do celular, com WhatsApp e outros; sem isso, copia o link).
+- Nova página "Sobre e créditos", aberta pelo menu do perfil, com os créditos que antes ficavam na aba Prova.
+
 ## v4.3.0 · 20/11/2026
 - Nova marca na tela de entrada e nas boas-vindas: o check laranja com os quadrados das matérias, igual à imagem de compartilhamento, com uma animação curta ao abrir.
 - Notícias do radar ganharam o botão "montar cronograma".
