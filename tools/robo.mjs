@@ -34,6 +34,8 @@ export function lerPci(html, base){
     const niveis = [...new Set((bloco.match(/Fundamental|Médio|Superior/g) || []))];
     const datas = [...bloco.matchAll(/(\d{1,2})\/(\d{1,2})\/(\d{4})/g)].map(d => iso(d[1],d[2],d[3]));
     const fim = datas.length ? datas.sort().at(-1) : '';
+    /* sem data de inscrição é manchete (retifica, suspende, abre…): vai para as notícias */
+    if(!fim){if(nome.length >= 30) out.push({id:'pci-'+slug(nome), titulo:nome, uf, link, fonte:'pci', tipo:'noticia'}); return}
     out.push({id:'pci-'+slug(nome+'-'+uf), nome, uf, vagas:vagas.replace(/\./g,''), salario, niveis, inscricoesAte:fim, link, fonte:'pci', tipo:'inscricoes'});
   });
   return out;
@@ -45,8 +47,8 @@ export function lerNoticias(html, base, fonte){
   for(const m of html.matchAll(re)){
     const link = absoluta(m[1], base), titulo = texto(m[2]).replace(/^\|\s*|\s*\|$/g,'').trim();
     if(!link || new URL(link).hostname !== host || vistos.has(link)) continue;
-    if(titulo.length < 25 || titulo.length > 180 || !/concurso|edital|inscri|processo seletivo|sele[çc][ãa]o|vagas/i.test(titulo)) continue;
-    if(/^(leia|veja|confira|clique|ver mais|saiba)/i.test(titulo) || /\/(tag|categoria|category|author|page)\//.test(link)) continue;
+    if(titulo.length < 30 || titulo.length > 180 || !/concurso|edital|inscri|processo seletivo|sele[çc][ãa]o|vagas/i.test(titulo)) continue;
+    if(/^(leia|veja|confira|clique|ver mais|saiba|acesse)/i.test(titulo) || /black friday|carta aos assinantes|cadernos? de reta final|assinatura|desconto|cupom/i.test(titulo) || /\/(tag|categoria|category|author|page)\//.test(link)) continue;
     vistos.add(link);
     const uf = (titulo.match(/\b[A-Z]{2}\b/g) || []).find(x => UFS.has(x)) || '';
     out.push({id:fonte+'-'+slug(titulo), titulo, uf, link, fonte, tipo:'noticia'});
@@ -59,9 +61,11 @@ async function baixar(url){
   if(!r.ok) throw new Error('HTTP '+r.status);
   return await r.text();
 }
-export function juntar(antigo, novos, hoje){
-  const porId = new Map((antigo || []).map(x => [x.id, x]));
-  for(const n of novos){const a = porId.get(n.id); porId.set(n.id, {...n, visto:a?.visto || hoje})}
+/* fontes lidas hoje valem como estão; das que falharam, guarda o que já tinha */
+export function juntar(antigo, novos, hoje, lidas = new Set()){
+  const visto = new Map((antigo || []).map(x => [x.id, x.visto]));
+  const porId = new Map((antigo || []).filter(x => !lidas.has(x.fonte)).map(x => [x.id, x]));
+  for(const n of novos) porId.set(n.id, {...n, visto:visto.get(n.id) || hoje});
   const limite = new Date(Date.parse(hoje) - 30*864e5).toISOString().slice(0,10);
   return [...porId.values()].filter(x => x.tipo === 'inscricoes' ? (x.inscricoesAte ? x.inscricoesAte >= hoje : x.visto >= limite) : x.visto >= limite)
     .sort((a,b) => (b.visto||'').localeCompare(a.visto||'') || (a.inscricoesAte||'9').localeCompare(b.inscricoesAte||'9')).slice(0, 300);
@@ -70,15 +74,15 @@ export function juntar(antigo, novos, hoje){
 async function principal(){
   const arq = new URL('../radar.json', import.meta.url), hoje = new Date(Date.now() - 3*3600e3).toISOString().slice(0,10);
   const antigo = existsSync(arq) ? JSON.parse(readFileSync(arq,'utf8')) : {itens:[], fontes:{}};
-  const novos = [], fontes = {...(antigo.fontes || {})};
+  const novos = [], fontes = {...(antigo.fontes || {})}, lidas = new Set();
   for(const f of FONTES){
     try{
       const html = await baixar(f.url), itens = f.tipo === 'lista' ? lerPci(html, f.url) : lerNoticias(html, f.url, f.id);
-      novos.push(...itens); fontes[f.id] = {nome:f.nome, url:f.url, ok:hoje, n:itens.length};
+      novos.push(...itens); lidas.add(f.id); fontes[f.id] = {nome:f.nome, url:f.url, ok:hoje, n:itens.length};
       console.log(`${f.nome}: ${itens.length} itens`);
     }catch(e){fontes[f.id] = {...(fontes[f.id] || {nome:f.nome, url:f.url}), erro:String(e.message || e), quando:hoje}; console.log(`${f.nome}: falhou (${e.message})`)}
   }
-  const itens = juntar(antigo.itens, novos, hoje);
+  const itens = juntar(antigo.itens, novos, hoje, lidas);
   const saida = {atualizado:hoje, fontes, itens};
   if(JSON.stringify({...antigo, atualizado:''}) === JSON.stringify({...saida, atualizado:''})){console.log('Nada mudou.'); return}
   writeFileSync(arq, JSON.stringify(saida, null, 1) + '\n');
@@ -100,7 +104,13 @@ function testes(){
     <a href="https://blog.grancursosonline.com.br/receita/">Receita de bolo de chocolate fácil e rápida</a>`;
   const n = lerNoticias(blog, 'https://blog.grancursosonline.com.br/ultimas-noticias/', 'gran');
   ok(n.length === 1 && n[0].uf === 'PB', 'Notícias: só a matéria de concurso do próprio site, com UF');
+  const pci2 = lerPci(`<a href="/noticias/ibge-retifica">IBGE retifica processo seletivo com 27.279 vagas para Recenseador</a><div>X</div>`, 'https://www.pciconcursos.com.br/');
+  ok(pci2.length === 1 && pci2[0].tipo === 'noticia', 'PCI: manchete sem data vira notícia');
+  const n2 = lerNoticias(`<a href="https://concursos.estrategia.com/r">Acesse os concursos da região Nordeste! | Nordeste</a><a href="https://concursos.estrategia.com/b">Black Friday Estratégia Concursos 2026: como funciona?</a>`, 'https://concursos.estrategia.com/portal/', 'estrategia');
+  ok(n2.length === 0, 'Notícias: tira menus e propaganda');
   const j = juntar([{id:'a', tipo:'inscricoes', inscricoesAte:'2026-11-01', visto:'2026-10-01'}, {id:'b', tipo:'noticia', visto:'2026-11-19'}], [{id:'c', tipo:'inscricoes', inscricoesAte:'2026-12-01'}], '2026-11-20');
+  const j2 = juntar([{id:'v', fonte:'gran', tipo:'noticia', visto:'2026-11-19'}, {id:'w', fonte:'pci', tipo:'noticia', visto:'2026-11-19'}], [], '2026-11-20', new Set(['gran']));
+  ok(j2.length === 1 && j2[0].id === 'w', 'Juntar: fonte lida hoje troca tudo; fonte que falhou guarda o antigo');
   ok(j.length === 2 && j.some(x => x.id === 'c' && x.visto === '2026-11-20') && !j.some(x => x.id === 'a'), 'Juntar: tira inscrição encerrada e marca quando viu');
 }
 if(process.argv.includes('--teste')) testes(); else await principal();

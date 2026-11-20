@@ -1,5 +1,8 @@
 # Histórico de versões
 
+## v4.2.1 · 20/11/2026
+- Radar mais limpo: manchetes do PCI sem prazo de inscrição viram notícias, saem menus e propaganda dos blogs e, quando uma fonte é lida, o radar troca tudo dela pelo que está no ar hoje.
+
 ## v4.2.0 · 20/11/2026
 - Radar de concursos: um robô no GitHub Actions lê todo dia o PCI Concursos, o blog do Gran e o Estratégia e mostra na vitrine os concursos com inscrições abertas (nome, estado, vagas, salário, prazo e link) e as notícias. Filtro por estado e botão para montar o cronograma já com o nome e o link.
 - Modelos da comunidade: quem monta um cronograma a partir do edital pode compartilhar na vitrine com o selo "Criado pela comunidade". Só o autor atualiza ou tira; o admin também pode tirar.
