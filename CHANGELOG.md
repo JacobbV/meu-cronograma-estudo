@@ -1,5 +1,9 @@
 # Histórico de versões
 
+## v4.1.1 · 20/11/2026
+- Modo "já estudei" no Edital: o que foi estudado antes de usar o app fica marcado sem entrar no dia de hoje, no calendário ou no foguinho.
+- Botão para passar para "já estudado" os assuntos concluídos hoje de uma vez.
+
 ## v4.1.0 · 20/11/2026
 - Vitrine de concursos montada a partir de 7 editais oficiais, com selo automático pela data (inscrições abertas, pós-edital e pré-edital).
 - Pré-edital com meta de 3 meses, 6 meses ou 1 ano.
