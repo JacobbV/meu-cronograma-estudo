@@ -77,6 +77,8 @@ qyudev.png              # marca QYUDEV. nos créditos
 
 ## Versões
 
+- **v3.6.2** (19/11/2026): correção do conteúdo cortado atrás da barra de abas, barra de abas mais baixa no iPhone e faixa fixa atrás da barra de status.
+
 - **v3.6.1** (19/11/2026): recado de boas-vindas fixado no topo da gaveta de Avisos.
 
 - **v3.6.0** (19/11/2026): cartão de boas-vindas na primeira abertura, com recado especial para a Bia, e link direto da aula 1 de Português.
