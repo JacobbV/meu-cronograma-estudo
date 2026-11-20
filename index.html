@@ -374,7 +374,7 @@ fieldset.mated{border:0;border-left:5px solid var(--c);margin:0 0 14px;min-width
 <div class="volta" id="volta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></div>
 <script>
 {
-const VERSAO = '4.5.0';
+const VERSAO = '4.5.1';
 /* data usada para o que foi estudado antes de começar a usar o app: não cai em nenhum dia nem conta no foguinho */
 const ANTES = '0000-00-00';
 /* ---------- Dados do concurso (Edital IBGE nº 03/2026 + apostila do 12º Censo Agro) ---------- */
@@ -574,7 +574,7 @@ let S; try{S = JSON.parse(localStorage.getItem(KEY)) || base()}catch(e){S = base
 if(!S.tema) S.tema = 'auto';
 /* ---------- Conta na nuvem (Firebase Auth + Firestore) ---------- */
 /* Contas especiais (IBGE com as aulas do Gran): guardamos só o hash SHA-256 do e-mail, nunca o e-mail. */
-const ESPECIAIS = ['d298af43ef0957270d65005babb6471bfe8cd9ab9d3015fbd50e29e8948dd265','9ae248f2fee2945df5c8ccdd9717480b3207143c2bc2b5658f630481200a2934'];
+const ESPECIAIS = ['d298af43ef0957270d65005babb6471bfe8cd9ab9d3015fbd50e29e8948dd265','9ae248f2fee2945df5c8ccdd9717480b3207143c2bc2b5658f630481200a2934','23f0999abac9e509775cd321743a33fed7df05ddaff3732596529bc5fa6fff7a'];
 const FBV = 'https://www.gstatic.com/firebasejs/10.14.1/';
 const NV = {ok:false, carregando:false, user:null, especial:false, fb:null, status:'', legado:null, offline:false};
 const chaveConta = uid => 'cronograma-conta-'+uid;

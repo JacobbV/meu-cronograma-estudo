@@ -1,5 +1,8 @@
 # Histórico de versões
 
+## v4.5.1 · 20/11/2026
+- Mais uma conta com o cronograma do IBGE pré-carregado.
+
 ## v4.5.0 · 20/11/2026
 - Voltar deslizando da borda esquerda da tela no app instalado no iPhone, com uma setinha que acompanha o dedo.
 - O voltar do navegador, o gesto do Safari e o botão voltar do Android agora voltam dentro do app (fecha a janela aberta, sai da página Sobre, do novo concurso ou do concurso), em vez de sair dele.
