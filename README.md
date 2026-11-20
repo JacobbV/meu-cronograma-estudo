@@ -155,7 +155,7 @@ EDITAIS=editais/ python3 tools/build_vitrine.py
 
 ## 🗒️ Versões
 
-**Atual: v4.4.0** — compartilhar o app e página de créditos.<br>
+**Atual: v4.4.1** — compartilhar o app, página de créditos e a marca QYUDEV. sem fundo branco.<br>
 Histórico completo no [CHANGELOG](CHANGELOG.md).
 
 ---

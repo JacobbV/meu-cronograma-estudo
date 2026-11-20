@@ -1,5 +1,8 @@
 # Histórico de versões
 
+## v4.4.1 · 20/11/2026
+- Marca QYUDEV. com fundo transparente e um brilho ciano nos créditos, sem a caixa branca (igual ao README).
+
 ## v4.4.0 · 20/11/2026
 - Compartilhar o app de dentro dele: no menu do perfil, na página Sobre e no fim da tela de concursos (abre o compartilhar do celular, com WhatsApp e outros; sem isso, copia o link).
 - Nova página "Sobre e créditos", aberta pelo menu do perfil, com os créditos que antes ficavam na aba Prova.
