@@ -1,61 +1,123 @@
+<div align="center">
+
+<img src="og-image.png" alt="Meu Cronograma de Estudo: plano diário, edital e contagem até a prova" width="100%">
+
 # Meu Cronograma de Estudo
 
-Cronograma de estudos para concursos, feito para usar no celular e no tablet: mostra o que estudar em cada dia, se reorganiza sozinho conforme o ritmo de quem estuda, traz a apostila oficial para ler dentro do app e acompanha o progresso até a prova. Pode ser instalado na tela inicial (PWA) e funciona sem internet.
+**O que estudar hoje, o edital na palma da mão e a contagem até a prova.**<br>
+Um app de cronograma para concursos que se reorganiza sozinho no seu ritmo.
 
-O primeiro cronograma pronto é o do **IBGE 2027 – Recenseador (REC)** do 12º Censo Agropecuário, Florestal e Aquícola (Fundação Cesgranrio, prova em 31/01/2027).
+[![Abrir o app](https://img.shields.io/badge/abrir_o_app-f26a1b?style=for-the-badge&logo=googlechrome&logoColor=white)](https://jacobbv.github.io/meu-cronograma-estudo/)
 
-**Acesse:** https://jacobbv.github.io/meu-cronograma-estudo/
+![PWA](https://img.shields.io/badge/PWA-instalável-5a0fc8?logo=pwa&logoColor=white)
+![Offline](https://img.shields.io/badge/funciona-sem_internet-1d8a52)
+![JavaScript](https://img.shields.io/badge/JavaScript-puro-f7df1e?logo=javascript&logoColor=black)
+![Firebase](https://img.shields.io/badge/Firebase-plano_gratuito-ffca28?logo=firebase&logoColor=black)
+![GitHub Pages](https://img.shields.io/badge/hospedado_no-GitHub_Pages-222?logo=github)
 
-## Funcionalidades
+</div>
 
-- **Vitrine de concursos:** cronogramas prontos montados a partir dos editais oficiais (IBGE 2027, PCPE 2026 Agente e Escrivão, PMPE e CBMPE 2026 Soldado, Câmara de Guarabira 2026, IFPB professor substituto, PF 2025 Agente e Escrivão e PRF 2021). O selo muda sozinho pela data: **Inscrições abertas** (curto prazo), **Pós-edital** até a prova (médio prazo) e **Concurso realizado · pré-edital** com o ano do edital-base (longo prazo).
-- **Pré-edital com meta:** num concurso já realizado, o app pergunta até quando fechar o conteúdo (3 meses, 6 meses ou 1 ano) e monta o cronograma para essa meta.
-- **Montar a partir do edital:** envie o PDF do edital (lido no próprio aparelho com PDF.js e regras, sem IA e sem enviar o arquivo) ou cole o conteúdo programático. O app separa matérias e assuntos, pergunta o cargo quando o edital tem vários, tenta achar a data da prova e a banca, e abre uma tela para conferir e ajustar.
-- **Editar conteúdo:** renomear matérias, tirar ou acrescentar assuntos depois; o que já foi marcado continua marcado.
-- **Todo concurso completo:** Hoje, Calendário, foguinho, avisos, Edital com gráfico e Prova funcionam em qualquer concurso, com reta final (revisão por matéria, simulado e véspera) e feriados nacionais.
-- **Seu curso:** escolha a plataforma (Gran, Estratégia, Aprova, Focus, Direção, AlfaCon, QConcursos, YouTube ou outra) e cole o link do curso; o botão "Abrir aula" das videoaulas abre esse link. As aulas exatas do Gran no IBGE ficam só para as contas especiais.
-- **Conta na nuvem:** login com Google ou com e-mail e senha. O progresso, a foto, os concursos e o ritmo ficam salvos na conta e aparecem em qualquer celular, tablet ou computador. No primeiro login, o app oferece levar o progresso que já estava salvo no aparelho. Sem internet, continua funcionando e envia as mudanças quando a conexão volta. Quem preferir pode usar sem conta, salvando só no aparelho.
+---
 
-- **Tela de entrada:** "Bora estudar?", com ilustração própria, contagem de dias para a prova e os perfis do aparelho.
-- **Boas-vindas:** na primeira vez que o perfil abre o cronograma, aparece um cartão de boas-vindas (com um recado especial para a Bia), que também fica fixado no topo dos Avisos.
-- **Primeiro acesso:** o app pergunta o nome e, se quiser, um PIN de 4 dígitos. Cada pessoa cria o próprio perfil, com foto opcional.
-- **Cronograma em fila:** os assuntos formam uma fila, com as matérias intercaladas e Conhecimentos Técnicos com mais peso. Se a pessoa adianta ou deixa algo para depois, os próximos dias se reorganizam sozinhos, sem acumular tarefas atrasadas.
-- **Ritmo por dia da semana:** escolhe quantos assuntos estudar em cada dia (por exemplo, 1 de segunda a sexta e 3 no sábado). O app mostra a data em que o conteúdo termina e avisa se não couber até a reta final.
-- **Etapas por lugar:** cada assunto tem etapas separadas. Leitura e questões aparecem em "dá no trabalho"; videoaulas, em "em casa". O assunto só conta como concluído quando todas as etapas estão marcadas.
-- **Adiantar:** um botão puxa o próximo assunto da fila para hoje.
-- **Apostila no app:** a apostila oficial do IBGE (68 páginas) abre dentro do app, com sumário, zoom, tela cheia (ideal no tablet), troca de página deslizando o dedo e lembrança da página onde parou. As tarefas de leitura têm o botão "Abrir na p. X".
-- **Barra do topo:** o foguinho com a sequência, o sininho de avisos e a foto do perfil ficam no cabeçalho. O foguinho e o perfil abrem uma janela flutuante logo abaixo do botão; os avisos abrem numa gaveta lateral. Toque fora ou no X para fechar.
-- **Sequência de dias (foguinho):** conta os dias seguidos de estudo. Tocando no foguinho, abre um calendário das últimas 4 semanas com os dias estudados, a sequência atual, o recorde e uma mensagem do dia. Folgas, feriados e pausas não apagam o fogo. Se a sequência apagar há até 3 dias, dá para reacender estudando um assunto a mais no dia.
-- **Placar de questões:** depois das questões, anota quantas acertou. O app mostra o percentual de acerto por matéria, aponta o ponto fraco e começa a reta final por ele.
-- **Calendário:** visão por semana ou por mês, com bolinhas coloridas por matéria.
-- **Aulas do Gran numeradas:** cada assunto mostra as aulas exatas do curso do Gran, e as videoaulas têm o botão "Abrir aula no Gran" (ou "Abrir o curso no Gran" quando não há link direto).
-- **Edital:** gráfico de rosca com o andamento por matéria e a lista de todos os assuntos, em blocos que abrem e fecham por matéria, com a aula do Gran ou as páginas da apostila.
-- **Prova:** data, horário, local, banca, questões por matéria, nota mínima, datas importantes do edital e o que levar no dia.
-- **Pausas:** marca um período sem estudo (viagem, feriado da cidade) e a fila espera.
-- **Avisos:** os prazos do edital aparecem no Hoje com um X para fechar (voltam ao reabrir o app) e ficam guardados no sininho, com contador de não lidos.
-- **Tema:** automático, claro ou noite. O "Modo noturno" também fica no menu do perfil (toque na foto no topo).
-- **Cor do app:** laranja, verde, azul, roxo, rosa ou vinho, escolhida no menu do perfil.
-- **Visual:** cinza neutro com laranja de destaque e cada matéria com sua cor (Português azul, Matemática laranja, Conhecimentos Técnicos verde, Questões roxo).
-- **Cópia de segurança:** gera um código com todo o progresso para guardar e restaurar depois.
-- **Card de compartilhamento:** ao mandar o link, aparece um card com título, descrição e imagem (Open Graph).
+## ✨ O que ele faz
 
-## Como instalar
+### 🗂️ Vitrine de concursos
+Cronogramas prontos, montados a partir dos editais oficiais. É só escolher e começar.
 
-1. Abra o link acima no **Safari** (iPhone/iPad) ou no **Chrome** (Android e tablets Android).
-2. iPhone/iPad: Compartilhar → **Adicionar à Tela de Início**. Android: menu ⋮ → **Instalar app** (ou "Adicionar à tela inicial").
-3. Abra uma vez com internet: o app e a apostila ficam salvos e passam a funcionar offline.
+| Concurso | Cargo | Banca | Edital-base |
+|---|---|---|---|
+| IBGE | Recenseador | Cesgranrio | 2026 |
+| PCPE | Agente e Escrivão de Polícia | Cebraspe | 2026 |
+| PMPE | Soldado | Instituto AOCP | 2026 |
+| CBMPE | Soldado | Instituto AOCP | 2026 |
+| Câmara de Guarabira | Auxiliar Administrativo | CPCon/UEPB | 2026 |
+| IFPB | Professor Substituto (Informática) | COMPEC/IFPB | 2026 |
+| PF | Agente e Escrivão | Cebraspe | 2025 |
+| PRF | Policial Rodoviário Federal | Cebraspe | 2021 |
 
-## Onde os dados ficam
+O selo de cada concurso muda sozinho pela data:
 
-- **Com conta:** no Cloud Firestore (Firebase), num documento por pessoa (`usuarios/{uid}`). As regras do banco só deixam cada pessoa ler e gravar o próprio documento. O aparelho também guarda uma cópia, para abrir sem internet.
-- **Sem conta:** só no próprio aparelho (`localStorage`). Para trocar de aparelho, use a **Cópia de segurança**.
-- **Contas especiais:** algumas contas já começam com o cronograma do IBGE e as aulas do Gran. O código guarda só o hash SHA-256 desses e-mails, nunca os e-mails.
+| Selo | Quando |
+|---|---|
+| 🟢 **Inscrições abertas** | curto prazo, enquanto dá para se inscrever |
+| 🔵 **Pós-edital** | médio prazo, até o dia da prova |
+| 🟤 **Pré-edital** | longo prazo, depois da prova; o app pergunta até quando você quer fechar o conteúdo (3 meses, 6 meses ou 1 ano) |
 
-## Configurar o Firebase (uma vez)
+### 📄 Monte a partir do seu edital
+Envie o **PDF do edital** ou **cole o conteúdo programático**. O app separa matérias e assuntos, pergunta o cargo quando há mais de um, tenta achar a data da prova e a banca, e mostra tudo para você conferir. A leitura acontece no próprio aparelho: o arquivo não é enviado para lugar nenhum.
 
-1. Crie um projeto em [console.firebase.google.com](https://console.firebase.google.com) (o plano gratuito Spark basta, sem cartão).
-2. **Authentication:** ative os provedores **Google** e **E-mail/senha** e adicione `jacobbv.github.io` em Domínios autorizados.
-3. **Firestore Database:** crie o banco em modo produção (região `southamerica-east1`) e publique estas regras:
+### 📅 Um dia de cada vez
+- **Hoje:** os assuntos do dia, separados em etapas (videoaula, leitura, questões).
+- **Fila inteligente:** as matérias se intercalam; se você adianta ou atrasa, os próximos dias se ajeitam sozinhos, sem acumular culpa.
+- **Ritmo por dia da semana:** quantos assuntos em cada dia, com a previsão de quando o conteúdo termina.
+- **Reta final automática:** revisão por matéria (a mais fraca primeiro), simulado e véspera leve.
+- **Pausas e feriados:** viagem ou feriado não quebram o plano.
+- **Calendário** por semana ou por mês, com uma cor para cada matéria.
+
+### 🔥 Motivação
+- **Foguinho:** sequência de dias estudados, com recorde e chance de reacender.
+- **Placar de questões:** percentual de acerto por matéria e o seu ponto fraco.
+- **Avisos:** os prazos do edital aparecem quando estão chegando.
+
+### 📊 Edital e prova
+- Gráfico de andamento por matéria e o edital verticalizado para marcar.
+- Data, horário, banca, distribuição das questões, datas importantes e o que levar no dia.
+- **Seu curso:** escolha a plataforma (Gran, Estratégia, Aprova, Focus, Direção, AlfaCon, QConcursos, YouTube…) e o botão **Abrir aula** leva direto ao seu curso.
+
+### ☁️ Conta e aparelhos
+- Entre com **Google** ou **e-mail e senha** e continue de qualquer celular, tablet ou computador.
+- Funciona **sem internet** e sincroniza quando a conexão volta.
+- Prefere sem conta? Também dá: tudo fica salvo só no aparelho, com cópia de segurança.
+- Tema claro, noite ou automático e seis cores para escolher.
+
+---
+
+## 📲 Como instalar
+
+| iPhone / iPad | Android |
+|---|---|
+| Abra no **Safari** → Compartilhar → **Adicionar à Tela de Início** | Abra no **Chrome** → menu ⋮ → **Instalar app** |
+
+Abra uma vez com internet: depois o app funciona offline.
+
+## 🔒 Seus dados
+
+- **Com conta:** cada pessoa tem um documento só seu no Cloud Firestore. As regras do banco só deixam você ler e gravar os seus próprios dados.
+- **Sem conta:** tudo fica no próprio aparelho.
+- **PDF do edital:** lido no aparelho, nunca enviado.
+
+---
+
+<details>
+<summary><b>🛠️ Para desenvolvedores</b></summary>
+
+### Tecnologias
+HTML, CSS e JavaScript puro, sem framework e sem build · PWA (manifest + service worker) · PDF.js · Firebase Authentication e Cloud Firestore no plano gratuito · GitHub Pages.
+
+### Estrutura
+```
+index.html              # o app inteiro (HTML, CSS e JS)
+vitrine.js              # concursos prontos da vitrine
+firebase-config.js      # configuração pública do Firebase
+sw.js                   # service worker (cache offline)
+manifest.webmanifest    # nome, cores e ícones do app instalado
+apostila.pdf            # apostila oficial do 12º Censo Agro (IBGE), sem alterações
+vendor/                 # PDF.js 3.11.174
+tools/parse.py          # leitor do conteúdo programático (mesmas regras do app)
+tools/build_vitrine.py  # gera o vitrine.js a partir do texto dos editais
+docs/                   # imagens do README
+```
+
+### Rodar localmente
+```bash
+python3 -m http.server 8000
+# abra http://localhost:8000
+```
+
+### Configurar o Firebase
+1. Crie um projeto no [console do Firebase](https://console.firebase.google.com) (plano Spark, sem cartão).
+2. Em **Authentication**, ative **Google** e **E-mail/senha** e autorize o domínio do site.
+3. Em **Firestore**, crie o banco e publique as regras:
    ```
    rules_version = '2';
    service cloud.firestore {
@@ -66,76 +128,37 @@ O primeiro cronograma pronto é o do **IBGE 2027 – Recenseador (REC)** do 12º
      }
    }
    ```
-4. Registre um app **Web** e cole o objeto `firebaseConfig` em `firebase-config.js`. Essas chaves são públicas por natureza; quem protege os dados são as regras acima. Enquanto o arquivo estiver com `null`, o app funciona sem conta.
+4. Registre um app **Web** e cole o `firebaseConfig` em `firebase-config.js`. Essas chaves são públicas por natureza; quem protege os dados são as regras.
 
-## Tecnologias
-
-- HTML, CSS e JavaScript puro, sem framework e sem etapa de build
-- PWA: Web App Manifest e Service Worker (cache para uso offline, inclusive da apostila)
-- PDF.js para ler a apostila dentro do app
-- Firebase Authentication (Google e e-mail/senha) e Cloud Firestore para a conta na nuvem, no plano gratuito
-- `localStorage` para salvar o progresso
-- GitHub Pages para hospedagem
-
-## Estrutura
-
-```
-index.html              # o app inteiro (HTML, CSS e JS)
-firebase-config.js      # configuração pública do Firebase (login e nuvem)
-vitrine.js              # concursos prontos da vitrine (gerado a partir dos editais)
-tools/parse.py          # leitor do conteúdo programático (mesmas regras do app)
-tools/build_vitrine.py  # gera o vitrine.js a partir do texto dos editais
-manifest.webmanifest    # nome, cores e ícones do app instalado
-sw.js                   # service worker (cache offline)
-apostila.pdf            # apostila oficial do 12º Censo Agro (IBGE), sem alterações
-vendor/pdf.min.js       # PDF.js 3.11.174 (Mozilla)
-vendor/pdf.worker.min.js
-icon-180.png            # ícone do iPhone
-icon-192.png            # ícone do Android
-icon-512.png            # ícone grande / splash
-favicon-32.png          # ícone da aba do navegador
-og-image.png            # imagem do card de compartilhamento (1200×630)
-qyudev.png              # marca QYUDEV. nos créditos
+### Atualizar a vitrine
+```bash
+pdftotext -layout edital.pdf editais/nome.txt   # editais do Diário Oficial em colunas: sem -layout
+EDITAIS=editais/ python3 tools/build_vitrine.py
 ```
 
-## Créditos e referências
+</details>
 
-- **Fontes Barlow e Barlow Condensed:** Jeremy Tribby, via [Google Fonts](https://fonts.google.com/specimen/Barlow). Licença [SIL Open Font License 1.1](https://openfontlicense.org).
-- **Firebase (Authentication e Cloud Firestore):** [Google](https://firebase.google.com). SDK JavaScript 10.14.1 sob licença [Apache 2.0](https://github.com/firebase/firebase-js-sdk/blob/main/LICENSE).
-- **PDF.js 3.11.174:** [Mozilla](https://mozilla.github.io/pdf.js/). Licença [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0).
-- **Apostila:** *Conhecimentos básicos para o Censo Agropecuário, Florestal e Aquícola*, do [IBGE](https://www.ibge.gov.br) (ENCE / CTA), distribuída sem alterações, como publicada pela [Fundação Cesgranrio](https://www.cesgranrio.org.br) para o processo seletivo.
-- **Conteúdo do cronograma:** baseado no Edital IBGE nº 03/2026 e na retificação de 16/11/2026.
-- **Nomes das aulas:** citados apenas como referência do curso que a pessoa usa para estudar ([Gran](https://www.grancursosonline.com.br)). Este projeto não tem relação com o Gran, a Cesgranrio ou o IBGE.
-- Ícones, ilustração da tela de entrada e imagens do app desenhados no próprio projeto.
+## 📜 Créditos
 
-## Versões
+- **Fontes Barlow e Barlow Condensed:** Jeremy Tribby, via [Google Fonts](https://fonts.google.com/specimen/Barlow) · [SIL Open Font License 1.1](https://openfontlicense.org)
+- **Firebase JS SDK 10.14.1:** [Google](https://firebase.google.com) · [Apache 2.0](https://github.com/firebase/firebase-js-sdk/blob/main/LICENSE)
+- **PDF.js 3.11.174:** [Mozilla](https://mozilla.github.io/pdf.js/) · [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+- **Apostila do Censo Agro:** [IBGE](https://www.ibge.gov.br) (ENCE / CTA), distribuída sem alterações, como publicada pela [Fundação Cesgranrio](https://www.cesgranrio.org.br)
+- **Vitrine:** montada a partir dos editais oficiais publicados por Cesgranrio, Cebraspe, Instituto AOCP, CPCon/UEPB e COMPEC/IFPB. Datas e conteúdos podem mudar: confira sempre o site da banca.
+- Gran, Estratégia, Aprova, Focus, Direção, AlfaCon, QConcursos e YouTube são marcas dos seus donos. O app só abre o link do curso que você salvar e não tem relação com essas empresas, com as bancas ou com os órgãos.
+- Ícones, ilustrações e imagens desenhados no próprio projeto.
 
-- **v4.1.0** (20/11/2026): vitrine de concursos montada a partir de 7 editais, selo automático por data (inscrições abertas, pós-edital, pré-edital), meta para pré-edital, motor genérico (Hoje, Calendário, foguinho e Prova em qualquer concurso), leitura do PDF do edital ou do conteúdo colado, editor de conteúdo, escolha da plataforma e do link do curso, e Gran só para as contas especiais.
-- **v4.0.0** (19/11/2026): conta na nuvem com login pelo Google ou por e-mail e senha, sincronização entre aparelhos, importação do progresso salvo no aparelho, funcionamento sem internet, contas especiais com o IBGE e as aulas do Gran, opção de usar sem conta e correção dos campos de data e horário que se sobrepunham.
+## 🗒️ Versões
 
-- **v3.6.2** (19/11/2026): correção do conteúdo cortado atrás da barra de abas, barra de abas mais baixa no iPhone e faixa fixa atrás da barra de status.
+**Atual: v4.1.0** — vitrine de concursos, leitura do edital e o app completo para qualquer concurso.<br>
+Histórico completo no [CHANGELOG](CHANGELOG.md).
 
-- **v3.6.1** (19/11/2026): recado de boas-vindas fixado no topo da gaveta de Avisos.
+---
 
-- **v3.6.0** (19/11/2026): cartão de boas-vindas na primeira abertura, com recado especial para a Bia, e link direto da aula 1 de Português.
+<div align="center">
 
-- **v3.5.0** (19/11/2026): assuntos reorganizados pela ordem e numeração exata das aulas do Gran (Português 1 a 76, Matemática 1 a 63, Cesgranrio na prática 1 a 22, provas resolvidas 1 a 6, Conhecimentos Técnicos 1 a 8), botão para abrir a aula no Gran, seções curtas da apostila agrupadas e ritmo padrão com 1 assunto no domingo.
+Desenvolvido por<br>
+<a href="https://jacobbv.github.io/"><img src="docs/qyudev-transparente.png" alt="QYUDEV." width="220"></a><br>
+**Jacó** · [@JacobbV](https://github.com/JacobbV)
 
-- **v3.4.1** (19/11/2026): na aba Edital, as listas de Conhecimentos Técnicos, Português e Matemática abrem e fecham.
-
-- **v3.4.0** (19/11/2026): nova tela de entrada "Bora estudar?" com ilustração, perfis em cartões, tela de PIN com foto, "Desenvolvido por QYUDEV." com a marca nos créditos e correção do preenchimento automático do nome.
-
-- **v3.3.0** (19/11/2026): foguinho e perfil em janela flutuante, avisos em gaveta lateral, calendário da sequência menor e escolha da cor do app.
-
-- **v3.2.0** (19/11/2026): novo visual com fundo neutro e laranja de destaque, etiquetas coloridas por matéria, menu do perfil com Modo noturno, novos ícones e imagem de compartilhamento.
-
-- **v3.1.0** (19/11/2026): foguinho, sininho de avisos e foto do perfil no cabeçalho; painel da sequência com calendário de 4 semanas e mensagem do dia; avisos com X e central de avisos; apostila em tela cheia.
-
-- **v3.0.0** (19/11/2026): cronograma em fila com ritmo por dia da semana e previsão de término, etapas por lugar (trabalho e casa), botão Adiantar, apostila dentro do app, sequência de dias com recuperação, placar de questões com ponto fraco, tema claro e noite, primeiro acesso com nome e PIN opcional.
-- **v2.1.0** (19/11/2026): card de compartilhamento (Open Graph), ícone na aba do navegador e foto de perfil salva só no aparelho.
-- **v2.0.0** (19/11/2026): calendário mensal, tarefas atrasadas passam para o dia seguinte, gráfico de andamento do edital por matéria, pausas por período, assuntos conferidos com o edital e a apostila, revisões variadas, datas do edital, regras do dia da prova e tela de créditos.
-- **v1.0.0** (19/11/2026): primeira versão, com perfis, cronograma do IBGE 2027, abas Hoje, Semana, Conteúdo e Prova, dias de estudo ajustáveis, PWA e cópia de segurança.
-
-## Autor
-
-Desenvolvido por [![QYUDEV.](qyudev.png)](https://jacobbv.github.io/) · **Jacó** ([@JacobbV](https://github.com/JacobbV))
+</div>
