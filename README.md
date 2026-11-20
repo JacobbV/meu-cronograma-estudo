@@ -150,7 +150,7 @@ EDITAIS=editais/ python3 tools/build_vitrine.py
 
 ## 🗒️ Versões
 
-**Atual: v4.1.0** — vitrine de concursos, leitura do edital e o app completo para qualquer concurso.<br>
+**Atual: v4.1.1** — modo "já estudei" para marcar o que você estudou antes de começar.<br>
 Histórico completo no [CHANGELOG](CHANGELOG.md).
 
 ---

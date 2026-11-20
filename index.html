@@ -337,6 +337,8 @@ details.subj[open] > summary{margin-bottom:6px}
 .two>*{min-width:0}
 input[type=date]{-webkit-appearance:none;appearance:none;min-height:46px;min-width:0;max-width:100%;text-align:left}
 input[type=date]::-webkit-date-and-time-value{text-align:left}
+.it-sw{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:none;border:0;padding:0;text-align:left;color:var(--ink);min-height:44px}
+.it-sw>span:first-child{display:flex;flex-direction:column;gap:2px}
 /* v4.1: vitrine, status por data e editor de conteúdo */
 label.f select{display:block;width:100%;margin-top:4px;font-size:16px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-height:46px}
 .st{display:inline-block;font:600 12px/1.2 'Barlow',sans-serif;padding:5px 10px;border-radius:99px;border:1px solid var(--c);color:var(--c);margin-bottom:6px}
@@ -362,7 +364,9 @@ fieldset.mated{border:0;border-left:5px solid var(--c);margin:0 0 14px;min-width
 <div class="toast" id="toast" role="status"></div>
 <script>
 {
-const VERSAO = '4.1.0';
+const VERSAO = '4.1.1';
+/* data usada para o que foi estudado antes de começar a usar o app: não cai em nenhum dia nem conta no foguinho */
+const ANTES = '0000-00-00';
 /* ---------- Dados do concurso (Edital IBGE nº 03/2026 + apostila do 12º Censo Agro) ---------- */
 const IBGE = {
   id:'ibge2027', nome:'IBGE 2027', cargo:'Recenseador (REC)', banca:'Fundação Cesgranrio',
@@ -707,7 +711,7 @@ function stepRow(p,a,s){
 function aRow(p,a){
   const d = aDone(p,a), n = STEPS[a.k].length, f = aPart(p,a);
   const info = [a.g && a.g !== 'Videoaula' ? a.g : '', n > 1 ? STEPS[a.k].map(s => STEPNOME[s]+(sd(p,a,s)?' ✓':'')).join(' · ') : (a.g === 'Videoaula' ? 'Videoaula' : '')].filter(Boolean).join(' · ');
-  return `<div class="task${d?' ok':''}"><button class="chk" data-a="${a.id}" aria-pressed="${!!d}" aria-label="Marcar assunto">${ICK}</button><div>${tag(a.m)}${!d&&f?'<span class="tag late" style="color:var(--mt);border-color:var(--mt)">em andamento</span>':''}<span class="tt">${esc(a.t)}</span>${info?`<span class="sub">${esc(info)}</span>`:''}</div></div>`;
+  return `<div class="task${d?' ok':''}"><button class="chk" data-a="${a.id}" aria-pressed="${!!d}" aria-label="Marcar assunto">${ICK}</button><div>${tag(a.m)}${!d&&f?'<span class="tag late" style="color:var(--mt);border-color:var(--mt)">em andamento</span>':''}${d===ANTES?'<span class="tag late" style="color:var(--mut);border-color:var(--line)">já estudado</span>':''}<span class="tt">${esc(a.t)}</span>${info?`<span class="sub">${esc(info)}</span>`:''}</div></div>`;
 }
 const ACHA = id => QC.find(a => a.id === id) || QR.find(a => a.id === id);
 const concById = id => id === IBGE.id ? IBGE : S.extras[id];
@@ -865,7 +869,11 @@ function desempenho(p){
 }
 function vEdital(c,p){
   if(!EDITAL.length) return `<section class="card"><h2>Conteúdo</h2><p class="muted">Nenhum assunto ainda.</p><button class="btn sm" data-editar="${c.id}">Adicionar o conteúdo</button></section>`;
-  return donut(p) + desempenho(p) + SUBJ.map(m => {
+  const h = hoje(), nHoje = QC.filter(a => STEPS[a.k].every(s => p.done[a.id+':'+s] === h)).length, nAntes = EDITAL.filter(a => aDone(p,a) === ANTES).length;
+  const ja = `<section class="card"><button class="it-sw" id="jaEstudei" role="switch" aria-checked="${!!V.jaEstudei}"><span><b>Modo "já estudei"</b><span class="muted">Para marcar o que você estudou antes de usar o app. Não entra no dia de hoje nem no foguinho.</span></span><span class="sw${V.jaEstudei?' on':''}"></span></button>
+    ${nAntes ? `<p class="muted" style="margin:8px 0 0">${nAntes} ${nAntes>1?'assuntos marcados':'assunto marcado'} como já estudado.</p>` : ''}
+    ${nHoje >= 4 ? `<div class="alvo"><b>Marcou hoje o que já tinha estudado antes?</b><p class="muted" style="margin:2px 0 8px">Os ${nHoje} assuntos concluídos hoje passam para "já estudado" e somem do dia de hoje e do calendário.</p><button class="btn sm" id="passarAntes">Passar para "já estudado"</button></div>` : ''}</section>`;
+  return ja + donut(p) + desempenho(p) + SUBJ.map(m => {
     const L = EDITAL.filter(a => a.m === m), f = L.filter(a => aDone(p,a)).length;
     return `<details class="card subj" data-mat="${m}" style="--c:${MAT[m].cor}"${(V.abertos||[]).includes(m)?' open':''}><summary><h3><span>${MAT[m].nome}</span><span class="muted">${f}/${L.length}<span class="chev" aria-hidden="true">›</span></span></h3><div class="mini"><i style="width:${100*f/L.length}%"></i></div></summary>${L.map(a => aRow(p,a)).join('')}</details>`;
   }).join('') + (CX.ibge ? `<p class="muted">Português e Matemática seguem o Anexo III do edital; os itens "Base" ajudam em concordância, regência e pontuação. Conhecimentos Técnicos segue as seções da apostila${ESPEC() ? ' e as 8 aulas do Gran' : ''}.</p>`
@@ -1428,7 +1436,7 @@ document.addEventListener('click', e => {
   else if(d.mes !== undefined){V.mes += Number(d.mes); keep()}
   else if(d.diaSel){V.dia = d.diaSel; keep()}
   else if(d.s){const p = PP(); if(p.done[d.s]) delete p.done[d.s]; else {p.done[d.s] = hoje(); const a = ACHA(d.s.split(':')[0]); if(d.s.endsWith(':q')) V.pl = d.s; toast(a && aDone(p,a) ? 'Assunto concluído!' : 'Etapa marcada')} save(); keep()}
-  else if(d.a){const p = PP(), a = ACHA(d.a) || finais(p).map(x => x[1]).find(x => x.id === d.a); if(!a) return; if(aDone(p,a)) STEPS[a.k].forEach(s => delete p.done[a.id+':'+s]); else {STEPS[a.k].forEach(s => {if(!p.done[a.id+':'+s]) p.done[a.id+':'+s] = hoje()}); toast('Assunto concluído!')} save(); keep()}
+  else if(d.a){const p = PP(), quando = V.tab === 'edital' && V.jaEstudei ? ANTES : hoje(), a = ACHA(d.a) || finais(p).map(x => x[1]).find(x => x.id === d.a); if(!a) return; if(aDone(p,a)) STEPS[a.k].forEach(s => delete p.done[a.id+':'+s]); else {STEPS[a.k].forEach(s => {if(!p.done[a.id+':'+s]) p.done[a.id+':'+s] = quando}); toast(quando === ANTES ? 'Marcado como já estudado' : 'Assunto concluído!')} save(); keep()}
   else if(d.t){const p = PP(); if(p.done[d.t]) delete p.done[d.t]; else p.done[d.t] = hoje(); save(); keep()}
   else if(d.pl){V.pl = V.pl === d.pl ? null : d.pl; keep()}
   else if(d.ap){V.tab = 'apostila'; V.apPag = Number(d.ap); if(document.getElementById('apWrap')){V.apPag = null; abrirPagina(Number(d.ap)); document.getElementById('apWrap').scrollIntoView({behavior:'smooth'})} else {render(); scrollTo(0,0)}}
@@ -1440,6 +1448,10 @@ document.addEventListener('click', e => {
   else if(d.del){if(b.dataset.sure){const pf = S.perfis.find(x => x.id===V.perfil); pf.concursos = pf.concursos.filter(x => x!==d.del); save(); V.view = 'concursos'; render()} else {b.dataset.sure = 1; b.textContent = 'Toque de novo para confirmar'}}
   else if(d.painel !== undefined){V.painel = V.painel === d.painel ? '' : d.painel; keep()}
   else if(d.fecha){FECHADOS.add(d.fecha); keep()}
+  else if(b.id === 'jaEstudei'){V.jaEstudei = !V.jaEstudei; keep()}
+  else if(b.id === 'passarAntes'){const p = PP(), h = hoje(); let n = 0;
+    for(const a of QC){const ks = STEPS[a.k].map(s => a.id+':'+s); if(ks.every(k => p.done[k] === h)){ks.forEach(k => p.done[k] = ANTES); n++}}
+    p.extra[h] = 0; save(); toast(n+' '+(n>1?'assuntos passaram':'assunto passou')+' para "já estudado"'); keep()}
   else if(d.vf){V.vf = d.vf; keep()}
   else if(d.usar){const t = modelos().find(x => x.id === d.usar); if(!t) return;
     if(statusDe(t).k === 'pre'){V.alvo = t.id; keep(); return}
