@@ -1,0 +1,38 @@
+# Robô do radar de concursos: todo dia lê as fontes e atualiza o radar.json.
+# Roda de graça no GitHub Actions (repositório público). Também dá para rodar
+# na mão em Actions › Radar de concursos › Run workflow.
+name: Radar de concursos
+
+on:
+  schedule:
+    - cron: '17 9 * * *'   # 06h17 em Fortaleza (09h17 UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: radar
+  cancel-in-progress: false
+
+jobs:
+  radar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Testes do leitor
+        run: node tools/robo.mjs --teste
+      - name: Ler as fontes
+        run: node tools/robo.mjs
+      - name: Salvar o radar.json (só se mudou)
+        run: |
+          if git diff --quiet -- radar.json; then echo "Sem novidades"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add radar.json
+          git commit -m "Radar: atualização de $(TZ=America/Fortaleza date +%d/%m/%Y)"
+          git push

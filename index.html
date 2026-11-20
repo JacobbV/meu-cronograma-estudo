@@ -339,6 +339,7 @@ input[type=date]{-webkit-appearance:none;appearance:none;min-height:46px;min-wid
 input[type=date]::-webkit-date-and-time-value{text-align:left}
 .it-sw{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;background:none;border:0;padding:0;text-align:left;color:var(--ink);min-height:44px}
 .it-sw>span:first-child{display:flex;flex-direction:column;gap:2px}
+.st-novo{--c:#c0392b}.st-com{--c:#6b4fbf}
 /* v4.1: vitrine, status por data e editor de conteúdo */
 label.f select{display:block;width:100%;margin-top:4px;font-size:16px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-height:46px}
 .st{display:inline-block;font:600 12px/1.2 'Barlow',sans-serif;padding:5px 10px;border-radius:99px;border:1px solid var(--c);color:var(--c);margin-bottom:6px}
@@ -364,7 +365,7 @@ fieldset.mated{border:0;border-left:5px solid var(--c);margin:0 0 14px;min-width
 <div class="toast" id="toast" role="status"></div>
 <script>
 {
-const VERSAO = '4.1.1';
+const VERSAO = '4.2.0';
 /* data usada para o que foi estudado antes de começar a usar o app: não cai em nenhum dia nem conta no foguinho */
 const ANTES = '0000-00-00';
 /* ---------- Dados do concurso (Edital IBGE nº 03/2026 + apostila do 12º Censo Agro) ---------- */
@@ -974,8 +975,8 @@ function vProva(c,p){
     const ds = (c.datas||[]).filter(x => !c.pre || x[0] >= h);
     if(ds.length) html += `<section class="card"><h2>Datas importantes</h2><ul class="tl">${ds.map(([d,t,big]) => `<li class="${d<h?'past':''} ${big?'big':''}"><b>${dm(d)}/${d.slice(2,4)}</b><span>${esc(t)}</span></li>`).join('')}</ul></section>`;
     if(!c.pre) html += `<section class="card"><h2>No dia da prova</h2><ul class="dots-list"><li>Levar documento <b>original com foto</b> e o comprovante de inscrição. Confira no edital o tipo de caneta.</li><li>Veja o local e o horário do portão no cartão de confirmação, que sai alguns dias antes.</li><li>Chegue cedo: com o portão fechado, não entra.</li></ul></section>`;
-    const L = Object.entries(c.links||{}).filter(([,u]) => u);
-    if(L.length) html += `<section class="card"><h2>Links</h2>${L.map(([k,u]) => `<p style="margin:0 0 8px"><a href="${esc(u)}" target="_blank" rel="noopener">${LINKN[k]||esc(k)}</a></p>`).join('')}</section>`;
+    const L = Object.entries(c.links||{}).filter(([,u]) => seguro(u));
+    if(L.length) html += `<section class="card"><h2>Links</h2>${L.map(([k,u]) => `<p style="margin:0 0 8px"><a href="${esc(seguro(u))}" target="_blank" rel="noopener">${LINKN[k]||esc(k)}</a></p>`).join('')}</section>`;
   }
   /* curso: plataforma + link (o botão "Abrir aula" usa esse link) */
   html += `<section class="card"><h2>Seu curso</h2><p class="muted" style="margin:-4px 0 10px">Onde você assiste às aulas. O botão "Abrir aula" das videoaulas abre esse link.${CX.ibge && ESPEC() ? ' Deixe vazio para usar as aulas do Gran que já vêm no cronograma.' : ''}</p>
@@ -989,7 +990,11 @@ function vProva(c,p){
     <section class="card"><h2>Pausas</h2><p class="muted" style="margin:-4px 0 10px">Viagem, feriado da cidade, semana corrida… Os dias pausados ficam sem estudo, a fila espera e o fogo não apaga.</p>
     ${p.pausas.map((x,i) => `<div class="pausa"><span>${dm(x.de)}${x.ate!==x.de?' a '+dm(x.ate):''}${x.nome?' · '+esc(x.nome):''}</span><button class="btn alt sm" data-rmp="${i}">Remover</button></div>`).join('')}
     <form id="addPausa" style="margin-top:10px"><div class="two"><label class="f">De<input type="date" name="de" required></label><label class="f">Até<input type="date" name="ate"></label></div><label class="f">Motivo (opcional)<input name="nome" placeholder="Ex.: viagem"></label><button class="btn sm">Adicionar pausa</button></form></section>`;
-  html += `<section class="card"><h2>Este concurso</h2><p class="muted" style="margin:-4px 0 10px">Remover tira o concurso da sua lista. O progresso marcado fica guardado se você adicionar de novo.</p><button class="btn alt sm" data-del="${c.id}">Remover concurso</button></section>`;
+  const comp = !CX.ibge && !c.tpl ? (NV.user && NV.fb ? (c.pub
+      ? `<p style="margin:0 0 10px">✓ Compartilhado com a comunidade. Quem usar ganha uma cópia; a sua continua só sua.</p><div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn sm" data-publicar="${c.id}">Atualizar na comunidade</button><button class="btn alt sm" data-tirarcom="${esc(c.pub)}">Tirar da comunidade</button></div>`
+      : `<p class="muted" style="margin:0 0 10px">Montou o cronograma a partir do edital? Compartilhe na vitrine com o selo "Criado pela comunidade". Vão o nome, o cargo, a banca, a data, os links e o conteúdo; o seu progresso não vai. Só você pode editar ou tirar.</p><button class="btn sm" data-publicar="${c.id}">Compartilhar com a comunidade</button>`)
+    : '<p class="muted" style="margin:0">Entre com uma conta para compartilhar este cronograma com a comunidade.</p>') : '';
+  html += `${comp ? `<section class="card"><h2>Comunidade</h2>${comp}</section>` : ''}<section class="card"><h2>Este concurso</h2><p class="muted" style="margin:-4px 0 10px">Remover tira o concurso da sua lista. O progresso marcado fica guardado se você adicionar de novo.</p><button class="btn alt sm" data-del="${c.id}">Remover concurso</button></section>`;
   html += `<section class="card"><h2>Aparência</h2><div class="segt" role="group" aria-label="Tema">${[['auto','Automático'],['claro','Claro'],['escuro','Noite']].map(([k,l]) => `<button data-tema="${k}" aria-pressed="${S.tema===k}">${l}</button>`).join('')}</div><p class="muted" style="margin:8px 0 0">Automático segue o modo claro ou escuro do aparelho.</p></section>
   ${NV.user ? `<section class="card"><h2>Sua conta</h2><p style="margin:0 0 4px"><b>${esc(NV.user.email || '')}</b></p><p class="muted" id="nvStatus" style="margin:0 0 12px">${textoStatus()}</p>
   <form id="nomeForm" class="plf" style="margin:0 0 12px">Seu nome <input name="nome" value="${esc(pf.nome)}" maxlength="30" required style="width:160px" aria-label="Seu nome"><button class="btn alt sm">Salvar</button></form>
@@ -1023,7 +1028,71 @@ function statusDe(t, h = hoje()){
 const dmy = s => s ? dm(s)+'/'+s.slice(0,4) : '';
 const VITRINE_IBGE = () => ({id:IBGE.id, nativo:true, nome:IBGE.nome, cargo:IBGE.cargo, banca:IBGE.banca, orgao:'Instituto Brasileiro de Geografia e Estatística', nivel:IBGE.nivel,
   ano:2026, prova:IBGE.data, inscricoes:[null,'2026-11-25'], vagas:null, links:{edital:'https://www.cesgranrio.org.br', inscricao:'https://www.cesgranrio.org.br'}});
-const modelos = () => [VITRINE_IBGE(), ...(window.VITRINE || [])];
+/* ---------- v4.2: radar do robô e modelos da comunidade ---------- */
+/* só abre links http(s): protege contra link malicioso vindo de card da comunidade */
+const seguro = u => /^https?:\/\/[^\s"'<>]+$/i.test(String(u||'').trim()) ? String(u).trim() : '';
+/* Radar: o robô do GitHub Actions grava o radar.json todo dia */
+let RADAR = null;
+function carregaRadar(){
+  if(RADAR) return; RADAR = {carregando:true, itens:[]};
+  fetch('radar.json', {cache:'no-cache'}).then(r => r.json()).then(j => {RADAR = j && Array.isArray(j.itens) ? j : {itens:[]}; if(V.view === 'concursos') keep()}).catch(() => {RADAR = {itens:[], erro:1}});
+}
+const FONTEN = {pci:'PCI Concursos', gran:'Blog do Gran', 'estrategia-mapa':'Estratégia', estrategia:'Estratégia'};
+function radarCard(x){
+  const info = [x.vagas ? x.vagas+' vagas' : '', x.salario ? 'até '+x.salario : '', (x.niveis||[]).join(' / '), x.inscricoesAte ? 'Inscrições até '+dmy(x.inscricoesAte) : ''].filter(Boolean).join(' · ');
+  return `<article class="card vit"><div class="vt"><span class="st st-novo">Novo · sem conteúdo ainda</span><span class="muted">${esc(x.uf||'')}</span></div><h3>${esc(x.nome)}</h3>
+    ${info ? `<p class="vi">${esc(info)}</p>` : ''}<div class="row" style="margin-top:10px"><button class="btn sm" data-radar="${esc(x.id)}">Montar cronograma</button>${seguro(x.link) ? `<a class="btn alt sm" href="${esc(seguro(x.link))}" target="_blank" rel="noopener">Ver detalhes</a>` : ''}</div></article>`;
+}
+function radarUI(){
+  carregaRadar();
+  const it = RADAR && RADAR.itens || []; if(!it.length) return '';
+  const uf = V.ruf || '', ufs = [...new Set(it.map(x => x.uf).filter(Boolean))].sort();
+  const ins = it.filter(x => x.tipo === 'inscricoes' && (!uf || x.uf === uf)), nots = it.filter(x => x.tipo === 'noticia' && (!uf || x.uf === uf)).slice(0, 20);
+  return `<h2 style="font-size:26px;margin:22px 0 4px">Radar de concursos</h2><p class="muted" style="margin:0 0 10px">Um robô olha todo dia o PCI Concursos, o blog do Gran e o Estratégia${RADAR.atualizado ? ' (última vez em '+dmy(RADAR.atualizado)+')' : ''}. São cards básicos: para ter o cronograma, monte com o edital.</p>
+    <label class="f">Estado<select id="rUf"><option value="">Todos</option>${ufs.map(u => `<option${u===uf?' selected':''}>${u}</option>`).join('')}</select></label>
+    ${ins.slice(0, V.rmais ? 300 : 10).map(radarCard).join('') || '<p class="muted">Nenhum concurso com inscrição aberta nesse estado.</p>'}
+    ${ins.length > 10 && !V.rmais ? `<button class="btn alt" data-rmais="1" style="width:100%;margin-bottom:12px">Ver mais ${ins.length - 10}</button>` : ''}
+    ${nots.length ? `<details class="card"><summary><h3 style="margin:0">Notícias de concursos (${nots.length})</h3></summary><ul class="dots-list" style="margin-top:10px">${nots.map(n => `<li><a href="${esc(seguro(n.link))}" target="_blank" rel="noopener">${esc(n.titulo)}</a> <span class="muted">· ${esc(FONTEN[n.fonte]||'')}</span></li>`).join('')}</ul></details>` : ''}`;
+}
+/* Comunidade: modelos publicados por quem montou o cronograma a partir do edital (coleção "modelos" no Firestore) */
+const COM = {lista:null, carregando:false};
+function modeloDaComunidade(id, d){
+  try{
+    const ms = JSON.parse(d.materias || '[]'); if(!Array.isArray(ms) || !ms.length) return null;
+    const txt = (v,n) => String(v ?? '').slice(0,n);
+    return {id:'com-'+id, docId:id, comunidade:true, autor:d.autor, autorNome:txt(d.autorNome,40), nome:txt(d.nome,120), cargo:txt(d.cargo,120), banca:txt(d.banca,80),
+      prova:/^\d{4}-\d{2}-\d{2}$/.test(d.prova||'') ? d.prova : null, hora:txt(d.hora,80), local:txt(d.local,120), ano:txt(d.ano,4), regras:'', datas:[],
+      links:{inscricao:seguro(d.links?.inscricao), edital:seguro(d.links?.edital), banca:seguro(d.links?.banca)},
+      materias:ms.slice(0,40).map(m => ({nome:txt(m.nome,120) || 'Matéria', q:Math.max(0, +m.q || 0), topicos:(m.topicos||[]).slice(0,300).map(t => [txt(t[0],300), txt(t[1],600)]).filter(t => t[0])})).filter(m => m.topicos.length)};
+  }catch(e){return null}
+}
+async function carregaComunidade(forca){
+  if(!NV.fb || COM.carregando || (COM.lista && !forca)) return;
+  COM.carregando = true;
+  try{const F = NV.fb.F, snap = await F.getDocs(F.query(F.collection(NV.fb.db,'modelos'), F.orderBy('atualizado','desc'), F.limit(60)));
+    COM.lista = snap.docs.map(d => modeloDaComunidade(d.id, d.data())).filter(x => x && x.materias.length)}
+  catch(e){COM.lista = COM.lista || []}
+  COM.carregando = false; if(V.view === 'concursos') keep();
+}
+async function publicar(c){
+  if(!NV.user || !NV.fb) return toast('Entre com uma conta para compartilhar');
+  const F = NV.fb.F, pf = perfilAtual(), id = c.pub || (NV.user.uid.slice(0,10)+'-'+c.id);
+  const d = {autor:NV.user.uid, autorNome:pf.nome.slice(0,40), nome:c.nome.replace(/ · pré-edital$/,'').slice(0,120), cargo:(c.cargo||'').slice(0,120), banca:(c.banca||'').slice(0,80),
+    prova:c.pre ? null : c.data, hora:c.pre ? '' : (c.hora||'').slice(0,80), local:(c.local||'').slice(0,120), ano:String(c.pre ? (c.base||'') : c.data.slice(0,4)),
+    links:{inscricao:seguro(c.links?.inscricao), edital:seguro(c.links?.edital), banca:seguro(c.links?.banca)},
+    materias:JSON.stringify((c.materias||[]).map(m => ({nome:m.nome, q:m.q||0, topicos:m.topicos.map(t => [t[0], t[1]||''])}))), atualizado:Date.now()};
+  if(!c.pub) d.criado = Date.now();
+  try{await F.setDoc(F.doc(NV.fb.db,'modelos',id), d, {merge:true}); const novo = !c.pub; c.pub = id; save(); toast(novo ? 'Compartilhado com a comunidade!' : 'Atualizado na comunidade'); carregaComunidade(true); keep()}
+  catch(e){toast(navigator.onLine ? 'Não deu para compartilhar agora' : 'Sem internet: tente de novo depois')}
+}
+async function tirarDaComunidade(docId){
+  try{await NV.fb.F.deleteDoc(NV.fb.F.doc(NV.fb.db,'modelos',docId));
+    for(const c of Object.values(S.extras)) if(c.pub === docId) delete c.pub;
+    save(); COM.lista = (COM.lista||[]).filter(x => x.docId !== docId); toast('Removido da comunidade'); keep()}
+  catch(e){toast('Não deu para remover agora')}
+}
+const podeTirar = t => NV.user && (t.autor === NV.user.uid || NV.admin);
+const modelos = () => [VITRINE_IBGE(), ...(window.VITRINE || []), ...(COM.lista || [])];
 const perfilAtual = () => S.perfis.find(x => x.id === V.perfil);
 const jaTem = (pf,t) => pf.concursos.some(id => id === t.id || S.extras[id]?.tpl === t.id);
 function cardVitrine(t, pf){
@@ -1032,21 +1101,23 @@ function cardVitrine(t, pf){
   const info = [st.k !== 'pre' && t.inscricoes ? (st.k === 'breve' ? 'Inscrições de '+dmy(t.inscricoes[0])+' a ' : 'Inscrições até ')+dmy(t.inscricoes[1]) : '',
     st.k !== 'pre' ? 'Prova em '+dmy(t.prova) : '', `${nM} ${nM>1?'matérias':'matéria'} · ${nT} assuntos`].filter(Boolean).join(' · ');
   const L = t.links || {};
-  return `<article class="card vit"><div class="vt"><span class="st st-${st.k}">${esc(st.txt)}</span><span class="muted">${st.prazo}</span></div>
+  return `<article class="card vit"><div class="vt"><span class="st st-${st.k}">${esc(st.txt)}</span><span class="muted">${st.prazo}</span></div>${t.comunidade ? `<span class="st st-com">Criado pela comunidade${t.autorNome ? ' · por '+esc(t.autorNome) : ''}</span>` : ''}
     <h3>${esc(t.nome)}${st.k === 'pre' ? '' : ''}</h3><div class="muted">${esc(t.cargo||'')}${t.banca?' · '+esc(t.banca):''}${t.vagas?' · '+esc(t.vagas)+' vagas':''}${t.uf && t.uf !== 'BR'?' · '+esc(t.uf):''}</div>
     <p class="vi">${esc(info)}</p>
     ${V.alvo === t.id ? `<div class="alvo"><b>Até quando você quer fechar o conteúdo?</b><p class="muted" style="margin:2px 0 8px">Sem prova marcada, o app monta o cronograma para essa meta e usa o conteúdo do último edital.</p><div class="row">${[[3,'3 meses'],[6,'6 meses'],[12,'1 ano']].map(([n,l]) => `<button class="btn sm" data-meta="${n}" data-tpl="${t.id}">${l}</button>`).join('')}<button class="btn alt sm" data-fechaalvo="1">Cancelar</button></div></div>` : ''}
     <div class="row" style="margin-top:10px">${tem ? '<span class="ok-tag">✓ Já está nos seus concursos</span>' : `<button class="btn sm" data-usar="${t.id}">Usar este cronograma</button>`}
-    ${L.inscricao && (st.k === 'abertas' || st.k === 'breve') ? `<a class="btn alt sm" href="${esc(L.inscricao)}" target="_blank" rel="noopener">Inscrição</a>` : ''}${L.edital ? `<a class="btn alt sm" href="${esc(L.edital)}" target="_blank" rel="noopener">Edital</a>` : ''}</div></article>`;
+    ${seguro(L.inscricao) && (st.k === 'abertas' || st.k === 'breve') ? `<a class="btn alt sm" href="${esc(seguro(L.inscricao))}" target="_blank" rel="noopener">Inscrição</a>` : ''}${seguro(L.edital) ? `<a class="btn alt sm" href="${esc(seguro(L.edital))}" target="_blank" rel="noopener">Edital</a>` : ''}${t.comunidade && podeTirar(t) ? `<button class="btn alt sm" data-tirarcom="${esc(t.docId)}">Remover${t.autor === NV.user.uid ? '' : ' (admin)'}</button>` : ''}</div></article>`;
 }
 function vitrine(pf){
+  carregaComunidade();
   const f = V.vf || 'todos', ms = modelos().map(t => [t, statusDe(t)]);
-  const ord = {abertas:0, breve:1, pos:2, pre:3}, lista = ms.filter(([,st]) => f === 'todos' || (f === 'abertas' ? st.k === 'abertas' || st.k === 'breve' : st.k === f))
+  const ord = {abertas:0, breve:1, pos:2, pre:3}, lista = ms.filter(([t,st]) => f === 'todos' || (f === 'com' ? t.comunidade : f === 'abertas' ? st.k === 'abertas' || st.k === 'breve' : st.k === f))
     .sort((a,b) => ord[a[1].k] - ord[b[1].k] || (a[1].k === 'pre' ? String(b[0].prova).localeCompare(String(a[0].prova)) : String(a[0].prova).localeCompare(String(b[0].prova))));
   const n = k => ms.filter(([,st]) => k === 'abertas' ? st.k === 'abertas' || st.k === 'breve' : st.k === k).length;
   return `<h2 style="font-size:26px;margin:22px 0 4px">Vitrine de concursos</h2><p class="muted" style="margin:0 0 10px">Cronogramas prontos, montados a partir dos editais. Escolha um e ele vem com o edital verticalizado, a fila do dia e o foguinho.</p>
-    <div class="filtros" role="group" aria-label="Filtro da vitrine">${[['todos','Todos',ms.length],['abertas','Inscrições abertas',n('abertas')],['pos','Pós-edital',n('pos')],['pre','Pré-edital',n('pre')]].map(([k,l,q]) => `<button data-vf="${k}" aria-pressed="${f===k}">${l} <span>${q}</span></button>`).join('')}</div>
+    <div class="filtros" role="group" aria-label="Filtro da vitrine">${[['todos','Todos',ms.length],['abertas','Inscrições abertas',n('abertas')],['pos','Pós-edital',n('pos')],['pre','Pré-edital',n('pre')], ...(COM.lista && COM.lista.length ? [['com','Comunidade',COM.lista.length]] : [])].map(([k,l,q]) => `<button data-vf="${k}" aria-pressed="${f===k}">${l} <span>${q}</span></button>`).join('')}</div>
     ${lista.map(([t]) => cardVitrine(t,pf)).join('') || '<p class="muted">Nada nesse filtro.</p>'}
+    ${f === 'todos' || f === 'abertas' ? radarUI() : ''}
     <section class="card novo"><h2>Seu concurso não está aqui?</h2><p class="muted" style="margin:-4px 0 12px">Envie o PDF do edital ou cole o conteúdo programático. O app separa as matérias e os assuntos e monta o cronograma igual ao dos concursos da vitrine.</p><button class="btn" data-go="novo">Montar a partir do edital</button></section>`;
 }
 /* cria o concurso do usuário a partir de um modelo da vitrine */
@@ -1320,7 +1391,7 @@ async function entrou(u){
   if(!u){NV.carregando = false; S = base(); V = {...V, view:'concursos', perfil:null, conc:null, painel:''}; return render()}
   NV.carregando = true; render();
   const em = (u.email||'').trim().toLowerCase();
-  try{NV.especial = em ? ESPECIAIS.includes(await sha256(em)) : false}catch(e){NV.especial = false}
+  try{const hs = em ? await sha256(em) : ''; NV.especial = ESPECIAIS.includes(hs); NV.admin = hs === ESPECIAIS[0]}catch(e){NV.especial = false; NV.admin = false}
   try{localStorage.setItem('cronograma-ultima-conta', JSON.stringify({uid:u.uid, email:u.email||'', especial:NV.especial}))}catch(e){}
   let cache = null, remoto = null;
   try{cache = JSON.parse(localStorage.getItem(chaveConta(u.uid)))}catch(e){}
@@ -1453,6 +1524,11 @@ document.addEventListener('click', e => {
     for(const a of QC){const ks = STEPS[a.k].map(s => a.id+':'+s); if(ks.every(k => p.done[k] === h)){ks.forEach(k => p.done[k] = ANTES); n++}}
     p.extra[h] = 0; save(); toast(n+' '+(n>1?'assuntos passaram':'assunto passou')+' para "já estudado"'); keep()}
   else if(d.vf){V.vf = d.vf; keep()}
+  else if(d.rmais){V.rmais = true; keep()}
+  else if(d.radar){const x = (RADAR && RADAR.itens || []).find(y => y.id === d.radar); if(!x) return;
+    V.rascunho = {...novoRasc(), nome:x.nome, links:{inscricao:'', edital:seguro(x.link), banca:''}}; V.view = 'novo'; render(); scrollTo(0,0)}
+  else if(d.publicar){const c = S.extras[d.publicar]; if(c) publicar(c)}
+  else if(d.tirarcom){if(b.dataset.sure) tirarDaComunidade(d.tirarcom); else {b.dataset.sure = 1; b.textContent = 'Toque de novo para confirmar'}}
   else if(d.usar){const t = modelos().find(x => x.id === d.usar); if(!t) return;
     if(statusDe(t).k === 'pre'){V.alvo = t.id; keep(); return}
     const id = criarDeModelo(t); toast('Cronograma pronto!'); V = {...V, view:'conc', conc:id, tab:'hoje', semana:0, mes:0, dia:null, alvo:null}; render(); scrollTo(0,0)}
@@ -1493,6 +1569,7 @@ document.addEventListener('click', e => {
   else if(b.id === 'rstOk'){try{const n = JSON.parse(decodeURIComponent(escape(atob(document.getElementById('rstTxt').value.trim())))); if(!n.perfis) throw 0; S = n; save(); toast('Progresso restaurado'); render()}catch(err){toast('Código inválido')}}
 });
 document.addEventListener('change', e => {
+  if(e.target.id === 'rUf'){V.ruf = e.target.value; V.rmais = false; keep(); return}
   if(e.target.id === 'fotoIn' && e.target.files[0]){
     const img = new Image(), url = URL.createObjectURL(e.target.files[0]);
     img.onload = () => {const c = document.createElement('canvas'), z = 192; c.width = c.height = z; const s = Math.min(img.width,img.height);

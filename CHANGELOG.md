@@ -1,5 +1,10 @@
 # Histórico de versões
 
+## v4.2.0 · 20/11/2026
+- Radar de concursos: um robô no GitHub Actions lê todo dia o PCI Concursos, o blog do Gran e o Estratégia e mostra na vitrine os concursos com inscrições abertas (nome, estado, vagas, salário, prazo e link) e as notícias. Filtro por estado e botão para montar o cronograma já com o nome e o link.
+- Modelos da comunidade: quem monta um cronograma a partir do edital pode compartilhar na vitrine com o selo "Criado pela comunidade". Só o autor atualiza ou tira; o admin também pode tirar.
+- Links da vitrine e da prova só abrem se forem http(s).
+
 ## v4.1.1 · 20/11/2026
 - Modo "já estudei" no Edital: o que foi estudado antes de usar o app fica marcado sem entrar no dia de hoje, no calendário ou no foguinho.
 - Botão para passar para "já estudado" os assuntos concluídos hoje de uma vez.

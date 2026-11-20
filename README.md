@@ -43,6 +43,12 @@ O selo de cada concurso muda sozinho pela data:
 | 🔵 **Pós-edital** | médio prazo, até o dia da prova |
 | 🟤 **Pré-edital** | longo prazo, depois da prova; o app pergunta até quando você quer fechar o conteúdo (3 meses, 6 meses ou 1 ano) |
 
+### 📡 Radar de concursos
+Um robô gratuito (GitHub Actions) olha todo dia o PCI Concursos, o blog do Gran e o Estratégia e mostra na vitrine os concursos com inscrições abertas e as últimas notícias, com filtro por estado. Um toque em **Montar cronograma** já leva o nome e o link do concurso.
+
+### 🤝 Comunidade
+Montou um cronograma a partir do edital? Compartilhe na vitrine com o selo **Criado pela comunidade**. Vai só o conteúdo, nunca o seu progresso. Só quem criou pode atualizar ou tirar.
+
 ### 📄 Monte a partir do seu edital
 Envie o **PDF do edital** ou **cole o conteúdo programático**. O app separa matérias e assuntos, pergunta o cargo quando há mais de um, tenta achar a data da prova e a banca, e mostra tudo para você conferir. A leitura acontece no próprio aparelho: o arquivo não é enviado para lugar nenhum.
 
@@ -85,6 +91,7 @@ Abra uma vez com internet: depois o app funciona offline.
 - **Com conta:** cada pessoa tem um documento só seu no Cloud Firestore. As regras do banco só deixam você ler e gravar os seus próprios dados.
 - **Sem conta:** tudo fica no próprio aparelho.
 - **PDF do edital:** lido no aparelho, nunca enviado.
+- **Comunidade:** só o que você decidir compartilhar fica público (seu primeiro nome, o concurso e o conteúdo). O progresso nunca vai junto.
 
 ---
 
@@ -105,6 +112,10 @@ apostila.pdf            # apostila oficial do 12º Censo Agro (IBGE), sem altera
 vendor/                 # PDF.js 3.11.174
 tools/parse.py          # leitor do conteúdo programático (mesmas regras do app)
 tools/build_vitrine.py  # gera o vitrine.js a partir do texto dos editais
+tools/robo.mjs          # robô do radar (node tools/robo.mjs --teste roda os testes)
+radar.json              # gerado pelo robô todo dia
+firestore.rules         # regras do banco (usuários e comunidade)
+.github/workflows/      # agenda diária do robô
 docs/                   # imagens do README
 ```
 
@@ -117,18 +128,11 @@ python3 -m http.server 8000
 ### Configurar o Firebase
 1. Crie um projeto no [console do Firebase](https://console.firebase.google.com) (plano Spark, sem cartão).
 2. Em **Authentication**, ative **Google** e **E-mail/senha** e autorize o domínio do site.
-3. Em **Firestore**, crie o banco e publique as regras:
-   ```
-   rules_version = '2';
-   service cloud.firestore {
-     match /databases/{database}/documents {
-       match /usuarios/{uid} {
-         allow read, write: if request.auth != null && request.auth.uid == uid;
-       }
-     }
-   }
-   ```
+3. Em **Firestore**, crie o banco e publique as regras do arquivo [`firestore.rules`](firestore.rules), trocando `EMAIL_DO_ADMIN` pelo e-mail de quem pode tirar modelos da comunidade.
 4. Registre um app **Web** e cole o `firebaseConfig` em `firebase-config.js`. Essas chaves são públicas por natureza; quem protege os dados são as regras.
+
+### Robô do radar
+Roda sozinho todo dia às 06h17 (Fortaleza). Para rodar na hora: **Actions › Radar de concursos › Run workflow**. Ele só grava o `radar.json` quando há novidade.
 
 ### Atualizar a vitrine
 ```bash
@@ -150,7 +154,7 @@ EDITAIS=editais/ python3 tools/build_vitrine.py
 
 ## 🗒️ Versões
 
-**Atual: v4.1.1** — modo "já estudei" para marcar o que você estudou antes de começar.<br>
+**Atual: v4.2.0** — radar de concursos atualizado todo dia e modelos da comunidade.<br>
 Histórico completo no [CHANGELOG](CHANGELOG.md).
 
 ---
