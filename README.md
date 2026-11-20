@@ -75,6 +75,7 @@ Envie o **PDF do edital** ou **cole o conteúdo programático**. O app separa ma
 - Funciona **sem internet** e sincroniza quando a conexão volta.
 - Prefere sem conta? Também dá: tudo fica salvo só no aparelho, com cópia de segurança.
 - Tema claro, noite ou automático e seis cores para escolher.
+- **Voltar deslizando** da borda da tela, como nos outros apps.
 - Botão para **compartilhar o app** com quem também está estudando.
 
 ---
@@ -155,7 +156,7 @@ EDITAIS=editais/ python3 tools/build_vitrine.py
 
 ## 🗒️ Versões
 
-**Atual: v4.4.1** — compartilhar o app, página de créditos e a marca QYUDEV. sem fundo branco.<br>
+**Atual: v4.5.0** — voltar deslizando da borda da tela, como nos outros apps.<br>
 Histórico completo no [CHANGELOG](CHANGELOG.md).
 
 ---

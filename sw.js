@@ -1,5 +1,5 @@
 // Service worker: guarda o app (e a apostila) para abrir mesmo sem internet.
-const C = 'estudos-v4-4-1';
+const C = 'estudos-v4-5';
 const FILES = ['./', './index.html', './firebase-config.js', './vitrine.js', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-180.png', './favicon-32.png', './qyudev.png',
   './vendor/pdf.min.js', './vendor/pdf.worker.min.js', './apostila.pdf'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(C).then(c => c.addAll(FILES))); self.skipWaiting(); });
