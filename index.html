@@ -23,6 +23,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <script src="firebase-config.js"></script>
 <script src="vitrine.js"></script>
+<script src="questoes.js"></script>
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Meu Cronograma de Estudo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -455,6 +456,17 @@ fieldset.mated{border:0;border-left:5px solid var(--c);margin:0 0 14px;min-width
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px}
 .chipb{min-height:44px;padding:0 16px;border-radius:22px;border:1.5px solid var(--g);background:var(--card);color:var(--g);font-weight:700}
 .chipb:active{background:var(--g);color:#fff}
+.qenun{font-size:17px;line-height:1.5;margin:10px 0 14px}
+.qbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.qbtns button{min-height:54px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);font-weight:700;font-size:17px;color:var(--ink)}
+.qbtns button.sel{border-color:var(--g);background:color-mix(in srgb,var(--g) 14%,transparent);color:var(--g)}
+.qfb{color:var(--ink);border-radius:12px;padding:12px;margin:4px 0;border:1.5px solid var(--ct);background:color-mix(in srgb,var(--ct) 8%,transparent)}
+.qfb.err{border-color:var(--fx);background:color-mix(in srgb,var(--fx) 8%,transparent)}
+.qgrid{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.qgrid button{width:40px;height:40px;border-radius:8px;border:1px solid var(--line);background:var(--bg);font-weight:700;color:var(--ink)}
+.qgrid .on{background:color-mix(in srgb,var(--g) 18%,transparent);border-color:var(--g)}
+.qgrid .cur{outline:2px solid var(--g);outline-offset:1px}
+.qrev{border-top:1px solid var(--line);padding:8px 0}.qrev summary{min-height:40px;display:flex;align-items:center;cursor:pointer}
 .card.slim{padding:10px 16px}
 .card.slim summary{font-weight:700}
 .rvprox{list-style:none;margin:8px 0;padding:0}
@@ -472,7 +484,7 @@ html.desk .tabs.t6 button{font-size:15px;letter-spacing:0}
 <div class="volta" id="volta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></div>
 <script>
 {
-const VERSAO = '4.8.0';
+const VERSAO = '4.9.0';
 /* Computador = tela de 1024 px ou mais E mouse/trackpad como ponteiro principal.
    Tablet (iPad, Android) e celular têm toque como ponteiro principal, então continuam com o layout do celular,
    mesmo um iPad de 11" deitado. */
@@ -820,7 +832,7 @@ function stepRow(p,a,s){
   const d = sd(p,a,s);
   const lk = s === 'a' && a.m !== 'fx' ? aulaLink(p,a) : null;
   const aula = lk ? `<a class="mini-btn" href="${esc(lk.url)}" target="_blank" rel="noopener">${esc(lk.txt)}</a>` : '';
-  const extra = (s === 'l' && a.pg ? `<button class="mini-btn" data-ap="${a.pg[0]}">Abrir na p. ${a.pg[0]}</button>` : '') + aula + (s === 'q' ? placarUI(p,a) : '');
+  const extra = (s === 'l' && a.pg ? `<button class="mini-btn" data-ap="${a.pg[0]}">Abrir na p. ${a.pg[0]}</button>` : '') + aula + (s === 'q' ? placarUI(p,a) + (qNoAssunto(a.id) ? `<button class="mini-btn" data-qres="${a.id}">Resolver ${qNoAssunto(a.id)} questões do banco</button>` : '') : '');
   return `<div class="task${d?' ok':''}"><button class="chk" data-s="${a.id}:${s}" aria-pressed="${!!d}" aria-label="Marcar ${STEPNOME[s]}">${ICK}</button><div>${tag(a.m)}<span class="tt">${esc(a.t)}</span><span class="sub">${stepTxt(a,s)}${s==='a'&&a.g&&a.g!=='Videoaula'?' · '+esc(a.g):''}</span>${extra}</div></div>`;
 }
 function aRow(p,a){
@@ -1187,12 +1199,13 @@ function simPorMat(p){
   return r;
 }
 /* resultado a anotar: ou o cronômetro foi parado (p.simAtivo.fim) ou a pessoa escolheu anotar um simulado que já fez (V.simRes) */
-const ctxRes = p => p.simAtivo && p.simAtivo.fim ? {tipo:p.simAtivo.tipo, q:p.simAtivo.q, lim:p.simAtivo.lim, min:Math.max(1, Math.round((p.simAtivo.fim - p.simAtivo.ini)/60000)), via:'timer'} : (V.simRes || null);
+const ctxRes = p => p.simAtivo && p.simAtivo.fim ? {tipo:p.simAtivo.tipo, nome:p.simAtivo.nome||'', q:p.simAtivo.q, lim:p.simAtivo.lim, min:Math.max(1, Math.round((p.simAtivo.fim - p.simAtivo.ini)/60000)), via:'timer'} : (V.simRes || null);
 const nomeSim = tipo => tipo === 'completo' ? 'Simulado completo' : 'Simulado de '+((MAT[tipo] && MAT[tipo].nome) || 'disciplina');
 
 function simCrono(c,p){
   const a = p.simAtivo, dec = Date.now() - a.ini, rest = a.lim*60000 - dec;
-  return `<section class="card sim-ativo"><h2>${esc(nomeSim(a.tipo))}</h2>
+  if(a.qs) return simCronoBanco(c,p);
+  return `<section class="card sim-ativo"><h2>${esc(a.nome || nomeSim(a.tipo))}</h2>
     <p class="muted" style="margin:-4px 0 8px">${a.q ? a.q+' questões · ' : ''}${a.lim} min · começou às ${hhmm(a.ini)}</p>
     <div class="simt${rest <= 0 ? ' estourou' : ''}" id="simT" data-ini="${a.ini}" data-lim="${a.lim}" role="timer">${fmtT(rest)}</div>
     <div class="bar2"><i id="simBar" style="width:${Math.min(100, 100*dec/(a.lim*60000))}%"></i></div>
@@ -1203,12 +1216,15 @@ function simInicio(c,p){
   const tp = V.simTipo && (V.simTipo === 'completo' || MAT[V.simTipo]) ? V.simTipo : 'completo', comp = tp === 'completo';
   const qC = SUBJ.reduce((a,m) => a + qDe(m), 0), dq = comp ? qC : qDe(tp);
   const dt = comp ? 240 : (dq ? Math.max(15, Math.round(dq*3.5/5)*5) : 60);
-  const L = comp ? EDITAL : EDITAL.filter(a => a.m === tp), f = L.filter(a => aDone(p,a)).length;
+  const L = comp ? EDITAL : EDITAL.filter(a => a.m === tp), f = L.filter(a => aDone(p,a)).length, nb = simPool(tp).length;
   return `<section class="card"><h2>Fazer um simulado</h2>
     <p class="muted" style="margin:-4px 0 10px">Pode ser o simulado completo ou só uma disciplina. Em qualquer um, pode cair qualquer assunto do edital${comp ? '' : ' dessa matéria'}: são ${L.length} e você já concluiu ${f}. O que ainda não foi estudado também pode aparecer, e é isso que mede onde você está.</p>
     <form id="simStart"><label class="f">O que vai fazer<select id="simTipo" name="tipo"><option value="completo"${comp?' selected':''}>Simulado completo</option><optgroup label="Por disciplina">${SUBJ.map(m => `<option value="${m}"${tp===m?' selected':''}>${esc(MAT[m].nome)}</option>`).join('')}</optgroup></select></label>
-    <div class="two"><label class="f">Questões<input type="number" name="q" min="1" inputmode="numeric" value="${dq||''}" placeholder="opcional"></label><label class="f">Tempo (minutos)<input type="number" name="lim" min="5" inputmode="numeric" value="${dt}" required></label></div>
-    <button class="btn" style="width:100%">Começar com cronômetro</button></form>
+    <label class="f">Nome do simulado (opcional)<input name="nome" maxlength="60" placeholder="Ex.: Simulado teste 1"></label>
+    <div class="two"><label class="f">Questões<input type="number" name="q" min="1" inputmode="numeric" value="${dq||''}" placeholder="você escolhe" data-edital="${dq}" data-nome="${esc(comp ? 'o simulado completo' : MAT[tp].nome)}"></label><label class="f">Tempo (minutos)<input type="number" name="lim" min="5" inputmode="numeric" value="${dt}" required></label></div>
+    <p class="muted" id="qAviso" style="margin:-4px 0 10px">${dq ? `O edital tem ${dq} questões ${comp ? 'na prova' : 'nessa disciplina'}. Já deixei esse número, mas você pode mudar.` : 'Escolha quantas questões quiser: 5, 10, 18, 40…'}</p>
+    <button class="btn" style="width:100%">Começar com cronômetro</button>
+    ${nb ? `<button type="button" class="btn alt" style="width:100%;margin-top:8px" data-simbanco="1">Gerar do banco de questões (${nb} disponíveis)</button><p class="muted" style="margin:6px 0 0">O app sorteia as questões, você responde aqui mesmo e a correção sai na hora.</p>` : ''}</form>
     <p style="text-align:center;margin:6px 0 0"><button class="linkbtn" data-simmanual="1">Já fiz um simulado: anotar o resultado</button></p></section>`;
 }
 /* formulário de resultado: serve para o simulado e para a prova de verdade (kind = 'sim' ou 'prova') */
@@ -1222,7 +1238,8 @@ function simFormCard(c,p,ctx,kind){
   return `<section class="card"><h2>${tit}</h2>
     <p class="muted" style="margin:-4px 0 8px">${prova ? 'Digite quantas questões acertou, pelo gabarito. Esse é o ponto final do seu gráfico.' : ctx.via === 'timer' ? `Você usou ${ctx.min} min de ${ctx.lim}. ` : ''}${prova || ctx.via === 'timer' ? '' : 'Pode ser de qualquer plataforma ou prova antiga.'}</p>
     <form id="${prova ? 'provaForm' : 'simForm'}" data-tipo="${esc(tipo)}" data-lim="${ctx.lim||''}" data-via="${esc(ctx.via||'')}">
-    ${prova || ctx.via === 'timer' ? '' : `<label class="f">${esc(nomeSim(tipo))} · data<input type="date" name="d" value="${h}" max="${h}" required></label>`}
+    ${prova ? '' : `<label class="f">Nome do simulado (opcional)<input name="nome" maxlength="60" value="${esc(ctx.nome||'')}" placeholder="Ex.: Simulado teste 1"></label>`}
+    ${prova || ctx.via === 'timer' ? '' : `<label class="f">Data<input type="date" name="d" value="${h}" max="${h}" required></label>`}
     ${prova ? `<label class="f">Data da prova<input type="date" name="d" value="${dflt}" max="${h}" required></label>` : ''}
     ${linhas.map(([k,nm,t]) => `<div class="srow" style="--c:${k==='all'?'var(--g)':(MAT[k]?MAT[k].cor:'var(--g)')}"><span>${esc(nm)}</span><input type="number" name="a_${k}" min="0" inputmode="numeric" placeholder="acertos" required aria-label="Acertos em ${esc(nm)}"><i>de</i><input type="number" name="t_${k}" min="1" inputmode="numeric" value="${t}" placeholder="total" required aria-label="Total de questões de ${esc(nm)}"></div>`).join('')}
     ${ehCeb() ? `<label class="f">Erradas (opcional)<input type="number" name="e" min="0" inputmode="numeric" placeholder="Na Cebraspe, cada errada anula uma certa"></label>` : ''}
@@ -1256,7 +1273,7 @@ function graficoSim(c,p){
     }
   }
   if(L.length > 1) g += `<polyline fill="none" stroke="var(--g)" stroke-width="2.5" stroke-linejoin="round" points="${L.map(s => X(s.d)+','+Y(simNota(s))).join(' ')}"/>`;
-  for(const s of all.filter(s => s.tipo !== 'completo')) g += `<circle cx="${X(s.d)}" cy="${Y(simNota(s))}" r="3.2" fill="${MAT[s.m] ? MAT[s.m].cor : 'var(--mut)'}" opacity=".85"><title>${esc(nomeSim(s.tipo))}: ${simNota(s)}%</title></circle>`;
+  for(const s of all.filter(s => s.tipo !== 'completo')) g += `<circle cx="${X(s.d)}" cy="${Y(simNota(s))}" r="3.2" fill="${MAT[s.m] ? MAT[s.m].cor : 'var(--mut)'}" opacity=".85"><title>${esc(s.nome || nomeSim(s.tipo))}: ${simNota(s)}%</title></circle>`;
   for(const s of L) g += `<circle cx="${X(s.d)}" cy="${Y(simNota(s))}" r="4.5" fill="var(--g)" stroke="var(--card)" stroke-width="2"><title>${esc(fmt(s.d))}: ${simNota(s)}%</title></circle>`;
   if(p.resultado) g += `<text x="${X(p.resultado.d)}" y="${Y(simNota(p.resultado))+5}" text-anchor="middle" font-size="18" fill="var(--mt)">★<title>Prova: ${simNota(p.resultado)}%</title></text>`;
   g += `<text x="${ml}" y="${H-8}" font-size="10" fill="var(--mut)">${dm(x0)}</text><text x="${W-mr}" y="${H-8}" text-anchor="end" font-size="10" fill="var(--mut)">${dm(x1)}</text>`;
@@ -1297,6 +1314,7 @@ function vSimulado(c,p){
   if(p.simAtivo && !p.simAtivo.fim) html += simCrono(c,p);
   else if(ctx) html += simFormCard(c,p,ctx,'sim');
   else html += simInicio(c,p);
+  if(V.simRev) html += simRevisao(p);
   if(!L.length){
     html += `<section class="card"><h2>Como funciona</h2><ul class="dots-list"><li>Escolha o simulado completo ou uma disciplina e <b>comece o cronômetro</b>.</li><li>Faça as questões onde preferir e, no fim, <b>anote os acertos</b> de cada matéria.</li><li>O app mostra a <b>evolução da sua nota até o dia da prova</b>, sobe seu <b>nível</b> e aponta a matéria mais fraca.</li><li>Ninguém tira 100% num simulado ou na prova de verdade: a ideia é subir a nota aos poucos e chegar no dia sabendo onde está.</li></ul></section>`;
   } else {
@@ -1311,9 +1329,114 @@ function vSimulado(c,p){
       const med = Object.fromEntries(mm.map(m => [m, media(pm[m].slice(-3))])), fr = mm.filter(m => pm[m].length >= 2).sort((a,b) => med[a] - med[b])[0];
       html += `<section class="card"><h2>Por disciplina</h2><p class="muted" style="margin:-4px 0 4px">Média dos 3 últimos simulados em que a matéria apareceu.</p><div class="perf">${mm.map(m => `<div style="--c:${MAT[m].cor}"><span>${esc(MAT[m].nome)}</span><span class="track"><i style="width:${med[m]}%"></i></span><b>${med[m]}%</b></div>`).join('')}</div>${fr ? `<p style="margin:12px 0 0">Ponto fraco nos simulados: <b>${esc(MAT[fr].nome)}</b>.</p>` : ''}</section>`;
     }
-    html += `<section class="card"><h2>Histórico</h2><ul class="hist">${L.slice().reverse().slice(0,12).map(s => `<li><div><b>${esc(nomeSim(s.tipo))}</b><span class="sub">${fmt(s.d)} · ${s.a}/${s.t}${s.e ? ' · '+s.e+(s.e > 1 ? ' erradas' : ' errada') : ''}${s.min ? ' · '+s.min+' min' : ''}</span></div><strong>${simNota(s)}%</strong><button class="mini-btn" data-simdel="${s.id}" aria-label="Tirar este simulado">Tirar</button></li>`).join('')}</ul>${L.length > 12 ? `<p class="muted" style="margin:8px 0 0">Mostrando os 12 mais recentes.</p>` : ''}</section>`;
+    html += `<section class="card"><h2>Histórico</h2><ul class="hist">${L.slice().reverse().slice(0,12).map(s => `<li><div><b>${esc(s.nome || nomeSim(s.tipo))}</b><span class="sub">${s.tipo === 'completo' ? 'Completo' : 'Disciplina: '+esc((MAT[s.tipo]||{}).nome || '')} · ${fmt(s.d)} · ${s.a} de ${s.t} questões${s.e ? ' · '+s.e+(s.e > 1 ? ' erradas' : ' errada') : ''}${s.min ? ' · '+s.min+' min' : ''}</span></div><strong>${simNota(s)}%</strong>${s.qs ? `<button class="mini-btn" data-simrev="${s.id}">Ver correção</button>` : ''}<button class="mini-btn" data-simdel="${s.id}" aria-label="Tirar este simulado">Tirar</button></li>`).join('')}</ul>${L.length > 12 ? `<p class="muted" style="margin:8px 0 0">Mostrando os 12 mais recentes.</p>` : ''}</section>`;
   }
   return html + simProvaCard(c,p);
+}
+
+/* ---------- Banco de questões (v4.9) ----------
+   As questões vêm de questoes.js (autorais, estilo certo/errado). Cada uma aponta para uma matéria e um assunto pelo nome, então o banco
+   continua valendo mesmo que a pessoa edite o edital. Guardado em p.qr = {id: {ok, d, n}} (última resposta e quantas vezes tentou). */
+const BQ = new WeakMap();
+const nrm = x => String(x||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();
+function banco(){
+  if(!CX || !window.BANCO || !/^pcpe-/.test(CX.c.tpl || '')) return [];
+  if(BQ.has(CX)) return BQ.get(CX);
+  const L = [];
+  for(const q of window.BANCO.qs){
+    const mid = SUBJ.find(m => nrm(MAT[m].nome) === nrm(q.m)); if(!mid) continue;
+    const as = EDITAL.find(a => a.m === mid && nrm(a.t).startsWith(nrm(q.a)));
+    L.push({...q, mid, aid:as ? as.id : ''});
+  }
+  BQ.set(CX, L); return L;
+}
+const qDoBanco = id => banco().find(q => q.id === id);
+const qNoAssunto = aid => banco().filter(q => q.aid === aid).length;
+const sorteia = L => L.map(x => [Math.random(), x]).sort((a,b) => a[0] - b[0]).map(x => x[1]);
+const simPool = tipo => tipo === 'completo' ? banco() : banco().filter(q => q.mid === tipo);
+const respTxt = r => r === 'C' ? 'Certo' : r === 'E' ? 'Errado' : 'Em branco';
+function qFiltro(p){
+  const f = V.qf || {}, st = f.st || 'todas', R = p.qr || {};
+  return banco().filter(q => (!f.m || q.mid === f.m) && (!f.a || q.aid === f.a) && (st === 'todas' || (st === 'novas' ? !R[q.id] : R[q.id] && !R[q.id].ok)));
+}
+function qProx(p,excl){
+  const L = qFiltro(p).filter(q => q.id !== excl), R = p.qr || {}, N = L.filter(q => !R[q.id]);
+  const pool = N.length ? N : L; return pool.length ? sorteia(pool)[0].id : '';
+}
+function qRegistra(p,q,ok,soBanco){
+  p.qr = p.qr || {}; const r = p.qr[q.id];
+  p.qr[q.id] = {ok, d:hoje(), n:(r ? r.n : 0) + 1};
+  if(soBanco) return;
+  p.placar['qb-'+q.id] = {a:ok ? 1 : 0, t:1, m:q.mid, d:hoje()}; p.done['qb-'+q.id] = hoje();
+}
+const fonteQ = q => `<p class="muted" style="margin:6px 0 0">Fonte: ${esc(q.f)}. ${q.rev ? 'Conferida em '+fmt(q.rev)+'.' : 'Questão autoral no estilo Cebraspe, ainda não conferida por outra pessoa: confira na fonte.'} <a href="https://github.com/JacobbV/meu-cronograma-estudo/issues/new?title=${encodeURIComponent('Questão '+q.id+': possível erro')}&body=${encodeURIComponent('Questão '+q.id+'\n\n'+q.e+'\n\nO que está errado:\n')}" target="_blank" rel="noopener">Reportar erro</a></p>`;
+function qFeedback(q,r){
+  const ok = (r === 'C') === q.g;
+  return `<div class="qfb ${ok ? 'cert' : 'err'}"><b>${r ? (ok ? 'Você acertou' : 'Você errou') : 'Em branco'}</b> · gabarito: <b>${q.g ? 'Certo' : 'Errado'}</b><p style="margin:6px 0 0">${esc(q.c)}</p>${fonteQ(q)}</div>`;
+}
+function qCard(c,p,q){
+  const resp = V.qresp && V.qresp.id === q.id ? V.qresp.r : null, as = q.aid ? EDITAL.find(a => a.id === q.aid) : null;
+  return `<section class="card"><div>${tag(q.mid)}${as ? `<span class="sub" style="display:inline">${esc(as.t.length > 60 ? as.t.slice(0,58)+'…' : as.t)}</span>` : ''}</div>
+    <p class="qenun">${esc(q.e)}</p>
+    ${resp === null ? `<div class="qbtns"><button data-qans="C">Certo</button><button data-qans="E">Errado</button></div>` : qFeedback(q,resp)}
+    <div class="row" style="margin-top:12px">${resp === null ? '<button class="btn alt sm" data-qnext="1">Pular</button>' : '<button class="btn" data-qnext="1">Próxima questão</button>'}<button class="btn alt sm" data-qstop="1">Parar</button></div></section>`;
+}
+function vQuestoes(c,p){
+  const B = banco(), R = p.qr || {}, f = V.qf || {}, pool = qFiltro(p), cur = V.qa && qDoBanco(V.qa);
+  const feitas = B.filter(q => R[q.id]), certas = feitas.filter(q => R[q.id].ok).length;
+  const ms = SUBJ.filter(m => B.some(q => q.mid === m)), as = f.m ? EDITAL.filter(a => a.m === f.m && qNoAssunto(a.id)) : [];
+  let html = '';
+  if(cur) html += qCard(c,p,cur);
+  html += `<section class="card"><h2>Banco de questões</h2>
+    <p class="muted" style="margin:-4px 0 10px">${B.length} questões no estilo certo/errado da Cebraspe, escritas para este app a partir da lei. Não são de prova antiga. ${feitas.length ? `Você já respondeu <b>${feitas.length}</b> e acertou <b>${certas}</b> (${Math.round(100*certas/feitas.length)}%).` : 'Escolha uma matéria ou comece por qualquer uma.'}</p>
+    ${cur ? '' : `<label class="f">Matéria<select id="qfM"><option value="">Todas</option>${ms.map(m => `<option value="${m}"${f.m === m ? ' selected' : ''}>${esc(MAT[m].nome)} (${B.filter(q => q.mid === m).length})</option>`).join('')}</select></label>
+    <label class="f">Assunto<select id="qfA"${f.m ? '' : ' disabled'}><option value="">Todos</option>${as.map(a => `<option value="${a.id}"${f.a === a.id ? ' selected' : ''}>${esc(a.t.length > 50 ? a.t.slice(0,48)+'…' : a.t)} (${qNoAssunto(a.id)})</option>`).join('')}</select></label>
+    <label class="f">Quais<select id="qfS">${[['todas','Todas'],['novas','Ainda não respondidas'],['erradas','As que eu errei']].map(([v,t]) => `<option value="${v}"${(f.st || 'todas') === v ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
+    <button class="btn" style="width:100%"${pool.length ? '' : ' disabled'} data-qgo="1">${pool.length ? `Resolver questões (${pool.length})` : 'Nenhuma questão com esse filtro'}</button>`}</section>`;
+  if(feitas.length) html += `<section class="card"><h2>Acerto por matéria</h2><div class="perf">${ms.map(m => {const L = B.filter(q => q.mid === m && R[q.id]), a = L.filter(q => R[q.id].ok).length, x = L.length ? Math.round(100*a/L.length) : 0;
+    return `<div style="--c:${MAT[m].cor}"><span>${esc(MAT[m].nome)}</span><span class="track"><i style="width:${x}%"></i></span><b>${L.length ? x+'%' : '—'}</b></div>`}).join('')}</div><p class="muted" style="margin:8px 0 0">Conta a última resposta de cada questão.</p></section>`;
+  return html;
+}
+function simCronoBanco(c,p){
+  const a = p.simAtivo, dec = Date.now() - a.ini, rest = a.lim*60000 - dec, n = a.qs.length;
+  const i = Math.max(0, Math.min(n-1, V.sq || 0)), q = qDoBanco(a.qs[i]), r = a.resp[a.qs[i]], resp = Object.keys(a.resp).filter(k => a.resp[k]).length;
+  return `<section class="card sim-ativo"><h2>${esc(a.nome || nomeSim(a.tipo))}</h2>
+    <p class="muted" style="margin:-4px 0 8px">${n} questões · ${a.lim} min · ${resp} respondidas</p>
+    <div class="simt${rest <= 0 ? ' estourou' : ''}" id="simT" data-ini="${a.ini}" data-lim="${a.lim}" role="timer">${fmtT(rest)}</div>
+    <div class="bar2"><i id="simBar" style="width:${Math.min(100, 100*dec/(a.lim*60000))}%"></i></div>
+    <div class="qgrid">${a.qs.map((id,k) => `<button data-sqi="${k}" class="${a.resp[id] ? 'on' : ''}${k === i ? ' cur' : ''}" aria-label="Questão ${k+1}">${k+1}</button>`).join('')}</div>
+    <p class="muted" style="margin:0">Questão ${i+1} de ${n}</p>
+    <p class="qenun">${q ? esc(q.e) : 'Questão indisponível'}</p>
+    <div class="qbtns"><button data-sqans="C" class="${r === 'C' ? 'sel' : ''}">Certo</button><button data-sqans="E" class="${r === 'E' ? 'sel' : ''}">Errado</button></div>
+    <p class="muted" style="margin:8px 0 12px">${ehCeb() ? 'Na Cebraspe, cada errada anula uma certa: se estiver em dúvida, deixar em branco não tira ponto. ' : ''}Toque de novo na resposta marcada para deixar em branco.</p>
+    <div class="row"><button class="btn" data-simfimb="1">Terminar e ver a correção</button><button class="btn alt sm" data-simcancel="1">Cancelar</button></div></section>`;
+}
+function simSorteio(p,tipo,n){
+  const R = p.qr || {}, g = {};
+  for(const q of simPool(tipo)) (g[q.mid] = g[q.mid] || []).push(q);
+  const ks = Object.keys(g); for(const k of ks) g[k] = sorteia(g[k]).sort((x,y) => !!R[x.id] - !!R[y.id]);
+  const out = [];
+  while(out.length < n && ks.some(k => g[k].length)) for(const k of ks) if(g[k].length && out.length < n) out.push(g[k].shift());
+  return sorteia(out);
+}
+function finBanco(p){
+  const a = p.simAtivo, h = hoje(), por = {}, resp = {}; let ac = 0, er = 0;
+  for(const id of a.qs){
+    const q = qDoBanco(id); if(!q) continue; const r = a.resp[id] || ''; resp[id] = r;
+    const x = por[q.mid] = por[q.mid] || {a:0,t:0}; x.t++;
+    if(r){const ok = (r === 'C') === q.g; if(ok){x.a++; ac++} else er++; qRegistra(p,q,ok,true)}
+  }
+  const antes = nivelDe(simXP(p));
+  const s = {id:'s'+Date.now().toString(36), d:h, tipo:a.tipo, nome:a.nome || '', m:a.tipo === 'completo' ? '' : a.tipo, a:ac, t:a.qs.length, e:ehCeb() ? er : 0, por, min:Math.max(1, Math.round((Date.now() - a.ini)/60000)), lim:a.lim, via:'banco', qs:a.qs, resp};
+  (p.sim = p.sim || []).push(s); p.done['sim-'+s.id] = h; delete p.simAtivo; V.simRev = s.id; save();
+  const dep = nivelDe(simXP(p));
+  toast(dep.n > antes.n ? 'Subiu de nível! Agora você é '+dep.nome : 'Simulado salvo: '+simNota(s)+'% de acerto'); keep();
+}
+function simRevisao(p){
+  const s = (p.sim || []).find(x => x.id === V.simRev); if(!s || !s.qs) return '';
+  const itens = s.qs.map((id,k) => {const q = qDoBanco(id); if(!q) return ''; const r = s.resp[id] || '', ok = r && (r === 'C') === q.g;
+    return `<details class="qrev"><summary><b>${k+1}.</b> ${r ? (ok ? '✓ Certa' : '✗ Errada') : '– Em branco'} · ${esc((MAT[q.mid]||{}).nome || '')}</summary><p class="qenun" style="font-size:15px">${esc(q.e)}</p><p style="margin:0 0 6px">Você marcou: <b>${respTxt(r)}</b> · gabarito: <b>${q.g ? 'Certo' : 'Errado'}</b></p><p style="margin:0">${esc(q.c)}</p>${fonteQ(q)}</details>`}).join('');
+  return `<section class="card"><h2>Correção: ${esc(s.nome || nomeSim(s.tipo))}</h2><p class="muted" style="margin:-4px 0 8px">${s.a} certas, ${s.t - s.a - (s.qs.filter(id => !s.resp[id]).length)} erradas e ${s.qs.filter(id => !s.resp[id]).length} em branco${ehCeb() ? ' · nota '+simNota(s)+'% (cada errada anula uma certa)' : ' · '+simNota(s)+'%'}. Toque numa questão para ler o comentário.</p>${itens}<button class="linkbtn" data-simrevx="1">Fechar correção</button></section>`;
 }
 
 /* ---------- Revisão espaçada ---------- */
@@ -1431,7 +1554,7 @@ function salvaSim(f,fd){
   const d = String(fd.get('d') || hoje()); if(d > hoje()){toast('A data não pode ser no futuro'); return}
   if(prova){p.resultado = {d, a, t, e, por:Object.keys(por).length ? por : undefined}; save(); toast('Resultado da prova salvo'); keep(); return}
   const antes = nivelDe(simXP(p));
-  const s = {id:'s'+Date.now().toString(36), d, tipo, m:tipo === 'completo' ? '' : tipo, a, t, e, por:Object.keys(por).length ? por : undefined, min:Number(fd.get('min')) || Number(f.dataset.via === 'timer' ? (ctxRes(p)||{}).min : 0) || 0, lim:Number(f.dataset.lim)||0, via:f.dataset.via};
+  const s = {id:'s'+Date.now().toString(36), d, tipo, nome:String(fd.get('nome')||'').trim().slice(0,60), m:tipo === 'completo' ? '' : tipo, a, t, e, por:Object.keys(por).length ? por : undefined, min:Number(fd.get('min')) || Number(f.dataset.via === 'timer' ? (ctxRes(p)||{}).min : 0) || 0, lim:Number(f.dataset.lim)||0, via:f.dataset.via};
   (p.sim = p.sim || []).push(s); p.done['sim-'+s.id] = d; delete p.simAtivo; V.simRes = null; save();
   const dep = nivelDe(simXP(p));
   toast(dep.n > antes.n ? 'Subiu de nível! Agora você é '+dep.nome : 'Simulado salvo: '+simNota(s)+'% de acerto'); keep();
@@ -1741,6 +1864,7 @@ const TABS = [['hoje','Hoje','<path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.
   ['apostila','Apostila','<path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 21V5M8 7h7"/>'],
   ['edital','Edital','<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/>'],
   ['simulado','Simulados','<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6M12 2v3"/>'],
+  ['questoes','Questões','<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 114 2c-.8.7-1.5 1.1-1.5 2.5M12 17.2v.1"/>'],
   ['prova','Prova','<path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>']];
 
 const CORES = [['laranja','#f26a1b'],['verde','#1f8a55'],['azul','#2f6fd0'],['roxo','#7a52d1'],['rosa','#d6457f'],['vinho','#a3324a']];
@@ -1936,12 +2060,12 @@ function desenha(){
   }
   usar(conc);
   const p = P(perfil.id, conc.id);
-  const tabs = CX.ibge ? TABS : TABS.filter(t => t[0] !== 'apostila');
+  const tabs = TABS.filter(t => t[0] === 'apostila' ? CX.ibge : t[0] === 'questoes' ? banco().length > 0 : true);
   if(!tabs.some(t => t[0]===V.tab)) V.tab = tabs[0][0];
   HDR = null;
   const hd = header(conc,p);
   const pn = HDR && V.painel === 'fogo' ? painelFogo(p,HDR.sq) : HDR && V.painel === 'avisos' ? painelAvisos(HDR.av, perfil) : HDR && V.painel === 'perfil' ? painelPerfil(perfil) : '';
-  let body = {hoje:vHoje, semana:vSemana, apostila:vApostila, edital:vEdital, simulado:vSimulado, prova:vProva}[V.tab](conc,p);
+  let body = {hoje:vHoje, semana:vSemana, apostila:vApostila, edital:vEdital, simulado:vSimulado, questoes:vQuestoes, prova:vProva}[V.tab](conc,p);
   if(DESK() && (V.tab === 'prova' || V.tab === 'simulado')) body = `<div class="cols2">${body}</div>`;
   app.innerHTML = hd + (pn ? `<div class="pop-bg" id="popBg"></div><div class="pop${V.painel==='avisos'?' drawer':''}" role="dialog" aria-label="${V.painel==='avisos'?'Avisos':'Painel'}">${pn}</div>` : '') + `<main class="wrap${V.tab==='apostila'?' wide':''}">${body}</main><nav class="tabs${tabs.length > 5 ? ' t6' : ''}" aria-label="Seções">${DESK() ? `<button class="marca" data-go="concursos">${MARCA}<span>Meu Cronograma<small>${esc(conc.nome)}</small></span></button>` : ''}<div class="wrap" style="grid-template-columns:repeat(${tabs.length},minmax(0,1fr))">${tabs.map(([k,l,ic]) => `<button data-tab="${k}" aria-current="${V.tab===k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${l}</button>`).join('')}</div>${DESK() ? `<div class="atalhos"><button data-go="concursos">${MI.conc}Meus concursos</button><button id="compartilharApp">${MI.comp}Compartilhar o app</button><button id="abrirSobre">${MI.info}Sobre e créditos</button></div>` : ''}</nav>`;
   if(V.revOferta) app.insertAdjacentHTML('beforeend', revSheet());
@@ -2011,9 +2135,25 @@ document.addEventListener('click', e => {
     save(); keep()}
   else if(d.rvadia){const p = PP(), r = (p.rev||[]).find(x => x.id === d.rvadia); if(!r) return; r.due = addD(r.due < hoje() ? hoje() : r.due, 1); save(); toast('Adiada para '+dm(r.due)); keep()}
   else if(d.rvdel){const p = PP(); p.rev = (p.rev||[]).filter(x => x.id !== d.rvdel); save(); toast('Tirada da lista de revisões'); keep()}
+  else if(d.qres){const p = PP(), a = ACHA(d.qres); if(!a) return; V.qf = {m:a.m, a:a.id, st:'todas'}; V.qa = qProx(p,''); V.qresp = null; V.painel = ''; V.tab = 'questoes'; render(); scrollTo(0,0)}
+  else if(d.qgo){V.qa = qProx(PP(),''); V.qresp = null; keep()}
+  else if(d.qans){const p = PP(), q = qDoBanco(V.qa); if(!q || V.qresp) return; const ok = (d.qans === 'C') === q.g; qRegistra(p,q,ok); V.qresp = {id:q.id, r:d.qans}; save(); keep()}
+  else if(d.qnext){const p = PP(), n = qProx(p,V.qa); V.qresp = null; if(n) V.qa = n; else {V.qa = ''; toast('Acabaram as questões desse filtro')} keep()}
+  else if(d.qstop){V.qa = ''; V.qresp = null; keep()}
+  else if(d.simbanco){const p = PP(), fm = document.getElementById('simStart'); if(!fm) return; const fd = new FormData(fm), tipo = String(fd.get('tipo')), pool = simPool(tipo).length, lim = Number(fd.get('lim'))||0;
+    if(!(lim > 0)){toast('Coloque o tempo do simulado, em minutos'); return}
+    let q = Number(fd.get('q')) || Math.min(20, pool); if(q > pool){q = pool; toast('O banco tem '+pool+' questões para isso: usei todas')}
+    const qs = simSorteio(p,tipo,q).map(x => x.id); if(!qs.length) return;
+    p.simAtivo = {ini:Date.now(), tipo, q:qs.length, lim, nome:String(fd.get('nome')||'').trim(), qs, resp:{}}; V.simTipo = tipo; V.sq = 0; V.simRev = null; save(); keep()}
+  else if(d.sqi){V.sq = Number(d.sqi); keep()}
+  else if(d.sqans){const p = PP(), a = p.simAtivo; if(!a || !a.qs) return; const i = Math.max(0, Math.min(a.qs.length-1, V.sq || 0)), id = a.qs[i];
+    if(a.resp[id] === d.sqans) delete a.resp[id]; else {a.resp[id] = d.sqans; if(i < a.qs.length-1) V.sq = i+1} save(); keep()}
+  else if(d.simfimb){const p = PP(); if(p.simAtivo && p.simAtivo.qs){if(!b.dataset.sure){const n = p.simAtivo.qs.filter(id => !p.simAtivo.resp[id]).length; if(n){b.dataset.sure = 1; b.textContent = n+' em branco. Toque de novo para terminar'; return}} finBanco(p)}}
+  else if(d.simrev){V.simRev = V.simRev === d.simrev ? null : d.simrev; keep()}
+  else if(d.simrevx){V.simRev = null; keep()}
   else if(d.simfim){const p = PP(); if(p.simAtivo && !p.simAtivo.fim){p.simAtivo.fim = Date.now(); save(); keep()}}
   else if(d.simcancel){if(b.dataset.sure){delete PP().simAtivo; save(); toast('Simulado cancelado'); keep()} else {b.dataset.sure = 1; b.textContent = 'Toque de novo para cancelar'}}
-  else if(d.simmanual){const fm = document.getElementById('simStart'); V.simRes = {tipo:fm ? String(new FormData(fm).get('tipo')) : (V.simTipo || 'completo'), q:fm ? Number(new FormData(fm).get('q'))||'' : '', min:'', via:'manual'}; keep()}
+  else if(d.simmanual){const fm = document.getElementById('simStart'); V.simRes = {tipo:fm ? String(new FormData(fm).get('tipo')) : (V.simTipo || 'completo'), q:fm ? Number(new FormData(fm).get('q'))||'' : '', nome:fm ? String(new FormData(fm).get('nome')||'').trim() : '', min:'', via:'manual'}; keep()}
   else if(d.simdesc){delete PP().simAtivo; V.simRes = null; save(); keep()}
   else if(d.simdel){if(b.dataset.sure){const p = PP(); p.sim = (p.sim||[]).filter(x => x.id !== d.simdel); delete p.done['sim-'+d.simdel]; save(); toast('Simulado tirado'); keep()} else {b.dataset.sure = 1; b.textContent = 'Confirmar'}}
   else if(d.provadel){delete PP().resultado; save(); keep()}
@@ -2065,8 +2205,17 @@ document.addEventListener('click', e => {
   else if(b.id === 'rst'){document.getElementById('rstBox').hidden = false; document.getElementById('rstTxt').value = ''}
   else if(b.id === 'rstOk'){try{const n = JSON.parse(decodeURIComponent(escape(atob(document.getElementById('rstTxt').value.trim())))); if(!n.perfis) throw 0; S = n; save(); toast('Progresso restaurado'); render()}catch(err){toast('Código inválido')}}
 });
+document.addEventListener('input', e => {
+  const t = e.target; if(t.name !== 'q' || !t.dataset.nome) return;
+  const av = document.getElementById('qAviso'), ed = Number(t.dataset.edital), q = Number(t.value);
+  if(av && ed && q > ed) av.innerHTML = `<b>Atenção:</b> o edital tem apenas ${ed} questões ${t.dataset.nome === 'o simulado completo' ? 'na prova' : 'em '+t.dataset.nome}. Pode seguir assim, é só um treino a mais.`;
+  else if(av && ed) av.textContent = `O edital tem ${ed} questões ${t.dataset.nome === 'o simulado completo' ? 'na prova' : 'nessa disciplina'}. Já deixei esse número, mas você pode mudar.`;
+});
 document.addEventListener('change', e => {
   if(e.target.id === 'simTipo'){V.simTipo = e.target.value; keep(); return}
+  if(e.target.id === 'qfM'){V.qf = {m:e.target.value, a:'', st:(V.qf||{}).st || 'todas'}; keep(); return}
+  if(e.target.id === 'qfA'){V.qf = {...(V.qf||{}), a:e.target.value}; keep(); return}
+  if(e.target.id === 'qfS'){V.qf = {...(V.qf||{}), st:e.target.value}; keep(); return}
   if(e.target.id === 'rUf'){V.ruf = e.target.value; V.rmais = false; keep(); return}
   if(e.target.id === 'fotoIn' && e.target.files[0]){
     const img = new Image(), url = URL.createObjectURL(e.target.files[0]);
@@ -2085,7 +2234,7 @@ document.addEventListener('submit', e => {
     const criar = e.submitter && e.submitter.value === 'criar'; er.textContent = criar ? 'Criando sua conta…' : 'Entrando…';
     (criar ? A.createUserWithEmailAndPassword(NV.fb.auth, em, se) : A.signInWithEmailAndPassword(NV.fb.auth, em, se)).catch(x => {er.textContent = erroLogin(x.code)}); return}
   if(f.id === 'simStart'){const tipo = String(fd.get('tipo')), q = Number(fd.get('q'))||0, lim = Number(fd.get('lim'))||0; if(!(lim > 0)){toast('Coloque o tempo do simulado, em minutos'); return}
-    PP().simAtivo = {ini:Date.now(), tipo, q, lim}; V.simTipo = tipo; save(); keep(); return}
+    PP().simAtivo = {ini:Date.now(), tipo, q, lim, nome:String(fd.get('nome')||'').trim()}; V.simTipo = tipo; save(); keep(); return}
   if(f.id === 'simForm' || f.id === 'provaForm'){salvaSim(f, fd); return}
   if(f.id === 'metaForm'){const m = Number(fd.get('meta')); if(!(m >= 1 && m <= 100)){toast('A meta vai de 1 a 100'); return} PP().meta = Math.round(m); save(); toast('Meta salva'); keep(); return}
   if(f.id === 'rvAdd'){const p = PP(), a = EDITAL.find(x => x.id === fd.get('aid')); if(!a) return; revAdd(p, a, Number(fd.get('dias'))||7, !!fd.get('rep')); save(); toast('Adicionada às revisões'); keep(); return}

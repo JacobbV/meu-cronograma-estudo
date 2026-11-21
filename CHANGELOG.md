@@ -1,5 +1,16 @@
 # Histórico de versões
 
+## v4.9.0 · 21/11/2026
+- **Banco de questões da PCPE** (`questoes.js`): 180 questões no estilo certo/errado da Cebraspe sobre Direito Penal, Processo Penal, Constitucional e Administrativo. Foram escritas para o app a partir do texto da lei, sem copiar prova nem cursinho. Cada uma traz gabarito, comentário e a fonte (artigo, lei ou súmula). Ainda não passaram por conferência de outra pessoa e o app avisa isso; há link para reportar erro.
+- Nova aba **Questões** (só aparece nos concursos que têm banco): filtro por matéria, assunto e "ainda não respondidas" / "as que errei", correção na hora e acerto por matéria.
+- No **Hoje**, o passo de questões ganhou o atalho "Resolver N questões do banco" daquele assunto.
+- **Simulado do banco**: na aba Simulados, "Gerar do banco de questões" sorteia as questões (dá preferência às que você ainda não fez), mostra o cronômetro e a grade de questões, e ao terminar corrige tudo, calcula a nota (na Cebraspe, cada errada anula uma certa), entra no gráfico e no nível e deixa a correção comentada no histórico.
+- Responder questões conta para a sequência de dias; as respostas do banco entram no placar de acertos por matéria.
+
+## v4.8.1 · 21/11/2026
+- Simulado livre: nome opcional (aparece no histórico), quantidade de questões à escolha. Quando o edital informa as questões da disciplina, o número já vem preenchido, com aviso se você passar dele.
+- O histórico mostra nome, tipo (completo ou disciplina), data, acertos e total de questões.
+
 ## v4.8.0 · 21/11/2026
 - Nova aba **Simulados**: simulado completo ou por disciplina, com cronômetro que continua contando com o app fechado. No fim, anota os acertos por matéria (na Cebraspe, também as erradas, que anulam certas).
 - **Nível e gráfico de evolução**: XP por simulado e por revisão, nível com barra de progresso, meta de acerto editável, linha do tempo até a prova com tendência (a partir de 3 completos), média por disciplina e histórico.
