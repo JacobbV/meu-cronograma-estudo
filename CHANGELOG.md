@@ -1,5 +1,9 @@
 # Histórico de versões
 
+## v4.15.0 · 21/11/2026
+- **Comentários mais completos** nas 32 questões de múltipla escolha que tinham explicação curta (Constituição, Código Penal, leis especiais, CPP e Contabilidade): agora trazem o artigo, o motivo do gabarito e a pegadinha mais comum. As outras 145 de múltipla escolha já tinham resolução detalhada.
+- No modo certo/errado, o bloco "Em contexto" também mostra esse comentário completo.
+
 ## v4.14.0 · 21/11/2026
 - **IBGE: mais 64 questões** (33 de Português e 31 de Matemática), agora cobrindo quase todos os assuntos do edital: classes de palavras, termos ligados ao nome, orações substantivas e adjetivas, pontuação, verbos irregulares, vozes, reescrita, compreensão de texto, sinônimos e homônimos, ortografia; e conjuntos e fatoração, MDC e MMC, equações e sistemas, proporção, regra de três, porcentagem, geometria, áreas, volumes, medidas, tabelas e mapas.
 - O IBGE passa a ter **176 questões** no banco (66 de Conhecimentos Técnicos, 58 de Português, 52 de Matemática).
