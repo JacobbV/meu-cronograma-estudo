@@ -157,7 +157,7 @@ EDITAIS=editais/ python3 tools/build_vitrine.py
 
 ## 🗒️ Versões
 
-**Atual: v4.7.0** — fixar o concurso principal.<br>
+**Atual: v4.8.0** — simulados, nível, revisão espaçada e lembrete diário. Ideias futuras: [docs/IDEIAS.md](docs/IDEIAS.md).<br>
 Histórico completo no [CHANGELOG](CHANGELOG.md).
 
 ---

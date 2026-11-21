@@ -426,6 +426,44 @@ label.f select{display:block;width:100%;margin-top:4px;font-size:16px;padding:10
 a.btn{text-decoration:none}
 fieldset.mated{border:0;border-left:5px solid var(--c);margin:0 0 14px;min-width:0}
 .card.novo{margin-top:6px}
+
+/* v4.8: simulados, nível, revisão espaçada e lembrete */
+.simt{font:700 64px/1 'Barlow Condensed',sans-serif;text-align:center;margin:6px 0 12px;font-variant-numeric:tabular-nums;color:var(--g)}
+.simt.estourou{color:var(--fx)}
+.bar2{height:10px;border-radius:6px;background:var(--rest);overflow:hidden;margin:6px 0}
+.bar2 i{display:block;height:100%;background:var(--g);border-radius:6px;transition:width .4s}
+.nv-top{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+.nv-n{width:60px;height:60px;border-radius:50%;background:var(--g);color:#fff;display:grid;place-items:center;font:700 30px 'Barlow Condensed',sans-serif;box-shadow:0 0 0 4px var(--g2);flex:none}
+.nv-top b{display:block;font:700 24px/1.1 'Barlow Condensed',sans-serif}
+.nv-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}
+.nv-stats div{background:var(--bg);border-radius:10px;padding:8px 4px;text-align:center}
+.nv-stats b{display:block;font:700 22px 'Barlow Condensed',sans-serif}
+.nv-stats span{display:block;font-size:11px;line-height:1.2;color:var(--mut)}
+.grafsim{width:100%;height:auto;display:block;margin-top:4px}
+.srow{display:grid;grid-template-columns:minmax(0,1fr) 78px auto 64px;gap:8px;align-items:center;margin:8px 0;font-size:14px;border-left:4px solid var(--c);padding-left:8px}
+.srow input{width:100%;font-size:16px;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.srow i{font-style:normal;color:var(--mut)}
+.hist{list-style:none;margin:0;padding:0}
+.hist li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}
+.hist li:first-child{border-top:0}
+.hist strong{font:700 22px 'Barlow Condensed',sans-serif}
+.hist .mini-btn{margin:0}
+.rvs-bg{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:44}
+.rvs{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(480px,100vw);z-index:45;background:var(--card);border-radius:18px 18px 0 0;padding:18px 18px calc(16px + env(safe-area-inset-bottom));box-shadow:0 -10px 40px rgba(0,0,0,.3);animation:rvup .22s ease-out}
+.rvs h3{font:700 24px 'Barlow Condensed',sans-serif;margin:0 0 4px;color:var(--g)}
+@keyframes rvup{from{transform:translate(-50%,40px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px}
+.chipb{min-height:44px;padding:0 16px;border-radius:22px;border:1.5px solid var(--g);background:var(--card);color:var(--g);font-weight:700}
+.chipb:active{background:var(--g);color:#fff}
+.card.slim{padding:10px 16px}
+.card.slim summary{font-weight:700}
+.rvprox{list-style:none;margin:8px 0;padding:0}
+.rvprox li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:6px 0;border-top:1px solid var(--line);font-size:14px}
+.rvprox li:first-child{border-top:0}
+.rvprox .mini-btn{margin:0;min-height:30px}
+.rvform{margin-top:10px}
+.tabs.t6 button{font-size:11.5px;letter-spacing:-.1px}
+html.desk .tabs.t6 button{font-size:15px;letter-spacing:0}
 </style>
 </head>
 <body>
@@ -434,7 +472,7 @@ fieldset.mated{border:0;border-left:5px solid var(--c);margin:0 0 14px;min-width
 <div class="volta" id="volta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></div>
 <script>
 {
-const VERSAO = '4.7.0';
+const VERSAO = '4.8.0';
 /* Computador = tela de 1024 px ou mais E mouse/trackpad como ponteiro principal.
    Tablet (iPad, Android) e celular têm toque como ponteiro principal, então continuam com o layout do celular,
    mesmo um iPad de 11" deitado. */
@@ -894,6 +932,7 @@ function vHoje(c,p){
   } else if(h >= ini) {
     html += `<section class="card"><h2>${h > CX.data ? (CX.c.pre ? 'Meta cumprida!' : 'Prova feita!') : 'Hoje é folga'}</h2><p class="muted" style="margin:0">${h > CX.data ? (CX.c.pre ? 'Agora é revisão e questões até sair o edital.' : 'Agora é esperar o gabarito.') : motivoFolga(p,h)+'. Descanse, ou adiante algo se quiser.'}</p></section>`;
   }
+  html += revCard(p);
   const curso = aulaLink(p,{});
   if(!DESK()) html += curso ? `<a class="btn alt curso" href="${esc(curso.url)}" target="_blank" rel="noopener">${IC.casa}<span>${CX.ibge && ESPEC() && !p.curso ? 'Abrir o curso no Gran' : 'Abrir meu curso'+(platDe(p)[0] && platDe(p)[0] !== 'outra' ? ' · '+platDe(p)[1] : '')}</span></a>` : '';
   if(pl.prox && h <= CX.fimConteudo) html += `<button class="btn alt adi" id="adiantar">Adiantar o próximo assunto<small>${TAGS[pl.prox.m]}: ${esc(pl.prox.t)}</small></button>`;
@@ -1090,6 +1129,7 @@ function vProva(c,p){
     <section class="card"><h2>Pausas</h2><p class="muted" style="margin:-4px 0 10px">Viagem, feriado da cidade, semana corrida… Os dias pausados ficam sem estudo, a fila espera e o fogo não apaga.</p>
     ${p.pausas.map((x,i) => `<div class="pausa"><span>${dm(x.de)}${x.ate!==x.de?' a '+dm(x.ate):''}${x.nome?' · '+esc(x.nome):''}</span><button class="btn alt sm" data-rmp="${i}">Remover</button></div>`).join('')}
     <form id="addPausa" style="margin-top:10px"><div class="two"><label class="f">De<input type="date" name="de" required></label><label class="f">Até<input type="date" name="ate"></label></div><label class="f">Motivo (opcional)<input name="nome" placeholder="Ex.: viagem"></label><button class="btn sm">Adicionar pausa</button></form></section>`;
+  html += lembreteCard(c,p);
   const comp = !CX.ibge && !c.tpl ? (NV.user && NV.fb ? (c.pub
       ? `<p style="margin:0 0 10px">✓ Compartilhado com a comunidade. Quem usar ganha uma cópia; a sua continua só sua.</p><div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn sm" data-publicar="${c.id}">Atualizar na comunidade</button><button class="btn alt sm" data-tirarcom="${esc(c.pub)}">Tirar da comunidade</button></div>`
       : `<p class="muted" style="margin:0 0 10px">Montou o cronograma a partir do edital? Compartilhe na vitrine com o selo "Criado pela comunidade". Vão o nome, o cargo, a banca, a data, os links e o conteúdo; o seu progresso não vai. Só você pode editar ou tirar.</p><button class="btn sm" data-publicar="${c.id}">Compartilhar com a comunidade</button>`)
@@ -1108,6 +1148,294 @@ function vProva(c,p){
   return html;
 }
 
+/* ---------- v4.8: simulados, nível, revisão espaçada e lembrete diário ---------- */
+/* Tudo guardado no progresso de cada concurso (p): p.sim (simulados), p.simAtivo (cronômetro rodando), p.meta (nota-alvo, %),
+   p.resultado (prova de verdade), p.rev (pilha de revisões), p.revN (revisões feitas), p.rvAsk (perguntar ao concluir), p.lembrete {on,hora}. */
+const NIVEL = [['Iniciante',0],['Aprendiz',50],['Persistente',120],['Competitivo',220],['Avançado',360],['Aprovável',540],['Elite',780],['Lenda',1100]];
+const PRAZOS = [1,3,7,15,30];
+/* questões por matéria: dos dados da matéria ou, no IBGE, da tabela da prova */
+const qDe = m => (MAT[m] && MAT[m].q) || ((CX && CX.c.prova) || []).filter(x => x[2] === m).reduce((a,x) => a + x[1], 0);
+const ehCeb = () => /cebraspe|cespe/i.test((CX && CX.c.banca) || '');
+/* nota em %: na Cebraspe (certo/errado) cada errada anula uma certa, por isso o campo "erradas" */
+const simNota = s => s.t ? Math.round(100*Math.max(0, s.a - (s.e||0))/s.t) : 0;
+const SIMN = p => (p.sim||[]).slice().sort((x,y) => x.d === y.d ? (x.id < y.id ? -1 : 1) : x.d < y.d ? -1 : 1);
+const metaDe = p => p.meta || 70;
+const media = L => L.length ? Math.round(L.reduce((a,b) => a+b, 0)/L.length) : null;
+const fmtT = ms => {const neg = ms < 0, s = Math.abs(Math.round(ms/1000)); return (neg?'+':'')+Math.floor(s/3600)+':'+pad(Math.floor(s%3600/60))+':'+pad(s%60)};
+const hhmm = t => pad(new Date(t).getHours())+':'+pad(new Date(t).getMinutes());
+
+/* XP: cada simulado vale de 10 a 60 pontos conforme o acerto (por disciplina vale 60% disso);
+   bater o próprio recorde num completo dá +15 e cada revisão feita dá +3 */
+function simXP(p){
+  let xp = 0, best = -1;
+  for(const s of SIMN(p)){
+    const n = simNota(s); let g = Math.round((10 + n/2) * (s.tipo === 'completo' ? 1 : .6));
+    if(s.tipo === 'completo'){if(best >= 0 && n > best) g += 15; best = Math.max(best, n)}
+    xp += g;
+  }
+  return xp + 3*(p.revN||0);
+}
+function nivelDe(xp){
+  let i = 0; while(i+1 < NIVEL.length && xp >= NIVEL[i+1][1]) i++;
+  const prox = NIVEL[i+1];
+  return {n:i+1, nome:NIVEL[i][0], xp, min:NIVEL[i][1], prox:prox ? prox[1] : null, proxNome:prox ? prox[0] : ''};
+}
+/* acertos por matéria em todos os simulados (completos e por disciplina), em %, do mais antigo ao mais novo */
+function simPorMat(p){
+  const r = {}; for(const m of SUBJ) r[m] = [];
+  for(const s of SIMN(p)) for(const [m,x] of Object.entries(s.por||{})) if(r[m] && x.t) r[m].push(Math.round(100*x.a/x.t));
+  return r;
+}
+/* resultado a anotar: ou o cronômetro foi parado (p.simAtivo.fim) ou a pessoa escolheu anotar um simulado que já fez (V.simRes) */
+const ctxRes = p => p.simAtivo && p.simAtivo.fim ? {tipo:p.simAtivo.tipo, q:p.simAtivo.q, lim:p.simAtivo.lim, min:Math.max(1, Math.round((p.simAtivo.fim - p.simAtivo.ini)/60000)), via:'timer'} : (V.simRes || null);
+const nomeSim = tipo => tipo === 'completo' ? 'Simulado completo' : 'Simulado de '+((MAT[tipo] && MAT[tipo].nome) || 'disciplina');
+
+function simCrono(c,p){
+  const a = p.simAtivo, dec = Date.now() - a.ini, rest = a.lim*60000 - dec;
+  return `<section class="card sim-ativo"><h2>${esc(nomeSim(a.tipo))}</h2>
+    <p class="muted" style="margin:-4px 0 8px">${a.q ? a.q+' questões · ' : ''}${a.lim} min · começou às ${hhmm(a.ini)}</p>
+    <div class="simt${rest <= 0 ? ' estourou' : ''}" id="simT" data-ini="${a.ini}" data-lim="${a.lim}" role="timer">${fmtT(rest)}</div>
+    <div class="bar2"><i id="simBar" style="width:${Math.min(100, 100*dec/(a.lim*60000))}%"></i></div>
+    <p class="muted" style="margin:8px 0 12px">Faça as questões onde preferir: plataforma do seu curso, prova antiga em PDF ou caderno. O tempo continua contando mesmo se você fechar o app.</p>
+    <div class="row"><button class="btn" data-simfim="1">Terminei: anotar o resultado</button><button class="btn alt sm" data-simcancel="1">Cancelar</button></div></section>`;
+}
+function simInicio(c,p){
+  const tp = V.simTipo && (V.simTipo === 'completo' || MAT[V.simTipo]) ? V.simTipo : 'completo', comp = tp === 'completo';
+  const qC = SUBJ.reduce((a,m) => a + qDe(m), 0), dq = comp ? qC : qDe(tp);
+  const dt = comp ? 240 : (dq ? Math.max(15, Math.round(dq*3.5/5)*5) : 60);
+  const L = comp ? EDITAL : EDITAL.filter(a => a.m === tp), f = L.filter(a => aDone(p,a)).length;
+  return `<section class="card"><h2>Fazer um simulado</h2>
+    <p class="muted" style="margin:-4px 0 10px">Pode ser o simulado completo ou só uma disciplina. Em qualquer um, pode cair qualquer assunto do edital${comp ? '' : ' dessa matéria'}: são ${L.length} e você já concluiu ${f}. O que ainda não foi estudado também pode aparecer, e é isso que mede onde você está.</p>
+    <form id="simStart"><label class="f">O que vai fazer<select id="simTipo" name="tipo"><option value="completo"${comp?' selected':''}>Simulado completo</option><optgroup label="Por disciplina">${SUBJ.map(m => `<option value="${m}"${tp===m?' selected':''}>${esc(MAT[m].nome)}</option>`).join('')}</optgroup></select></label>
+    <div class="two"><label class="f">Questões<input type="number" name="q" min="1" inputmode="numeric" value="${dq||''}" placeholder="opcional"></label><label class="f">Tempo (minutos)<input type="number" name="lim" min="5" inputmode="numeric" value="${dt}" required></label></div>
+    <button class="btn" style="width:100%">Começar com cronômetro</button></form>
+    <p style="text-align:center;margin:6px 0 0"><button class="linkbtn" data-simmanual="1">Já fiz um simulado: anotar o resultado</button></p></section>`;
+}
+/* formulário de resultado: serve para o simulado e para a prova de verdade (kind = 'sim' ou 'prova') */
+function simFormCard(c,p,ctx,kind){
+  const prova = kind === 'prova', tipo = ctx.tipo, h = hoje();
+  let linhas;
+  if(tipo === 'completo'){linhas = SUBJ.filter(m => qDe(m)).map(m => [m, MAT[m].nome, qDe(m)]); if(!linhas.length) linhas = [['all', prova ? 'Total da prova' : 'Total do simulado', ctx.q||'']]}
+  else linhas = [[tipo, (MAT[tipo]||{}).nome || 'Disciplina', ctx.q || qDe(tipo) || '']];
+  const tit = prova ? 'Resultado da prova' : ctx.via === 'timer' ? 'Simulado terminado: anote o resultado' : 'Anotar um simulado que você fez';
+  const dflt = prova ? (c.data <= h ? c.data : h) : h;
+  return `<section class="card"><h2>${tit}</h2>
+    <p class="muted" style="margin:-4px 0 8px">${prova ? 'Digite quantas questões acertou, pelo gabarito. Esse é o ponto final do seu gráfico.' : ctx.via === 'timer' ? `Você usou ${ctx.min} min de ${ctx.lim}. ` : ''}${prova || ctx.via === 'timer' ? '' : 'Pode ser de qualquer plataforma ou prova antiga.'}</p>
+    <form id="${prova ? 'provaForm' : 'simForm'}" data-tipo="${esc(tipo)}" data-lim="${ctx.lim||''}" data-via="${esc(ctx.via||'')}">
+    ${prova || ctx.via === 'timer' ? '' : `<label class="f">${esc(nomeSim(tipo))} · data<input type="date" name="d" value="${h}" max="${h}" required></label>`}
+    ${prova ? `<label class="f">Data da prova<input type="date" name="d" value="${dflt}" max="${h}" required></label>` : ''}
+    ${linhas.map(([k,nm,t]) => `<div class="srow" style="--c:${k==='all'?'var(--g)':(MAT[k]?MAT[k].cor:'var(--g)')}"><span>${esc(nm)}</span><input type="number" name="a_${k}" min="0" inputmode="numeric" placeholder="acertos" required aria-label="Acertos em ${esc(nm)}"><i>de</i><input type="number" name="t_${k}" min="1" inputmode="numeric" value="${t}" placeholder="total" required aria-label="Total de questões de ${esc(nm)}"></div>`).join('')}
+    ${ehCeb() ? `<label class="f">Erradas (opcional)<input type="number" name="e" min="0" inputmode="numeric" placeholder="Na Cebraspe, cada errada anula uma certa"></label>` : ''}
+    ${prova ? '' : `<label class="f">Tempo gasto (minutos, opcional)<input type="number" name="min" min="1" inputmode="numeric" value="${ctx.min||''}"></label>`}
+    <div class="row"><button class="btn">Salvar</button>${prova ? '' : '<button type="button" class="btn alt sm" data-simdesc="1">Descartar</button>'}</div></form></section>`;
+}
+
+/* gráfico de evolução: nota (%) de cada simulado ao longo do tempo, até o dia da prova */
+function graficoSim(c,p){
+  const all = SIMN(p), L = all.filter(s => s.tipo === 'completo'), h = hoje(), ult = all[all.length-1].d;
+  let x0 = all[0].d; if(h < x0) x0 = h;
+  let x1 = c.data; if(ult > x1) x1 = ult; if(p.resultado && p.resultado.d > x1) x1 = p.resultado.d;
+  if(x1 <= x0) x1 = addD(x0, 30);
+  const W = 340, H = 200, ml = 30, mr = 16, mt = 14, mb = 28, span = (parse(x1) - parse(x0))/864e5;
+  const dd = d => (parse(d) - parse(x0))/864e5;
+  const X = d => +(ml + (W-ml-mr)*dd(d)/span).toFixed(1), Y = v => +(mt + (H-mt-mb)*(1 - v/100)).toFixed(1);
+  let g = '';
+  for(const v of [0,25,50,75,100]) g += `<line x1="${ml}" x2="${W-mr}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${ml-5}" y="${Y(v)+3.5}" text-anchor="end" font-size="10" fill="var(--mut)">${v}</text>`;
+  const meta = metaDe(p);
+  g += `<line x1="${ml}" x2="${W-mr}" y1="${Y(meta)}" y2="${Y(meta)}" stroke="var(--ct)" stroke-width="1.6" stroke-dasharray="5 4"/><text x="${ml+4}" y="${Y(meta)-4}" font-size="10" font-weight="700" fill="var(--ct)">meta ${meta}%</text>`;
+  if(CX.ibge) g += `<line x1="${ml}" x2="${W-mr}" y1="${Y(30)}" y2="${Y(30)}" stroke="var(--fx)" stroke-width="1.2" stroke-dasharray="2 3"/><text x="${ml+4}" y="${Y(30)-4}" font-size="10" fill="var(--fx)">mínimo para passar (30%)</text>`;
+  if(h > x0 && h < x1) g += `<line x1="${X(h)}" x2="${X(h)}" y1="${mt}" y2="${H-mb}" stroke="var(--mut)" stroke-width="1" stroke-dasharray="1 3"/><text x="${X(h)}" y="${H-mb+22}" text-anchor="middle" font-size="9" fill="var(--mut)">hoje</text>`;
+  g += `<line x1="${X(c.data)}" x2="${X(c.data)}" y1="${mt}" y2="${H-mb}" stroke="var(--g)" stroke-width="1.5" opacity=".55"/><text x="${X(c.data)}" y="${mt-3}" text-anchor="end" font-size="10" font-weight="700" fill="var(--g)">${c.pre ? 'meta' : 'prova'}</text>`;
+  /* tendência: reta de mínimos quadrados sobre os completos, estendida até a prova (só com 3 ou mais) */
+  let proj = null;
+  if(L.length >= 3){
+    const pts = L.map(s => [dd(s.d), simNota(s)]), n = pts.length, sx = pts.reduce((a,q) => a+q[0], 0), sy = pts.reduce((a,q) => a+q[1], 0), sxx = pts.reduce((a,q) => a+q[0]*q[0], 0), sxy = pts.reduce((a,q) => a+q[0]*q[1], 0), den = n*sxx - sx*sx;
+    if(den > 0 && c.data > ult && dd(L[L.length-1].d) - dd(L[0].d) >= 7){
+      const sl = (n*sxy - sx*sy)/den, ic = (sy - sl*sx)/n; proj = Math.max(0, Math.min(95, Math.round(ic + sl*dd(c.data))));
+      g += `<line x1="${X(L[L.length-1].d)}" y1="${Y(simNota(L[L.length-1]))}" x2="${X(c.data)}" y2="${Y(proj)}" stroke="var(--g)" stroke-width="2" stroke-dasharray="3 4" opacity=".7"/><circle cx="${X(c.data)}" cy="${Y(proj)}" r="3.5" fill="none" stroke="var(--g)" stroke-width="2"/>`;
+    }
+  }
+  if(L.length > 1) g += `<polyline fill="none" stroke="var(--g)" stroke-width="2.5" stroke-linejoin="round" points="${L.map(s => X(s.d)+','+Y(simNota(s))).join(' ')}"/>`;
+  for(const s of all.filter(s => s.tipo !== 'completo')) g += `<circle cx="${X(s.d)}" cy="${Y(simNota(s))}" r="3.2" fill="${MAT[s.m] ? MAT[s.m].cor : 'var(--mut)'}" opacity=".85"><title>${esc(nomeSim(s.tipo))}: ${simNota(s)}%</title></circle>`;
+  for(const s of L) g += `<circle cx="${X(s.d)}" cy="${Y(simNota(s))}" r="4.5" fill="var(--g)" stroke="var(--card)" stroke-width="2"><title>${esc(fmt(s.d))}: ${simNota(s)}%</title></circle>`;
+  if(p.resultado) g += `<text x="${X(p.resultado.d)}" y="${Y(simNota(p.resultado))+5}" text-anchor="middle" font-size="18" fill="var(--mt)">★<title>Prova: ${simNota(p.resultado)}%</title></text>`;
+  g += `<text x="${ml}" y="${H-8}" font-size="10" fill="var(--mut)">${dm(x0)}</text><text x="${W-mr}" y="${H-8}" text-anchor="end" font-size="10" fill="var(--mut)">${dm(x1)}</text>`;
+  return {svg:`<svg class="grafsim" viewBox="0 0 ${W} ${H}" role="img" aria-label="Gráfico da nota dos simulados ao longo do tempo, com a meta de ${meta}%">${g}</svg>`, proj};
+}
+
+function nivelCard(p){
+  const L = SIMN(p), comp = L.filter(s => s.tipo === 'completo').map(simNota), xp = simXP(p), nv = nivelDe(xp);
+  const pc = nv.prox ? Math.round(100*(xp - nv.min)/(nv.prox - nv.min)) : 100;
+  return `<section class="card"><h2>Seu nível</h2><div class="nv-top"><div class="nv-n" aria-hidden="true">${nv.n}</div><div><b>${nv.nome}</b><span class="muted">${xp} XP</span></div></div>
+    <div class="bar2"><i style="width:${pc}%"></i></div><p class="muted" style="margin:0 0 4px">${nv.prox ? `Faltam ${nv.prox - xp} XP para ${nv.proxNome}.` : 'Nível máximo. Agora é manter!'}</p>
+    <div class="nv-stats"><div><b>${L.length}</b><span>simulados</span></div><div><b>${comp.length ? Math.max(...comp)+'%' : '—'}</b><span>melhor completo</span></div><div><b>${comp.length ? media(comp.slice(-3))+'%' : '—'}</b><span>média dos 3 últimos</span></div><div><b>${p.revN||0}</b><span>revisões feitas</span></div></div>
+    <p class="muted" style="margin:10px 0 0">Como ganha XP: cada simulado vale de 10 a 60 pontos, conforme o acerto (o completo vale mais que o de uma disciplina); passar do seu melhor completo dá +15; cada revisão feita dá +3.</p></section>`;
+}
+function proximoDesafio(c){
+  const pf = perfilAtual(), h = hoje();
+  const L = pf.concursos.map(concById).filter(x => x && x.id !== c.id && x.data >= h).sort((a,b) => a.data < b.data ? -1 : 1).slice(0,2);
+  return `<section class="card"><h2>Próximo desafio</h2>${L.length
+    ? `<p class="muted" style="margin:-4px 0 8px">Você já tem outro concurso na lista. O que vem primeiro:</p>${L.map(x => `<button class="btn alt" style="width:100%;margin-bottom:8px;justify-content:space-between" data-conc="${x.id}"><span>${esc(x.nome)}</span><span>${diasAte(x.data)} dias</span></button>`).join('')}`
+    : `<p class="muted" style="margin:-4px 0 10px">Veja os concursos abertos e os que estão por vir e monte o próximo cronograma. O que você estudou agora serve de base.</p><button class="btn" data-go="concursos">Ver concursos</button>`}</section>`;
+}
+function simProvaCard(c,p){
+  if(c.pre) return '';
+  const h = hoje(), r = p.resultado;
+  if(r){
+    const n = simNota(r), comp = SIMN(p).filter(s => s.tipo === 'completo').map(simNota), m = media(comp), meta = metaDe(p);
+    return `<section class="card"><h2>Resultado da prova ★</h2><div class="nv-top"><div class="nv-n" style="font-size:22px" aria-hidden="true">${n}%</div><div><b>${r.a} de ${r.t}${r.e ? ' · '+r.e+' erradas' : ''}</b><span class="muted">${fmt(r.d)}</span></div></div>
+      <p style="margin:6px 0">${n >= meta ? `Você bateu a sua meta de <b>${meta}%</b>. Parabéns!` : `Faltaram <b>${meta - n}</b> ponto${meta - n > 1 ? 's' : ''} percentuais para a sua meta de ${meta}%.`}${m !== null ? ` A média dos seus simulados completos foi ${m}%: na prova você ficou ${n === m ? 'igual' : n > m ? (n-m)+' pontos acima' : (m-n)+' pontos abaixo'}.` : ''}</p>
+      ${r.por ? `<div class="perf">${Object.entries(r.por).filter(([k]) => MAT[k]).map(([k,x]) => `<div style="--c:${MAT[k].cor}"><span>${esc(MAT[k].nome)}</span><span class="track"><i style="width:${pctAc(x)}%"></i></span><b>${pctAc(x)}%</b></div>`).join('')}</div>` : ''}
+      <button class="linkbtn" data-provadel="1">Corrigir o resultado</button></section>${proximoDesafio(c)}`;
+  }
+  if(h >= c.data) return simFormCard(c,p,{tipo:'completo', q:'', via:'prova'},'prova') + proximoDesafio(c);
+  return '';
+}
+function vSimulado(c,p){
+  const L = SIMN(p), h = hoje(), ctx = ctxRes(p);
+  let html = '';
+  if(p.simAtivo && !p.simAtivo.fim) html += simCrono(c,p);
+  else if(ctx) html += simFormCard(c,p,ctx,'sim');
+  else html += simInicio(c,p);
+  if(!L.length){
+    html += `<section class="card"><h2>Como funciona</h2><ul class="dots-list"><li>Escolha o simulado completo ou uma disciplina e <b>comece o cronômetro</b>.</li><li>Faça as questões onde preferir e, no fim, <b>anote os acertos</b> de cada matéria.</li><li>O app mostra a <b>evolução da sua nota até o dia da prova</b>, sobe seu <b>nível</b> e aponta a matéria mais fraca.</li><li>Ninguém tira 100% num simulado ou na prova de verdade: a ideia é subir a nota aos poucos e chegar no dia sabendo onde está.</li></ul></section>`;
+  } else {
+    html += nivelCard(p);
+    const gr = graficoSim(c,p), meta = metaDe(p), ult = L[L.length-1], comp = L.filter(s => s.tipo === 'completo');
+    html += `<section class="card"><h2>Evolução até ${c.pre ? 'a meta' : 'a prova'}</h2>${gr.svg}
+      <div class="leg"><span style="--c:var(--g)">Completo</span><span style="--c:var(--ct)">Sua meta</span>${L.some(s => s.tipo !== 'completo') ? '<span style="--c:var(--mut)">Por disciplina</span>' : ''}</div>
+      <p style="margin:10px 0 0">${gr.proj !== null ? `Nesse ritmo, a tendência dos seus simulados completos leva a uns <b>${gr.proj}%</b> no dia. É só uma estimativa: ela melhora conforme você faz mais simulados.` : comp.length < 3 ? 'Com 3 simulados completos, o app desenha a tendência até o dia da prova.' : ''}${CX.ibge && comp.length ? ` No IBGE, o mínimo é 30% no total e pelo menos 1 ponto em cada matéria${comp.some(s => simNota(s) < 30) ? '' : ': seus completos estão todos acima'}.` : ''}</p>
+      <form id="metaForm" class="plf" style="margin-top:10px">Minha meta de acerto <input type="number" name="meta" min="1" max="100" inputmode="numeric" value="${meta}" aria-label="Meta de acerto em porcentagem">%<button class="btn alt sm">Salvar</button></form></section>`;
+    const pm = simPorMat(p), mm = SUBJ.filter(m => pm[m].length);
+    if(mm.length){
+      const med = Object.fromEntries(mm.map(m => [m, media(pm[m].slice(-3))])), fr = mm.filter(m => pm[m].length >= 2).sort((a,b) => med[a] - med[b])[0];
+      html += `<section class="card"><h2>Por disciplina</h2><p class="muted" style="margin:-4px 0 4px">Média dos 3 últimos simulados em que a matéria apareceu.</p><div class="perf">${mm.map(m => `<div style="--c:${MAT[m].cor}"><span>${esc(MAT[m].nome)}</span><span class="track"><i style="width:${med[m]}%"></i></span><b>${med[m]}%</b></div>`).join('')}</div>${fr ? `<p style="margin:12px 0 0">Ponto fraco nos simulados: <b>${esc(MAT[fr].nome)}</b>.</p>` : ''}</section>`;
+    }
+    html += `<section class="card"><h2>Histórico</h2><ul class="hist">${L.slice().reverse().slice(0,12).map(s => `<li><div><b>${esc(nomeSim(s.tipo))}</b><span class="sub">${fmt(s.d)} · ${s.a}/${s.t}${s.e ? ' · '+s.e+(s.e > 1 ? ' erradas' : ' errada') : ''}${s.min ? ' · '+s.min+' min' : ''}</span></div><strong>${simNota(s)}%</strong><button class="mini-btn" data-simdel="${s.id}" aria-label="Tirar este simulado">Tirar</button></li>`).join('')}</ul>${L.length > 12 ? `<p class="muted" style="margin:8px 0 0">Mostrando os 12 mais recentes.</p>` : ''}</section>`;
+  }
+  return html + simProvaCard(c,p);
+}
+
+/* ---------- Revisão espaçada ---------- */
+const revDue = (p,h = hoje()) => (p.rev||[]).filter(r => r.due <= h).sort((a,b) => a.due < b.due ? -1 : a.due > b.due ? 1 : 0);
+const revProx = (p,h = hoje()) => (p.rev||[]).filter(r => r.due > h).sort((a,b) => a.due < b.due ? -1 : a.due > b.due ? 1 : 0);
+function revAdd(p,a,dias,rep){
+  p.rev = (p.rev||[]).filter(r => r.aid !== a.id);
+  p.rev.push({id:'r'+Date.now().toString(36)+Math.floor(Math.random()*1e3).toString(36), aid:a.id, t:a.t, m:a.m, due:addD(hoje(), dias), gap:dias, rep:!!rep, n:0});
+}
+/* ao concluir um assunto, o app pergunta se quer revisar (a pergunta aparece na própria tela, em folha) */
+function ofertaRev(p,a){
+  if(a.rev || a.fin || p.rvAsk === false || (p.rev||[]).some(r => r.aid === a.id)) return;
+  V.revOferta = {aid:a.id, t:a.t, m:a.m};
+}
+function revSheet(){
+  const o = V.revOferta; if(!o) return '';
+  return `<div class="rvs-bg" id="rvBg"></div><div class="rvs" role="dialog" aria-label="Adicionar à revisão"><h3>Assunto concluído!</h3><p style="margin:0 0 4px"><b>${esc(o.t)}</b></p>
+    <p class="muted" style="margin:0">Quer revisar de novo mais pra frente? Escolha o prazo:</p>
+    <div class="chips">${PRAZOS.map(n => `<button class="chipb" data-rvadd="${n}">${n === 1 ? 'Amanhã' : 'Em '+n+' dias'}</button>`).join('')}</div>
+    <label class="row" style="gap:10px;min-height:44px"><input type="checkbox" id="rvRep" checked style="width:22px;height:22px"> Repetir depois, cada vez com mais espaço</label>
+    <div class="row" style="justify-content:space-between"><button class="btn alt sm" data-rvno="1">Agora não</button><button class="linkbtn" data-rvnunca="1">Não perguntar mais</button></div></div>`;
+}
+function revLinha(r,h){
+  const n = diasAte(r.due), quando = n === 0 ? 'para hoje' : n < 0 ? 'atrasada há '+(-n)+(-n > 1 ? ' dias' : ' dia') : 'em '+n+(n > 1 ? ' dias' : ' dia')+' ('+dm(r.due)+')';
+  return `<div class="task"><button class="chk" data-rvok="${r.id}" aria-label="Marcar revisão feita">${ICK}</button><div>${TAGS[r.m] ? tag(r.m) : ''}<span class="tt">${esc(r.t)}</span><span class="sub">${r.n ? 'Revisão '+(r.n+1) : 'Primeira revisão'} · ${quando}${r.rep ? ' · repete' : ''}</span>
+    <button class="mini-btn" data-rvadia="${r.id}">Adiar 1 dia</button><button class="mini-btn" data-rvdel="${r.id}">Tirar da lista</button></div></div>`;
+}
+function revCard(p){
+  const h = hoje(), dev = revDue(p,h), prox = revProx(p,h);
+  const form = `<form id="rvAdd" class="rvform"><label class="f">Assunto<select name="aid" required>${SUBJ.map(m => `<optgroup label="${esc(MAT[m].nome)}">${EDITAL.filter(a => a.m === m).map(a => `<option value="${esc(a.id)}">${esc(a.t)}</option>`).join('')}</optgroup>`).join('')}</select></label>
+    <div class="two"><label class="f">Revisar em<select name="dias">${PRAZOS.map(n => `<option value="${n}"${n===7?' selected':''}>${n === 1 ? 'Amanhã' : n+' dias'}</option>`).join('')}</select></label><label class="row" style="gap:8px;min-height:44px;align-self:end"><input type="checkbox" name="rep" checked style="width:22px;height:22px"> Repetir</label></div><button class="btn sm">Adicionar à revisão</button></form>`;
+  if(!dev.length && !prox.length) return `<details class="card slim"><summary>Revisões</summary><p class="muted" style="margin:8px 0">Nada na pilha. Ao concluir um assunto, o app pergunta se você quer revisá-lo depois; também dá para adicionar um assunto que já estudou.</p>${form}</details>`;
+  return `<section class="card"><h2>Revisões${dev.length ? ` · ${dev.length} para hoje` : ''}</h2>
+    ${dev.length ? dev.map(r => revLinha(r,h)).join('') : '<p class="muted" style="margin:-4px 0 6px">Nenhuma revisão para hoje.</p>'}
+    <details style="margin-top:8px"><summary>${prox.length ? 'Próximas ('+prox.length+') e adicionar' : 'Adicionar revisão'}</summary>${prox.length ? `<ul class="rvprox">${prox.slice(0,10).map(r => `<li><span>${esc(r.t)}</span><b>${dm(r.due)}</b><button class="mini-btn" data-rvdel="${r.id}" aria-label="Tirar da lista">×</button></li>`).join('')}</ul>${prox.length > 10 ? `<p class="muted">E mais ${prox.length - 10}.</p>` : ''}` : ''}${form}</details></section>`;
+}
+
+/* ---------- Lembrete diário ---------- */
+/* O navegador só consegue avisar enquanto o app está vivo (aberto ou em segundo plano). Para avisar com o app fechado,
+   o app gera um arquivo de calendário (.ics) com os próximos 30 dias: um evento por dia, com o assunto no título e alarme. */
+function notificar(titulo, corpo, tag){
+  const op = {body:corpo, icon:'icon-192.png', badge:'favicon-32.png', tag:tag || 'estudo'};
+  try{
+    if('serviceWorker' in navigator) navigator.serviceWorker.getRegistration().then(r => r ? r.showNotification(titulo, op) : new Notification(titulo, op)).catch(() => {try{new Notification(titulo, op)}catch(e){}});
+    else new Notification(titulo, op);
+  }catch(e){}
+}
+function textoDia(pp,pl,h){
+  const hojeL = (pl.out[h]||[]).filter(a => !aDone(pp,a)), rv = revDue(pp,h).length;
+  return [hojeL.length ? 'Hoje: '+hojeL.slice(0,2).map(a => a.t).join(' + ')+(hojeL.length > 2 ? ' +'+(hojeL.length-2) : '') : '', rv ? rv+(rv > 1 ? ' revisões' : ' revisão')+' para fazer' : ''].filter(Boolean).join(' · ');
+}
+function lembreteTick(){
+  try{
+    if(NV.carregando || !('Notification' in window) || Notification.permission !== 'granted') return;
+    const pf = S.perfis.find(x => x.id === V.perfil); if(!pf) return;
+    const ag = new Date(), h = iso(ag), hm = pad(ag.getHours())+':'+pad(ag.getMinutes());
+    let ult = {}; try{ult = JSON.parse(localStorage.getItem('cronograma-lemb')) || {}}catch(e){}
+    for(const cid of pf.concursos){
+      const k = pf.id+'|'+cid, p0 = S.prog[k], l = p0 && p0.lembrete;
+      if(!l || !l.on || hm < l.hora || ult[k] === h) continue;
+      const c = concById(cid); if(!c) continue;
+      ult[k] = h; try{localStorage.setItem('cronograma-lemb', JSON.stringify(ult))}catch(e){}
+      const sv = [CX,MAT,QC,QR,EDITAL,SUBJ,TAGS,FT]; let corpo = '';
+      try{usar(c); const pp = P(pf.id,cid); corpo = textoDia(pp, plano(pp), h)} finally {[CX,MAT,QC,QR,EDITAL,SUBJ,TAGS,FT] = sv}
+      if(corpo) notificar('Hora de estudar · '+c.nome, corpo, 'estudo-'+cid);
+    }
+  }catch(e){}
+}
+function icsLembretes(c,p,hora){
+  const h = hoje(), pl = plano(p), hr = String(hora || '19:00'), [hh,mm] = hr.split(':').map(Number), stamp = new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d+/,''), seq = Math.floor(Date.now()/60000);
+  const ini = pad(hh)+pad(mm)+'00', fimD = new Date(2000,0,1,hh,mm+30), fim = pad(fimD.getHours())+pad(fimD.getMinutes())+'00', dt = d => d.replace(/-/g,'');
+  const e2 = s => String(s).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\r?\n/g,'\\n');
+  const dobra = l => {const o = []; while(l.length > 60){o.push(l.slice(0,60)); l = ' '+l.slice(60)} o.push(l); return o.join('\r\n')};
+  const ev = (uid,d,resumo,desc) => ['BEGIN:VEVENT','UID:'+uid,'DTSTAMP:'+stamp,'SEQUENCE:'+seq,'DTSTART:'+dt(d)+'T'+ini,'DTEND:'+dt(d)+'T'+fim,'SUMMARY:'+e2(resumo),'DESCRIPTION:'+e2(desc),'BEGIN:VALARM','TRIGGER:PT0M','ACTION:DISPLAY','DESCRIPTION:'+e2(resumo),'END:VALARM','END:VEVENT'];
+  let L = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//QYUDEV//Meu Cronograma de Estudo//PT-BR','CALSCALE:GREGORIAN','METHOD:PUBLISH','X-WR-CALNAME:'+e2('Estudos · '+c.nome)];
+  for(let i = 0; i < 30; i++){
+    const d = addD(h,i), it = (pl.out[d]||[]).filter(a => !aDone(p,a));
+    if(!it.length) continue;
+    const res = 'Estudar: '+it.slice(0,2).map(a => a.t).join(' + ')+(it.length > 2 ? ' +'+(it.length-2) : '');
+    L = L.concat(ev('estudo-'+c.id+'-'+d+'@jacobbv.github.io', d, (res.length > 100 ? res.slice(0,99).trim()+'…' : res), it.map(a => (TAGS[a.m]||'')+': '+a.t).join('\n')+'\n\nAbrir o app: '+LINK_APP));
+  }
+  for(const r of (p.rev||[])){
+    const d = r.due < h ? h : r.due; if(d > addD(h,60)) continue;
+    L = L.concat(ev('rev-'+r.id+'-'+r.n+'@jacobbv.github.io', d, 'Revisar: '+r.t.slice(0,90), 'Revisão do assunto: '+r.t+'\n\nAbrir o app: '+LINK_APP));
+  }
+  L.push('END:VCALENDAR');
+  return L.map(dobra).join('\r\n')+'\r\n';
+}
+function baixa(nome, texto, tipo){
+  const u = URL.createObjectURL(new Blob([texto], {type:tipo})), a = document.createElement('a');
+  a.href = u; a.download = nome; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 5000);
+}
+function lembreteCard(c,p){
+  const l = p.lembrete || {}, perm = 'Notification' in window ? Notification.permission : 'nao';
+  const st = perm === 'granted' ? '✓ Avisos ligados neste aparelho.' : perm === 'denied' ? 'Os avisos estão bloqueados neste aparelho: libere nas configurações do navegador.' : perm === 'nao' ? 'Este navegador não mostra avisos.' : 'Avisos desligados neste aparelho.';
+  return `<section class="card"><h2>Lembrete diário</h2><p class="muted" style="margin:-4px 0 10px">O aviso diz o assunto do dia e quantas revisões estão esperando.</p>
+    <form id="lembForm" class="plf" style="margin:0 0 12px"><label>Todo dia às <input type="time" name="hora" value="${esc(l.hora || '19:00')}" required style="width:120px"></label><button class="btn sm">${l.on ? 'Salvar horário' : 'Ligar lembrete'}</button>${l.on ? '<button type="button" class="btn alt sm" id="lembOff">Desligar</button>' : ''}</form>
+    <p style="margin:0 0 2px"><b>1. Avisos do navegador</b></p><p class="muted" style="margin:0 0 8px">${st} Funcionam com o app aberto ou em segundo plano; se o celular "dormir" o app, o aviso pode não chegar.</p>
+    ${perm === 'default' ? '<button class="btn alt sm" id="lembNotif">Ativar avisos neste aparelho</button>' : ''}
+    <p style="margin:14px 0 2px"><b>2. Calendário do celular (o mais seguro)</b></p><p class="muted" style="margin:0 0 8px">Baixe um arquivo com os próximos 30 dias: cada dia vira um evento no horário escolhido, com o assunto no título e alarme. Funciona com o app fechado. Abra o arquivo no celular e escolha adicionar ao calendário. Se o plano mudar, baixe de novo: normalmente os eventos são atualizados, sem duplicar.</p>
+    <button class="btn sm" id="lembIcs">Baixar lembretes para o calendário</button></section>`;
+}
+
+function salvaSim(f,fd){
+  const p = PP(), prova = f.id === 'provaForm', tipo = f.dataset.tipo || 'completo', por = {};
+  let a = 0, t = 0;
+  for(const inp of f.querySelectorAll('input[name^="t_"]')){
+    const k = inp.name.slice(2), ta = Number(inp.value), ac = Number(fd.get('a_'+k));
+    if(!(ta > 0)) continue;
+    if(!(ac >= 0) || ac > ta){toast('Confira os números: os acertos não podem passar do total'); return}
+    a += ac; t += ta; if(k !== 'all') por[k] = {a:ac, t:ta};
+  }
+  if(!(t > 0)){toast('Coloque o total de questões'); return}
+  const e = Number(fd.get('e')) || 0; if(e < 0 || a + e > t){toast('Confira as erradas: acertos mais erradas passam do total'); return}
+  const d = String(fd.get('d') || hoje()); if(d > hoje()){toast('A data não pode ser no futuro'); return}
+  if(prova){p.resultado = {d, a, t, e, por:Object.keys(por).length ? por : undefined}; save(); toast('Resultado da prova salvo'); keep(); return}
+  const antes = nivelDe(simXP(p));
+  const s = {id:'s'+Date.now().toString(36), d, tipo, m:tipo === 'completo' ? '' : tipo, a, t, e, por:Object.keys(por).length ? por : undefined, min:Number(fd.get('min')) || Number(f.dataset.via === 'timer' ? (ctxRes(p)||{}).min : 0) || 0, lim:Number(f.dataset.lim)||0, via:f.dataset.via};
+  (p.sim = p.sim || []).push(s); p.done['sim-'+s.id] = d; delete p.simAtivo; V.simRes = null; save();
+  const dep = nivelDe(simXP(p));
+  toast(dep.n > antes.n ? 'Subiu de nível! Agora você é '+dep.nome : 'Simulado salvo: '+simNota(s)+'% de acerto'); keep();
+}
 /* ---------- Sobre e créditos (v4.4): página aberta pelo menu do perfil ---------- */
 const LINK_APP = 'https://jacobbv.github.io/meu-cronograma-estudo/';
 async function compartilharApp(){
@@ -1412,6 +1740,7 @@ const TABS = [['hoje','Hoje','<path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.
   ['semana','Calendário','<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>'],
   ['apostila','Apostila','<path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 21V5M8 7h7"/>'],
   ['edital','Edital','<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/>'],
+  ['simulado','Simulados','<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6M12 2v3"/>'],
   ['prova','Prova','<path d="M12 21s-7-6.2-7-11a7 7 0 0114 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>']];
 
 const CORES = [['laranja','#f26a1b'],['verde','#1f8a55'],['azul','#2f6fd0'],['roxo','#7a52d1'],['rosa','#d6457f'],['vinho','#a3324a']];
@@ -1612,9 +1941,10 @@ function desenha(){
   HDR = null;
   const hd = header(conc,p);
   const pn = HDR && V.painel === 'fogo' ? painelFogo(p,HDR.sq) : HDR && V.painel === 'avisos' ? painelAvisos(HDR.av, perfil) : HDR && V.painel === 'perfil' ? painelPerfil(perfil) : '';
-  let body = {hoje:vHoje, semana:vSemana, apostila:vApostila, edital:vEdital, prova:vProva}[V.tab](conc,p);
-  if(DESK() && V.tab === 'prova') body = `<div class="cols2">${body}</div>`;
-  app.innerHTML = hd + (pn ? `<div class="pop-bg" id="popBg"></div><div class="pop${V.painel==='avisos'?' drawer':''}" role="dialog" aria-label="${V.painel==='avisos'?'Avisos':'Painel'}">${pn}</div>` : '') + `<main class="wrap${V.tab==='apostila'?' wide':''}">${body}</main><nav class="tabs" aria-label="Seções">${DESK() ? `<button class="marca" data-go="concursos">${MARCA}<span>Meu Cronograma<small>${esc(conc.nome)}</small></span></button>` : ''}<div class="wrap" style="grid-template-columns:repeat(${tabs.length},minmax(0,1fr))">${tabs.map(([k,l,ic]) => `<button data-tab="${k}" aria-current="${V.tab===k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${l}</button>`).join('')}</div>${DESK() ? `<div class="atalhos"><button data-go="concursos">${MI.conc}Meus concursos</button><button id="compartilharApp">${MI.comp}Compartilhar o app</button><button id="abrirSobre">${MI.info}Sobre e créditos</button></div>` : ''}</nav>`;
+  let body = {hoje:vHoje, semana:vSemana, apostila:vApostila, edital:vEdital, simulado:vSimulado, prova:vProva}[V.tab](conc,p);
+  if(DESK() && (V.tab === 'prova' || V.tab === 'simulado')) body = `<div class="cols2">${body}</div>`;
+  app.innerHTML = hd + (pn ? `<div class="pop-bg" id="popBg"></div><div class="pop${V.painel==='avisos'?' drawer':''}" role="dialog" aria-label="${V.painel==='avisos'?'Avisos':'Painel'}">${pn}</div>` : '') + `<main class="wrap${V.tab==='apostila'?' wide':''}">${body}</main><nav class="tabs${tabs.length > 5 ? ' t6' : ''}" aria-label="Seções">${DESK() ? `<button class="marca" data-go="concursos">${MARCA}<span>Meu Cronograma<small>${esc(conc.nome)}</small></span></button>` : ''}<div class="wrap" style="grid-template-columns:repeat(${tabs.length},minmax(0,1fr))">${tabs.map(([k,l,ic]) => `<button data-tab="${k}" aria-current="${V.tab===k}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ic}</svg>${l}</button>`).join('')}</div>${DESK() ? `<div class="atalhos"><button data-go="concursos">${MI.conc}Meus concursos</button><button id="compartilharApp">${MI.comp}Compartilhar o app</button><button id="abrirSobre">${MI.info}Sobre e créditos</button></div>` : ''}</nav>`;
+  if(V.revOferta) app.insertAdjacentHTML('beforeend', revSheet());
   app.classList.toggle('comnav', true);
   if(conc === IBGE && !perfil.vindo) app.insertAdjacentHTML('beforeend', boasVindas(perfil));
 }
@@ -1638,6 +1968,7 @@ const PP = () => P(V.perfil,V.conc);
 
 document.addEventListener('click', e => {
   if(e.target.id === 'popBg'){V.painel = ''; keep(); return}
+  if(e.target.id === 'rvBg'){V.revOferta = null; keep(); return}
   const b = e.target.closest('button'); if(!b) return;
   const d = b.dataset;
   if(d.perfil){V = {...V, view:'concursos', perfil:d.perfil}; render(); scrollTo(0,0)}
@@ -1648,8 +1979,8 @@ document.addEventListener('click', e => {
   else if(d.sem !== undefined){V.semana = d.sem === '0' ? 0 : V.semana + Number(d.sem); keep()}
   else if(d.mes !== undefined){V.mes += Number(d.mes); keep()}
   else if(d.diaSel){V.dia = d.diaSel; keep()}
-  else if(d.s){const p = PP(); if(p.done[d.s]) delete p.done[d.s]; else {p.done[d.s] = hoje(); const a = ACHA(d.s.split(':')[0]); if(d.s.endsWith(':q')) V.pl = d.s; toast(a && aDone(p,a) ? 'Assunto concluído!' : 'Etapa marcada')} save(); keep()}
-  else if(d.a){const p = PP(), quando = V.tab === 'edital' && V.jaEstudei ? ANTES : hoje(), a = ACHA(d.a) || finais(p).map(x => x[1]).find(x => x.id === d.a); if(!a) return; if(aDone(p,a)) STEPS[a.k].forEach(s => delete p.done[a.id+':'+s]); else {STEPS[a.k].forEach(s => {if(!p.done[a.id+':'+s]) p.done[a.id+':'+s] = quando}); toast(quando === ANTES ? 'Marcado como já estudado' : 'Assunto concluído!')} save(); keep()}
+  else if(d.s){const p = PP(); if(p.done[d.s]) delete p.done[d.s]; else {p.done[d.s] = hoje(); const a = ACHA(d.s.split(':')[0]); if(d.s.endsWith(':q')) V.pl = d.s; toast(a && aDone(p,a) ? 'Assunto concluído!' : 'Etapa marcada'); if(a && aDone(p,a)) ofertaRev(p,a)} save(); keep()}
+  else if(d.a){const p = PP(), quando = V.tab === 'edital' && V.jaEstudei ? ANTES : hoje(), a = ACHA(d.a) || finais(p).map(x => x[1]).find(x => x.id === d.a); if(!a) return; if(aDone(p,a)) STEPS[a.k].forEach(s => delete p.done[a.id+':'+s]); else {STEPS[a.k].forEach(s => {if(!p.done[a.id+':'+s]) p.done[a.id+':'+s] = quando}); toast(quando === ANTES ? 'Marcado como já estudado' : 'Assunto concluído!'); if(quando !== ANTES) ofertaRev(p,a)} save(); keep()}
   else if(d.t){const p = PP(); if(p.done[d.t]) delete p.done[d.t]; else p.done[d.t] = hoje(); save(); keep()}
   else if(d.pl){V.pl = V.pl === d.pl ? null : d.pl; keep()}
   else if(d.ap){V.tab = 'apostila'; V.apPag = Number(d.ap); if(document.getElementById('apWrap')){V.apPag = null; abrirPagina(Number(d.ap)); document.getElementById('apWrap').scrollIntoView({behavior:'smooth'})} else {render(); scrollTo(0,0)}}
@@ -1670,6 +2001,25 @@ document.addEventListener('click', e => {
     for(const a of QC){const ks = STEPS[a.k].map(s => a.id+':'+s); if(ks.every(k => p.done[k] === h)){ks.forEach(k => p.done[k] = ANTES); n++}}
     p.extra[h] = 0; save(); toast(n+' '+(n>1?'assuntos passaram':'assunto passou')+' para "já estudado"'); keep()}
   else if(d.fixar){const pf = perfilAtual(); pf.fixo = pf.fixo === d.fixar ? null : d.fixar; save(); toast(pf.fixo ? 'Concurso principal fixado no topo' : 'Concurso desafixado'); keep()}
+  else if(d.rvadd){const p = PP(), o = V.revOferta; if(!o) return; revAdd(p, {id:o.aid, t:o.t, m:o.m}, Number(d.rvadd), document.getElementById('rvRep')?.checked); V.revOferta = null; save(); toast('Revisão marcada para '+(d.rvadd === '1' ? 'amanhã' : 'daqui a '+d.rvadd+' dias')); keep()}
+  else if(d.rvno){V.revOferta = null; keep()}
+  else if(d.rvnunca){PP().rvAsk = false; V.revOferta = null; save(); toast('Combinado. Você ainda pode adicionar revisões pela aba Hoje.'); keep()}
+  else if(d.rvok){const p = PP(), r = (p.rev||[]).find(x => x.id === d.rvok); if(!r) return;
+    p.done['rv-'+r.id+'-'+r.n] = hoje(); r.n++; p.revN = (p.revN||0) + 1;
+    if(r.rep){r.gap = Math.min(90, r.gap*2); r.due = addD(hoje(), r.gap); toast('Revisão feita! A próxima fica para daqui a '+r.gap+' dias')}
+    else {p.rev = p.rev.filter(x => x.id !== r.id); toast('Revisão feita!')}
+    save(); keep()}
+  else if(d.rvadia){const p = PP(), r = (p.rev||[]).find(x => x.id === d.rvadia); if(!r) return; r.due = addD(r.due < hoje() ? hoje() : r.due, 1); save(); toast('Adiada para '+dm(r.due)); keep()}
+  else if(d.rvdel){const p = PP(); p.rev = (p.rev||[]).filter(x => x.id !== d.rvdel); save(); toast('Tirada da lista de revisões'); keep()}
+  else if(d.simfim){const p = PP(); if(p.simAtivo && !p.simAtivo.fim){p.simAtivo.fim = Date.now(); save(); keep()}}
+  else if(d.simcancel){if(b.dataset.sure){delete PP().simAtivo; save(); toast('Simulado cancelado'); keep()} else {b.dataset.sure = 1; b.textContent = 'Toque de novo para cancelar'}}
+  else if(d.simmanual){const fm = document.getElementById('simStart'); V.simRes = {tipo:fm ? String(new FormData(fm).get('tipo')) : (V.simTipo || 'completo'), q:fm ? Number(new FormData(fm).get('q'))||'' : '', min:'', via:'manual'}; keep()}
+  else if(d.simdesc){delete PP().simAtivo; V.simRes = null; save(); keep()}
+  else if(d.simdel){if(b.dataset.sure){const p = PP(); p.sim = (p.sim||[]).filter(x => x.id !== d.simdel); delete p.done['sim-'+d.simdel]; save(); toast('Simulado tirado'); keep()} else {b.dataset.sure = 1; b.textContent = 'Confirmar'}}
+  else if(d.provadel){delete PP().resultado; save(); keep()}
+  else if(b.id === 'lembNotif'){Notification.requestPermission().then(() => keep(), () => keep())}
+  else if(b.id === 'lembOff'){PP().lembrete = {...(PP().lembrete||{}), on:false}; save(); toast('Lembrete desligado'); keep()}
+  else if(b.id === 'lembIcs'){const p = PP(), hr = document.querySelector('#lembForm [name=hora]')?.value || (p.lembrete && p.lembrete.hora) || '19:00'; baixa('lembretes-estudo.ics', icsLembretes(CX.c, p, hr), 'text/calendar;charset=utf-8'); toast('Arquivo gerado: abra no celular para adicionar ao calendário')}
   else if(d.vf){V.vf = d.vf; keep()}
   else if(d.rmais){V.rmais = true; keep()}
   else if(d.radar){const x = (RADAR && RADAR.itens || []).find(y => y.id === d.radar); if(!x) return;
@@ -1716,6 +2066,7 @@ document.addEventListener('click', e => {
   else if(b.id === 'rstOk'){try{const n = JSON.parse(decodeURIComponent(escape(atob(document.getElementById('rstTxt').value.trim())))); if(!n.perfis) throw 0; S = n; save(); toast('Progresso restaurado'); render()}catch(err){toast('Código inválido')}}
 });
 document.addEventListener('change', e => {
+  if(e.target.id === 'simTipo'){V.simTipo = e.target.value; keep(); return}
   if(e.target.id === 'rUf'){V.ruf = e.target.value; V.rmais = false; keep(); return}
   if(e.target.id === 'fotoIn' && e.target.files[0]){
     const img = new Image(), url = URL.createObjectURL(e.target.files[0]);
@@ -1733,6 +2084,12 @@ document.addEventListener('submit', e => {
   if(f.id === 'emailForm'){const em = String(fd.get('email')).trim(), se = String(fd.get('senha')), er = document.getElementById('loginErr'), A = NV.fb.A;
     const criar = e.submitter && e.submitter.value === 'criar'; er.textContent = criar ? 'Criando sua conta…' : 'Entrando…';
     (criar ? A.createUserWithEmailAndPassword(NV.fb.auth, em, se) : A.signInWithEmailAndPassword(NV.fb.auth, em, se)).catch(x => {er.textContent = erroLogin(x.code)}); return}
+  if(f.id === 'simStart'){const tipo = String(fd.get('tipo')), q = Number(fd.get('q'))||0, lim = Number(fd.get('lim'))||0; if(!(lim > 0)){toast('Coloque o tempo do simulado, em minutos'); return}
+    PP().simAtivo = {ini:Date.now(), tipo, q, lim}; V.simTipo = tipo; save(); keep(); return}
+  if(f.id === 'simForm' || f.id === 'provaForm'){salvaSim(f, fd); return}
+  if(f.id === 'metaForm'){const m = Number(fd.get('meta')); if(!(m >= 1 && m <= 100)){toast('A meta vai de 1 a 100'); return} PP().meta = Math.round(m); save(); toast('Meta salva'); keep(); return}
+  if(f.id === 'rvAdd'){const p = PP(), a = EDITAL.find(x => x.id === fd.get('aid')); if(!a) return; revAdd(p, a, Number(fd.get('dias'))||7, !!fd.get('rep')); save(); toast('Adicionada às revisões'); keep(); return}
+  if(f.id === 'lembForm'){const p = PP(), hr = String(fd.get('hora')||'19:00'); p.lembrete = {on:true, hora:hr}; save(); toast('Lembrete salvo para as '+hr); keep(); return}
   if(f.id === 'nomeForm'){const n = String(fd.get('nome')).trim(); if(n){S.perfis.find(x => x.id === V.perfil).nome = n; save(); toast('Nome salvo'); keep()} return}
   if(f.id === 'addPerfil'){const n = String(fd.get('n')).trim(), pin = String(fd.get('pin')||''); if(!n) return; if(pin && !/^\d{4}$/.test(pin)){toast('O PIN precisa ter 4 números'); return}
     const id = S.perfis.length ? 'p'+Date.now().toString(36) : n.toLowerCase().normalize('NFD').replace(/[^a-z0-9]/g,'') || 'p1';
@@ -1767,8 +2124,19 @@ document.addEventListener('touchend', e => {if(bx === null) return; const dx = e
 document.addEventListener('touchstart', e => {if(e.target.closest('#apWrap') && e.touches.length === 1 && e.touches[0].clientX > 24){tx = e.touches[0].clientX; ty = e.touches[0].clientY} else tx = null}, {passive:true});
 document.addEventListener('touchend', e => {if(tx === null) return; const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; tx = null;
   if(apZoom <= 1 && Math.abs(dx) > 60 && Math.abs(dx) > 2*Math.abs(dy)) abrirPagina(apPerfil().pag + (dx < 0 ? 1 : -1))}, {passive:true});
-let rz; addEventListener('keydown', e => {if(e.key === 'Escape' && V.painel){V.painel = ''; keep()}});
+let rz; addEventListener('keydown', e => {if(e.key === 'Escape' && V.revOferta){V.revOferta = null; keep()} else if(e.key === 'Escape' && V.painel){V.painel = ''; keep()}});
 addEventListener('resize', () => {clearTimeout(rz); rz = setTimeout(() => {if(document.getElementById('apWrap')) abrirPagina(apPerfil().pag)}, 250)});
+/* cronômetro do simulado: atualiza só o relógio, sem redesenhar a tela */
+let simAvisou = null;
+setInterval(() => {
+  const el = document.getElementById('simT'); if(!el) return;
+  const ini = Number(el.dataset.ini), lim = Number(el.dataset.lim)*60000, rest = lim - (Date.now() - ini);
+  el.textContent = fmtT(rest); el.classList.toggle('estourou', rest <= 0);
+  const bar = document.getElementById('simBar'); if(bar) bar.style.width = Math.min(100, 100*(Date.now() - ini)/lim)+'%';
+  if(rest <= 0 && simAvisou !== ini){simAvisou = ini; toast('Tempo esgotado!'); if(navigator.vibrate) navigator.vibrate([200,100,200]); notificar('Simulado', 'O tempo acabou. Termine e anote o resultado.', 'simulado')}
+}, 1000);
+setInterval(lembreteTick, 30000);
+document.addEventListener('visibilitychange', () => {if(!document.hidden) lembreteTick()});
 iniciarNuvem();
 try{if('serviceWorker' in navigator && location.protocol === 'https:' && !/claude\.ai$|claudeusercontent\.com$/.test(location.hostname)) navigator.serviceWorker.register('sw.js').catch(() => {})}catch(e){}
 }
