@@ -1,5 +1,9 @@
 # Histórico de versões
 
+## v4.15.1 · 21/11/2026
+- **Corrigido** o bloco "Alternativa por alternativa": o texto das alternativas erradas aparecia sobreposto (conflito de classe CSS). Agora cada alternativa ocupa sua linha, sem cobrir nada.
+- **Fontes proporcionais**: o enunciado fica um pouco maior que as alternativas e, ao usar A− / A+, os dois crescem e diminuem juntos, no mesmo passo.
+
 ## v4.15.0 · 21/11/2026
 - **Comentários mais completos** nas 32 questões de múltipla escolha que tinham explicação curta (Constituição, Código Penal, leis especiais, CPP e Contabilidade): agora trazem o artigo, o motivo do gabarito e a pegadinha mais comum. As outras 145 de múltipla escolha já tinham resolução detalhada.
 - No modo certo/errado, o bloco "Em contexto" também mostra esse comentário completo.
