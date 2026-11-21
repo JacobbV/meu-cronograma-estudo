@@ -1,5 +1,13 @@
 # Histórico de versões
 
+## v4.10.0 · 21/11/2026
+- **Banco de questões ampliado e em dois formatos**: além das 180 questões certo/errado, entram 120 questões de **múltipla escolha** (A a E) escritas a partir da lei: Constituição Federal (32), Código Penal (27), leis penais especiais (29: hediondos, preconceito, abuso de autoridade, tortura, ECA, organizações criminosas, trânsito, Maria da Penha, drogas, desarmamento e crimes ambientais) e Código de Processo Penal e leis processuais (32: inquérito, provas, prisões, fiança, cautelares, prisão temporária, juizados e investigação criminal).
+- **Cada alternativa vira um item certo/errado**: o mesmo conjunto rende 780 itens na Cebraspe (cada alternativa é uma afirmação completa, com comentário próprio de por que está certa ou errada). Em bancas de A a E, aparece como múltipla escolha. O formato segue a banca do concurso e pode ser trocado no seletor "Formato das questões".
+- **Comentário em toda questão**, com explicação do artigo e dos pontos em que costuma haver pegadinha, e **botões de curtir / não curtir** o comentário (👍 👎). O "não gostei" abre o link para dizer o que faltou. As curtidas ficam na sua conta; não há contagem geral.
+- O simulado do banco passa a sortear também as de múltipla escolha, sem repetir alternativas da mesma questão.
+- Bloco "Leis usadas e quando foram conferidas" na aba Questões. Dispositivos suspensos por decisão judicial (como o juiz das garantias) ficaram de fora de propósito.
+- Ainda **sem conferência de outra pessoa**: o app marca "não conferida" e o botão "Reportar erro" continua valendo (precisa de Issues ligadas no repositório).
+
 ## v4.9.0 · 21/11/2026
 - **Banco de questões da PCPE** (`questoes.js`): 180 questões no estilo certo/errado da Cebraspe sobre Direito Penal, Processo Penal, Constitucional e Administrativo. Foram escritas para o app a partir do texto da lei, sem copiar prova nem cursinho. Cada uma traz gabarito, comentário e a fonte (artigo, lei ou súmula). Ainda não passaram por conferência de outra pessoa e o app avisa isso; há link para reportar erro.
 - Nova aba **Questões** (só aparece nos concursos que têm banco): filtro por matéria, assunto e "ainda não respondidas" / "as que errei", correção na hora e acerto por matéria.

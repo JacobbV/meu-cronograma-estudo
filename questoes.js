@@ -187,3 +187,11 @@ window.BANCO = {versao:1, atualizado:'2026-11-21', qs:[
 {id:'adm-24',m:'Noções de Direito Administrativo',a:'Agente público',e:'A ação para as sanções por improbidade prescreve em oito anos, contados da ocorrência do fato.',g:true,c:'Prazo da Lei 14.230/2021.',f:'Lei 8.429/1992, art. 23'},
 {id:'adm-25',m:'Noções de Direito Administrativo',a:'Cargo, emprego e função',e:'Os cargos em comissão são de livre nomeação e exoneração.',g:true,c:'Art. 37, II.',f:'CF, art. 37, II'}
 ]};
+
+window.BANCO.leis = [
+ ['Constituição Federal de 1988 (art. 5º, 37 a 41, 44 a 144)','texto consolidado, usado nas questões cfm-*','conferido em 21/11/2026 no Planalto (compilado)'],
+ ['Código Penal (Decreto-Lei 2.848/1940)','com Lei 14.994/2024 (feminicídio autônomo, art. 121-A)','conferido em 21/11/2026'],
+ ['Código de Processo Penal (Decreto-Lei 3.689/1941)','arts. 2º a 3º, 4º a 17, 155 a 245, 282 a 325; dispositivos do juiz das garantias (arts. 3º-A a 3º-F) deliberadamente fora, pois estão suspensos por decisão do STF','conferido em 21/11/2026'],
+ ['Leis 8.072/1990, 7.716/1989, 13.869/2019, 9.455/1997, 8.069/1990, 12.850/2013, 9.503/1997, 11.340/2006, 11.343/2006, 10.826/2003, 9.605/1998','dispositivos de pena e procedimento do edital','conferido em 21/11/2026'],
+ ['Leis 7.960/1989, 9.099/1995 e 12.830/2013','prisão temporária, juizados especiais e investigação criminal','conferido em 21/11/2026']
+];
