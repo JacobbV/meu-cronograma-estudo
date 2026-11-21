@@ -1,5 +1,14 @@
 # Histórico de versões
 
+## v4.11.0 · 21/11/2026
+- **Modo foco nas questões**: ao clicar em "Resolver", abre uma tela cheia só com a questão (sem abas nem cabeçalho), uma por vez, com barra de progresso e botão para sair.
+- **Questões por sessão** (5, 10, 20 ou 50) em vez de uma página longa. Ao fim da sessão aparece o resultado, com "Mais N questões".
+- **Tamanho da letra** ajustável (A− / A+) em 6 níveis; a escolha fica salva na sua conta.
+- **Ao responder**, as alternativas ficam marcadas (a certa em verde, a sua em vermelho se errou) e abaixo aparece a explicação: gabarito, por que é assim, comentário de cada alternativa e, em letra pequena, a base (lei e artigo).
+- **Correção importante**: nas questões de múltipla escolha a alternativa certa estava sempre na letra A. Agora as alternativas são embaralhadas de forma fixa (cada questão mantém a mesma ordem sempre).
+- **Novas matérias no banco**: Raciocínio Lógico (30 questões: lógica proposicional, quantificadores, conjuntos, porcentagem, regra de três, PA e PG, contagem, probabilidade, equações, sistemas e argumentos) e Contabilidade Geral (27 questões: CPC 00 R2, patrimônio, fatos contábeis, partidas dobradas, regime de competência, balancete, balanço e DRE, com a Lei 6.404/1976). Os cálculos foram conferidos por programa.
+- Total: **357 questões**, que viram **1.065 itens** certo/errado na Cebraspe. Nas questões de conta, o enunciado é repetido junto de cada alternativa para o item fazer sentido sozinho.
+
 ## v4.10.0 · 21/11/2026
 - **Banco de questões ampliado e em dois formatos**: além das 180 questões certo/errado, entram 120 questões de **múltipla escolha** (A a E) escritas a partir da lei: Constituição Federal (32), Código Penal (27), leis penais especiais (29: hediondos, preconceito, abuso de autoridade, tortura, ECA, organizações criminosas, trânsito, Maria da Penha, drogas, desarmamento e crimes ambientais) e Código de Processo Penal e leis processuais (32: inquérito, provas, prisões, fiança, cautelares, prisão temporária, juizados e investigação criminal).
 - **Cada alternativa vira um item certo/errado**: o mesmo conjunto rende 780 itens na Cebraspe (cada alternativa é uma afirmação completa, com comentário próprio de por que está certa ou errada). Em bancas de A a E, aparece como múltipla escolha. O formato segue a banca do concurso e pode ser trocado no seletor "Formato das questões".
