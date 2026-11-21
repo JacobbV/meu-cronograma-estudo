@@ -1,5 +1,8 @@
 # Histórico de versões
 
+## v4.12.1 · 21/11/2026
+- **Questões certo/errado com contexto**: cada item agora começa pelo enunciado da questão original (ex.: "Sobre a instituição do júri, a Constituição assegura: …"), em vez de mostrar só a alternativa solta.
+
 ## v4.12.0 · 21/11/2026
 - **Nova aba Desempenho**: todas as estatísticas ficam num lugar só, com filtros por período (hoje, 7 dias, 30 dias, tudo ou um dia específico), disciplina, assunto, formato (certo/errado ou múltipla escolha) e resultado (acertei/errei). Mostra rosca de acertos, número de questões, gráfico por dia e desempenho por disciplina, assunto e formato, em cores (verde, amarelo e vermelho). Botão para treinar só as que você errou.
 - **Aba Praticar repaginada**: cabeçalho com o resumo do dia, montagem da sessão (formato, disciplina, assunto, quantidade) e atalhos "Refazer erradas" e "Só novas".

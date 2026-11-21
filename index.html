@@ -553,7 +553,7 @@ html.desk .tabs.t6 button{font-size:15px;letter-spacing:0}
 <div class="volta" id="volta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></div>
 <script>
 {
-const VERSAO = '4.12.0';
+const VERSAO = '4.12.1';
 /* Computador = tela de 1024 px ou mais E mouse/trackpad como ponteiro principal.
    Tablet (iPad, Android) e celular têm toque como ponteiro principal, então continuam com o layout do celular,
    mesmo um iPad de 11" deitado. */
@@ -1419,7 +1419,7 @@ function banco(){
   for(const q of window.BANCO.qs){
     const mid = SUBJ.find(m => nrm(MAT[m].nome) === nrm(q.m)); if(!mid) continue;
     const as = EDITAL.find(a => a.m === mid && nrm(a.t).startsWith(nrm(q.a))), aid = as ? as.id : '';
-    if(q.o && fm === 'ce') q.o.forEach((t,i) => L.push({id:q.id+'.'+i, base:q.id, m:q.m, a:q.a, e:q.ns ? q.e+' '+t : t, g:i === q.g, c:(q.ca && q.ca[i]) || q.c, ctx:q.ca && q.ca[i] ? q.c : '', f:q.f, rev:q.rev, mid, aid}));
+    if(q.o && fm === 'ce') q.o.forEach((t,i) => L.push({id:q.id+'.'+i, base:q.id, m:q.m, a:q.a, e:q.e+' '+t, g:i === q.g, c:(q.ca && q.ca[i]) || q.c, ctx:q.ca && q.ca[i] ? q.c : '', f:q.f, rev:q.rev, mid, aid}));
     else L.push({...(q.o ? embaralha(q) : q), c:(window.BANCO.com && window.BANCO.com[q.id]) || q.c, base:q.id, mid, aid});
   }
   K[fm] = L; return L;
