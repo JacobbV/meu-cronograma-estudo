@@ -1,5 +1,11 @@
 # Histórico de versões
 
+## v4.13.0 · 21/11/2026
+- **Banco único para todos os concursos**: as questões não ficam mais presas à PCPE. Cada concurso mostra as questões das matérias que ele cobra (o app casa pelo nome: "Noções de Direito Penal" e "Direito Penal" são a mesma matéria; "Língua Portuguesa" e "Português" também). Uma questão escrita uma vez vale para todos.
+- **Filtro por lei ou norma** em Praticar: Código Penal, CPP, Constituição, Maria da Penha, Desarmamento, Drogas, Abuso de Autoridade, Tortura, Hediondos, ECA e outras, cada uma com a contagem de questões.
+- **Aba Questões no IBGE**: 112 questões novas. 66 de Conhecimentos Técnicos feitas a partir da apostila do 12º Censo Agro (estrutura censitária, instrumentos, mapas e escala, divisão político-administrativa, setores, PCTs, endereço, coordenadas, estabelecimento agropecuário e situações especiais), 25 de Português e 21 de Matemática, em múltipla escolha (A a E), como a Cesgranrio cobra.
+- Créditos: a apostila do IBGE/ENCE/CTA entra na lista de fontes do app.
+
 ## v4.12.1 · 21/11/2026
 - **Questões certo/errado com contexto**: cada item agora começa pelo enunciado da questão original (ex.: "Sobre a instituição do júri, a Constituição assegura: …"), em vez de mostrar só a alternativa solta.
 

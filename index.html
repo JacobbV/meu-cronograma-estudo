@@ -25,6 +25,7 @@
 <script src="vitrine.js"></script>
 <script src="questoes.js"></script>
 <script src="q-comentarios.js"></script>
+<script src="q-ibge.js"></script>
 <script src="q-cf.js"></script>
 <script src="q-penal.js"></script>
 <script src="q-leis.js"></script>
@@ -553,7 +554,7 @@ html.desk .tabs.t6 button{font-size:15px;letter-spacing:0}
 <div class="volta" id="volta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></div>
 <script>
 {
-const VERSAO = '4.12.1';
+const VERSAO = '4.13.0';
 /* Computador = tela de 1024 px ou mais E mouse/trackpad como ponteiro principal.
    Tablet (iPad, Android) e celular têm toque como ponteiro principal, então continuam com o layout do celular,
    mesmo um iPad de 11" deitado. */
@@ -1408,19 +1409,30 @@ function vSimulado(c,p){
    continua valendo mesmo que a pessoa edite o edital. Guardado em p.qr = {id: {ok, d, n}} (última resposta e quantas vezes tentou). */
 const BQ = new WeakMap();
 const nrm = x => String(x||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().trim();
+/* nome canônico da matéria: "Noções de Direito Penal" e "Direito Penal" casam; "Língua Portuguesa" e "Português" também. Assim o mesmo banco serve a qualquer concurso. */
+const canonM = x => nrm(x).replace(/^nocoes (de|do|da|dos|das) /,'').replace(/^lingua portuguesa$/,'portugues').replace(/^matematica e raciocinio logico$/,'matematica');
+/* lei/norma de uma questão, a partir da fonte (campo f). Serve ao filtro "Lei ou norma". */
+const LEIS_N = {'10.826/2003':'Estatuto do Desarmamento (Lei 10.826/2003)','11.340/2006':'Lei Maria da Penha (Lei 11.340/2006)','11.343/2006':'Lei de Drogas (Lei 11.343/2006)','12.850/2013':'Organizações Criminosas (Lei 12.850/2013)','13.869/2019':'Abuso de Autoridade (Lei 13.869/2019)','7.716/1989':'Crimes de Racismo (Lei 7.716/1989)','8.072/1990':'Crimes Hediondos (Lei 8.072/1990)','9.455/1997':'Tortura (Lei 9.455/1997)','9.503/1997':'Código de Trânsito (Lei 9.503/1997)','9.605/1998':'Crimes Ambientais (Lei 9.605/1998)','12.830/2013':'Delegado de Polícia (Lei 12.830/2013)','7.960/1989':'Prisão Temporária (Lei 7.960/1989)','9.099/1995':'Juizados Especiais (Lei 9.099/1995)','14.133/2021':'Licitações (Lei 14.133/2021)','8.429/1992':'Improbidade (Lei 8.429/1992)','9.784/1999':'Processo Administrativo (Lei 9.784/1999)','13.303/2016':'Estatais (Lei 13.303/2016)','8.987/1995':'Concessões (Lei 8.987/1995)','4.717/1965':'Ação Popular (Lei 4.717/1965)','6.404/1976':'Sociedades por Ações (Lei 6.404/1976)','8.069/1990':'ECA (Lei 8.069/1990)'};
+function leiDe(f){
+  f = String(f||''); let m;
+  if(/^CPP\b/.test(f)) return 'Código de Processo Penal'; if(/^CP\b/.test(f)) return 'Código Penal'; if(/^CF\b/.test(f)) return 'Constituição Federal'; if(/^ECA\b/.test(f)) return LEIS_N['8.069/1990'];
+  if(m = f.match(/^Lei (\d+\.\d+\/\d{4})/)) return LEIS_N[m[1]] || 'Lei '+m[1];
+  if(/^Decreto-Lei 200/.test(f)) return 'Decreto-Lei 200/1967 (Administração Federal)'; if(/^CTN\b/.test(f)) return 'Código Tributário Nacional'; if(/^CPC 00/.test(f)) return 'CPC 00 (R2)'; if(/^(STF|STJ)\b/.test(f)) return 'Súmulas e jurisprudência';
+  if(/^Apostila/.test(f)) return 'Apostila do 12º Censo Agro'; return '';
+}
 /* formato: "ce" (certo/errado) ou "mc" (A a E). No automático segue a banca: Cebraspe usa certo/errado, as outras usam A a E.
    Uma questão de múltipla escolha vira, no formato certo/errado, até 5 itens (cada alternativa é uma afirmação completa). */
 const qFmt = () => {const f = V.perfil && V.conc ? PP().qfmt : ''; return f === 'ce' || f === 'mc' ? f : (ehCeb() ? 'ce' : 'mc')};
 function banco(){
-  if(!CX || !window.BANCO || !/^pcpe-/.test(CX.c.tpl || '')) return [];
+  if(!CX || !window.BANCO) return [];
   const fm = qFmt(); let K = BQ.get(CX); if(!K) BQ.set(CX, K = {});
   if(K[fm]) return K[fm];
   const L = [];
   for(const q of window.BANCO.qs){
-    const mid = SUBJ.find(m => nrm(MAT[m].nome) === nrm(q.m)); if(!mid) continue;
-    const as = EDITAL.find(a => a.m === mid && nrm(a.t).startsWith(nrm(q.a))), aid = as ? as.id : '';
-    if(q.o && fm === 'ce') q.o.forEach((t,i) => L.push({id:q.id+'.'+i, base:q.id, m:q.m, a:q.a, e:q.e+' '+t, g:i === q.g, c:(q.ca && q.ca[i]) || q.c, ctx:q.ca && q.ca[i] ? q.c : '', f:q.f, rev:q.rev, mid, aid}));
-    else L.push({...(q.o ? embaralha(q) : q), c:(window.BANCO.com && window.BANCO.com[q.id]) || q.c, base:q.id, mid, aid});
+    const mid = SUBJ.find(m => canonM(MAT[m].nome) === canonM(q.m)); if(!mid) continue;
+    const as = EDITAL.find(a => a.m === mid && nrm(a.t).startsWith(nrm(q.a))), aid = as ? as.id : '', lei = leiDe(q.f);
+    if(q.o && fm === 'ce') q.o.forEach((t,i) => L.push({id:q.id+'.'+i, base:q.id, m:q.m, a:q.a, e:q.e+' '+t, g:i === q.g, c:(q.ca && q.ca[i]) || q.c, ctx:q.ca && q.ca[i] ? q.c : '', f:q.f, rev:q.rev, mid, aid, lei}));
+    else L.push({...(q.o ? embaralha(q) : q), c:(window.BANCO.com && window.BANCO.com[q.id]) || q.c, base:q.id, mid, aid, lei});
   }
   K[fm] = L; return L;
 }
@@ -1440,7 +1452,7 @@ const sorteia = L => L.map(x => [Math.random(), x]).sort((a,b) => a[0] - b[0]).m
 const simPool = tipo => tipo === 'completo' ? banco() : banco().filter(q => q.mid === tipo);
 function qFiltro(p){
   const f = V.qf || {}, st = f.st || 'todas', R = p.qr || {};
-  return banco().filter(q => (!f.m || q.mid === f.m) && (!f.a || q.aid === f.a) && (st === 'todas' || (st === 'novas' ? !R[q.id] : R[q.id] && !R[q.id].ok)));
+  return banco().filter(q => (!f.m || q.mid === f.m) && (!f.a || q.aid === f.a) && (!f.l || q.lei === f.l) && (st === 'todas' || (st === 'novas' ? !R[q.id] : R[q.id] && !R[q.id].ok)));
 }
 function qProx(p,excl){
   const L = qFiltro(p).filter(q => q.id !== excl), R = p.qr || {}, N = L.filter(q => !R[q.id]);
@@ -1547,6 +1559,7 @@ function vPratica(c,p){
   const B = banco(), R = p.qr || {}, f = V.qf || {}, pool = qFiltro(p);
   const feitas = B.filter(q => R[q.id]), certas = feitas.filter(q => R[q.id].ok).length, hj = hoje(), hojeN = qLog(p).filter(e => e.d === hj).length;
   const ms = SUBJ.filter(m => B.some(q => q.mid === m)), as = f.m ? EDITAL.filter(a => a.m === f.m && qNoAssunto(a.id)) : [];
+  const leisB = (() => {const o = {}; B.filter(q => q.lei && (!f.m || q.mid === f.m)).forEach(q => o[q.lei] = (o[q.lei]||0)+1); return Object.entries(o).sort((a,b) => b[1]-a[1])})();
   const nErr = B.filter(q => R[q.id] && !R[q.id].ok).length, nNov = B.filter(q => !R[q.id]).length, nn = f.n || 10;
   const fm = p.qfmt || '';
   let html = `<section class="qhero"><div><span class="qk">Banco de questões</span><h2>Treine com as questões da lei</h2><p>${B.length} questões escritas a partir do texto da lei, cada uma com explicação e a base legal. Não são de prova antiga.</p></div>
@@ -1556,6 +1569,7 @@ function vPratica(c,p){
     <p class="muted" style="margin:6px 2px 10px">${fm === '' ? 'Segue o padrão da banca do concurso: '+(ehCeb() ? 'certo ou errado.' : 'múltipla escolha de A a E.') : fm === 'ce' ? 'Cada alternativa vira um item de certo ou errado.' : 'Mostra as cinco alternativas.'}</p>
     <div class="qgrid"><label class="f">Disciplina<select id="qfM"><option value="">Todas</option>${ms.map(m => `<option value="${m}"${f.m === m ? ' selected' : ''}>${esc(MAT[m].nome)} (${B.filter(q => q.mid === m).length})</option>`).join('')}</select></label>
     <label class="f">Assunto<select id="qfA"${f.m ? '' : ' disabled'}><option value="">Todos</option>${as.map(a => `<option value="${a.id}"${f.a === a.id ? ' selected' : ''}>${esc(a.t.length > 46 ? a.t.slice(0,44)+'…' : a.t)} (${qNoAssunto(a.id)})</option>`).join('')}</select></label>
+    ${leisB.length > 1 ? `<label class="f">Lei ou norma<select id="qfL"><option value="">Todas</option>${leisB.map(([l,n]) => `<option value="${esc(l)}"${f.l === l ? ' selected' : ''}>${esc(l)} (${n})</option>`).join('')}</select></label>` : ''}
     <label class="f">Quais<select id="qfS">${[['todas','Todas'],['novas','Ainda não respondidas'],['erradas','As que eu errei']].map(([v,t]) => `<option value="${v}"${(f.st || 'todas') === v ? ' selected' : ''}>${t}</option>`).join('')}</select></label>
     <label class="f">Por sessão<select id="qfN">${[5,10,20,50].map(v => `<option value="${v}"${nn === v ? ' selected' : ''}>${v} questões</option>`).join('')}</select></label></div>
     <button class="btn qgo" style="width:100%"${pool.length ? '' : ' disabled'} data-qgo="1">${pool.length ? `Começar · ${Math.min(nn, pool.length)} questões` : 'Nenhuma questão com esse filtro'}</button>
@@ -2403,7 +2417,8 @@ document.addEventListener('change', e => {
   if(/^qs[PDMAFR]$/.test(e.target.id || '')){const k = {P:'per', D:'dia', M:'m', A:'a', F:'f', R:'r'}[e.target.id[2]]; V.qst = {...(V.qst || {per:'7'}), [k]:e.target.value}; if(k === 'm') V.qst.a = ''; if(k === 'per' && e.target.value === 'dia' && !V.qst.dia) V.qst.dia = hoje(); keep(); return}
   if(e.target.id === 'qfN'){V.qf = {...(V.qf || {}), n:Number(e.target.value)}; keep(); return}
   if(e.target.id === 'qfF'){const p = PP(); p.qfmt = e.target.value; V.qa = ''; V.qresp = null; V.qf = {st:'todas'}; save(); keep(); return}
-  if(e.target.id === 'qfM'){V.qf = {m:e.target.value, a:'', st:(V.qf||{}).st || 'todas', n:(V.qf||{}).n}; keep(); return}
+  if(e.target.id === 'qfL'){V.qf = {...(V.qf||{}), l:e.target.value}; keep(); return}
+  if(e.target.id === 'qfM'){V.qf = {m:e.target.value, a:'', l:'', st:(V.qf||{}).st || 'todas', n:(V.qf||{}).n}; keep(); return}
   if(e.target.id === 'qfA'){V.qf = {...(V.qf||{}), a:e.target.value}; keep(); return}
   if(e.target.id === 'qfS'){V.qf = {...(V.qf||{}), st:e.target.value}; keep(); return}
   if(e.target.id === 'rUf'){V.ruf = e.target.value; V.rmais = false; keep(); return}
