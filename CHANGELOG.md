@@ -1,5 +1,14 @@
 # Histórico de versões
 
+## v4.8.0 · 21/11/2026
+- Nova aba **Simulados**: simulado completo ou por disciplina, com cronômetro que continua contando com o app fechado. No fim, anota os acertos por matéria (na Cebraspe, também as erradas, que anulam certas).
+- **Nível e gráfico de evolução**: XP por simulado e por revisão, nível com barra de progresso, meta de acerto editável, linha do tempo até a prova com tendência (a partir de 3 completos), média por disciplina e histórico.
+- **Resultado da prova de verdade**: depois da data, o app pede o resultado, compara com a média dos simulados e sugere o próximo concurso.
+- **Revisão espaçada**: ao concluir um assunto, o app pergunta se quer revisar (amanhã, 3, 7, 15 ou 30 dias, com repetição cada vez mais espaçada). A pilha aparece no Hoje com "Revisei", "Adiar" e "Tirar". Também dá para adicionar à mão.
+- **Lembrete diário** (aba Prova): horário à escolha, avisos do navegador (com o app aberto ou em segundo plano) e arquivo de calendário com os próximos 30 dias, que avisa mesmo com o app fechado.
+- Simulados e revisões contam para a sequência de dias.
+- Nova pilha de ideias em `docs/IDEIAS.md`.
+
 ## v4.7.0 · 20/11/2026
 - Fixar o concurso principal: o alfinete no card de Meus concursos deixa o concurso em primeiro e faz o app abrir direto nele.
 
