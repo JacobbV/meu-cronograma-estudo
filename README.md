@@ -157,7 +157,7 @@ EDITAIS=editais/ python3 tools/build_vitrine.py
 
 ## 🗒️ Versões
 
-**Atual: v4.9.0** — banco de questões da PCPE e simulado gerado do banco, com simulados livres, nível, revisão espaçada e lembrete diário. Ideias futuras: [docs/IDEIAS.md](docs/IDEIAS.md).<br>
+**Atual: v4.10.0** — banco de 300 questões da PCPE (780 itens certo/errado ou A a E) com comentário e curtir/não curtir, simulado gerado do banco, com simulados livres, nível, revisão espaçada e lembrete diário. Ideias futuras: [docs/IDEIAS.md](docs/IDEIAS.md).<br>
 Histórico completo no [CHANGELOG](CHANGELOG.md).
 
 ---
