@@ -466,7 +466,7 @@ fieldset.mated{border:0;border-left:5px solid var(--c);margin:0 0 14px;min-width
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 6px}
 .chipb{min-height:44px;padding:0 16px;border-radius:22px;border:1.5px solid var(--g);background:var(--card);color:var(--g);font-weight:700}
 .chipb:active{background:var(--g);color:#fff}
-.qenun{font-size:var(--qfz,18px);line-height:1.55;margin:10px 0 14px}
+.qenun{font-size:calc(var(--qfz,18px) + 2px);line-height:1.55;margin:10px 0 14px}
 .qfoco{position:fixed;inset:0;z-index:40;background:var(--bg);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top)}
 .qtop{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--card);border-bottom:1px solid var(--line)}
 .qpos{flex:1;text-align:center;font-weight:700;font-size:15px}
@@ -518,7 +518,7 @@ fieldset.mated{border:0;border-left:5px solid var(--c);margin:0 0 14px;min-width
 .qexp{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:10px}
 .qexp h4{margin:0 0 6px;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--mut)}.qexp p{margin:0;font-size:calc(var(--qfz,18px) - 1px);line-height:1.6}
 .qalts{list-style:none;margin:0;padding:0;display:grid;gap:8px}.qalts li{display:flex;gap:10px;align-items:flex-start;border:0;padding:0;font-weight:400;font-size:calc(var(--qfz,18px) - 3px);line-height:1.5}
-.qalts li .ai{flex:none;margin-top:1px}.qalts li .ai svg{width:20px;height:20px}.qalts li.g .ai{color:var(--ct)}.qalts li.x .ai{color:var(--fx);opacity:.75}.qalts li.g{font-weight:600}
+.qalts li>div{flex:1;min-width:0}.qalts li .ai{flex:none;margin-top:1px}.qalts li .ai svg{width:20px;height:20px}.qalts li.g .ai{color:var(--ct)}.qalts li.n .ai{color:var(--fx);opacity:.75}.qalts li.g{font-weight:600}
 .qbase{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px;margin:2px 0 10px}.qbase span{background:var(--bg);color:var(--mut);border-radius:8px;padding:3px 8px;font-weight:600}.qbase b{font-weight:600}
 .qmc button.ok .qL,.qmc button b{flex:none}
 .qmc button{border-radius:16px;padding:14px;min-height:56px}.qbtns button{border-radius:16px;min-height:60px}
@@ -532,7 +532,7 @@ body.qlock{overflow:hidden}
 .qmc button{display:flex;gap:10px;text-align:left;align-items:flex-start;min-height:48px;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font-size:calc(var(--qfz,18px) - 2px);line-height:1.4}
 .qmc button b{flex:none;width:26px;height:26px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-size:14px}
 .qmc button.sel{border-color:var(--g);background:color-mix(in srgb,var(--g) 14%,transparent)}
-.qalts{list-style:none;margin:8px 0 0;padding:0;font-size:14px}.qalts li{padding:4px 0;border-top:1px solid var(--line)}.qalts li.g{font-weight:600}
+
 .qlk{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}.qlk button{min-width:44px;min-height:40px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);font-size:18px}.qlk button.sel{border-color:var(--g);background:color-mix(in srgb,var(--g) 18%,transparent)}
 .qgrid{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
 .qgrid button{width:40px;height:40px;border-radius:8px;border:1px solid var(--line);background:var(--bg);font-weight:700;color:var(--ink)}
@@ -556,7 +556,7 @@ html.desk .tabs.t6 button{font-size:15px;letter-spacing:0}
 <div class="volta" id="volta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></div>
 <script>
 {
-const VERSAO = '4.15.0';
+const VERSAO = '4.15.1';
 /* Computador = tela de 1024 px ou mais E mouse/trackpad como ponteiro principal.
    Tablet (iPad, Android) e celular têm toque como ponteiro principal, então continuam com o layout do celular,
    mesmo um iPad de 11" deitado. */
@@ -1482,7 +1482,7 @@ const ICN = {
 };
 function qFeedback(q,r,p){
   const ok = qOk(q,r), lk = ((p || PP()).qlk || {})[q.id] || 0, branco = r === '' || r == null;
-  const alts = q.o && q.ca ? `<section class="qexp"><h4>Alternativa por alternativa</h4><ul class="qalts">${q.o.map((t,i) => `<li class="${i === q.g ? 'g' : 'x'}"><span class="ai">${i === q.g ? ICN.ok : ICN.no}</span><div><b>${LET[i]}</b> ${q.ca[i] ? esc(q.ca[i]) : ''}</div></li>`).join('')}</ul></section>` : '';
+  const alts = q.o && q.ca ? `<section class="qexp"><h4>Alternativa por alternativa</h4><ul class="qalts">${q.o.map((t,i) => `<li class="${i === q.g ? 'g' : 'n'}"><span class="ai">${i === q.g ? ICN.ok : ICN.no}</span><div><b>${LET[i]}</b> ${q.ca[i] ? esc(q.ca[i]) : ''}</div></li>`).join('')}</ul></section>` : '';
   return `<div class="qres ${ok ? 'cert' : 'err'}"><span class="qic">${ok ? ICN.ok : ICN.no}</span><div><b>${branco ? 'Em branco' : ok ? 'Você acertou!' : 'Você errou'}</b><span>Gabarito: ${gabTxt(q)}</span></div></div>
     <section class="qexp"><h4>Por quê</h4><p>${esc(q.c)}</p></section>${q.ctx ? `<section class="qexp"><h4>Em contexto</h4><p>${esc(q.ctx)}</p></section>` : ''}${alts}
     <div class="qbase"><span>Base legal</span><b>${esc(q.f)}</b></div>
