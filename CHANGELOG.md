@@ -1,5 +1,12 @@
 # Histórico de versões
 
+## v4.12.0 · 21/11/2026
+- **Nova aba Desempenho**: todas as estatísticas ficam num lugar só, com filtros por período (hoje, 7 dias, 30 dias, tudo ou um dia específico), disciplina, assunto, formato (certo/errado ou múltipla escolha) e resultado (acertei/errei). Mostra rosca de acertos, número de questões, gráfico por dia e desempenho por disciplina, assunto e formato, em cores (verde, amarelo e vermelho). Botão para treinar só as que você errou.
+- **Aba Praticar repaginada**: cabeçalho com o resumo do dia, montagem da sessão (formato, disciplina, assunto, quantidade) e atalhos "Refazer erradas" e "Só novas".
+- **Explicação em blocos**: faixa de acertou/errou com o gabarito, "Por quê", "Em contexto", alternativa por alternativa e base legal.
+- **Comentários mais completos** nas 180 questões certo/errado antigas (regra, por que o gabarito é esse e a pegadinha mais comum).
+- Histórico de respostas por dia guardado para alimentar as estatísticas.
+
 ## v4.11.0 · 21/11/2026
 - **Modo foco nas questões**: ao clicar em "Resolver", abre uma tela cheia só com a questão (sem abas nem cabeçalho), uma por vez, com barra de progresso e botão para sair.
 - **Questões por sessão** (5, 10, 20 ou 50) em vez de uma página longa. Ao fim da sessão aparece o resultado, com "Mais N questões".
