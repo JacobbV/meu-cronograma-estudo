@@ -16,7 +16,7 @@ Regra de ouro: tudo precisa continuar de graça (Firebase Spark, GitHub Pages e 
    - Geradas e conferidas em conversa com o Claude e entram no repositório por pull request, com selo "revisada" e botão "reportar erro". Nada de IA gerando questão ao vivo dentro do app (custo e risco de ensinar errado).
    - Nada copiado de provas reais nem de cursinhos. Rótulo "estilo Cebraspe", nunca "questão da Cebraspe".
    - Aba Questões com filtros (disciplina → assunto) e botão "Resolver questões deste assunto" no Hoje. O acerto alimenta o placar e os simulados.
-   - Simulado montado a partir do banco, com correção automática.
+   - Simulado montado a partir do banco, com correção automática (hoje o simulado é livre: a pessoa faz as questões fora do app e anota o resultado).
 2. **Mais editais na vitrine** (PPPE, IFCE, IFRN, IFPE): mandar o PDF e rodar `tools/build_vitrine.py`.
 3. **Revisões no calendário do app** e no aviso do sino.
 4. **Tirar o recado pessoal do `index.html` público** e guardar na nuvem.
