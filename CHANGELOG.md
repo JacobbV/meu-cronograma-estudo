@@ -1,5 +1,9 @@
 # Histórico de versões
 
+## v4.14.0 · 21/11/2026
+- **IBGE: mais 64 questões** (33 de Português e 31 de Matemática), agora cobrindo quase todos os assuntos do edital: classes de palavras, termos ligados ao nome, orações substantivas e adjetivas, pontuação, verbos irregulares, vozes, reescrita, compreensão de texto, sinônimos e homônimos, ortografia; e conjuntos e fatoração, MDC e MMC, equações e sistemas, proporção, regra de três, porcentagem, geometria, áreas, volumes, medidas, tabelas e mapas.
+- O IBGE passa a ter **176 questões** no banco (66 de Conhecimentos Técnicos, 58 de Português, 52 de Matemática).
+
 ## v4.13.0 · 21/11/2026
 - **Banco único para todos os concursos**: as questões não ficam mais presas à PCPE. Cada concurso mostra as questões das matérias que ele cobra (o app casa pelo nome: "Noções de Direito Penal" e "Direito Penal" são a mesma matéria; "Língua Portuguesa" e "Português" também). Uma questão escrita uma vez vale para todos.
 - **Filtro por lei ou norma** em Praticar: Código Penal, CPP, Constituição, Maria da Penha, Desarmamento, Drogas, Abuso de Autoridade, Tortura, Hediondos, ECA e outras, cada uma com a contagem de questões.
