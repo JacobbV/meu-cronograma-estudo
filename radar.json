@@ -1,48 +1,198 @@
 {
- "atualizado": "2026-11-20",
+ "atualizado": "2026-11-21",
  "fontes": {
   "pci": {
    "nome": "PCI Concursos",
    "url": "https://www.pciconcursos.com.br/concursos/nordeste/",
-   "ok": "2026-11-20",
-   "n": 90
+   "ok": "2026-11-21",
+   "n": 93
   },
   "gran": {
    "nome": "Blog do Gran",
    "url": "https://blog.grancursosonline.com.br/ultimas-noticias/",
-   "ok": "2026-11-20",
+   "ok": "2026-11-21",
    "n": 0
   },
   "estrategia-mapa": {
    "nome": "Estratégia · Mapa dos concursos",
    "url": "https://concursos.estrategia.com/blog/mapa-concursos",
-   "ok": "2026-11-20",
+   "ok": "2026-11-21",
    "n": 0
   },
   "estrategia": {
    "nome": "Estratégia · Portal",
    "url": "https://concursos.estrategia.com/portal/",
-   "ok": "2026-11-20",
+   "ok": "2026-11-21",
    "n": 40
   }
  },
  "itens": [
   {
-   "id": "pci-prefeitura-de-itapororoca-pb",
-   "nome": "Prefeitura de Itapororoca",
-   "uf": "PB",
-   "vagas": "175",
-   "salario": "R$ 10.000,00",
+   "id": "pci-uemasul-universidade-estadual-da-regiao-tocantina-do-maranhao-ma",
+   "nome": "UEMASUL - Universidade Estadual da Região Tocantina do Maranhão",
+   "uf": "MA",
+   "vagas": "3",
+   "salario": "R$ 4.216,81",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-29",
+   "link": "https://www.pciconcursos.com.br/noticias/uemasul-ma-abre-processos-seletivos-para-professores-substitutos-em-diversas-areas",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-21"
+  },
+  {
+   "id": "pci-prefeitura-de-araripina-pe",
+   "nome": "Prefeitura de Araripina",
+   "uf": "PE",
+   "vagas": "1099",
+   "salario": "R$ 16.100,00",
    "niveis": [
     "Fundamental",
     "Médio",
     "Superior"
    ],
-   "inscricoesAte": "2026-11-20",
-   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-itapororoca-pb-abre-concurso-com-salarios-de-ate-10000",
+   "inscricoesAte": "2026-12-06",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-araripina-pe-abre-1099-vagas-em-processos-seletivos",
    "fonte": "pci",
    "tipo": "inscricoes",
-   "visto": "2026-11-20"
+   "visto": "2026-11-21"
+  },
+  {
+   "id": "pci-saa-ms-abre-processo-seletivo-com-salarios-de-ate-r-10-354-29",
+   "titulo": "| SAA MS abre processo seletivo com salários de até R$ 10.354,29",
+   "uf": "MS",
+   "link": "https://www.pciconcursos.com.br/noticias/saa-ms-abre-processo-seletivo-com-salarios-de-ate-10354",
+   "fonte": "pci",
+   "tipo": "noticia",
+   "visto": "2026-11-21"
+  },
+  {
+   "id": "pci-prefeitura-de-campinas-sp-abre-100-vagas-para-guarda-municipal-de-3-classe",
+   "titulo": "| Prefeitura de Campinas - SP abre 100 vagas para Guarda Municipal de 3ª Classe",
+   "uf": "SP",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-campinas-sp-abre-100-vagas-para-guarda-municipal-de-3-classe",
+   "fonte": "pci",
+   "tipo": "noticia",
+   "visto": "2026-11-21"
+  },
+  {
+   "id": "pci-sp-aguas-sp-abre-concurso-publico-com-salarios-de-ate-r-12-070-00",
+   "titulo": "| SP-Águas - SP abre concurso público com salários de até R$ 12.070,00",
+   "uf": "SP",
+   "link": "https://www.pciconcursos.com.br/noticias/sp-aguas-sp-abre-concurso-publico-com-salarios-de-ate-12070",
+   "fonte": "pci",
+   "tipo": "noticia",
+   "visto": "2026-11-21"
+  },
+  {
+   "id": "estrategia-concurso-cgu-dicas-de-discursiva",
+   "titulo": "Concurso CGU – Dicas de discursiva",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-cgu-dicas-discursiva/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-21"
+  },
+  {
+   "id": "estrategia-concurso-cetesb-conheca-as-vagas-para-nivel-tecnico",
+   "titulo": "Concurso CETESB: conheça as vagas para nível técnico",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-cetesb-conheca-as-vagas-para-nivel-tecnico/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-21"
+  },
+  {
+   "id": "estrategia-concurso-sefaz-sc-o-que-levar-horarios-e-instrucoes-da-prova",
+   "titulo": "Concurso Sefaz SC: o que levar, horários e instruções da prova",
+   "uf": "SC",
+   "link": "https://concursos.estrategia.com/portal/concurso-sefaz-sc-2026-horarios-instrucoes-prova-o-que-levar/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-21"
+  },
+  {
+   "id": "estrategia-concurso-araruna-pr-ultimo-edital-em-2026",
+   "titulo": "Concurso Araruna PR: último edital em 2026",
+   "uf": "PR",
+   "link": "https://concursos.estrategia.com/portal/concurso-prefeitura-araruna/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-21"
+  },
+  {
+   "id": "estrategia-cadernos-de-questoes-ineditas-para-o-concurso-iss-aracati",
+   "titulo": "Cadernos de Questões Inéditas para o Concurso ISS Aracati",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/cadernos-de-questoes-ineditas-concurso-iss-aracati/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-21"
+  },
+  {
+   "id": "estrategia-concurso-curitiba-estatuto-dos-servidores",
+   "titulo": "Concurso Curitiba – Estatuto dos Servidores",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-curitiba-estatuto-servidores/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-21"
+  },
+  {
+   "id": "estrategia-simulado-final-pc-ma-prepare-se-para-o-concurso",
+   "titulo": "Simulado Final PC MA; prepare-se para o concurso!",
+   "uf": "MA",
+   "link": "https://concursos.estrategia.com/portal/concurso-pc-ma-2026-simulado-final-investigador/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-21"
+  },
+  {
+   "id": "estrategia-o-quarteto-fantastico-dos-concursos-estudar-praticar-medir-e-avaliar",
+   "titulo": "O quarteto fantástico dos concursos: estudar, praticar, medir e avaliar",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/quarteto-fantastico-preparacao-para-concursos/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-21"
+  },
+  {
+   "id": "estrategia-concurso-itapororoca-pb-inscricoes-encerradas-para-175-vagas",
+   "titulo": "Concurso Itapororoca PB: inscrições encerradas para 175 vagas",
+   "uf": "PB",
+   "link": "https://concursos.estrategia.com/portal/concurso-prefeitura-itapororoca/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-21"
+  },
+  {
+   "id": "estrategia-concurso-prefeitura-de-girua-rs-objetiva-concursos-e-a-banca",
+   "titulo": "Concurso Prefeitura de Giruá RS: Objetiva Concursos é a banca",
+   "uf": "RS",
+   "link": "https://concursos.estrategia.com/portal/concurso-prefeitura-girua/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-21"
+  },
+  {
+   "id": "estrategia-concurso-prefeitura-de-sarapui-sp-01-vaga-para-motorista",
+   "titulo": "Concurso Prefeitura de Sarapuí SP: 01 vaga para Motorista",
+   "uf": "SP",
+   "link": "https://concursos.estrategia.com/portal/concurso-prefeitura-sarapui/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-21"
+  },
+  {
+   "id": "estrategia-concurso-sefaz-sc-50-vagas-e-salarios-de-r-25-3-mil",
+   "titulo": "Concurso Sefaz SC: 50 vagas e salários de R$ 25,3 mil",
+   "uf": "SC",
+   "link": "https://concursos.estrategia.com/portal/concurso-sefaz-sc/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-21"
   },
   {
    "id": "pci-prefeitura-de-itiuba-ba",
@@ -1204,6 +1354,15 @@
    "visto": "2026-11-20"
   },
   {
+   "id": "estrategia-concursos-abertos-de-prefeituras-mais-de-40-editais",
+   "titulo": "Concursos Abertos de Prefeituras: mais de 40 editais",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concursos-abertos-prefeituras/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-20"
+  },
+  {
    "id": "estrategia-concursos-educacao-2027-orcamento-preve-19-4-mil-vagas",
    "titulo": "Concursos Educação 2027: Orçamento prevê 19,4 mil vagas!",
    "uf": "",
@@ -1312,15 +1471,6 @@
    "visto": "2026-11-20"
   },
   {
-   "id": "estrategia-concursos-abertos-de-prefeituras-mais-de-40-editais",
-   "titulo": "Concursos Abertos de Prefeituras: mais de 40 editais",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concursos-abertos-prefeituras/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
    "id": "estrategia-concurso-iss-nova-padua-rs-iniciais-de-r-9-mil",
    "titulo": "Concurso ISS Nova Pádua RS: iniciais de R$ 9 mil!",
    "uf": "RS",
@@ -1388,114 +1538,6 @@
    "titulo": "Concurso Polícia Penal PE: quais são as etapas?",
    "uf": "PE",
    "link": "https://concursos.estrategia.com/portal/concurso-policia-penal-pe-2026-etapas/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-tcu-novo-edital-pode-ser-destinado-as-mulheres",
-   "titulo": "Concurso TCU: novo edital pode ser destinado às mulheres",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-tcu-2027-edital-apenas-para-mulheres/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-seduc-ce-72-mil-inscritos-realizam-provas-dia-22",
-   "titulo": "Concurso Seduc CE: 72 mil inscritos realizam provas dia 22!",
-   "uf": "CE",
-   "link": "https://concursos.estrategia.com/portal/concurso-seduc-ce/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-seduc-ce-registra-mais-de-72-mil-inscritos",
-   "titulo": "Concurso Seduc CE registra mais de 72 mil inscritos",
-   "uf": "CE",
-   "link": "https://concursos.estrategia.com/portal/concurso-seduc-ce-2027-inscritos/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-terminais-aereos-de-maringa-edital-publicado",
-   "titulo": "Concurso Terminais Aéreos de Maringá: edital publicado!",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-terminais-aereos-de-maringa/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-tcdf-o-que-levar-horarios-e-instrucoes-da-prova",
-   "titulo": "Concurso TCDF: o que levar, horários e instruções da prova",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-tcdf-o-que-levar-horarios-e-instrucoes-da-prova/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-inss-presidente-prioriza-preencher-2-mil-vagas",
-   "titulo": "Concurso INSS: presidente prioriza preencher 2 mil vagas",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-inss-2027-presidente-prioriza-2-mil-vagas/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-guarda-de-sao-goncalo-606-vagas-participe",
-   "titulo": "Concurso Guarda de São Gonçalo: 606 vagas; participe!",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-guarda-de-sao-goncalo-rj/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-bacen-contrato-com-a-fgv-assinado-edital-iminente",
-   "titulo": "Concurso Bacen: contrato com a FGV assinado; edital iminente",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-bacen-2026-contrato-fgv-assinado/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concursos-ambientais-cetesb-ipa-ou-sp-aguas-qual-escolher",
-   "titulo": "Concursos Ambientais: Cetesb, IPA ou SP Águas, qual escolher?",
-   "uf": "SP",
-   "link": "https://concursos.estrategia.com/portal/concursos-ambientais-sp-2026-cetesb-ipa-sp-aguas/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-unificado-maranhao-cargos-e-vagas-abertas",
-   "titulo": "Concurso Unificado Maranhão: cargos e vagas abertas!",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-unificado-maranhao-2027-cargos-e-vagas/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-bacen-2026-fgv-e-contratada-serao-170-vagas",
-   "titulo": "Concurso BACEN 2026: FGV é contratada; serão 170 vagas!",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-bacen/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-iffar-iniciais-de-ate-r-5-2-mil-inscreva-se",
-   "titulo": "Concurso IFFar: iniciais de até R$ 5,2 mil; inscreva-se",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-iffar/",
    "fonte": "estrategia",
    "tipo": "noticia",
    "visto": "2026-11-20"
