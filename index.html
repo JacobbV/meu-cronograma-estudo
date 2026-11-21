@@ -472,7 +472,7 @@ html.desk .tabs.t6 button{font-size:15px;letter-spacing:0}
 <div class="volta" id="volta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></div>
 <script>
 {
-const VERSAO = '4.8.0';
+const VERSAO = '4.8.1';
 /* Computador = tela de 1024 px ou mais E mouse/trackpad como ponteiro principal.
    Tablet (iPad, Android) e celular têm toque como ponteiro principal, então continuam com o layout do celular,
    mesmo um iPad de 11" deitado. */
@@ -1187,12 +1187,12 @@ function simPorMat(p){
   return r;
 }
 /* resultado a anotar: ou o cronômetro foi parado (p.simAtivo.fim) ou a pessoa escolheu anotar um simulado que já fez (V.simRes) */
-const ctxRes = p => p.simAtivo && p.simAtivo.fim ? {tipo:p.simAtivo.tipo, q:p.simAtivo.q, lim:p.simAtivo.lim, min:Math.max(1, Math.round((p.simAtivo.fim - p.simAtivo.ini)/60000)), via:'timer'} : (V.simRes || null);
+const ctxRes = p => p.simAtivo && p.simAtivo.fim ? {tipo:p.simAtivo.tipo, nome:p.simAtivo.nome||'', q:p.simAtivo.q, lim:p.simAtivo.lim, min:Math.max(1, Math.round((p.simAtivo.fim - p.simAtivo.ini)/60000)), via:'timer'} : (V.simRes || null);
 const nomeSim = tipo => tipo === 'completo' ? 'Simulado completo' : 'Simulado de '+((MAT[tipo] && MAT[tipo].nome) || 'disciplina');
 
 function simCrono(c,p){
   const a = p.simAtivo, dec = Date.now() - a.ini, rest = a.lim*60000 - dec;
-  return `<section class="card sim-ativo"><h2>${esc(nomeSim(a.tipo))}</h2>
+  return `<section class="card sim-ativo"><h2>${esc(a.nome || nomeSim(a.tipo))}</h2>
     <p class="muted" style="margin:-4px 0 8px">${a.q ? a.q+' questões · ' : ''}${a.lim} min · começou às ${hhmm(a.ini)}</p>
     <div class="simt${rest <= 0 ? ' estourou' : ''}" id="simT" data-ini="${a.ini}" data-lim="${a.lim}" role="timer">${fmtT(rest)}</div>
     <div class="bar2"><i id="simBar" style="width:${Math.min(100, 100*dec/(a.lim*60000))}%"></i></div>
@@ -1207,7 +1207,9 @@ function simInicio(c,p){
   return `<section class="card"><h2>Fazer um simulado</h2>
     <p class="muted" style="margin:-4px 0 10px">Pode ser o simulado completo ou só uma disciplina. Em qualquer um, pode cair qualquer assunto do edital${comp ? '' : ' dessa matéria'}: são ${L.length} e você já concluiu ${f}. O que ainda não foi estudado também pode aparecer, e é isso que mede onde você está.</p>
     <form id="simStart"><label class="f">O que vai fazer<select id="simTipo" name="tipo"><option value="completo"${comp?' selected':''}>Simulado completo</option><optgroup label="Por disciplina">${SUBJ.map(m => `<option value="${m}"${tp===m?' selected':''}>${esc(MAT[m].nome)}</option>`).join('')}</optgroup></select></label>
-    <div class="two"><label class="f">Questões<input type="number" name="q" min="1" inputmode="numeric" value="${dq||''}" placeholder="opcional"></label><label class="f">Tempo (minutos)<input type="number" name="lim" min="5" inputmode="numeric" value="${dt}" required></label></div>
+    <label class="f">Nome do simulado (opcional)<input name="nome" maxlength="60" placeholder="Ex.: Simulado teste 1"></label>
+    <div class="two"><label class="f">Questões<input type="number" name="q" min="1" inputmode="numeric" value="${dq||''}" placeholder="você escolhe" data-edital="${dq}" data-nome="${esc(comp ? 'o simulado completo' : MAT[tp].nome)}"></label><label class="f">Tempo (minutos)<input type="number" name="lim" min="5" inputmode="numeric" value="${dt}" required></label></div>
+    <p class="muted" id="qAviso" style="margin:-4px 0 10px">${dq ? `O edital tem ${dq} questões ${comp ? 'na prova' : 'nessa disciplina'}. Já deixei esse número, mas você pode mudar.` : 'Escolha quantas questões quiser: 5, 10, 18, 40…'}</p>
     <button class="btn" style="width:100%">Começar com cronômetro</button></form>
     <p style="text-align:center;margin:6px 0 0"><button class="linkbtn" data-simmanual="1">Já fiz um simulado: anotar o resultado</button></p></section>`;
 }
@@ -1222,7 +1224,8 @@ function simFormCard(c,p,ctx,kind){
   return `<section class="card"><h2>${tit}</h2>
     <p class="muted" style="margin:-4px 0 8px">${prova ? 'Digite quantas questões acertou, pelo gabarito. Esse é o ponto final do seu gráfico.' : ctx.via === 'timer' ? `Você usou ${ctx.min} min de ${ctx.lim}. ` : ''}${prova || ctx.via === 'timer' ? '' : 'Pode ser de qualquer plataforma ou prova antiga.'}</p>
     <form id="${prova ? 'provaForm' : 'simForm'}" data-tipo="${esc(tipo)}" data-lim="${ctx.lim||''}" data-via="${esc(ctx.via||'')}">
-    ${prova || ctx.via === 'timer' ? '' : `<label class="f">${esc(nomeSim(tipo))} · data<input type="date" name="d" value="${h}" max="${h}" required></label>`}
+    ${prova ? '' : `<label class="f">Nome do simulado (opcional)<input name="nome" maxlength="60" value="${esc(ctx.nome||'')}" placeholder="Ex.: Simulado teste 1"></label>`}
+    ${prova || ctx.via === 'timer' ? '' : `<label class="f">Data<input type="date" name="d" value="${h}" max="${h}" required></label>`}
     ${prova ? `<label class="f">Data da prova<input type="date" name="d" value="${dflt}" max="${h}" required></label>` : ''}
     ${linhas.map(([k,nm,t]) => `<div class="srow" style="--c:${k==='all'?'var(--g)':(MAT[k]?MAT[k].cor:'var(--g)')}"><span>${esc(nm)}</span><input type="number" name="a_${k}" min="0" inputmode="numeric" placeholder="acertos" required aria-label="Acertos em ${esc(nm)}"><i>de</i><input type="number" name="t_${k}" min="1" inputmode="numeric" value="${t}" placeholder="total" required aria-label="Total de questões de ${esc(nm)}"></div>`).join('')}
     ${ehCeb() ? `<label class="f">Erradas (opcional)<input type="number" name="e" min="0" inputmode="numeric" placeholder="Na Cebraspe, cada errada anula uma certa"></label>` : ''}
@@ -1256,7 +1259,7 @@ function graficoSim(c,p){
     }
   }
   if(L.length > 1) g += `<polyline fill="none" stroke="var(--g)" stroke-width="2.5" stroke-linejoin="round" points="${L.map(s => X(s.d)+','+Y(simNota(s))).join(' ')}"/>`;
-  for(const s of all.filter(s => s.tipo !== 'completo')) g += `<circle cx="${X(s.d)}" cy="${Y(simNota(s))}" r="3.2" fill="${MAT[s.m] ? MAT[s.m].cor : 'var(--mut)'}" opacity=".85"><title>${esc(nomeSim(s.tipo))}: ${simNota(s)}%</title></circle>`;
+  for(const s of all.filter(s => s.tipo !== 'completo')) g += `<circle cx="${X(s.d)}" cy="${Y(simNota(s))}" r="3.2" fill="${MAT[s.m] ? MAT[s.m].cor : 'var(--mut)'}" opacity=".85"><title>${esc(s.nome || nomeSim(s.tipo))}: ${simNota(s)}%</title></circle>`;
   for(const s of L) g += `<circle cx="${X(s.d)}" cy="${Y(simNota(s))}" r="4.5" fill="var(--g)" stroke="var(--card)" stroke-width="2"><title>${esc(fmt(s.d))}: ${simNota(s)}%</title></circle>`;
   if(p.resultado) g += `<text x="${X(p.resultado.d)}" y="${Y(simNota(p.resultado))+5}" text-anchor="middle" font-size="18" fill="var(--mt)">★<title>Prova: ${simNota(p.resultado)}%</title></text>`;
   g += `<text x="${ml}" y="${H-8}" font-size="10" fill="var(--mut)">${dm(x0)}</text><text x="${W-mr}" y="${H-8}" text-anchor="end" font-size="10" fill="var(--mut)">${dm(x1)}</text>`;
@@ -1311,7 +1314,7 @@ function vSimulado(c,p){
       const med = Object.fromEntries(mm.map(m => [m, media(pm[m].slice(-3))])), fr = mm.filter(m => pm[m].length >= 2).sort((a,b) => med[a] - med[b])[0];
       html += `<section class="card"><h2>Por disciplina</h2><p class="muted" style="margin:-4px 0 4px">Média dos 3 últimos simulados em que a matéria apareceu.</p><div class="perf">${mm.map(m => `<div style="--c:${MAT[m].cor}"><span>${esc(MAT[m].nome)}</span><span class="track"><i style="width:${med[m]}%"></i></span><b>${med[m]}%</b></div>`).join('')}</div>${fr ? `<p style="margin:12px 0 0">Ponto fraco nos simulados: <b>${esc(MAT[fr].nome)}</b>.</p>` : ''}</section>`;
     }
-    html += `<section class="card"><h2>Histórico</h2><ul class="hist">${L.slice().reverse().slice(0,12).map(s => `<li><div><b>${esc(nomeSim(s.tipo))}</b><span class="sub">${fmt(s.d)} · ${s.a}/${s.t}${s.e ? ' · '+s.e+(s.e > 1 ? ' erradas' : ' errada') : ''}${s.min ? ' · '+s.min+' min' : ''}</span></div><strong>${simNota(s)}%</strong><button class="mini-btn" data-simdel="${s.id}" aria-label="Tirar este simulado">Tirar</button></li>`).join('')}</ul>${L.length > 12 ? `<p class="muted" style="margin:8px 0 0">Mostrando os 12 mais recentes.</p>` : ''}</section>`;
+    html += `<section class="card"><h2>Histórico</h2><ul class="hist">${L.slice().reverse().slice(0,12).map(s => `<li><div><b>${esc(s.nome || nomeSim(s.tipo))}</b><span class="sub">${s.tipo === 'completo' ? 'Completo' : 'Disciplina: '+esc((MAT[s.tipo]||{}).nome || '')} · ${fmt(s.d)} · ${s.a} de ${s.t} questões${s.e ? ' · '+s.e+(s.e > 1 ? ' erradas' : ' errada') : ''}${s.min ? ' · '+s.min+' min' : ''}</span></div><strong>${simNota(s)}%</strong><button class="mini-btn" data-simdel="${s.id}" aria-label="Tirar este simulado">Tirar</button></li>`).join('')}</ul>${L.length > 12 ? `<p class="muted" style="margin:8px 0 0">Mostrando os 12 mais recentes.</p>` : ''}</section>`;
   }
   return html + simProvaCard(c,p);
 }
@@ -1431,7 +1434,7 @@ function salvaSim(f,fd){
   const d = String(fd.get('d') || hoje()); if(d > hoje()){toast('A data não pode ser no futuro'); return}
   if(prova){p.resultado = {d, a, t, e, por:Object.keys(por).length ? por : undefined}; save(); toast('Resultado da prova salvo'); keep(); return}
   const antes = nivelDe(simXP(p));
-  const s = {id:'s'+Date.now().toString(36), d, tipo, m:tipo === 'completo' ? '' : tipo, a, t, e, por:Object.keys(por).length ? por : undefined, min:Number(fd.get('min')) || Number(f.dataset.via === 'timer' ? (ctxRes(p)||{}).min : 0) || 0, lim:Number(f.dataset.lim)||0, via:f.dataset.via};
+  const s = {id:'s'+Date.now().toString(36), d, tipo, nome:String(fd.get('nome')||'').trim().slice(0,60), m:tipo === 'completo' ? '' : tipo, a, t, e, por:Object.keys(por).length ? por : undefined, min:Number(fd.get('min')) || Number(f.dataset.via === 'timer' ? (ctxRes(p)||{}).min : 0) || 0, lim:Number(f.dataset.lim)||0, via:f.dataset.via};
   (p.sim = p.sim || []).push(s); p.done['sim-'+s.id] = d; delete p.simAtivo; V.simRes = null; save();
   const dep = nivelDe(simXP(p));
   toast(dep.n > antes.n ? 'Subiu de nível! Agora você é '+dep.nome : 'Simulado salvo: '+simNota(s)+'% de acerto'); keep();
@@ -2013,7 +2016,7 @@ document.addEventListener('click', e => {
   else if(d.rvdel){const p = PP(); p.rev = (p.rev||[]).filter(x => x.id !== d.rvdel); save(); toast('Tirada da lista de revisões'); keep()}
   else if(d.simfim){const p = PP(); if(p.simAtivo && !p.simAtivo.fim){p.simAtivo.fim = Date.now(); save(); keep()}}
   else if(d.simcancel){if(b.dataset.sure){delete PP().simAtivo; save(); toast('Simulado cancelado'); keep()} else {b.dataset.sure = 1; b.textContent = 'Toque de novo para cancelar'}}
-  else if(d.simmanual){const fm = document.getElementById('simStart'); V.simRes = {tipo:fm ? String(new FormData(fm).get('tipo')) : (V.simTipo || 'completo'), q:fm ? Number(new FormData(fm).get('q'))||'' : '', min:'', via:'manual'}; keep()}
+  else if(d.simmanual){const fm = document.getElementById('simStart'); V.simRes = {tipo:fm ? String(new FormData(fm).get('tipo')) : (V.simTipo || 'completo'), q:fm ? Number(new FormData(fm).get('q'))||'' : '', nome:fm ? String(new FormData(fm).get('nome')||'').trim() : '', min:'', via:'manual'}; keep()}
   else if(d.simdesc){delete PP().simAtivo; V.simRes = null; save(); keep()}
   else if(d.simdel){if(b.dataset.sure){const p = PP(); p.sim = (p.sim||[]).filter(x => x.id !== d.simdel); delete p.done['sim-'+d.simdel]; save(); toast('Simulado tirado'); keep()} else {b.dataset.sure = 1; b.textContent = 'Confirmar'}}
   else if(d.provadel){delete PP().resultado; save(); keep()}
@@ -2065,6 +2068,12 @@ document.addEventListener('click', e => {
   else if(b.id === 'rst'){document.getElementById('rstBox').hidden = false; document.getElementById('rstTxt').value = ''}
   else if(b.id === 'rstOk'){try{const n = JSON.parse(decodeURIComponent(escape(atob(document.getElementById('rstTxt').value.trim())))); if(!n.perfis) throw 0; S = n; save(); toast('Progresso restaurado'); render()}catch(err){toast('Código inválido')}}
 });
+document.addEventListener('input', e => {
+  const t = e.target; if(t.name !== 'q' || !t.dataset.nome) return;
+  const av = document.getElementById('qAviso'), ed = Number(t.dataset.edital), q = Number(t.value);
+  if(av && ed && q > ed) av.innerHTML = `<b>Atenção:</b> o edital tem apenas ${ed} questões ${t.dataset.nome === 'o simulado completo' ? 'na prova' : 'em '+t.dataset.nome}. Pode seguir assim, é só um treino a mais.`;
+  else if(av && ed) av.textContent = `O edital tem ${ed} questões ${t.dataset.nome === 'o simulado completo' ? 'na prova' : 'nessa disciplina'}. Já deixei esse número, mas você pode mudar.`;
+});
 document.addEventListener('change', e => {
   if(e.target.id === 'simTipo'){V.simTipo = e.target.value; keep(); return}
   if(e.target.id === 'rUf'){V.ruf = e.target.value; V.rmais = false; keep(); return}
@@ -2085,7 +2094,7 @@ document.addEventListener('submit', e => {
     const criar = e.submitter && e.submitter.value === 'criar'; er.textContent = criar ? 'Criando sua conta…' : 'Entrando…';
     (criar ? A.createUserWithEmailAndPassword(NV.fb.auth, em, se) : A.signInWithEmailAndPassword(NV.fb.auth, em, se)).catch(x => {er.textContent = erroLogin(x.code)}); return}
   if(f.id === 'simStart'){const tipo = String(fd.get('tipo')), q = Number(fd.get('q'))||0, lim = Number(fd.get('lim'))||0; if(!(lim > 0)){toast('Coloque o tempo do simulado, em minutos'); return}
-    PP().simAtivo = {ini:Date.now(), tipo, q, lim}; V.simTipo = tipo; save(); keep(); return}
+    PP().simAtivo = {ini:Date.now(), tipo, q, lim, nome:String(fd.get('nome')||'').trim()}; V.simTipo = tipo; save(); keep(); return}
   if(f.id === 'simForm' || f.id === 'provaForm'){salvaSim(f, fd); return}
   if(f.id === 'metaForm'){const m = Number(fd.get('meta')); if(!(m >= 1 && m <= 100)){toast('A meta vai de 1 a 100'); return} PP().meta = Math.round(m); save(); toast('Meta salva'); keep(); return}
   if(f.id === 'rvAdd'){const p = PP(), a = EDITAL.find(x => x.id === fd.get('aid')); if(!a) return; revAdd(p, a, Number(fd.get('dias'))||7, !!fd.get('rep')); save(); toast('Adicionada às revisões'); keep(); return}

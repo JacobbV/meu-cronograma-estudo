@@ -1,5 +1,9 @@
 # Histórico de versões
 
+## v4.8.1 · 21/11/2026
+- Simulado livre: nome opcional (aparece no histórico), quantidade de questões à escolha. Quando o edital informa as questões da disciplina, o número já vem preenchido, com aviso se você passar dele.
+- O histórico mostra nome, tipo (completo ou disciplina), data, acertos e total de questões.
+
 ## v4.8.0 · 21/11/2026
 - Nova aba **Simulados**: simulado completo ou por disciplina, com cronômetro que continua contando com o app fechado. No fim, anota os acertos por matéria (na Cebraspe, também as erradas, que anulam certas).
 - **Nível e gráfico de evolução**: XP por simulado e por revisão, nível com barra de progresso, meta de acerto editável, linha do tempo até a prova com tendência (a partir de 3 completos), média por disciplina e histórico.
