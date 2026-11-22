@@ -1,32 +1,93 @@
 {
- "atualizado": "2026-11-21",
+ "atualizado": "2026-11-22",
  "fontes": {
   "pci": {
    "nome": "PCI Concursos",
    "url": "https://www.pciconcursos.com.br/concursos/nordeste/",
-   "ok": "2026-11-21",
+   "ok": "2026-11-22",
    "n": 93
   },
   "gran": {
    "nome": "Blog do Gran",
    "url": "https://blog.grancursosonline.com.br/ultimas-noticias/",
-   "ok": "2026-11-21",
+   "ok": "2026-11-22",
    "n": 0
   },
   "estrategia-mapa": {
    "nome": "Estratégia · Mapa dos concursos",
    "url": "https://concursos.estrategia.com/blog/mapa-concursos",
-   "ok": "2026-11-21",
+   "ok": "2026-11-22",
    "n": 0
   },
   "estrategia": {
    "nome": "Estratégia · Portal",
    "url": "https://concursos.estrategia.com/portal/",
-   "ok": "2026-11-21",
+   "ok": "2026-11-22",
    "n": 40
   }
  },
  "itens": [
+  {
+   "id": "pci-prefeitura-de-sao-desiderio-ba",
+   "nome": "Prefeitura de São Desidério",
+   "uf": "BA",
+   "vagas": "236",
+   "salario": "R$ 8.032,62",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-26",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-sao-desiderio-ba-abre-selecao-com-salarios-de-ate-8032",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-22"
+  },
+  {
+   "id": "estrategia-concurso-tce-ma-receba-um-premio-enviando-o-caderno",
+   "titulo": "Concurso TCE MA: receba um prêmio enviando o caderno!",
+   "uf": "MA",
+   "link": "https://concursos.estrategia.com/portal/concurso-tce-ma-2026-caderno/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-22"
+  },
+  {
+   "id": "estrategia-leis-de-de-morgan-resumo-para-concursos",
+   "titulo": "Leis de De Morgan: Resumo para concursos",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/leis-morgan-resumo-concursos/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-22"
+  },
+  {
+   "id": "estrategia-concurso-transpetro-2026-simulado-final-para-nivel-medio",
+   "titulo": "Concurso Transpetro 2026: simulado final para nível médio!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-transpetro-2026-simulado-final-nivel-medio/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-22"
+  },
+  {
+   "id": "estrategia-concurso-ibge-2026-simulado-especial-para-recenseador",
+   "titulo": "Concurso IBGE 2026: simulado especial para Recenseador!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-ibge-2026-simulado-especial-recenseador/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-22"
+  },
+  {
+   "id": "estrategia-concurso-curitiba-prioridade-no-atendimento",
+   "titulo": "Concurso Curitiba – Prioridade no atendimento",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-curitiba-prioridade-atendimento/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-22"
+  },
   {
    "id": "pci-uemasul-universidade-estadual-da-regiao-tocantina-do-maranhao-ma",
    "nome": "UEMASUL - Universidade Estadual da Região Tocantina do Maranhão",
@@ -1493,51 +1554,6 @@
    "titulo": "Concurso FJPO Campinas: salários de até R$ 8,9 mil!",
    "uf": "",
    "link": "https://concursos.estrategia.com/portal/concurso-fjpo-campinas/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-ipero-sp-editais-para-diversos-cargos",
-   "titulo": "Concurso Iperó SP: editais para diversos cargos",
-   "uf": "SP",
-   "link": "https://concursos.estrategia.com/portal/concurso-prefeitura-ipero/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-ijui-rs-editais-publicados-com-154-vagas",
-   "titulo": "Concurso Ijuí RS: editais publicados com 154 vagas",
-   "uf": "RS",
-   "link": "https://concursos.estrategia.com/portal/concurso-prefeitura-ijui/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-pm-sp-quanto-ganha-um-soldado",
-   "titulo": "Concurso PM SP: quanto ganha um Soldado?",
-   "uf": "SP",
-   "link": "https://concursos.estrategia.com/portal/concurso-pm-sp-quanto-ganha-soldado/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-tce-ma-veja-as-orientacoes-para-provas-do-concurso",
-   "titulo": "TCE MA: veja as orientações para provas do concurso",
-   "uf": "MA",
-   "link": "https://concursos.estrategia.com/portal/concurso-tce-ma-orientacoes-para-as-provas/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concurso-policia-penal-pe-quais-sao-as-etapas",
-   "titulo": "Concurso Polícia Penal PE: quais são as etapas?",
-   "uf": "PE",
-   "link": "https://concursos.estrategia.com/portal/concurso-policia-penal-pe-2026-etapas/",
    "fonte": "estrategia",
    "tipo": "noticia",
    "visto": "2026-11-20"
