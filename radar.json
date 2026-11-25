@@ -1,32 +1,142 @@
 {
- "atualizado": "2026-11-24",
+ "atualizado": "2026-11-25",
  "fontes": {
   "pci": {
    "nome": "PCI Concursos",
    "url": "https://www.pciconcursos.com.br/concursos/nordeste/",
-   "ok": "2026-11-24",
-   "n": 87
+   "ok": "2026-11-25",
+   "n": 92
   },
   "gran": {
    "nome": "Blog do Gran",
    "url": "https://blog.grancursosonline.com.br/ultimas-noticias/",
-   "ok": "2026-11-24",
+   "ok": "2026-11-25",
    "n": 0
   },
   "estrategia-mapa": {
    "nome": "Estratégia · Mapa dos concursos",
    "url": "https://concursos.estrategia.com/blog/mapa-concursos",
-   "ok": "2026-11-24",
+   "ok": "2026-11-25",
    "n": 0
   },
   "estrategia": {
    "nome": "Estratégia · Portal",
    "url": "https://concursos.estrategia.com/portal/",
-   "ok": "2026-11-24",
-   "n": 31
+   "ok": "2026-11-25",
+   "n": 34
   }
  },
  "itens": [
+  {
+   "id": "pci-prefeitura-de-itabuna-ba",
+   "nome": "Prefeitura de Itabuna",
+   "uf": "BA",
+   "vagas": "",
+   "salario": "R$ 4.707,23",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-27",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-itabuna-ba-abre-processo-seletivo-para-cadastro-de-reserva-em-diversas-areas",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-25"
+  },
+  {
+   "id": "pci-ifma-instituto-federal-de-educacao-ciencia-e-tecnologia-do-maranhao-ma",
+   "nome": "IFMA - Instituto Federal de Educação, Ciência e Tecnologia do Maranhão",
+   "uf": "MA",
+   "vagas": "3",
+   "salario": "R$ 8.340,33",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-07",
+   "link": "https://www.pciconcursos.com.br/noticias/ifma-ma-abre-selecao-para-professores-substitutos-com-salarios-de-ate-8340-em-imperatriz",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-25"
+  },
+  {
+   "id": "pci-prefeitura-de-ourolandia-ba",
+   "nome": "Prefeitura de Ourolândia",
+   "uf": "BA",
+   "vagas": "13",
+   "salario": "R$ 3.500,00",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-10",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-ourolandia-ba-abre-concursos-com-13-vagas-e-salarios-de-ate-3500",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-25"
+  },
+  {
+   "id": "pci-prefeitura-de-sao-goncalo-rj-suspende-cronograma-e-vai-prorrogar-inscricoes-de-c",
+   "titulo": "| Prefeitura de São Gonçalo - RJ suspende cronograma e vai prorrogar inscrições de concursos para Guarda Municipal",
+   "uf": "RJ",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-sao-goncalo-rj-suspende-cronograma-e-vai-prorrogar-inscricoes-de-concursos-para-guarda-municipal",
+   "fonte": "pci",
+   "tipo": "noticia",
+   "visto": "2026-11-25"
+  },
+  {
+   "id": "estrategia-direito-a-informacao-lei-de-acesso-a-informacao-lai-para-concursos-guia-completo",
+   "titulo": "Direito à informação – Lei de Acesso à Informação (LAI) para concursos: guia completo com prazos, sigilo, competências e pegadinhas",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/direito-acesso-informacao-concursos/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-25"
+  },
+  {
+   "id": "estrategia-retangulo-resumo-para-concursos",
+   "titulo": "Retângulo: Resumo para concursos",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/retangulo-resumo-concursos/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-25"
+  },
+  {
+   "id": "estrategia-recursos-humanos-x-gestao-de-pessoas-diferencas-conceitos-e-o-que-cai-em-concurs",
+   "titulo": "Recursos Humanos x Gestão de Pessoas: diferenças, conceitos e o que cai em concursos",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/recursos-humanos-gestao-pessoas/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-25"
+  },
+  {
+   "id": "estrategia-concurso-prefeitura-de-pinhalzinho-propostas-adiadas",
+   "titulo": "Concurso Prefeitura de Pinhalzinho: propostas adiadas",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-prefeitura-de-pinhalzinho/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-25"
+  },
+  {
+   "id": "estrategia-concurso-curitiba-administracao-e-servidores",
+   "titulo": "Concurso Curitiba – Administração e Servidores",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-curitiba-administracao-servidores/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-25"
+  },
+  {
+   "id": "estrategia-concurso-pf-2026-ultimas-noticias-e-situacao-hoje",
+   "titulo": "Concurso PF 2026: últimas notícias e situação hoje",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-pf-ultimas-noticias/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-25"
+  },
   {
    "id": "estrategia-concurso-tj-sp-2026-ultimas-noticias-e-situacao-hoje",
    "titulo": "Concurso TJ SP 2026: últimas notícias e situação hoje",
@@ -194,33 +304,6 @@
    "titulo": "As teorias da liderança: conceitos, características e aplicações para concursos",
    "uf": "",
    "link": "https://concursos.estrategia.com/portal/teorias-lideranca/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-cancelamento-de-inscricao-de-contribuinte-para-sefaz-al",
-   "titulo": "Cancelamento de inscrição de contribuinte para SEFAZ/AL",
-   "uf": "AL",
-   "link": "https://concursos.estrategia.com/portal/cancelamento-inscricao-contribuinte-sefaz-al/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-auditoria-interna-governamental-aig-in-cgu-n-3-2017-tres-linhas-de-defesa-e-ques",
-   "titulo": "Auditoria Interna Governamental (AIG): IN CGU nº 3/2017, três linhas de defesa e questões de concurso",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/auditoria-interna-governamental/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-concurso-prefeitura-de-sao-marcos-rs-edital-oferta-06-cr-para-educacao-infantil",
-   "titulo": "Concurso Prefeitura de São Marcos RS: edital oferta 06+CR para Educação Infantil",
-   "uf": "RS",
-   "link": "https://concursos.estrategia.com/portal/concurso-prefeitura-de-sao-marcos/",
    "fonte": "estrategia",
    "tipo": "noticia",
    "visto": "2026-11-24"
@@ -424,22 +507,6 @@
    "visto": "2026-11-21"
   },
   {
-   "id": "pci-prefeitura-de-upanema-rn",
-   "nome": "Prefeitura de Upanema",
-   "uf": "RN",
-   "vagas": "92",
-   "salario": "R$ 3.610,20",
-   "niveis": [
-    "Médio",
-    "Superior"
-   ],
-   "inscricoesAte": "2026-11-24",
-   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-upanema-rn-abre-selecao-para-profissionais-da-educacao",
-   "fonte": "pci",
-   "tipo": "inscricoes",
-   "visto": "2026-11-20"
-  },
-  {
    "id": "pci-camara-de-santa-rita-de-cassia-ba",
    "nome": "Câmara de Santa Rita de Cássia",
    "uf": "BA",
@@ -504,21 +571,6 @@
    "visto": "2026-11-20"
   },
   {
-   "id": "pci-uema-universidade-estadual-do-maranhao-ma",
-   "nome": "UEMA - Universidade Estadual do Maranhão",
-   "uf": "MA",
-   "vagas": "2",
-   "salario": "R$ 3.624,64",
-   "niveis": [
-    "Superior"
-   ],
-   "inscricoesAte": "2026-11-25",
-   "link": "https://www.pciconcursos.com.br/noticias/uema-abre-processos-seletivos-para-professores-substitutos-em-coroata-e-sao-luis",
-   "fonte": "pci",
-   "tipo": "inscricoes",
-   "visto": "2026-11-20"
-  },
-  {
    "id": "pci-prefeitura-de-belem-do-piaui-pi",
    "nome": "Prefeitura de Belém do Piauí",
    "uf": "PI",
@@ -530,7 +582,7 @@
     "Superior"
    ],
    "inscricoesAte": "2026-11-25",
-   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-belem-do-piaui-pi-abre-concurso-com-remuneracoes-de-ate-12000",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-belem-do-piaui-pi-abre-concurso-publico-para-cargos-de-todos-os-niveis",
    "fonte": "pci",
    "tipo": "inscricoes",
    "visto": "2026-11-20"
@@ -694,21 +746,6 @@
    "visto": "2026-11-20"
   },
   {
-   "id": "pci-ifpb-instituto-federal-de-educacao-ciencia-e-tecnologia-da-paraiba-pb",
-   "nome": "IFPB - Instituto Federal de Educação, Ciência e Tecnologia da Paraíba",
-   "uf": "PB",
-   "vagas": "1",
-   "salario": "R$ 4.326,60",
-   "niveis": [
-    "Superior"
-   ],
-   "inscricoesAte": "2026-11-29",
-   "link": "https://www.pciconcursos.com.br/noticias/ifpb-abre-selecao-para-professor-substituto-de-informatica-no-campus-monteiro",
-   "fonte": "pci",
-   "tipo": "inscricoes",
-   "visto": "2026-11-20"
-  },
-  {
    "id": "pci-prefeitura-de-serra-grande-pb",
    "nome": "Prefeitura de Serra Grande",
    "uf": "PB",
@@ -721,6 +758,21 @@
    ],
    "inscricoesAte": "2026-11-29",
    "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-serra-grande-pb-retifica-concurso-publico-com-vagas-para-diversos-cargos",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-ifpb-instituto-federal-de-educacao-ciencia-e-tecnologia-da-paraiba-pb",
+   "nome": "IFPB - Instituto Federal de Educação, Ciência e Tecnologia da Paraíba",
+   "uf": "PB",
+   "vagas": "",
+   "salario": "R$ 50,00",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-11-30",
+   "link": "https://www.pciconcursos.com.br/noticias/ifpb-pb-abre-selecao-para-professores-formadores-com-cadastro-reserva-em-sape",
    "fonte": "pci",
    "tipo": "inscricoes",
    "visto": "2026-11-20"
@@ -800,6 +852,21 @@
    ],
    "inscricoesAte": "2026-12-01",
    "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-nova-olinda-pb-abre-processo-seletivo-para-professores-da-eja",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-20"
+  },
+  {
+   "id": "pci-uema-universidade-estadual-do-maranhao-ma",
+   "nome": "UEMA - Universidade Estadual do Maranhão",
+   "uf": "MA",
+   "vagas": "7",
+   "salario": "R$ 3.624,64",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-02",
+   "link": "https://www.pciconcursos.com.br/noticias/uema-ma-abre-selecoes-com-7-vagas-para-professores-substitutos-em-codo",
    "fonte": "pci",
    "tipo": "inscricoes",
    "visto": "2026-11-20"
@@ -1234,15 +1301,6 @@
    "titulo": "| SETEC Campinas - SP abre concurso público com salários de até R$ 10.428,05",
    "uf": "SP",
    "link": "https://www.pciconcursos.com.br/noticias/setec-campinas-sp-abre-concurso-publico-com-salarios-de-ate-10428",
-   "fonte": "pci",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "pci-prefeitura-de-sao-goncalo-rj-abre-concursos-para-guardas-municipais",
-   "titulo": "| Prefeitura de São Gonçalo - RJ abre concursos para Guardas Municipais",
-   "uf": "RJ",
-   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-sao-goncalo-rj-abre-concursos-para-guardas-municipais",
    "fonte": "pci",
    "tipo": "noticia",
    "visto": "2026-11-20"
