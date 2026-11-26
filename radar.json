@@ -1,32 +1,470 @@
 {
- "atualizado": "2026-11-25",
+ "atualizado": "2026-11-26",
  "fontes": {
   "pci": {
    "nome": "PCI Concursos",
    "url": "https://www.pciconcursos.com.br/concursos/nordeste/",
-   "ok": "2026-11-25",
-   "n": 92
+   "ok": "2026-11-26",
+   "n": 84
   },
   "gran": {
    "nome": "Blog do Gran",
    "url": "https://blog.grancursosonline.com.br/ultimas-noticias/",
-   "ok": "2026-11-25",
+   "ok": "2026-11-26",
    "n": 0
   },
   "estrategia-mapa": {
    "nome": "Estratégia · Mapa dos concursos",
    "url": "https://concursos.estrategia.com/blog/mapa-concursos",
-   "ok": "2026-11-25",
+   "ok": "2026-11-26",
    "n": 0
   },
   "estrategia": {
    "nome": "Estratégia · Portal",
    "url": "https://concursos.estrategia.com/portal/",
-   "ok": "2026-11-25",
-   "n": 34
+   "ok": "2026-11-26",
+   "n": 40
   }
  },
  "itens": [
+  {
+   "id": "pci-ibge-fundacao-instituto-brasileiro-de-geografia-e-estatistica-ba",
+   "nome": "IBGE - Fundação Instituto Brasileiro de Geografia e Estatística",
+   "uf": "BA",
+   "vagas": "27279",
+   "salario": "R$ 4.370,00",
+   "niveis": [
+    "Fundamental"
+   ],
+   "inscricoesAte": "2026-11-30",
+   "link": "https://www.pciconcursos.com.br/noticias/ibge-abre-processo-seletivo-com-27279-vagas-para-recenseador",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "pci-prefeitura-de-monsenhor-gil-pi",
+   "nome": "Prefeitura de Monsenhor Gil",
+   "uf": "PI",
+   "vagas": "101",
+   "salario": "R$ 8.000,00",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-07",
+   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-monsenhor-gil-pi-abre-concurso-com-vagas-para-todos-os-niveis-de-escolaridade",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "pci-secretaria-municipal-de-educacao-de-sao-caetano-pe",
+   "nome": "Secretaria Municipal de Educação de São Caetano",
+   "uf": "PE",
+   "vagas": "204",
+   "salario": "R$ 2.871,96",
+   "niveis": [
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-09",
+   "link": "https://www.pciconcursos.com.br/noticias/secretaria-municipal-de-educacao-de-sao-caetano-pe-abre-204-vagas-para-professores",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "pci-camara-de-banabuiu-ce",
+   "nome": "Câmara de Banabuiú",
+   "uf": "CE",
+   "vagas": "7",
+   "salario": "R$ 4.271,60",
+   "niveis": [
+    "Fundamental",
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-14",
+   "link": "https://www.pciconcursos.com.br/noticias/camara-de-banabuiu-ce-abre-concurso-publico-para-diversos-niveis-de-escolaridade",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "pci-seap-secretaria-de-estado-de-administracao-penitenciaria-ma",
+   "nome": "SEAP - Secretaria de Estado de Administração Penitenciária",
+   "uf": "MA",
+   "vagas": "",
+   "salario": "R$ 3.952,58",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-15",
+   "link": "https://www.pciconcursos.com.br/noticias/seap-ma-abre-seletivos-para-diversas-areas-em-unidades-prisionais",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "pci-camara-de-maxaranguape-rn",
+   "nome": "Câmara de Maxaranguape",
+   "uf": "RN",
+   "vagas": "6",
+   "salario": "R$ 2.800,00",
+   "niveis": [
+    "Médio",
+    "Superior"
+   ],
+   "inscricoesAte": "2026-12-26",
+   "link": "https://www.pciconcursos.com.br/noticias/camara-de-maxaranguape-rn-abre-concurso-publico-com-vagas-para-niveis-medio-e-superior",
+   "fonte": "pci",
+   "tipo": "inscricoes",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concursos-2027-confira-desde-ja-as-oportunidades-previstas",
+   "titulo": "Concursos 2027: confira desde já as oportunidades previstas!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concursos-2027/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-receita-federal-fgv-e-a-banca-edital-iminente",
+   "titulo": "Concurso Receita Federal: FGV é a banca; edital iminente!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-receita-federal/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-transpetro-mais-de-400-mil-inscritos-provas-em-6-12",
+   "titulo": "Concurso Transpetro: mais de 400 mil inscritos; provas em 6/12!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-transpetro/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-cnu-2027-nova-edicao-e-prevista-com-ate-3-mil-vagas",
+   "titulo": "CNU 2027: nova edição é prevista com até 3 mil vagas!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-nacional-unificado/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-unificado-ma-edital-publicado-com-2-3-mil-vagas",
+   "titulo": "Concurso Unificado MA: edital publicado com 2,3 mil vagas!",
+   "uf": "MA",
+   "link": "https://concursos.estrategia.com/portal/concurso-unificado-ma/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-prf-estudo-projeta-13-mil-vagas-e-autorizacao-em-2027",
+   "titulo": "Concurso PRF: estudo projeta 13 mil vagas e autorização em 2027",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-prf-estudo-novos-policiais-autorizacao-2027/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-unificado-maranhao-94-vagas-para-nivel-medio",
+   "titulo": "Concurso Unificado Maranhão: 94 vagas para nível médio!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-unificado-maranhao-2026-vagas-nivel-medio/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-pm-to-2026-novo-edital-previsto-veja",
+   "titulo": "Concurso PM TO 2026: novo edital previsto; veja!",
+   "uf": "TO",
+   "link": "https://concursos.estrategia.com/portal/concurso-pm-to/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-policia-penal-to-novo-edital-segue-previsto",
+   "titulo": "Concurso Polícia Penal TO: novo edital segue previsto!",
+   "uf": "TO",
+   "link": "https://concursos.estrategia.com/portal/concurso-policia-penal-to/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-unitins-e-previsto-na-ldo-2027-confira",
+   "titulo": "Concurso Unitins é previsto na LDO 2027; confira!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-unitins/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concursos-to-emendas-a-ldo-preveem-editais",
+   "titulo": "Concursos TO: emendas à LDO preveem editais!",
+   "uf": "TO",
+   "link": "https://concursos.estrategia.com/portal/concursos-to-editais-previstos-emendas/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-ruraltins-to-ldo-preve-novo-edital-em-2027",
+   "titulo": "Concurso Ruraltins TO: LDO prevê novo edital em 2027",
+   "uf": "TO",
+   "link": "https://concursos.estrategia.com/portal/concurso-ruraltins/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-detran-to-previsto-para-2027-comissao-formada",
+   "titulo": "Concurso Detran TO: previsto para 2027; comissão formada!",
+   "uf": "TO",
+   "link": "https://concursos.estrategia.com/portal/concurso-detran-to/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-bombeiros-to-novo-edital-em-2027-entenda",
+   "titulo": "Concurso Bombeiros TO: novo edital em 2027? Entenda!",
+   "uf": "TO",
+   "link": "https://concursos.estrategia.com/portal/concurso-bombeiro-tocantins/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-cgu-monitoramento-e-avaliacao",
+   "titulo": "Concurso CGU – Monitoramento e avaliação",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-cgu-monitoramento-avaliacao/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-iprec-cachoeirinha-edital-para-agente-previdenciario",
+   "titulo": "Concurso IPREC Cachoeirinha: edital para Agente Previdenciário",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-iprec-cachoeirinha-rs/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-noticias-sobre-edital-de-26-de-novembro-de-2026",
+   "titulo": "Notícias sobre edital de 26 de novembro de 2026",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/principais-noticias-edital-concursos/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-exclusivo-ibram-df-minuta-do-edital-esta-em-elaboracao",
+   "titulo": "EXCLUSIVO! IBRAM DF: minuta do edital está em elaboração!",
+   "uf": "DF",
+   "link": "https://concursos.estrategia.com/portal/edital-do-concurso-ibram-df-minuta-elaboracao/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-ibram-df-100-vagas-minuta-de-edital-em-elaboracao",
+   "titulo": "Concurso IBRAM DF: 100 vagas; minuta de edital em elaboração",
+   "uf": "DF",
+   "link": "https://concursos.estrategia.com/portal/concurso-ibram-df/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concursos-de-policia-2026-atualizado-veja-as-oportunidades",
+   "titulo": "Concursos de Polícia 2026: Atualizado! Veja as oportunidades",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concursos-de-policia/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-pc-to-ldo-garante-recursos-para-o-novo-edital",
+   "titulo": "Concurso PC TO: LDO garante recursos para o novo edital",
+   "uf": "TO",
+   "link": "https://concursos.estrategia.com/portal/concurso-pc-to-recursos-novo-edital/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-eufemismo-resumo-para-concursos",
+   "titulo": "Eufemismo: resumo para concursos",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/eufemismo-resumo-concursos/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-sorriso-educacao-mt-saiu-edital-64-vagas",
+   "titulo": "Concurso Sorriso Educação MT: saiu edital; 64 vagas!",
+   "uf": "MT",
+   "link": "https://concursos.estrategia.com/portal/concurso-sorriso-educacao-mt/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-setec-campinas-39-vagas-e-iniciais-ate-r-10-mil",
+   "titulo": "Concurso SETEC Campinas: 39 vagas e iniciais até R$ 10 mil!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-setec-campinas/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-camara-de-sao-luis-e-cobrado-pelo-sindicato",
+   "titulo": "Concurso Câmara de São Luís é cobrado pelo sindicato",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-camara-de-sao-luis/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concursos-pb-vagas-previstas-para-2026-na-paraiba",
+   "titulo": "Concursos PB: vagas previstas para 2026 na Paraíba!",
+   "uf": "PB",
+   "link": "https://concursos.estrategia.com/portal/concursos-pb/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concursos-administrativos-2026-previsoes-atualizadas",
+   "titulo": "Concursos Administrativos 2026: previsões ATUALIZADAS!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-administrativos/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-cofen-450-vagas-e-inicial-de-r-18-mil",
+   "titulo": "Concurso Cofen: 450 vagas e inicial de R$ 18 mil",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concurso-cofen/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concursos-sp-selecoes-previstas-autorizadas-ou-com-banca",
+   "titulo": "Concursos SP: seleções previstas, autorizadas ou com banca!",
+   "uf": "SP",
+   "link": "https://concursos.estrategia.com/portal/concursos-sp/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-e-books-estrategicos-para-o-concurso-policia-federal",
+   "titulo": "E-books Estratégicos para o Concurso Polícia Federal",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/e-books-estrategicos-concurso-policia-federal/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-camara-taboao-da-serra-sp-banca-e-contratada",
+   "titulo": "Concurso Câmara Taboão da Serra SP: banca é contratada!",
+   "uf": "SP",
+   "link": "https://concursos.estrategia.com/portal/concurso-camara-taboao-da-serra-sp/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-pm-pb-comissoes-formadas-para-oficiais",
+   "titulo": "Concurso PM PB: comissões formadas para Oficiais!",
+   "uf": "PB",
+   "link": "https://concursos.estrategia.com/portal/concurso-pm-pb-oficial-2027-comissao-formada/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concursos-abertos-de-prefeituras-mais-de-40-editais",
+   "titulo": "Concursos Abertos de Prefeituras: mais de 40 editais",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concursos-abertos-prefeituras/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-coren-sp-76-vagas-cr-inscreva-se",
+   "titulo": "Concurso Coren SP: 76 vagas + CR; inscreva-se!",
+   "uf": "SP",
+   "link": "https://concursos.estrategia.com/portal/concurso-coren-sp/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-camara-de-pomerode-sc-iniciais-de-ate-r-7-4-mil",
+   "titulo": "Concurso Câmara de Pomerode SC: iniciais de até R$ 7,4 mil!",
+   "uf": "SC",
+   "link": "https://concursos.estrategia.com/portal/concurso-camara-de-pomerode-sc/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-sao-luis-de-montes-belos-go-inscricoes-ate-18-12",
+   "titulo": "Concurso São Luís de Montes Belos GO: inscrições até 18/12",
+   "uf": "GO",
+   "link": "https://concursos.estrategia.com/portal/concurso-prefeitura-sao-luis-de-montes-belos/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concurso-pm-pb-comissoes-formadas",
+   "titulo": "Concurso PM PB: comissões formadas!",
+   "uf": "PB",
+   "link": "https://concursos.estrategia.com/portal/concurso-pm-pb/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
+  {
+   "id": "estrategia-concursos-educacao-2027-orcamento-preve-19-4-mil-vagas",
+   "titulo": "Concursos Educação 2027: Orçamento prevê 19,4 mil vagas!",
+   "uf": "",
+   "link": "https://concursos.estrategia.com/portal/concursos-educacao/",
+   "fonte": "estrategia",
+   "tipo": "noticia",
+   "visto": "2026-11-26"
+  },
   {
    "id": "pci-prefeitura-de-itabuna-ba",
    "nome": "Prefeitura de Itabuna",
@@ -84,244 +522,10 @@
    "visto": "2026-11-25"
   },
   {
-   "id": "estrategia-direito-a-informacao-lei-de-acesso-a-informacao-lai-para-concursos-guia-completo",
-   "titulo": "Direito à informação – Lei de Acesso à Informação (LAI) para concursos: guia completo com prazos, sigilo, competências e pegadinhas",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/direito-acesso-informacao-concursos/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-25"
-  },
-  {
-   "id": "estrategia-retangulo-resumo-para-concursos",
-   "titulo": "Retângulo: Resumo para concursos",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/retangulo-resumo-concursos/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-25"
-  },
-  {
-   "id": "estrategia-recursos-humanos-x-gestao-de-pessoas-diferencas-conceitos-e-o-que-cai-em-concurs",
-   "titulo": "Recursos Humanos x Gestão de Pessoas: diferenças, conceitos e o que cai em concursos",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/recursos-humanos-gestao-pessoas/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-25"
-  },
-  {
-   "id": "estrategia-concurso-prefeitura-de-pinhalzinho-propostas-adiadas",
-   "titulo": "Concurso Prefeitura de Pinhalzinho: propostas adiadas",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-prefeitura-de-pinhalzinho/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-25"
-  },
-  {
-   "id": "estrategia-concurso-curitiba-administracao-e-servidores",
-   "titulo": "Concurso Curitiba – Administração e Servidores",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-curitiba-administracao-servidores/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-25"
-  },
-  {
-   "id": "estrategia-concurso-pf-2026-ultimas-noticias-e-situacao-hoje",
-   "titulo": "Concurso PF 2026: últimas notícias e situação hoje",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-pf-ultimas-noticias/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-25"
-  },
-  {
-   "id": "estrategia-concurso-tj-sp-2026-ultimas-noticias-e-situacao-hoje",
-   "titulo": "Concurso TJ SP 2026: últimas notícias e situação hoje",
-   "uf": "SP",
-   "link": "https://concursos.estrategia.com/portal/concurso-tj-sp-ultimas-noticias/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-responsabilidade-administrativa-do-estado-por-atos-legislativos-entenda-as-regra",
-   "titulo": "Responsabilidade administrativa do Estado por Atos Legislativos: Entenda as Regras e Exceções para Concursos",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/responsabilidade-administrativa-estado-atos-legislativos/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-por-que-o-pensamento-positivo-importa-na-preparacao-para-concursos",
-   "titulo": "Por que o pensamento positivo importa na preparação para concursos",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/pensamento-positivo-concursos/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-concurso-ebserh-2026-ultimas-noticias-e-situacao-hoje",
-   "titulo": "Concurso EBSERH 2026: últimas notícias e situação hoje",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-ebserh-ultimas-noticias/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-concurso-ibge-2027-ultimas-noticias-e-situacao-hoje",
-   "titulo": "Concurso IBGE 2027: últimas notícias e situação hoje",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-ibge-ultimas-noticias/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-concurso-cgu-evidencia-e-conclusao",
-   "titulo": "Concurso CGU – Evidência e Conclusão",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-cgu-evidencia-conclusao/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-leis-de-de-morgan-resumo-para-concursos",
-   "titulo": "Leis de De Morgan: Resumo para concursos",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/leis-morgan-resumo-concursos/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-concurso-curitiba-prioridade-no-atendimento",
-   "titulo": "Concurso Curitiba – Prioridade no atendimento",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-curitiba-prioridade-atendimento/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-concurso-cgu-dicas-de-discursiva",
-   "titulo": "Concurso CGU – Dicas de discursiva",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-cgu-dicas-discursiva/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-concurso-curitiba-estatuto-dos-servidores",
-   "titulo": "Concurso Curitiba – Estatuto dos Servidores",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-curitiba-estatuto-servidores/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-o-quarteto-fantastico-dos-concursos-estudar-praticar-medir-e-avaliar",
-   "titulo": "O quarteto fantástico dos concursos: estudar, praticar, medir e avaliar",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/quarteto-fantastico-preparacao-para-concursos/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-e-books-estrategicos-para-o-concurso-petrobras-2027",
-   "titulo": "E-books Estratégicos para o Concurso Petrobras 2027",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/e-books-estrategicos-concurso-petrobras-2027/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-concurso-curitiba-improbidade-administrativa",
-   "titulo": "Concurso Curitiba – Improbidade Administrativa",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-curitiba-improbidade-administrativa/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-concurso-cgu-populacao-e-trabalho",
-   "titulo": "Concurso CGU – População e trabalho",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-cgu-populacao-trabalho/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-concurso-fumep-sete-lagoas-mg-provas-em-dezembro-39-vagas",
-   "titulo": "Concurso FUMEP Sete Lagoas MG: provas em dezembro; 39 vagas",
-   "uf": "MG",
-   "link": "https://concursos.estrategia.com/portal/concurso-fumep-sete-lagoas/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-paralelogramo-para-concursos-publicos",
-   "titulo": "Paralelogramo para concursos públicos",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/paralelogramo-concursos-publicos/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-governanca-governamental-para-concursos-conceitos-principios-e-mecanismos",
-   "titulo": "Governança governamental para concursos: conceitos, princípios e mecanismos",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/governanca-governamental-concursos/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-concurso-pc-ac-veja-o-passo-a-passo-para-a-inscricao",
-   "titulo": "Concurso PC AC: veja o passo a passo para a inscrição",
-   "uf": "AC",
-   "link": "https://concursos.estrategia.com/portal/concurso-pc-ac-2027-passo-a-passo-inscricao/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-as-teorias-da-lideranca-conceitos-caracteristicas-e-aplicacoes-para-concursos",
-   "titulo": "As teorias da liderança: conceitos, características e aplicações para concursos",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/teorias-lideranca/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
    "id": "estrategia-concursos-nordeste-oportunidades-atualizadas-para-a-regiao",
    "titulo": "Concursos Nordeste: oportunidades ATUALIZADAS para a região",
    "uf": "",
    "link": "https://concursos.estrategia.com/portal/concursos-nordeste/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-24"
-  },
-  {
-   "id": "estrategia-concurso-publico-confira-a-programacao-das-aulas-de-hoje",
-   "titulo": "Concurso Público: confira a programação das aulas de hoje!",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/agenda-do-dia/",
    "fonte": "estrategia",
    "tipo": "noticia",
    "visto": "2026-11-24"
@@ -375,51 +579,6 @@
    "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-gurjao-pb-abre-concurso-publico-com-40-vagas-e-salarios-de-ate-14000",
    "fonte": "pci",
    "tipo": "inscricoes",
-   "visto": "2026-11-23"
-  },
-  {
-   "id": "estrategia-concurso-camara-de-jarinu-ate-r-10-7-mil",
-   "titulo": "Concurso Câmara de Jarinu: até R$ 10,7 mil!",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-camara-de-jarinu/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-23"
-  },
-  {
-   "id": "estrategia-tipos-de-poder-conheca-os-conceitos-e-exemplos-para-concursos",
-   "titulo": "Tipos de poder: conheça os conceitos e exemplos para concursos",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/tipos-poder/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-23"
-  },
-  {
-   "id": "estrategia-concurso-hmmg-campinas-sp-ibdo-e-a-banca-serao-11-vagas",
-   "titulo": "Concurso HMMG Campinas SP: IBDO é a banca; serão 11 vagas",
-   "uf": "SP",
-   "link": "https://concursos.estrategia.com/portal/concurso-hmmg-campinas-sp/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-23"
-  },
-  {
-   "id": "estrategia-concurso-cgu-politicas-publicas",
-   "titulo": "Concurso CGU – Políticas Públicas",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concurso-cgu-politicas-publicas/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
-   "visto": "2026-11-23"
-  },
-  {
-   "id": "estrategia-concursos-2026-mais-de-160-mil-vagas-salarios-de-ate-r-30-mil",
-   "titulo": "Concursos 2026: mais de 160 mil vagas; salários de até R$ 30 mil!",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concursos-2026/",
-   "fonte": "estrategia",
-   "tipo": "noticia",
    "visto": "2026-11-23"
   },
   {
@@ -505,104 +664,6 @@
    "fonte": "pci",
    "tipo": "noticia",
    "visto": "2026-11-21"
-  },
-  {
-   "id": "pci-camara-de-santa-rita-de-cassia-ba",
-   "nome": "Câmara de Santa Rita de Cássia",
-   "uf": "BA",
-   "vagas": "13",
-   "salario": "R$ 4.400,00",
-   "niveis": [
-    "Fundamental",
-    "Médio",
-    "Superior"
-   ],
-   "inscricoesAte": "2026-11-25",
-   "link": "https://www.pciconcursos.com.br/noticias/camara-de-santa-rita-de-cassia-ba-retifica-edital-de-concurso-publico",
-   "fonte": "pci",
-   "tipo": "inscricoes",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "pci-prefeitura-de-tucano-ba",
-   "nome": "Prefeitura de Tucano",
-   "uf": "BA",
-   "vagas": "83",
-   "salario": "R$ 3.000,00",
-   "niveis": [
-    "Médio",
-    "Superior"
-   ],
-   "inscricoesAte": "2026-11-25",
-   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-tucano-ba-abre-processo-seletivo-com-83-vagas",
-   "fonte": "pci",
-   "tipo": "inscricoes",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "pci-prefeitura-de-itapipoca-ce",
-   "nome": "Prefeitura de Itapipoca",
-   "uf": "CE",
-   "vagas": "688",
-   "salario": "R$ 2.565,32",
-   "niveis": [
-    "Médio",
-    "Superior"
-   ],
-   "inscricoesAte": "2026-11-25",
-   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-itapipoca-ce-abre-processo-seletivo-para-a-educacao",
-   "fonte": "pci",
-   "tipo": "inscricoes",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "pci-semed-secretaria-municipal-de-educacao-de-timon-ma",
-   "nome": "SEMED - Secretaria Municipal de Educação de Timon",
-   "uf": "MA",
-   "vagas": "327",
-   "salario": "",
-   "niveis": [
-    "Superior"
-   ],
-   "inscricoesAte": "2026-11-25",
-   "link": "https://www.pciconcursos.com.br/noticias/semed-de-timon-ma-abre-processo-seletivo-para-professores-com-diversas-especialidades",
-   "fonte": "pci",
-   "tipo": "inscricoes",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "pci-prefeitura-de-belem-do-piaui-pi",
-   "nome": "Prefeitura de Belém do Piauí",
-   "uf": "PI",
-   "vagas": "49",
-   "salario": "R$ 12.000,00",
-   "niveis": [
-    "Fundamental",
-    "Médio",
-    "Superior"
-   ],
-   "inscricoesAte": "2026-11-25",
-   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-belem-do-piaui-pi-abre-concurso-publico-para-cargos-de-todos-os-niveis",
-   "fonte": "pci",
-   "tipo": "inscricoes",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "pci-prefeitura-de-campo-grande-do-piaui-pi",
-   "nome": "Prefeitura de Campo Grande do Piauí",
-   "uf": "PI",
-   "vagas": "90",
-   "salario": "R$ 8.257,00",
-   "niveis": [
-    "Fundamental",
-    "Médio",
-    "Superior"
-   ],
-   "inscricoesAte": "2026-11-25",
-   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-campo-grande-do-piaui-pi-abre-concurso-publico-para-diversos-cargos-e-cadastro-de-reserva",
-   "fonte": "pci",
-   "tipo": "inscricoes",
-   "visto": "2026-11-20"
   },
   {
    "id": "pci-prefeitura-de-canto-do-buriti-pi",
@@ -1225,15 +1286,6 @@
    "visto": "2026-11-20"
   },
   {
-   "id": "pci-ibge-retifica-processo-seletivo-com-27-279-vagas-para-recenseador",
-   "titulo": "| IBGE retifica processo seletivo com 27.279 vagas para Recenseador",
-   "uf": "",
-   "link": "https://www.pciconcursos.com.br/noticias/ibge-retifica-processo-seletivo-com-27279-vagas-para-recenseador",
-   "fonte": "pci",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
    "id": "pci-cetesb-sp-abre-concursos-publicos-para-diversos-cargos",
    "titulo": "| CETESB - SP abre concursos públicos para diversos cargos",
    "uf": "SP",
@@ -1265,15 +1317,6 @@
    "titulo": "| Prefeitura de Leme - SP abre concurso público com salários de até R$ 13.359,44",
    "uf": "SP",
    "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-leme-sp-abre-concurso-publico-com-salarios-de-ate-13359",
-   "fonte": "pci",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "pci-prefeitura-de-suzano-sp-abre-concurso-publico-com-salarios-de-ate-r-12-062-91",
-   "titulo": "| Prefeitura de Suzano - SP abre concurso público com salários de até R$ 12.062,91",
-   "uf": "SP",
-   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-suzano-sp-abre-concurso-publico-com-salarios-de-ate-12062",
    "fonte": "pci",
    "tipo": "noticia",
    "visto": "2026-11-20"
@@ -1351,24 +1394,6 @@
    "visto": "2026-11-20"
   },
   {
-   "id": "pci-prefeitura-de-quedas-do-iguacu-pr-retifica-edital-de-concurso-publico",
-   "titulo": "| Prefeitura de Quedas do Iguaçu - PR retifica edital de concurso público",
-   "uf": "PR",
-   "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-quedas-do-iguacu-pr-retifica-edital-de-concurso-publico",
-   "fonte": "pci",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "pci-trt4-rs-abre-concurso-publico-para-analistas-e-tecnicos-judiciarios",
-   "titulo": "| TRT4 - RS abre concurso público para analistas e técnicos judiciários",
-   "uf": "RS",
-   "link": "https://www.pciconcursos.com.br/noticias/trt4-rs-abre-concurso-publico-para-analistas-e-tecnicos-judiciarios",
-   "fonte": "pci",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
    "id": "pci-prefeitura-de-aparecida-de-goiania-go-abre-concurso-publico-com-vagas-na-area-da",
    "titulo": "| Prefeitura de Aparecida de Goiânia - GO abre concurso público com vagas na área da educação",
    "uf": "GO",
@@ -1410,15 +1435,6 @@
    "uf": "PA",
    "link": "https://www.pciconcursos.com.br/noticias/prefeitura-de-marituba-pa-reabre-inscricoes-de-concurso-publico-para-guarda-civil",
    "fonte": "pci",
-   "tipo": "noticia",
-   "visto": "2026-11-20"
-  },
-  {
-   "id": "estrategia-concursos-abertos-milhares-de-vagas-e-iniciais-de-ate-r-32-mil",
-   "titulo": "Concursos Abertos: milhares de vagas e iniciais de até R$ 32 mil",
-   "uf": "",
-   "link": "https://concursos.estrategia.com/portal/concursos-abertos/",
-   "fonte": "estrategia",
    "tipo": "noticia",
    "visto": "2026-11-20"
   }
